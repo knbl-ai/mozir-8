@@ -34,3 +34,9 @@ No price, completion date, availability or exact amenity distances asserted. Ima
 ## Browser verification
 
 `node tests/review.mjs` with the local production server running uses installed Chrome on macOS. On other platforms run `npx playwright install chromium`, or supply `CHROME_PATH` to use a specific browser binary. Checks eight gallery images, video duration, model loading and camera presets, mobile menu and overflow. Screenshots and checks stored in `review/`.
+
+## Reuse this production process
+
+- [Full production runbook](docs/PRODUCTION_RUNBOOK.md): source plan, Blender quality, camera review, images, AI video, edit, music and website.
+- [New-apartment brief and checklist](docs/APARTMENT_TEMPLATE.md).
+- [Exact successful creative prompts](docs/prompt-pack.json), with provider IDs and private output paths removed.
