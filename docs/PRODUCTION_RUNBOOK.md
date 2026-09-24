@@ -410,7 +410,7 @@ Do not build a lead form that appears to submit but has no backend. Mozir links 
 
 Initial model framing cropped the outdoor edge. Responsive camera-distance presets corrected it. Full-page test screenshots also need lazy images loaded before judging missing content.
 
-The GitHub repository contains the **website at its root**, not the whole production workspace. All runtime assets are under `public/`. Vercel settings: root `./`, Node 22, `npm ci`, `npm run build`, output `out`. Versions are pinned and the lockfile is committed. Webpack was used because Turbopack encountered local process-permission problems; this is not a general requirement for new projects.
+The GitHub repository contains the **website at its root**, not the whole production workspace. All runtime assets are under `public/`. Vercel settings: root `./`, Node 22, `npm ci`, `npm run build`, automatic Next.js output detection (do not override Output Directory). The local static export remains `out/`. Versions are pinned and the lockfile is committed. Webpack was used because Turbopack encountered local process-permission problems; this is not a general requirement for new projects.
 
 Social metadata derives its domain from Vercel, with an optional `NEXT_PUBLIC_SITE_URL` override. GitHub push, Vercel deployment and a custom-domain launch are distinct completion states. Verify the live deployed site after publishing; a local build is not proof of a successful deployment.
 

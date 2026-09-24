@@ -11,7 +11,7 @@ Next.js App Router, TypeScript, Tailwind CSS and locally bundled Google model-vi
 
 ## Deploy to Vercel
 
-Import `knbl-ai/mozir-8` as a new Vercel project. The repository root is the website root; leave Root Directory at `./`. The committed `vercel.json` sets Next.js, `npm ci`, `npm run build`, and the static `out` directory. Node 22 is specified in package.json. No required secrets, API keys, external asset storage, or Blender installation.
+Import `knbl-ai/mozir-8` as a new Vercel project. The repository root is the website root; leave Root Directory at `./`. The committed `vercel.json` sets Next.js, `npm ci`, `npm run build`, and automatic Next.js output detection (leave the Vercel Output Directory override disabled). Node 22 is specified in package.json. No required secrets, API keys, external asset storage, or Blender installation.
 
 Social metadata uses the Vercel production domain automatically. For a custom canonical domain, optionally set `NEXT_PUBLIC_SITE_URL=https://your-domain.example` and redeploy. All images, the PDF, the video and GLB are in `public/` and included in Git, without Git LFS.
 
