@@ -112,15 +112,17 @@ export default function BuildingExplorer({ project: source, frames }: { project:
 
  return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined}>
   <header className={s.header}>
+   <div className={s.headerStart}>
    <Link href="/" className={s.brand} aria-label={t.allDemos}>
     <svg className={s.brandMark} viewBox="0 0 32 40" aria-hidden="true"><path d="M3 37V16a13 13 0 0 1 26 0v21M10 37V17a6 6 0 0 1 12 0v20M3 27h26" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>
     <span>{t.brand}<small>{project.name}</small></span>
    </Link>
+   <LanguageSwitch id="explorer-lang" compact />
+   </div>
    <div className={s.headerViews}>
     <SegmentedControl id="header-view" label={t.viewsLabel} variant="header" value={(selected?.unit ?? 'five-room') as ViewId} onChange={chooseView} options={VIEWS.map(value => ({ value, label: t.views[value] }))} />
    </div>
    <div className={s.headerPicker}>
-    <LanguageSwitch id="explorer-lang" compact />
     <ApartmentPicker inventory={inventory} residences={project.residences} selected={selected} onSelect={a => select(a, { turn: true })} />
    </div>
   </header>

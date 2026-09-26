@@ -52,6 +52,7 @@
 .brand small { display: block; font: 400 11px/1 var(--sans); color: var(--ink-2); margin-top: 6px; letter-spacing: 0.01em; }
 .brandMark { width: 24px; height: 32px; flex: none; color: var(--accent); }
 .headerViews { justify-self: center; }
+.headerStart { justify-self: start; display: flex; align-items: center; gap: 16px; min-width: 0; }
 .headerPicker { justify-self: end; display: flex; align-items: center; gap: 10px; }
 
 /* ── Segmented control ──────────────────────────────────────────────────── */
@@ -413,6 +414,7 @@
   /* Brand, language and picker share one row: the picker gives way, its text trimmed. */
   .header { grid-template-columns: auto minmax(0, 1fr); }
   .headerPicker { min-width: 0; gap: 8px; }
+  .headerStart { gap: 10px; }
   .headerPicker .pickerTrigger { width: auto; flex: 1 1 auto; max-width: 200px; }
   .pickerValue, .pickerCaption { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pickerValue { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
