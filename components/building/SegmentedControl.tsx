@@ -15,7 +15,8 @@ export default function SegmentedControl<T extends string>({ id, options, value,
 }) {
  const enabled = options.filter(o => !o.disabled);
  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-  const keys: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+  const rtl = getComputedStyle(event.currentTarget).direction === 'rtl'; // in Hebrew the next option is to the left
+  const keys: Record<string, number> = { ArrowRight: rtl ? -1 : 1, ArrowDown: 1, ArrowLeft: rtl ? 1 : -1, ArrowUp: -1 };
   if (!(event.key in keys)) return;
   event.preventDefault();
   const at = enabled.findIndex(o => o.value === value);

@@ -1,10 +1,10 @@
-export type Lang = 'en' | 'he';
+import type { Lang } from '@/lib/i18n';
 
 export type DemoCopy = {
  kind: string; name: string; body: string; features: string[]; cta: string; hint: string; touchHint: string;
 };
 export type LandingCopy = {
- brand: string; brandNote: string; languageLabel: string; pending?: string;
+ brand: string; brandNote: string; newTab: string;
  title: string; lede: string; sample: string;
  salesGallery: DemoCopy; openHouse: DemoCopy;
  footer: string;
@@ -13,7 +13,7 @@ export type LandingCopy = {
 const en: LandingCopy = {
  brand: 'Residences',
  brandNote: 'Property marketing demos',
- languageLabel: 'Language',
+ newTab: 'opens in a new tab',
  title: 'Two ways to show a home before the first visit.',
  lede: 'This is a working demo of two property-marketing websites. One sells a whole new building, home by home. The other gives a single apartment a website of its own.',
  sample: 'Everything here is sample data. Availability is invented, areas are estimates from the plans, and the interiors, films and 3D furniture are illustrations.',
@@ -38,8 +38,32 @@ const en: LandingCopy = {
  footer: 'A demo, not an offer to sell. Confirm any property detail with the developer.',
 };
 
-// Hebrew is written after the English is approved. Until then the page mirrors to right-to-left
-// and keeps the English words, so the layout can be reviewed on its own.
-const he: LandingCopy = { ...en, pending: 'The Hebrew text is coming once the English is approved. You are seeing the right-to-left layout.' };
+const he: LandingCopy = {
+ brand: 'Residences',
+ brandNote: 'הדגמות לשיווק נדל״ן',
+ newTab: 'נפתח בכרטיסייה חדשה',
+ title: 'שתי דרכים להציג בית עוד לפני הביקור הראשון.',
+ lede: 'זוהי הדגמה חיה של שני אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה.',
+ sample: 'כל מה שמוצג כאן הוא מידע לדוגמה: הזמינות בדויה, השטחים הם הערכות לפי התוכניות, והעיצוב הפנימי, הסרטונים והריהוט בתלת־ממד הם המחשות.',
+ salesGallery: {
+  kind: 'לפרויקט חדש',
+  name: 'גלריית המכירות',
+  body: 'הקונים מסובבים את הבניין, רואים במבט אחד אילו דירות עדיין למכירה, ופותחים כל דירה לתוכנית, לשטח, לסרטון ולמודל תלת־ממד.',
+  features: ['סיבוב מלא של הבניין', 'למכירה ונמכרו, מסומנים על החזית', 'תוכנית, סרטון, תמונות ותלת־ממד לכל דירה', 'קישור שנפתח ישר על דירה אחת'],
+  cta: 'לגלריית המכירות',
+  hint: 'רחפו מעל התמונה כדי לסובב את הבניין',
+  touchHint: 'הבניין מסתובב כשהוא על המסך',
+ },
+ openHouse: {
+  kind: 'לדירה אחת',
+  name: 'בית פתוח',
+  body: 'דירה אחת עם אתר משלה: סרטון קצר, החדרים אחד אחד, סיור בתלת־ממד והשכונה. מוצג עם דירה 02 ברחוב יעקב מוזיר 8, תל אביב.',
+  features: ['סרטון של 20 שניות על הבית', 'החדרים, אחד אחרי השני', 'מודל תלת־ממד מרוהט לסיבוב ולזום', 'הכתובת ודרך ליצור קשר'],
+  cta: 'למוזיר 8',
+  hint: 'רחפו מעל התמונה כדי להפעיל את הסרטון',
+  touchHint: 'פתחו כדי לצפות בסרטון',
+ },
+ footer: 'זוהי הדגמה ולא הצעה למכירה. יש לאמת כל פרט על הנכס מול היזם.',
+};
 
 export const copy: Record<Lang, LandingCopy> = { en, he };

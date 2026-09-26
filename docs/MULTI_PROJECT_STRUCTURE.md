@@ -8,6 +8,13 @@ text waits for the English to be approved) and two live previews. The Sales Gall
 formerly the root) is the single-apartment website. The hub's copy lives in
 `components/landing/copy.ts`.
 
+Every page is English and Hebrew (`lib/i18n.tsx`): `?lang=he` wins, then the visitor's last
+choice; the hub passes the language to both demos. Words live in `components/landing/copy.ts`,
+`components/building/strings.ts`, `components/mozir/strings.ts` and the residences' `he` fields in
+`content/projects/index.ts`. Hebrew letters use Heebo (`public/fonts/heebo-hebrew.woff2`), scoped
+by unicode-range so Latin keeps each page's own typefaces. The old `/projects` list and the
+per-plan pages are unlinked and stay English. `tests/language-check.mjs` covers the flow.
+
 ## Current state — 26 September 2026
 
 The project route is now a single-screen apartment-selection app: apartment media on the left, interactive building on the right. The header selects Front View, Rear View or Garden and an available demo unit. The media tabs are Floor plan, Video, Images, 3D and About. Video, images and the apartment model are explicitly identified Mozir 8 placeholders. There is no apartment-page CTA in this app.

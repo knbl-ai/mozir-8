@@ -28,8 +28,8 @@
   --shadow-soft: 0 1px 2px rgb(20 24 18 / 0.06), 0 8px 24px rgb(20 24 18 / 0.07);
   --shadow-float: 0 2px 6px rgb(20 24 18 / 0.08), 0 24px 60px -12px rgb(20 24 18 / 0.28);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --display: Atelier, Georgia, serif;
-  --sans: 'Residence Sans', system-ui, -apple-system, sans-serif;
+  --display: Atelier, 'Hebrew Display', Georgia, serif;
+  --sans: 'Residence Sans', 'Hebrew Sans', system-ui, -apple-system, sans-serif;
   font-family: var(--sans);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
@@ -52,7 +52,7 @@
 .brand small { display: block; font: 400 11px/1 var(--sans); color: var(--ink-2); margin-top: 6px; letter-spacing: 0.01em; }
 .brandMark { width: 24px; height: 32px; flex: none; color: var(--accent); }
 .headerViews { justify-self: center; }
-.headerPicker { justify-self: end; }
+.headerPicker { justify-self: end; display: flex; align-items: center; gap: 10px; }
 
 /* ── Segmented control ──────────────────────────────────────────────────── */
 .segmented { position: relative; display: inline-flex; gap: 2px; padding: 3px; border-radius: 12px; background: var(--fill); }
@@ -126,7 +126,7 @@
 .facts dd { margin: 6px 0 0; }
 .factNumber { font: 400 32px/1 var(--sans); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 .factWord { font: 400 22px/32px var(--sans); letter-spacing: -0.02em; }
-.factUnit { margin-left: 5px; font-size: 14px; letter-spacing: 0; color: var(--ink-3); }
+.factUnit { margin-inline-start: 5px; font-size: 14px; letter-spacing: 0; color: var(--ink-3); }
 .tabs { margin-top: 18px; flex: none; }
 .mediaWrap { flex: 1; min-height: 140px; margin-top: 12px; display: flex; flex-direction: column; }
 .mediaPanel { position: relative; flex: 1; min-height: 0; border-radius: 16px; overflow: hidden; background: var(--well); }
@@ -177,7 +177,7 @@
 .hotspots .zoneSold, .hotspots .zoneHidden, .hotspots .zoneSoldHover { cursor: default; }
 .zoneSoldHover { fill: rgb(162 72 63 / 0.28); stroke: var(--sold); stroke-width: 2; }
 .zoneHidden { fill: transparent; stroke: transparent; }
-.facadeLayer { pointer-events: none; overflow: visible; }
+.facadeLayer { pointer-events: none; overflow: visible; direction: ltr; } /* the label is mapped from a left-origin box */
 .facadeLabel {
   position: absolute; left: 0; top: 0; width: 160px; height: 28px; transform-origin: 0 0;
   display: flex; align-items: center; justify-content: center; white-space: nowrap; pointer-events: none;
@@ -206,7 +206,7 @@
   background: rgb(255 255 255 / 0.8); border: 1px solid var(--glass-edge); box-shadow: 0 1px 2px rgb(20 24 18 / 0.05), 0 6px 18px rgb(20 24 18 / 0.06);
   backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
 }
-.legendRow { display: flex; align-items: center; gap: 7px; padding: 3px 10px 3px 3px; border-radius: 10px; text-align: left; transition: background 0.2s var(--ease); }
+.legendRow { display: flex; align-items: center; gap: 7px; padding-block: 3px; padding-inline: 3px 10px; border-radius: 10px; text-align: start; transition: background 0.2s var(--ease); }
 .legendRow:hover { background: rgb(255 255 255 / 0.7); }
 .legendTile { width: 24px; height: 24px; flex: none; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-3); background: var(--fill); transition: background 0.2s var(--ease), color 0.2s var(--ease); }
 .legendLabel { font-weight: 500; font-size: 12.5px; color: var(--ink-3); transition: color 0.2s var(--ease); }
@@ -235,7 +235,7 @@
 /* ── Apartment picker ───────────────────────────────────────────────────── */
 .pickerTrigger {
   display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'caption chevron' 'value chevron'; align-items: center; column-gap: 12px;
-  min-width: 250px; padding: 7px 12px 8px 14px; border-radius: 13px; text-align: left;
+  min-width: 250px; padding-block: 7px 8px; padding-inline: 14px 12px; border-radius: 13px; text-align: start;
   background: var(--card); box-shadow: 0 0 0 1px var(--hairline), 0 1px 2px rgb(20 24 18 / 0.05);
   transition: box-shadow 0.2s var(--ease);
 }
@@ -262,7 +262,7 @@
 .pickerFloor:first-child { border-top: 0; }
 .pickerLevel { text-align: center; font: 400 20px/1 var(--display); color: var(--ink-3); }
 .pickerRow { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; }
-.pickerOption { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 10px; border-radius: 12px; text-align: left; transition: background 0.15s var(--ease); }
+.pickerOption { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 10px; border-radius: 12px; text-align: start; transition: background 0.15s var(--ease); }
 .pickerOption:hover:not(:disabled) { background: var(--fill); }
 .pickerOption[aria-selected='true'] { background: rgb(47 58 43 / 0.08); }
 .pickerOption:disabled { cursor: not-allowed; }
@@ -272,7 +272,7 @@
 .pickerOptionText strong { display: block; font-weight: 500; font-size: 13px; }
 .pickerOptionText small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--ink-3); }
 .pickerOption .toneTag { height: 22px; padding: 0 8px; font-size: 11px; }
-.pickerCheck { color: var(--accent); flex: none; margin-right: 4px; }
+.pickerCheck { color: var(--accent); flex: none; margin-inline-end: 4px; }
 
 /* ── Media ──────────────────────────────────────────────────────────────── */
 .sampleTag {
@@ -410,6 +410,11 @@
   .headerViews .segmented { display: flex; width: 100%; }
   .headerViews .segment { flex: 1; height: 36px; padding: 0 8px; }
   .pickerTrigger { min-width: 0; width: min(200px, 52vw); padding: 6px 10px 7px 12px; }
+  /* Brand, language and picker share one row: the picker gives way, its text trimmed. */
+  .header { grid-template-columns: auto minmax(0, 1fr); }
+  .headerPicker { min-width: 0; gap: 8px; }
+  .headerPicker .pickerTrigger { width: auto; flex: 1 1 auto; max-width: 200px; }
+  .pickerValue, .pickerCaption { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pickerValue { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .pickerContent { width: calc(100vw - 24px); }
   .explorer { height: calc(100dvh - 116px); padding: 10px 12px 12px; scroll-margin-top: 0; }
@@ -439,7 +444,7 @@
   .factNumber { font-size: 24px; }
   .factWord { font-size: 17px; line-height: 24px; }
   .factUnit { display: block; margin: 4px 0 0; font-size: 11px; line-height: 1.2; }
-  .factNumber .factUnit { display: inline; margin-left: 3px; }
+  .factNumber .factUnit { display: inline; margin-inline-start: 3px; }
   .approx { display: none; }
   .tabs { margin-top: 12px; }
   .tabs .segment { padding: 0 4px; font-size: 12px; }
@@ -455,7 +460,7 @@
   .coachHint { font-size: 12px; }
   .mobileSummary { display: block; position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 4; }
   .mobileSummaryButton {
-    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left;
+    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: start;
     padding: 10px 10px 10px 16px; border-radius: 18px;
     background: var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--shadow-float);
     backdrop-filter: blur(24px) saturate(1.5); -webkit-backdrop-filter: blur(24px) saturate(1.5);
@@ -473,3 +478,7 @@
   .coachHand, .spinner { animation: none; }
   .pickerContent[data-state], .lightbox[data-state], .lightboxOverlay[data-state] { animation-duration: 0.01ms; }
 }
+
+/* Right-to-left: arrows that mean "onward" point the other way. Turning and gallery arrows stay
+   physical — they move the picture left and right, not forward and back. */
+:global([dir='rtl']) .mobileSummaryAction svg, :global([dir='rtl']) .enquireIcon svg { transform: scaleX(-1); }

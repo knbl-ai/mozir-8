@@ -8,7 +8,6 @@ export const polygonArea = (points: string) => {
 };
 
 export const levelOf = (floor: string) => (/ground/i.test(floor) ? 0 : Number(floor.replace(/\D+/g, '')) || 0);
-export const levelLabel = (floor: string) => (levelOf(floor) === 0 ? 'Ground' : String(levelOf(floor)));
 
 const UNIT_ORDER = ['garden', 'five-room', 'four-room'];
 

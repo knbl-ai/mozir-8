@@ -3,30 +3,35 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, MotionConfig } from 'motion/react';
 import { ArrowUpRight, Box, Building2, ChevronRight, Eye, Images, Info, LayoutPanelLeft, Play } from 'lucide-react';
-import { resolveMedia, type ApartmentZone, type BuildingFrame, type Development } from '@/content/projects';
+import { localizeDevelopment, localizeImages, localizeResidence, resolveMedia, type ApartmentZone, type BuildingFrame, type Development } from '@/content/projects';
+import LanguageSwitch from '@/components/LanguageSwitch';
+import { useLang } from '@/lib/i18n';
 import ApartmentPicker from './ApartmentPicker';
 import BuildingStage, { type StageMode } from './BuildingStage';
-import { buildInventory, isWellInView, levelLabel, type Apartment } from './inventory';
+import { buildInventory, isWellInView, type Apartment } from './inventory';
 import MediaPanel, { type MediaTab } from './MediaPanel';
 import PlanLightbox from './PlanLightbox';
 import SegmentedControl from './SegmentedControl';
 import SwapValue from './SwapValue';
 import { SOFT_SPRING } from './motion';
 import { useFrameSequence } from './useFrameSequence';
+import { explorerText } from './strings';
 import s from './explorer.module.css';
 
 const HOVER_INTENT_MS = 90;
 const ZOOM = 1.45; // the tower is framed close; matches .orbitZoom in the stylesheet
-const VIEWS = [{ value: 'five-room', label: 'Front' }, { value: 'four-room', label: 'Rear' }, { value: 'garden', label: 'Garden' }] as const;
-type ViewId = (typeof VIEWS)[number]['value'];
-const TABS: { value: MediaTab; label: string; icon: typeof Play }[] = [
- { value: 'plan', label: 'Floor plan', icon: LayoutPanelLeft }, { value: 'film', label: 'Film', icon: Play }, { value: 'images', label: 'Images', icon: Images },
- { value: 'model', label: '3D', icon: Box }, { value: 'about', label: 'About', icon: Info },
+const VIEWS = ['five-room', 'four-room', 'garden'] as const;
+type ViewId = (typeof VIEWS)[number];
+const TABS: { value: MediaTab; icon: typeof Play }[] = [
+ { value: 'plan', icon: LayoutPanelLeft }, { value: 'film', icon: Play }, { value: 'images', icon: Images }, { value: 'model', icon: Box }, { value: 'about', icon: Info },
 ];
 
 const readDeepLink = () => { try { return new URLSearchParams(window.location.search).get('apt'); } catch { return null; } };
 
-export default function BuildingExplorer({ project, frames }: { project: Development; frames: BuildingFrame[] }) {
+export default function BuildingExplorer({ project: source, frames }: { project: Development; frames: BuildingFrame[] }) {
+ const lang = useLang();
+ const t = explorerText[lang];
+ const project = useMemo(() => localizeDevelopment({ ...source, residences: source.residences.map(r => localizeResidence(r, lang)), media: { ...source.media, images: localizeImages(source.media.images, lang) } }, lang), [source, lang]);
  const inventory = useMemo(() => buildInventory(frames), [frames]);
  const available = useMemo(() => inventory.filter(a => a.status === 'for-sale'), [inventory]);
  const [selectedId, setSelectedId] = useState(available.find(a => a.unit === 'five-room')?.apartment ?? available[0]?.apartment ?? '');
@@ -99,32 +104,33 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
  }, [focus, planOpen]);
 
  const counts = { available: available.length, sold: inventory.length - available.length };
- const where = selected ? (selected.level === 0 ? 'Ground floor' : `Floor ${selected.level}`) : '';
- const enquire = <a className={s.enquire} href={project.enquiryUrl} target="_blank" rel="noreferrer" aria-label={`Enquire about this home: ${where}, ${residence.shortTitle}`}>
-  <span className={s.enquireText}>Enquire</span>
+ const where = selected ? (selected.level === 0 ? t.groundFloor : t.floorN(selected.level)) : '';
+ const enquire = <a className={s.enquire} href={project.enquiryUrl} target="_blank" rel="noreferrer" aria-label={t.enquireAbout(where, residence.shortTitle)}>
+  <span className={s.enquireText}>{t.enquire}</span>
   <span className={s.enquireIcon} aria-hidden><ArrowUpRight size={15} strokeWidth={1.8} /></span>
  </a>;
 
  return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined}>
   <header className={s.header}>
-   <Link href="/" className={s.brand} aria-label="Residences — all demos">
+   <Link href="/" className={s.brand} aria-label={t.allDemos}>
     <svg className={s.brandMark} viewBox="0 0 32 40" aria-hidden="true"><path d="M3 37V16a13 13 0 0 1 26 0v21M10 37V17a6 6 0 0 1 12 0v20M3 27h26" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>
-    <span>Residences<small>The next address</small></span>
+    <span>{t.brand}<small>{project.name}</small></span>
    </Link>
    <div className={s.headerViews}>
-    <SegmentedControl id="header-view" label="Residence layouts" variant="header" value={(selected?.unit ?? 'five-room') as ViewId} onChange={chooseView} options={[...VIEWS]} />
+    <SegmentedControl id="header-view" label={t.viewsLabel} variant="header" value={(selected?.unit ?? 'five-room') as ViewId} onChange={chooseView} options={VIEWS.map(value => ({ value, label: t.views[value] }))} />
    </div>
    <div className={s.headerPicker}>
+    <LanguageSwitch id="explorer-lang" compact />
     <ApartmentPicker inventory={inventory} residences={project.residences} selected={selected} onSelect={a => select(a, { turn: true })} />
    </div>
   </header>
   <main>
-   <section className={s.explorer} id="explore" aria-label="Explore the building">
+   <section className={s.explorer} id="explore" aria-label={t.exploreBuilding}>
     <div className={s.mobileTabs}>
-     <SegmentedControl id="mobile-panel" label="Show" fill value={mobilePanel} onChange={setMobilePanel} options={[{ value: 'building', label: 'Building' }, { value: 'details', label: 'Home details' }]} />
+     <SegmentedControl id="mobile-panel" label={t.show} fill value={mobilePanel} onChange={setMobilePanel} options={[{ value: 'building', label: t.building }, { value: 'details', label: t.homeDetails }]} />
     </div>
     <div className={s.grid} data-mobile-panel={mobilePanel}>
-     <motion.aside layout transition={SOFT_SPRING} className={s.panel} aria-label="Selected home">
+     <motion.aside layout transition={SOFT_SPRING} className={s.panel} aria-label={t.selectedHome}>
       {/* Name on the left; status, browsing and the enquiry share the empty space beside it, so the
           media below keeps the height. */}
       <motion.div layout="position" transition={SOFT_SPRING} className={s.head}>
@@ -133,22 +139,22 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
         <p className={s.lede} title={residence.description}><SwapValue value={residence.tagline} order={navIndex} /></p>
        </div>
        <div className={s.headAside}>
-        <span className={s.toneTag} data-tone="available"><i />Available</span>
+        <span className={s.toneTag} data-tone="available"><i />{t.available}</span>
         <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
-         aria-label={focus ? 'Back to the building' : 'Step inside: open the apartment view'} title={focus ? 'Back to the building (Esc)' : 'Plan, film, images and 3D, full screen'}>
-         {focus ? <Building2 size={16} strokeWidth={1.7} aria-hidden /> : <Eye size={16} strokeWidth={1.7} aria-hidden />}<span>{focus ? 'Building' : 'Step inside'}</span>
+         aria-label={focus ? t.backToBuilding : t.stepInsideLabel} title={focus ? t.backToBuildingTitle : t.stepInsideTitle}>
+         {focus ? <Building2 size={16} strokeWidth={1.7} aria-hidden /> : <Eye size={16} strokeWidth={1.7} aria-hidden />}<span>{focus ? t.building : t.stepInside}</span>
         </button>
         {enquire}
        </div>
       </motion.div>
       <motion.dl layout="position" transition={SOFT_SPRING} className={s.facts}>
-       <div><dt>Rooms</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
-       <div><dt>Floor</dt><dd className={s.factNumber}><SwapValue value={selected ? levelLabel(selected.floor) : '—'} order={selected?.level} /></dd></div>
-       <div><dt title="Measured from the floor plan, walls included; not the developer's official area">Interior<span className={s.approx}>, approx.</span></dt><dd className={s.factNumber}><SwapValue value={String(residence.area)} /><span className={s.factUnit}>m²</span></dd></div>
-       <div><dt>Outdoor</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} /><span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} m²`} order={residence.outdoorArea} /></span></dd></div>
+       <div><dt>{t.rooms}</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
+       <div><dt>{t.floor}</dt><dd className={s.factNumber}><SwapValue value={selected ? (selected.level === 0 ? t.ground : String(selected.level)) : '—'} order={selected?.level} /></dd></div>
+       <div><dt title={t.interiorTitle}>{t.interior}<span className={s.approx}>{t.approx}</span></dt><dd className={s.factNumber}><SwapValue value={String(residence.area)} /><span className={s.factUnit}>{t.sqm}</span></dd></div>
+       <div><dt>{t.outdoor}</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} /><span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} ${t.sqm}`} order={residence.outdoorArea} /></span></dd></div>
       </motion.dl>
       <motion.div layout="position" transition={SOFT_SPRING} className={s.tabs}>
-       <SegmentedControl id="media" label="Home preview" role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS} />
+       <SegmentedControl id="media" label={t.homePreview} role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS.map(o => ({ ...o, label: t.tabs[o.value] }))} />
       </motion.div>
       <motion.div layout transition={SOFT_SPRING} className={s.mediaWrap}>
        <MediaPanel tab={tab} residence={residence} media={media} onExpandPlan={() => setPlanOpen(true)} />
@@ -158,11 +164,11 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
       hovered={hovered} onHover={onHover} onSelect={zone => select(zone)} counts={counts}
       mobileSummary={<button type="button" className={s.mobileSummaryButton} onClick={() => setMobilePanel('details')}>
        <span><SwapValue value={residence.shortTitle} order={navIndex} /><small><SwapValue value={where} order={selected?.level} /></small></span>
-       <span className={s.mobileSummaryAction}>Details<ChevronRight size={16} strokeWidth={1.6} aria-hidden /></span>
+       <span className={s.mobileSummaryAction}>{t.details}<ChevronRight size={16} strokeWidth={1.6} aria-hidden /></span>
       </button>} />
     </div>
    </section>
   </main>
-  <PlanLightbox open={planOpen} onOpenChange={setPlanOpen} src={residence.plan} title={`${residence.shortTitle} floor plan`} />
+  <PlanLightbox open={planOpen} onOpenChange={setPlanOpen} src={residence.plan} title={t.floorPlanOf(residence.shortTitle)} />
  </div></MotionConfig>;
 }

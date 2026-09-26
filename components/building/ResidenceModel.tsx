@@ -2,6 +2,8 @@
 import { createElement, useEffect, useRef, useState } from 'react';
 import { Box, LayoutPanelLeft, RotateCcw, Trees } from 'lucide-react';
 import SegmentedControl from './SegmentedControl';
+import { useLang } from '@/lib/i18n';
+import { explorerText } from './strings';
 import s from './explorer.module.css';
 
 type Viewer = HTMLElement & { cameraOrbit: string };
@@ -11,6 +13,7 @@ const ORBITS: Record<View, string> = { perspective: '25deg 45deg 80%', plan: '0d
 // One model-viewer for the explorer. Changing `src` (a different home's model) fades to a veil
 // and back in on load, instead of tearing down the viewer.
 export default function ResidenceModel({ src, poster }: { src: string; poster?: string }) {
+ const t = explorerText[useLang()];
  const host = useRef<HTMLDivElement>(null);
  const [ready, setReady] = useState(false);
  const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
@@ -35,20 +38,20 @@ export default function ResidenceModel({ src, poster }: { src: string; poster?: 
  const loading = loadedSrc !== src && !error;
  return <div className={s.modelShell} ref={host}>
   {ready && createElement('model-viewer', {
-   src, poster, alt: 'Rotatable furnished cutaway of the apartment',
+   src, poster, alt: t.modelAlt,
    'camera-controls': true, 'touch-action': 'pan-y', 'camera-orbit': ORBITS.perspective, 'interpolation-decay': '120',
    'min-camera-orbit': 'auto 0deg 9m', 'max-camera-orbit': 'auto 85deg 200%', 'field-of-view': '35deg',
    exposure: '1.05', 'shadow-intensity': '1', 'shadow-softness': '1', 'environment-image': 'neutral', 'interaction-prompt': 'none', loading: 'eager',
    style: { width: '100%', height: '100%' },
   })}
   <div className={s.modelVeil} data-visible={loading || undefined} aria-hidden={!loading}>
-   <span className={s.spinner} /><span>Preparing the 3D model</span>
+   <span className={s.spinner} /><span>{t.preparingModel}</span>
   </div>
-  {error && <div className={s.modelVeil} data-visible><span>The 3D model can’t be shown on this device.</span></div>}
+  {error && <div className={s.modelVeil} data-visible><span>{t.modelFailed}</span></div>}
   <div className={s.modelTools}>
-   <SegmentedControl id="model-view" label="Model view" variant="glass" value={view} onChange={change}
-    options={[{ value: 'perspective', label: '3D', icon: Box }, { value: 'plan', label: 'Top', icon: LayoutPanelLeft }, { value: 'terrace', label: 'Outdoor', icon: Trees }]} />
-   <button type="button" className={s.glassIcon} aria-label="Reset the view" title="Reset the view" onClick={() => change('perspective')}><RotateCcw size={16} strokeWidth={1.6} aria-hidden /></button>
+   <SegmentedControl id="model-view" label={t.modelView} variant="glass" value={view} onChange={change}
+    options={[{ value: 'perspective', label: t.model3d, icon: Box }, { value: 'plan', label: t.modelTop, icon: LayoutPanelLeft }, { value: 'terrace', label: t.modelOutdoor, icon: Trees }]} />
+   <button type="button" className={s.glassIcon} aria-label={t.resetView} title={t.resetView} onClick={() => change('perspective')}><RotateCcw size={16} strokeWidth={1.6} aria-hidden /></button>
   </div>
  </div>;
 }

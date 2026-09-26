@@ -2,6 +2,8 @@
 import { useRef, useState, type PointerEvent, type WheelEvent } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Minus, Plus, Scan, X } from 'lucide-react';
+import { useLang } from '@/lib/i18n';
+import { explorerText } from './strings';
 import s from './explorer.module.css';
 
 type View = { scale: number; x: number; y: number };
@@ -11,6 +13,7 @@ const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v
 // Full-screen floor plan: wheel or pinch to zoom around the pointer, drag to pan, double-click to
 // toggle a close look. Buttons animate; direct manipulation follows the hand with no lag.
 export default function PlanLightbox({ open, onOpenChange, src, title }: { open: boolean; onOpenChange: (open: boolean) => void; src: string; title: string }) {
+ const t = explorerText[useLang()];
  const [view, setView] = useState<View>({ scale: 1, x: 0, y: 0 });
  const [animated, setAnimated] = useState(true);
  const pointers = useRef(new Map<number, { x: number; y: number }>());
@@ -58,11 +61,11 @@ export default function PlanLightbox({ open, onOpenChange, src, title }: { open:
     <div className={s.lightboxBar}>
      <Dialog.Title className={s.lightboxTitle}>{title}</Dialog.Title>
      <div className={s.lightboxTools}>
-      <button type="button" className={s.glassIcon} aria-label="Zoom out" onClick={() => { const [x, y] = center(); zoomAt(view.scale / 1.6, x, y, true); }}><Minus size={16} strokeWidth={1.6} aria-hidden /></button>
+      <button type="button" className={s.glassIcon} aria-label={t.zoomOut} onClick={() => { const [x, y] = center(); zoomAt(view.scale / 1.6, x, y, true); }}><Minus size={16} strokeWidth={1.6} aria-hidden /></button>
       <span className={s.lightboxZoom} aria-live="polite">{Math.round(view.scale * 100)}%</span>
-      <button type="button" className={s.glassIcon} aria-label="Zoom in" onClick={() => { const [x, y] = center(); zoomAt(view.scale * 1.6, x, y, true); }}><Plus size={16} strokeWidth={1.6} aria-hidden /></button>
-      <button type="button" className={s.glassIcon} aria-label="Fit to screen" onClick={() => { setAnimated(true); setView({ scale: 1, x: 0, y: 0 }); }}><Scan size={16} strokeWidth={1.6} aria-hidden /></button>
-      <Dialog.Close className={s.glassIcon} aria-label="Close"><X size={16} strokeWidth={1.6} aria-hidden /></Dialog.Close>
+      <button type="button" className={s.glassIcon} aria-label={t.zoomIn} onClick={() => { const [x, y] = center(); zoomAt(view.scale * 1.6, x, y, true); }}><Plus size={16} strokeWidth={1.6} aria-hidden /></button>
+      <button type="button" className={s.glassIcon} aria-label={t.fit} onClick={() => { setAnimated(true); setView({ scale: 1, x: 0, y: 0 }); }}><Scan size={16} strokeWidth={1.6} aria-hidden /></button>
+      <Dialog.Close className={s.glassIcon} aria-label={t.close}><X size={16} strokeWidth={1.6} aria-hidden /></Dialog.Close>
      </div>
     </div>
     <div ref={frame} className={s.lightboxFrame} data-zoomed={view.scale > 1 || undefined} onWheel={onWheel}
@@ -71,7 +74,7 @@ export default function PlanLightbox({ open, onOpenChange, src, title }: { open:
      <img src={src} alt={title} draggable={false} data-animated={animated || undefined}
       style={{ transform: `translate3d(${view.x}px, ${view.y}px, 0) scale(${view.scale})` }} />
     </div>
-    <p className={s.lightboxHint}>Scroll or pinch to zoom · drag to move · double-click for a closer look</p>
+    <p className={s.lightboxHint}>{t.lightboxHint}</p>
    </Dialog.Content>
   </Dialog.Portal>
  </Dialog.Root>;

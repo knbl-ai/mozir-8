@@ -1,0 +1,93 @@
+import type { Lang } from '@/lib/i18n';
+
+// Every word the Sales Gallery shows, apart from the residences themselves (content/projects).
+const en = {
+ brand: 'Residences', allDemos: 'Residences — all demos',
+ views: { 'five-room': 'Front', 'four-room': 'Rear', garden: 'Garden' },
+ viewsLabel: 'Residence layouts',
+ tabs: { plan: 'Floor plan', film: 'Film', images: 'Images', model: '3D', about: 'About' },
+ homePreview: 'Home preview',
+ exploreBuilding: 'Explore the building', show: 'Show', building: 'Building', homeDetails: 'Home details', details: 'Details', selectedHome: 'Selected home',
+ available: 'Available', sold: 'Sold', forSale: 'For sale',
+ stepInside: 'Step inside', stepInsideLabel: 'Step inside: open the apartment view', stepInsideTitle: 'Plan, film, images and 3D, full screen',
+ backToBuilding: 'Back to the building', backToBuildingTitle: 'Back to the building (Esc)',
+ enquire: 'Enquire', enquireAbout: (where: string, home: string) => `Enquire about this home: ${where}, ${home}`,
+ rooms: 'Rooms', floor: 'Floor', interior: 'Interior', approx: ', approx.', outdoor: 'Outdoor', sqm: 'm²',
+ interiorTitle: "Measured from the floor plan, walls included; not the developer's official area",
+ groundFloor: 'Ground floor', ground: 'Ground', groundShort: 'G',
+ floorN: (n: number) => `Floor ${n}`,
+ floorPlanOf: (home: string) => `${home} floor plan`,
+ // picker
+ chooseHome: 'Choose a home', availableHomes: (n: number) => `${n} available homes`, availableOf: (n: number, total: number) => `${n} of ${total} available`,
+ pickerLabel: (summary: string) => `Choose an apartment. Selected: ${summary}`, byFloor: 'Apartments by floor',
+ roomsCount: (n: number) => `${n} rooms`,
+ // stage
+ stageLabel: 'Building, 360°. Drag or use the left and right arrow keys to turn it.', architectLabel: 'Architect’s view of the building',
+ angle: (n: number, total: number) => `Building, angle ${n} of ${total}`, availability: 'Apartment availability',
+ facadeForSale: 'FOR SALE', facadeSold: 'SOLD',
+ architectImage: 'Architect’s visualisation of the building',
+ preparing: 'Preparing the building', failed: 'This view couldn’t load.', openArchitect: 'Open the architect’s view',
+ showOnBuilding: 'Show on the building',
+ toggle: (on: boolean, label: string) => `${on ? 'Hide' : 'Show'} ${label.toLowerCase()} on the building`,
+ viewpoint: 'Viewpoint', front: 'Front', rear: 'Rear',
+ hintTouch: 'Drag to turn the building, tap a floor to choose', hintMouse: 'Drag to turn the building, hover a floor to explore',
+ turnLeft: 'Turn left', turnRight: 'Turn right',
+ presentation: 'Building presentation', turnBuilding: 'Turn the building', architectView: 'Architect’s view',
+ // media
+ openPlan: (home: string) => `Open the ${home} floor plan full screen`,
+ sampleFilm: 'Sample film from another home', sampleImages: 'Sample imagery from another home', sampleModel: 'Sample model from another home',
+ playFilm: 'Play the film', previousImage: 'Previous image', nextImage: 'Next image', images: 'Images',
+ imageOf: (n: number, total: number) => `${n} of ${total}`, showImage: (label: string) => `Show ${label}`,
+ aboutHome: (home: string) => `About the ${home.toLowerCase()}`,
+ // lightbox
+ zoomOut: 'Zoom out', zoomIn: 'Zoom in', fit: 'Fit to screen', close: 'Close',
+ lightboxHint: 'Scroll or pinch to zoom · drag to move · double-click for a closer look',
+ // 3D model
+ modelAlt: 'Rotatable furnished cutaway of the apartment', preparingModel: 'Preparing the 3D model', modelFailed: 'The 3D model can’t be shown on this device.',
+ modelView: 'Model view', model3d: '3D', modelTop: 'Top', modelOutdoor: 'Outdoor', resetView: 'Reset the view',
+};
+
+export type ExplorerText = typeof en;
+
+const he: ExplorerText = {
+ brand: 'Residences', allDemos: 'Residences — כל ההדגמות',
+ views: { 'five-room': 'חזית', 'four-room': 'עורף', garden: 'גן' },
+ viewsLabel: 'סוגי הדירות',
+ tabs: { plan: 'תוכנית', film: 'סרטון', images: 'תמונות', model: 'תלת־ממד', about: 'על הדירה' },
+ homePreview: 'תצוגת הדירה',
+ exploreBuilding: 'סיור בבניין', show: 'הצגה', building: 'הבניין', homeDetails: 'פרטי הדירה', details: 'פרטים', selectedHome: 'הדירה שנבחרה',
+ available: 'זמינה', sold: 'נמכרו', forSale: 'למכירה',
+ stepInside: 'כניסה לדירה', stepInsideLabel: 'כניסה לדירה: תצוגת דירה במסך מלא', stepInsideTitle: 'תוכנית, סרטון, תמונות ותלת־ממד במסך מלא',
+ backToBuilding: 'חזרה לבניין', backToBuildingTitle: 'חזרה לבניין (Esc)',
+ enquire: 'לפרטים', enquireAbout: (where, home) => `לפרטים על הדירה: ${where}, ${home}`,
+ rooms: 'חדרים', floor: 'קומה', interior: 'שטח פנימי', approx: ', בקירוב', outdoor: 'שטח חוץ', sqm: 'מ״ר',
+ interiorTitle: 'נמדד לפי תוכנית הדירה, כולל קירות; זה אינו השטח הרשמי של היזם',
+ groundFloor: 'קומת קרקע', ground: 'קרקע', groundShort: 'ק',
+ floorN: n => `קומה ${n}`,
+ floorPlanOf: home => `תוכנית ${home}`,
+ chooseHome: 'בחרו דירה', availableHomes: n => `${n} דירות זמינות`, availableOf: (n, total) => `${n} מתוך ${total} זמינות`,
+ pickerLabel: summary => `בחירת דירה. נבחרה: ${summary}`, byFloor: 'הדירות לפי קומה',
+ roomsCount: n => `${n} חדרים`,
+ stageLabel: 'הבניין ב־360°. גררו או השתמשו בחצים ימינה ושמאלה כדי לסובב אותו.', architectLabel: 'מבט אדריכלי על הבניין',
+ angle: (n, total) => `הבניין, זווית ${n} מתוך ${total}`, availability: 'זמינות הדירות',
+ facadeForSale: 'למכירה', facadeSold: 'נמכר',
+ architectImage: 'הדמיית האדריכל של הבניין',
+ preparing: 'הבניין נטען', failed: 'התצוגה לא נטענה.', openArchitect: 'למבט האדריכלי',
+ showOnBuilding: 'הצגה על הבניין',
+ toggle: (on, label) => `${on ? 'הסתרת' : 'הצגת'} הסימון „${label}” על הבניין`,
+ viewpoint: 'נקודת מבט', front: 'חזית', rear: 'עורף',
+ hintTouch: 'גררו כדי לסובב את הבניין, הקישו על קומה כדי לבחור', hintMouse: 'גררו כדי לסובב את הבניין, רחפו מעל קומה כדי לגלות',
+ turnLeft: 'סיבוב שמאלה', turnRight: 'סיבוב ימינה',
+ presentation: 'תצוגת הבניין', turnBuilding: 'סיבוב הבניין', architectView: 'מבט אדריכלי',
+ openPlan: home => `פתיחת תוכנית ${home} במסך מלא`,
+ sampleFilm: 'סרטון לדוגמה מדירה אחרת', sampleImages: 'תמונות לדוגמה מדירה אחרת', sampleModel: 'מודל לדוגמה מדירה אחרת',
+ playFilm: 'הפעלת הסרטון', previousImage: 'התמונה הקודמת', nextImage: 'התמונה הבאה', images: 'תמונות',
+ imageOf: (n, total) => `${n} מתוך ${total}`, showImage: label => `הצגת ${label}`,
+ aboutHome: home => `על ${home}`,
+ zoomOut: 'הקטנה', zoomIn: 'הגדלה', fit: 'התאמה למסך', close: 'סגירה',
+ lightboxHint: 'גללו או צבטו כדי להגדיל · גררו כדי להזיז · לחיצה כפולה למבט מקרוב',
+ modelAlt: 'מודל מרוהט של הדירה בחתך, לסיבוב', preparingModel: 'מודל התלת־ממד נטען', modelFailed: 'לא ניתן להציג את מודל התלת־ממד במכשיר הזה.',
+ modelView: 'תצוגת המודל', model3d: 'תלת־ממד', modelTop: 'מלמעלה', modelOutdoor: 'חוץ', resetView: 'איפוס התצוגה',
+};
+
+export const explorerText: Record<Lang, ExplorerText> = { en, he };

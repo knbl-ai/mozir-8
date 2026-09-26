@@ -6,6 +6,8 @@ import type { ApartmentZone, BuildingFrame, Development } from '@/content/projec
 import { DUR, EASE } from './motion';
 import { polygonArea } from './inventory';
 import SegmentedControl from './SegmentedControl';
+import { useLang } from '@/lib/i18n';
+import { explorerText } from './strings';
 import type { FrameSequence } from './useFrameSequence';
 import s from './explorer.module.css';
 
@@ -30,6 +32,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
  selectedApartment?: string; hovered: string | null; onHover: (zone: ApartmentZone | null, commit: boolean) => void; onSelect: (zone: ApartmentZone) => void;
  counts: { available: number; sold: number }; mobileSummary: React.ReactNode;
 }) {
+ const t = explorerText[useLang()];
  const stageRef = useRef<HTMLDivElement>(null);
  const pointer = useRef<{ x: number; y: number } | null>(null);
  const press = useRef<{ x: number; moved: boolean } | null>(null);
@@ -92,7 +95,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
 
  return <div className={s.stageColumn}>
   <div ref={stageRef} className={s.stage} data-mode={mode} data-moving={turning || undefined} tabIndex={mode === 'rotation' ? 0 : -1} role="group"
-   aria-label={mode === 'rotation' ? 'Building, 360°. Drag or use the left and right arrow keys to turn it.' : 'Architect’s view of the building'}
+   aria-label={mode === 'rotation' ? t.stageLabel : t.architectLabel}
    onKeyDown={e => { if (mode === 'rotation' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) { e.preventDefault(); dismissHint(); engine.step(e.key === 'ArrowRight' ? -2 : 2); } }}
    onPointerDown={e => {
     if (mode !== 'rotation' || e.button !== 0) return;
@@ -119,60 +122,60 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
    <div className={s.orbit} data-hidden={mode !== 'rotation' || undefined}>
     <div ref={engine.zoomRef} className={s.orbitZoom}>
      {frames[0] && !engine.firstReady && <img className={s.orbitPoster} src={frames[engine.displayed]?.src ?? frames[0].src} alt="" draggable={false} />}
-     <canvas ref={engine.canvasRef} className={s.orbitCanvas} role="img" aria-label={`Building, angle ${engine.displayed + 1} of ${frames.length}`} />
-     {frame && !engine.failed && <svg viewBox="0 0 800 900" className={s.hotspots} aria-label="Apartment availability">
+     <canvas ref={engine.canvasRef} className={s.orbitCanvas} role="img" aria-label={t.angle(engine.displayed + 1, frames.length)} />
+     {frame && !engine.failed && <svg viewBox="0 0 800 900" className={s.hotspots} aria-label={t.availability}>
       {frame.hotspots.map((h, i) => <polygon key={`${h.apartment}-${i}`} data-apartment={h.apartment} data-status={h.status} points={h.points} className={zoneClass(h)}
        onPointerEnter={() => { if (!press.current && !turning) onHover(h, false); }}>
-       <title>{`${h.floor} · ${project.residences.find(u => u.id === h.unit)?.shortTitle} · ${h.status === 'sold' ? 'Sold' : 'Available'}`}</title>
+       <title>{`${/ground/i.test(h.floor) ? t.groundFloor : t.floorN(Number(h.floor.replace(/\D+/g, '')))} · ${project.residences.find(u => u.id === h.unit)?.shortTitle} · ${h.status === 'sold' ? t.sold : t.available}`}</title>
       </polygon>)}
       {labels.map(h => <foreignObject key={h.apartment} x="0" y="0" width="800" height="900" className={s.facadeLayer}>
-       <div className={s.facadeLabel} data-status={h.status} data-idle={(h.apartment !== hovered && h.apartment !== selectedApartment) || undefined} style={{ transform: facadeTransform(h.labelPoints) }}>{h.status === 'sold' ? 'SOLD' : 'FOR SALE'}</div>
+       <div className={s.facadeLabel} data-status={h.status} data-idle={(h.apartment !== hovered && h.apartment !== selectedApartment) || undefined} style={{ transform: facadeTransform(h.labelPoints) }}>{h.status === 'sold' ? t.facadeSold : t.facadeForSale}</div>
       </foreignObject>)}
      </svg>}
     </div>
    </div>
 
    <AnimatePresence initial={false}>
-    {mode === 'reference' && <motion.img key={referenceSrc} src={referenceSrc} alt="Architect’s visualisation of the building" className={s.referenceImage} draggable={false}
+    {mode === 'reference' && <motion.img key={referenceSrc} src={referenceSrc} alt={t.architectImage} className={s.referenceImage} draggable={false}
      initial={{ opacity: 0, scale: 1.02 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: DUR.slow, ease: EASE }} />}
    </AnimatePresence>
 
-   {mode === 'rotation' && !engine.firstReady && !engine.failed && <span className={s.stageStatus} role="status"><span className={s.spinner} />Preparing the building</span>}
-   {engine.failed && <div className={s.stageStatus} role="alert">This view couldn’t load. <button type="button" onClick={() => onModeChange('reference')}>Open the architect’s view</button></div>}
+   {mode === 'rotation' && !engine.firstReady && !engine.failed && <span className={s.stageStatus} role="status"><span className={s.spinner} />{t.preparing}</span>}
+   {engine.failed && <div className={s.stageStatus} role="alert">{t.failed} <button type="button" onClick={() => onModeChange('reference')}>{t.openArchitect}</button></div>}
   </div>
 
 
   {/* Bottom-right: what the building shows (Front/Rear sits top centre in the architect’s view). Top: the first-use hint. Sides: turning. Bottom centre: how it is shown. */}
   <div className={mode === 'rotation' ? s.stageCorner : s.stageTop}>
    {mode === 'rotation'
-    ? <div className={s.legend} role="group" aria-label="Show on the building">
-     {([['available', 'For sale', counts.available, showAvailable, setShowAvailable], ['sold', 'Sold', counts.sold, showSold, setShowSold]] as const).map(([tone, label, count, on, set]) =>
-      <button key={tone} type="button" className={s.legendRow} data-tone={tone} aria-pressed={on} onClick={() => set(v => !v)} title={on ? `Hide ${label.toLowerCase()} on the building` : `Show ${label.toLowerCase()} on the building`}>
+    ? <div className={s.legend} role="group" aria-label={t.showOnBuilding}>
+     {([['available', t.forSale, counts.available, showAvailable, setShowAvailable], ['sold', t.sold, counts.sold, showSold, setShowSold]] as const).map(([tone, label, count, on, set]) =>
+      <button key={tone} type="button" className={s.legendRow} data-tone={tone} aria-pressed={on} onClick={() => set(v => !v)} title={t.toggle(on, label)}>
        <span className={s.legendTile}>{on ? <Eye size={14} strokeWidth={1.8} aria-hidden /> : <EyeOff size={14} strokeWidth={1.8} aria-hidden />}</span>
        <span className={s.legendLabel}>{label}</span>
        <span className={s.legendCount}>{count}</span>
       </button>)}
     </div>
-    : <SegmentedControl id="reference-view" label="Viewpoint" variant="glass" value={reference} onChange={setReference}
-     options={[{ value: 'street', label: 'Front' }, { value: 'reverse', label: 'Rear' }]} />}
+    : <SegmentedControl id="reference-view" label={t.viewpoint} variant="glass" value={reference} onChange={setReference}
+     options={[{ value: 'street', label: t.front }, { value: 'reverse', label: t.rear }]} />}
   </div>
 
   <div className={s.stageTop}>
    <AnimatePresence>
     {mode === 'rotation' && !hintSeen && engine.firstReady && <motion.span key="hint" className={s.coachHint} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: DUR.base, ease: EASE, delay: 0.4 }}>
-     <Hand size={16} strokeWidth={1.6} className={s.coachHand} aria-hidden />{touch ? 'Drag to turn the building, tap a floor to choose' : 'Drag to turn the building, hover a floor to explore'}
+     <Hand size={16} strokeWidth={1.6} className={s.coachHand} aria-hidden />{touch ? t.hintTouch : t.hintMouse}
     </motion.span>}
    </AnimatePresence>
   </div>
 
   {mode === 'rotation' && <>
-   <button type="button" className={`${s.glassIcon} ${s.turnLeft}`} aria-label="Turn left" onClick={() => { dismissHint(); engine.step(6); }}><ChevronLeft size={20} strokeWidth={1.6} aria-hidden /></button>
-   <button type="button" className={`${s.glassIcon} ${s.turnRight}`} aria-label="Turn right" onClick={() => { dismissHint(); engine.step(-6); }}><ChevronRight size={20} strokeWidth={1.6} aria-hidden /></button>
+   <button type="button" className={`${s.glassIcon} ${s.turnLeft}`} aria-label={t.turnLeft} onClick={() => { dismissHint(); engine.step(6); }}><ChevronLeft size={20} strokeWidth={1.6} aria-hidden /></button>
+   <button type="button" className={`${s.glassIcon} ${s.turnRight}`} aria-label={t.turnRight} onClick={() => { dismissHint(); engine.step(-6); }}><ChevronRight size={20} strokeWidth={1.6} aria-hidden /></button>
   </>}
 
   <div className={s.stageBottom}>
-   <SegmentedControl id="stage-mode" label="Building presentation" variant="glass" value={mode} onChange={onModeChange}
-    options={[{ value: 'rotation', label: '360°', icon: Rotate3d, disabled: !frames.length, title: 'Turn the building' }, { value: 'reference', label: 'Architect’s view', icon: ImageIcon }]} />
+   <SegmentedControl id="stage-mode" label={t.presentation} variant="glass" value={mode} onChange={onModeChange}
+    options={[{ value: 'rotation', label: '360°', icon: Rotate3d, disabled: !frames.length, title: t.turnBuilding }, { value: 'reference', label: t.architectView, icon: ImageIcon }]} />
   </div>
   <div className={s.mobileSummary}>{mobileSummary}</div>
  </div>;
