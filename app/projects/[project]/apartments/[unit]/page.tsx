@@ -1,0 +1,13 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { developments,getDevelopment } from '@/content/projects';
+import styles from '@/components/building/building.module.css';
+export function generateStaticParams(){return developments.flatMap(p=>p.residences.map(u=>({project:p.id,unit:u.id})));}
+export async function generateMetadata({params}:{params:Promise<{project:string;unit:string}>}){const v=await params;const p=getDevelopment(v.project);const u=p?.residences.find(u=>u.id===v.unit);return {title:`${u?.title??'Residence'} — Plan preview`,description:u?.description,openGraph:{title:u?.title,images:u?[u.plan]:[]}};}
+export default async function Apartment({params}:{params:Promise<{project:string;unit:string}>}){
+ const v=await params;const p=getDevelopment(v.project);const u=p?.residences.find(u=>u.id===v.unit);if(!p||!u)notFound();
+ return <div className={styles.site}><header className={styles.header}><Link className={styles.brand} href={`/projects/${p.id}`}>RESIDENCES<small>{p.location}</small></Link><Link href={`/projects/${p.id}#explore`}>← Back to the building</Link></header>
+ <main><section className={styles.unitHero}><span className={styles.kicker}>{p.location} / {u.rooms} ROOMS</span><h1>{u.title}</h1><p>{u.description}</p></section>
+ <section className={styles.unitDetail}><a className={styles.plan} href={u.plan} target="_blank" rel="noreferrer"><img src={u.plan} alt={`Original architectural floor plan — ${u.title}`}/></a><div><span className={styles.kicker}>THE ORIGINAL PLAN</span><h2>A closer look<br/><em>at your space.</em></h2><dl className={styles.facts}><div><dt>ROOMS, INCLUDING LIVING ROOM</dt><dd>{u.rooms}</dd></div><div><dt>UNIT NUMBERS ON SOURCE PLAN</dt><dd>{u.sourceUnits}</dd></div></dl><p className={styles.note}>Room counts follow the Israeli plan labels. Areas and floor assignments have not been verified.</p><a className={styles.primaryLink} href={u.plan} target="_blank" rel="noreferrer">Open full-size plan <span>↗</span></a><div className={styles.production}><h3>The next layer of the story.</h3><p>This residence is at the plan stage. Its presentation will follow our completed Mozir 8 experience.</p><ul><li>Rotatable furnished apartment model</li><li>Cinematic residence film</li><li>Interior and outdoor image collection</li></ul><Link href="/" className={styles.heroLink}>View the completed example <span>↗</span></Link></div></div></section></main>
+ <footer className={styles.footer}><Link href={`/projects/${p.id}`}>← Explore the building</Link><p>Supplied plan. Proposed interiors, film and apartment model have not yet been produced for this residence.</p></footer></div>;
+}
