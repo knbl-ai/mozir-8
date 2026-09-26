@@ -3,8 +3,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { easeInOutCubic } from './motion';
 
 // The building is a ring of pre-rendered frames. Position is a fractional frame index held in a
-// ref and painted to a canvas from a rAF loop, blending the two neighbouring frames, so a turn is
-// continuous rather than a series of 5° jumps and React re-renders only when the turn settles.
+// ref and eased from a rAF loop; the canvas always shows one whole, sharp frame (the nearest), so
+// a turn reads as the building rotating, never two frames dissolving. `displayed` follows the drawn
+// frame so the apartment overlays turn with the building instead of disappearing.
 
 const INERTIA_TAU = 260; // ms — how long a flick keeps travelling
 const WHEEL_TAU = 90;
@@ -12,7 +13,7 @@ const KEY_TAU = 120;
 const SETTLE_TAU = 110;
 const CONCURRENT_LOADS = 4;
 
-type Tween = { from: number; to: number; start: number; duration: number; breath: boolean };
+type Tween = { from: number; to: number; start: number; duration: number };
 type Chase = { to: number; tau: number };
 
 const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -31,9 +32,10 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  const pump = useRef<() => void>(() => {});
  const frameRequest = useRef(0);
  const lastTick = useRef(0);
- const drawnAt = useRef(Number.NaN);
+ const drawnFrame = useRef(-1);
  const movingRef = useRef(false);
  const [settled, setSettled] = useState(initial);
+ const [displayed, setDisplayed] = useState(initial);
  const [moving, setMoving] = useState(false);
  const [firstReady, setFirstReady] = useState(false);
  const [failed, setFailed] = useState(false);
@@ -51,24 +53,13 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  const draw = (force = false) => {
   const canvas = canvasRef.current;
   if (!canvas || !count) return;
-  const p = wrap(position.current);
-  if (!force && Math.abs(p - drawnAt.current) < 0.002) return;
-  const base = Math.floor(p), next = (base + 1) % count, blend = p - base;
-  const shown = nearestReady(base);
-  if (shown < 0) return;
+  const shown = nearestReady(Math.round(wrap(position.current)) % count);
+  if (shown < 0 || (!force && shown === drawnFrame.current)) return;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
-  ctx.globalAlpha = 1;
   ctx.drawImage(images.current[shown]!, 0, 0, canvas.width, canvas.height);
-  if (shown === base && blend > 0.02 && ready.current[next]) {
-   ctx.globalAlpha = blend;
-   ctx.drawImage(images.current[next]!, 0, 0, canvas.width, canvas.height);
-   ctx.globalAlpha = 1;
-  }
-  drawnAt.current = p;
+  if (shown !== drawnFrame.current) { drawnFrame.current = shown; setDisplayed(shown); }
  };
-
- const setBreath = (amount: number) => zoomRef.current?.style.setProperty('--breath', amount.toFixed(4));
 
  const setMovingState = (value: boolean) => {
   if (movingRef.current === value) return;
@@ -92,7 +83,6 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   } else if (tween.current) {
    const t = tween.current, progress = Math.min(1, (now - t.start) / t.duration);
    position.current = t.from + (t.to - t.from) * easeInOutCubic(progress);
-   setBreath(t.breath ? Math.sin(Math.PI * progress) : 0);
    if (progress >= 1) { tween.current = null; active = false; }
   } else if (chase.current) {
    // Exponential approach: it starts at the flick's speed and lands exactly on a frame.
@@ -120,7 +110,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  };
 
  const beginDrag = (x: number) => {
-  tween.current = null; chase.current = null; setBreath(0);
+  tween.current = null; chase.current = null;
   drag.current = { x, from: position.current, samples: [{ t: performance.now(), p: position.current }] };
   run();
  };
@@ -175,7 +165,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   if (span < 0.5) { chase.current = { to: Math.round(target), tau: SETTLE_TAU }; run(); return; }
   priority.current = Array.from({ length: Math.ceil(span) + 1 }, (_, i) => wrap(Math.round(start + Math.sign(delta) * i)));
   pump.current();
-  tween.current = { from: start, to: target, start: performance.now(), duration: Math.min(1500, 520 + 950 * (span / (count / 2))), breath: span >= count / 8 };
+  tween.current = { from: start, to: target, start: performance.now(), duration: Math.min(1500, 520 + 950 * (span / (count / 2))) };
   run();
  };
 
@@ -204,8 +194,8 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
     img.decode().then(() => {
      if (cancelled) return;
      ready.current[i] = true;
-     const p = wrap(position.current), base = Math.floor(p);
-     if (i === base || i === (base + 1) % count || Number.isNaN(drawnAt.current)) draw(true);
+     const p = wrap(position.current);
+     if (i === Math.round(p) % count || drawnFrame.current < 0) draw(true);
      if (i === origin) setFirstReady(true);
     }).catch(() => { if (!cancelled && i === origin) setFailed(true); })
      .finally(() => { inflight--; pump.current(); });
@@ -235,8 +225,13 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [zoom]);
 
- useEffect(() => () => { if (frameRequest.current) cancelAnimationFrame(frameRequest.current); }, []);
+ // Reset the handle too: React's dev double-mount runs this cleanup and then mounts again, and a
+ // stale id would make run() believe a loop is alive — the building would never move again.
+ useEffect(() => () => {
+  if (frameRequest.current) cancelAnimationFrame(frameRequest.current);
+  frameRequest.current = 0; lastTick.current = 0;
+ }, []);
 
- return { canvasRef, zoomRef, settled, moving, firstReady, failed, beginDrag, dragTo, endDrag, nudgePixels, step, rotateTo, isDragging: () => !!drag.current };
+ return { canvasRef, zoomRef, settled, displayed, moving, firstReady, failed, beginDrag, dragTo, endDrag, nudgePixels, step, rotateTo, isDragging: () => !!drag.current };
 }
 export type FrameSequence = ReturnType<typeof useFrameSequence>;

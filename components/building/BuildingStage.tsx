@@ -41,7 +41,8 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
  useEffect(() => { setHintSeen(readHintSeen()); setTouch(window.matchMedia('(hover: none)').matches); }, []);
  const dismissHint = () => { if (hintSeen) return; setHintSeen(true); try { localStorage.setItem(HINT_KEY, '1'); } catch { /* private mode */ } };
 
- const frame = frames[engine.settled];
+ // Overlays follow the frame on screen, so they turn with the building rather than blinking out.
+ const frame = frames[engine.displayed];
  const zoneAt = (x: number, y: number) => {
   const el = document.elementFromPoint(x, y)?.closest('[data-apartment]');
   const id = el && stageRef.current?.contains(el) ? el.getAttribute('data-apartment') : null;
@@ -89,7 +90,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
  const turning = engine.moving;
 
  return <div className={s.stageColumn}>
-  <div ref={stageRef} className={s.stage} data-mode={mode} tabIndex={mode === 'rotation' ? 0 : -1} role="group"
+  <div ref={stageRef} className={s.stage} data-mode={mode} data-moving={turning || undefined} tabIndex={mode === 'rotation' ? 0 : -1} role="group"
    aria-label={mode === 'rotation' ? 'Building, 360°. Drag or use the left and right arrow keys to turn it.' : 'Architect’s view of the building'}
    onKeyDown={e => { if (mode === 'rotation' && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) { e.preventDefault(); dismissHint(); engine.step(e.key === 'ArrowRight' ? -2 : 2); } }}
    onPointerDown={e => {
@@ -116,9 +117,9 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
 
    <div className={s.orbit} data-hidden={mode !== 'rotation' || undefined}>
     <div ref={engine.zoomRef} className={s.orbitZoom}>
-     {frames[0] && !engine.firstReady && <img className={s.orbitPoster} src={frames[engine.settled]?.src ?? frames[0].src} alt="" draggable={false} />}
-     <canvas ref={engine.canvasRef} className={s.orbitCanvas} role="img" aria-label={`Building, angle ${engine.settled + 1} of ${frames.length}`} />
-     {frame && !engine.failed && <svg viewBox="0 0 800 900" className={s.hotspots} data-turning={turning || undefined} aria-label="Apartment availability">
+     {frames[0] && !engine.firstReady && <img className={s.orbitPoster} src={frames[engine.displayed]?.src ?? frames[0].src} alt="" draggable={false} />}
+     <canvas ref={engine.canvasRef} className={s.orbitCanvas} role="img" aria-label={`Building, angle ${engine.displayed + 1} of ${frames.length}`} />
+     {frame && !engine.failed && <svg viewBox="0 0 800 900" className={s.hotspots} aria-label="Apartment availability">
       {frame.hotspots.map((h, i) => <polygon key={`${h.apartment}-${i}`} data-apartment={h.apartment} data-status={h.status} points={h.points} className={zoneClass(h)}
        onPointerEnter={() => { if (!press.current && !turning) onHover(h, false); }}>
        <title>{`${h.floor} · ${project.residences.find(u => u.id === h.unit)?.shortTitle} · ${h.status === 'sold' ? 'Sold' : 'Available'}`}</title>

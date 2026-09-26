@@ -12,7 +12,7 @@ const executablePath = process.env.CHROME_PATH || (process.platform === 'darwin'
 const browser = await chromium.launch({ executablePath, headless: true, args: ['--enable-webgl', '--ignore-gpu-blocklist'] });
 const errors = [];
 const check = (ok, message) => { if (!ok) throw new Error(message); console.log('✓', message); };
-const settle = page => page.waitForFunction(() => !document.querySelector('svg[data-turning]'), null, { timeout: 5000 });
+const settle = page => page.waitForFunction(() => !document.querySelector('[data-moving]'), null, { timeout: 5000 });
 
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
 page.on('pageerror', e => errors.push(e.message));
@@ -38,6 +38,7 @@ check((await angle()) !== start, `drag with a flick turns the building (${start}
 await page.getByRole('radio', { name: 'Rear' }).click();
 await page.waitForTimeout(250);
 await page.screenshot({ path: `${out}/explorer-turning.png` });
+check(await page.locator('[data-moving]').count() === 1 && await page.locator('svg polygon').count() > 0, 'apartment overlays stay on screen while the building turns');
 await settle(page);
 check((await angle()).includes('angle 37 of'), `Rear turns to the rear elevation (${await angle()})`);
 check((await page.locator('h2').textContent()).includes('Rear residence'), 'Rear selects a rear home');
@@ -78,6 +79,18 @@ const deep = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 await deep.goto(`${base}${pagePath}?apt=rear-05#explore`, { waitUntil: 'networkidle' });
 await deep.waitForTimeout(2200);
 check((await deep.locator('h2').textContent()).includes('Rear residence') && (await deep.locator('main').textContent()).includes('Floor 5'), 'deep link opens rear-05');
+// Opening on a home turns the building at mount — under React's dev double-mount this once left the
+// turn loop dead: no overlays, no dragging.
+await settle(deep);
+check(await deep.locator('svg polygon').count() > 0, 'deep link: the building shows its apartments');
+const deepStart = await deep.locator('canvas').getAttribute('aria-label');
+const deepBox = await deep.getByRole('group', { name: /Building, 360°/ }).boundingBox();
+await deep.mouse.move(deepBox.x + deepBox.width * 0.7, deepBox.y + deepBox.height * 0.5);
+await deep.mouse.down();
+await deep.mouse.move(deepBox.x + deepBox.width * 0.3, deepBox.y + deepBox.height * 0.5, { steps: 6 });
+await deep.mouse.up();
+await settle(deep);
+check((await deep.locator('canvas').getAttribute('aria-label')) !== deepStart, 'deep link: the building still turns');
 
 const phone = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
 await phone.goto(`${base}${pagePath}#explore`, { waitUntil: 'networkidle' });

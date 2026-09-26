@@ -160,11 +160,10 @@
 .stage:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
 .orbit { position: absolute; top: 0; left: 50%; height: 100%; aspect-ratio: 8 / 9; transform: translateX(-50%); transition: opacity 0.5s var(--ease); }
 .orbit[data-hidden] { opacity: 0; pointer-events: none; }
-.orbitZoom { --breath: 0; position: absolute; inset: 0; transform-origin: 50% 40%; transform: translateY(-7%) scale(calc(1.45 * (1 - 0.035 * var(--breath)))); }
+.orbitZoom { position: absolute; inset: 0; transform-origin: 50% 40%; transform: translateY(-7%) scale(1.45); }
 .orbitCanvas, .orbitPoster { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
 .orbitPoster { object-fit: contain; }
-.hotspots { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; transition: opacity 0.22s var(--ease); }
-.hotspots[data-turning] { opacity: 0; transition-duration: 0.12s; }
+.hotspots { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .hotspots polygon { pointer-events: auto; cursor: pointer; vector-effect: non-scaling-stroke; stroke-width: 1.2; stroke-linejoin: round; transition: fill 0.25s var(--ease), stroke 0.25s var(--ease), stroke-width 0.25s var(--ease); }
 .zoneQuiet { fill: transparent; stroke: transparent; }
 .zoneAvailable { fill: rgb(47 122 74 / 0.1); stroke: rgb(47 122 74 / 0.55); }
@@ -434,5 +433,4 @@
 @media (prefers-reduced-motion: reduce) {
   .coachHand, .spinner { animation: none; }
   .pickerContent[data-state], .lightbox[data-state], .lightboxOverlay[data-state] { animation-duration: 0.01ms; }
-  .orbitZoom { transform: translateY(-7%) scale(1.45); }
 }
