@@ -199,29 +199,27 @@
 .stageStatus button { text-decoration: underline; text-underline-offset: 3px; }
 .stageTop { position: absolute; top: 14px; left: 0; right: 0; z-index: 3; display: flex; justify-content: center; pointer-events: none; }
 .stageTop > * { pointer-events: auto; }
-.chipGroup { display: flex; gap: 6px; }
+.stageTopRight { position: absolute; top: 14px; right: 14px; z-index: 3; }
+/* Availability legend: one light card, a row per status; the tile carries the colour and says
+   whether it is shown (eye) or hidden (crossed eye). */
+.legend {
+  display: flex; flex-direction: column; gap: 2px; padding: 5px; border-radius: 16px;
+  background: rgb(255 255 255 / 0.62); border: 1px solid var(--glass-edge); box-shadow: 0 1px 2px rgb(20 24 18 / 0.05), 0 6px 18px rgb(20 24 18 / 0.06);
+  backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+.legendRow { display: flex; align-items: center; gap: 10px; min-width: 150px; padding: 5px 10px 5px 5px; border-radius: 11px; text-align: left; transition: background 0.2s var(--ease); }
+.legendRow:hover { background: rgb(255 255 255 / 0.7); }
+.legendTile { width: 28px; height: 28px; flex: none; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-3); background: var(--fill); transition: background 0.2s var(--ease), color 0.2s var(--ease); }
+.legendLabel { flex: 1; font-weight: 500; font-size: 13px; color: var(--ink-3); transition: color 0.2s var(--ease); }
+.legendCount { font-weight: 500; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.legendRow[aria-pressed='true'][data-tone='available'] .legendTile { color: var(--available); background: var(--available-tint); }
+.legendRow[aria-pressed='true'][data-tone='sold'] .legendTile { color: var(--sold); background: var(--sold-tint); }
+.legendRow[aria-pressed='true'][data-tone='available'] .legendLabel { color: var(--available); }
+.legendRow[aria-pressed='true'][data-tone='sold'] .legendLabel { color: var(--sold); }
+.legendRow[aria-pressed='true'] .legendCount { color: var(--ink-2); }
 .turnLeft, .turnRight { position: absolute; top: calc(50% - 22px); z-index: 3; width: 44px; height: 44px; }
 .turnLeft { left: 14px; }
 .turnRight { right: 14px; }
-.toneChip {
-  height: 38px; padding: 0 6px 0 14px; border-radius: 999px;
-  display: inline-flex; align-items: center; gap: 8px;
-  font-weight: 500; font-size: 13px; color: var(--ink-2);
-  background: var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  transition: color 0.2s var(--ease), background 0.2s var(--ease);
-}
-.toneChip > span {
-  min-width: 26px; height: 26px; padding: 0 7px; border-radius: 999px;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 12px; font-variant-numeric: tabular-nums; background: var(--fill); color: var(--ink-2);
-  transition: background 0.2s var(--ease), color 0.2s var(--ease);
-}
-.toneChip:hover { background: rgb(255 255 255 / 0.92); }
-.toneChip[aria-pressed='true'][data-tone='available'] { color: var(--available); }
-.toneChip[aria-pressed='true'][data-tone='available'] > span { background: var(--available); color: #fff; }
-.toneChip[aria-pressed='true'][data-tone='sold'] { color: var(--sold); }
-.toneChip[aria-pressed='true'][data-tone='sold'] > span { background: var(--sold); color: #fff; }
 .stageBottom { position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 10px; pointer-events: none; }
 .stageBottom > * { pointer-events: auto; }
 .coachHint {
@@ -422,11 +420,11 @@
   .mediaPanel { min-height: 200px; }
   .stageColumn { border-radius: 18px; }
   .stageTop { top: 10px; }
+  .stageTopRight { top: 10px; right: 10px; }
+  .legendRow { min-width: 128px; }
   .turnLeft { left: 8px; }
   .turnRight { right: 8px; }
   .segmented_glass .segment { padding: 0 10px; }
-  .toneChip { height: 34px; padding: 0 5px 0 11px; font-size: 12px; gap: 6px; }
-  .toneChip > span { min-width: 22px; height: 22px; font-size: 11px; }
   .stageBottom { bottom: 82px; left: 10px; right: 10px; }
   .coachHint { font-size: 12px; }
   .mobileSummary { display: block; position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 4; }

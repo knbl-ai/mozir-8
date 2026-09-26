@@ -42,6 +42,7 @@ check(await page.locator('[data-moving]').count() === 1 && await page.locator('s
 await settle(page);
 check((await angle()).includes('angle 37 of'), `Rear turns to the rear elevation (${await angle()})`);
 check((await page.locator('h2').textContent()).includes('Rear residence'), 'Rear selects a rear home');
+check(await page.getByText('FOR SALE', { exact: true }).count() > 0, 'the chosen home keeps its FOR SALE label with the pointer elsewhere');
 
 await page.getByRole('button', { name: 'Next available home' }).click();
 await page.waitForTimeout(700);

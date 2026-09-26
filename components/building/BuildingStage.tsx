@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronLeft, ChevronRight, Hand, Image as ImageIcon, Rotate3d } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Image as ImageIcon, Rotate3d } from 'lucide-react';
 import type { ApartmentZone, BuildingFrame, Development } from '@/content/projects';
 import { DUR, EASE } from './motion';
 import { polygonArea } from './inventory';
@@ -82,7 +82,8 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
 
  const labels = frame ? [...new Set(frame.hotspots.map(h => h.apartment))].map(id => {
   const h = frame.hotspots.filter(z => z.apartment === id).sort((a, b) => polygonArea(b.points) - polygonArea(a.points))[0];
-  const visible = h.apartment === hovered || (h.status === 'sold' ? showSold : showAvailable);
+  // The chosen home keeps its label whether or not the pointer is on it; hover adds one for another floor.
+  const visible = h.apartment === hovered || h.apartment === selectedApartment || (h.status === 'sold' ? showSold : showAvailable);
   return h.labelPoints && visible ? h : null;
  }).filter(Boolean) as ApartmentZone[] : [];
 
@@ -125,7 +126,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
        <title>{`${h.floor} · ${project.residences.find(u => u.id === h.unit)?.shortTitle} · ${h.status === 'sold' ? 'Sold' : 'Available'}`}</title>
       </polygon>)}
       {labels.map(h => <foreignObject key={h.apartment} x="0" y="0" width="800" height="900" className={s.facadeLayer}>
-       <div className={s.facadeLabel} data-status={h.status} data-idle={h.apartment !== hovered || undefined} style={{ transform: facadeTransform(h.labelPoints) }}>{h.status === 'sold' ? 'SOLD' : 'FOR SALE'}</div>
+       <div className={s.facadeLabel} data-status={h.status} data-idle={(h.apartment !== hovered && h.apartment !== selectedApartment) || undefined} style={{ transform: facadeTransform(h.labelPoints) }}>{h.status === 'sold' ? 'SOLD' : 'FOR SALE'}</div>
       </foreignObject>)}
      </svg>}
     </div>
@@ -142,11 +143,15 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
 
 
   {/* Top centre: what the building shows. Sides: turning. Bottom centre: how it is shown. */}
-  <div className={s.stageTop}>
+  <div className={mode === 'rotation' ? s.stageTopRight : s.stageTop}>
    {mode === 'rotation'
-    ? <div className={s.chipGroup} role="group" aria-label="Show on the building">
-     <button type="button" className={s.toneChip} data-tone="available" aria-pressed={showAvailable} onClick={() => setShowAvailable(v => !v)}>For sale<span>{counts.available}</span></button>
-     <button type="button" className={s.toneChip} data-tone="sold" aria-pressed={showSold} onClick={() => setShowSold(v => !v)}>Sold<span>{counts.sold}</span></button>
+    ? <div className={s.legend} role="group" aria-label="Show on the building">
+     {([['available', 'For sale', counts.available, showAvailable, setShowAvailable], ['sold', 'Sold', counts.sold, showSold, setShowSold]] as const).map(([tone, label, count, on, set]) =>
+      <button key={tone} type="button" className={s.legendRow} data-tone={tone} aria-pressed={on} onClick={() => set(v => !v)} title={on ? `Hide ${label.toLowerCase()} on the building` : `Show ${label.toLowerCase()} on the building`}>
+       <span className={s.legendTile}>{on ? <Eye size={15} strokeWidth={1.8} aria-hidden /> : <EyeOff size={15} strokeWidth={1.8} aria-hidden />}</span>
+       <span className={s.legendLabel}>{label}</span>
+       <span className={s.legendCount}>{count}</span>
+      </button>)}
     </div>
     : <SegmentedControl id="reference-view" label="Viewpoint" variant="glass" value={reference} onChange={setReference}
      options={[{ value: 'street', label: 'Front' }, { value: 'reverse', label: 'Rear' }]} />}
