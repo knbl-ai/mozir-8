@@ -142,13 +142,13 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
   </div>
 
 
-  {/* Top centre: what the building shows. Sides: turning. Bottom centre: how it is shown. */}
-  <div className={mode === 'rotation' ? s.stageTopRight : s.stageTop}>
+  {/* Bottom-right: what the building shows (Front/Rear sits top centre in the architect’s view). Top: the first-use hint. Sides: turning. Bottom centre: how it is shown. */}
+  <div className={mode === 'rotation' ? s.stageCorner : s.stageTop}>
    {mode === 'rotation'
     ? <div className={s.legend} role="group" aria-label="Show on the building">
      {([['available', 'For sale', counts.available, showAvailable, setShowAvailable], ['sold', 'Sold', counts.sold, showSold, setShowSold]] as const).map(([tone, label, count, on, set]) =>
       <button key={tone} type="button" className={s.legendRow} data-tone={tone} aria-pressed={on} onClick={() => set(v => !v)} title={on ? `Hide ${label.toLowerCase()} on the building` : `Show ${label.toLowerCase()} on the building`}>
-       <span className={s.legendTile}>{on ? <Eye size={15} strokeWidth={1.8} aria-hidden /> : <EyeOff size={15} strokeWidth={1.8} aria-hidden />}</span>
+       <span className={s.legendTile}>{on ? <Eye size={14} strokeWidth={1.8} aria-hidden /> : <EyeOff size={14} strokeWidth={1.8} aria-hidden />}</span>
        <span className={s.legendLabel}>{label}</span>
        <span className={s.legendCount}>{count}</span>
       </button>)}
@@ -157,17 +157,20 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
      options={[{ value: 'street', label: 'Front' }, { value: 'reverse', label: 'Rear' }]} />}
   </div>
 
+  <div className={s.stageTop}>
+   <AnimatePresence>
+    {mode === 'rotation' && !hintSeen && engine.firstReady && <motion.span key="hint" className={s.coachHint} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: DUR.base, ease: EASE, delay: 0.4 }}>
+     <Hand size={16} strokeWidth={1.6} className={s.coachHand} aria-hidden />{touch ? 'Drag to turn the building, tap a floor to choose' : 'Drag to turn the building, hover a floor to explore'}
+    </motion.span>}
+   </AnimatePresence>
+  </div>
+
   {mode === 'rotation' && <>
    <button type="button" className={`${s.glassIcon} ${s.turnLeft}`} aria-label="Turn left" onClick={() => { dismissHint(); engine.step(6); }}><ChevronLeft size={20} strokeWidth={1.6} aria-hidden /></button>
    <button type="button" className={`${s.glassIcon} ${s.turnRight}`} aria-label="Turn right" onClick={() => { dismissHint(); engine.step(-6); }}><ChevronRight size={20} strokeWidth={1.6} aria-hidden /></button>
   </>}
 
   <div className={s.stageBottom}>
-   <AnimatePresence>
-    {mode === 'rotation' && !hintSeen && engine.firstReady && <motion.span key="hint" className={s.coachHint} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: DUR.base, ease: EASE, delay: 0.4 }}>
-     <Hand size={16} strokeWidth={1.6} className={s.coachHand} aria-hidden />{touch ? 'Drag to turn the building, tap a floor to choose' : 'Drag to turn the building, hover a floor to explore'}
-    </motion.span>}
-   </AnimatePresence>
    <SegmentedControl id="stage-mode" label="Building presentation" variant="glass" value={mode} onChange={onModeChange}
     options={[{ value: 'rotation', label: '360°', icon: Rotate3d, disabled: !frames.length, title: 'Turn the building' }, { value: 'reference', label: 'Architect’s view', icon: ImageIcon }]} />
   </div>

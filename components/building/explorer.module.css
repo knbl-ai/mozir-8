@@ -199,19 +199,19 @@
 .stageStatus button { text-decoration: underline; text-underline-offset: 3px; }
 .stageTop { position: absolute; top: 14px; left: 0; right: 0; z-index: 3; display: flex; justify-content: center; pointer-events: none; }
 .stageTop > * { pointer-events: auto; }
-.stageTopRight { position: absolute; top: 14px; right: 14px; z-index: 3; }
+.stageCorner { position: absolute; bottom: 14px; right: 14px; z-index: 4; }
 /* Availability legend: one light card, a row per status; the tile carries the colour and says
    whether it is shown (eye) or hidden (crossed eye). */
 .legend {
-  display: flex; flex-direction: column; gap: 2px; padding: 5px; border-radius: 16px;
-  background: rgb(255 255 255 / 0.62); border: 1px solid var(--glass-edge); box-shadow: 0 1px 2px rgb(20 24 18 / 0.05), 0 6px 18px rgb(20 24 18 / 0.06);
+  display: flex; flex-direction: column; gap: 1px; padding: 3px; border-radius: 13px;
+  background: rgb(255 255 255 / 0.8); border: 1px solid var(--glass-edge); box-shadow: 0 1px 2px rgb(20 24 18 / 0.05), 0 6px 18px rgb(20 24 18 / 0.06);
   backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
 }
-.legendRow { display: flex; align-items: center; gap: 10px; min-width: 150px; padding: 5px 10px 5px 5px; border-radius: 11px; text-align: left; transition: background 0.2s var(--ease); }
+.legendRow { display: flex; align-items: center; gap: 7px; padding: 3px 10px 3px 3px; border-radius: 10px; text-align: left; transition: background 0.2s var(--ease); }
 .legendRow:hover { background: rgb(255 255 255 / 0.7); }
-.legendTile { width: 28px; height: 28px; flex: none; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-3); background: var(--fill); transition: background 0.2s var(--ease), color 0.2s var(--ease); }
-.legendLabel { flex: 1; font-weight: 500; font-size: 13px; color: var(--ink-3); transition: color 0.2s var(--ease); }
-.legendCount { font-weight: 500; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.legendTile { width: 24px; height: 24px; flex: none; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-3); background: var(--fill); transition: background 0.2s var(--ease), color 0.2s var(--ease); }
+.legendLabel { font-weight: 500; font-size: 12.5px; color: var(--ink-3); transition: color 0.2s var(--ease); }
+.legendCount { font-weight: 500; font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--ink-3); }
 .legendRow[aria-pressed='true'][data-tone='available'] .legendTile { color: var(--available); background: var(--available-tint); }
 .legendRow[aria-pressed='true'][data-tone='sold'] .legendTile { color: var(--sold); background: var(--sold-tint); }
 .legendRow[aria-pressed='true'][data-tone='available'] .legendLabel { color: var(--available); }
@@ -420,8 +420,7 @@
   .mediaPanel { min-height: 200px; }
   .stageColumn { border-radius: 18px; }
   .stageTop { top: 10px; }
-  .stageTopRight { top: 10px; right: 10px; }
-  .legendRow { min-width: 128px; }
+  .stageCorner { bottom: 136px; right: 10px; }
   .turnLeft { left: 8px; }
   .turnRight { right: 8px; }
   .segmented_glass .segment { padding: 0 10px; }
