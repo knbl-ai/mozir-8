@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { MotionConfig } from 'motion/react';
-import { ArrowUpRight, Box, ChevronLeft, ChevronRight, Images, Info, LayoutPanelLeft, Play } from 'lucide-react';
+import { motion, MotionConfig } from 'motion/react';
+import { ArrowUpRight, Box, Building2, ChevronLeft, ChevronRight, House, Images, Info, LayoutPanelLeft, Play } from 'lucide-react';
 import { resolveMedia, type ApartmentZone, type BuildingFrame, type Development } from '@/content/projects';
 import ApartmentPicker from './ApartmentPicker';
 import BuildingStage, { type StageMode } from './BuildingStage';
@@ -11,6 +11,7 @@ import MediaPanel, { type MediaTab } from './MediaPanel';
 import PlanLightbox from './PlanLightbox';
 import SegmentedControl from './SegmentedControl';
 import SwapValue from './SwapValue';
+import { SOFT_SPRING } from './motion';
 import { useFrameSequence } from './useFrameSequence';
 import s from './explorer.module.css';
 
@@ -34,6 +35,9 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
  const [tab, setTab] = useState<MediaTab>('plan');
  const [mobilePanel, setMobilePanel] = useState<'building' | 'details'>('building');
  const [planOpen, setPlanOpen] = useState(false);
+ // Apartment view: the building and the top bar step aside so the plan, film, images and 3D get the
+ // screen; the facts stay beside them in a column.
+ const [focus, setFocus] = useState(false);
  const sources = useMemo(() => frames.map(f => f.src), [frames]);
  const engine = useFrameSequence(sources, 0, ZOOM);
  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -91,6 +95,13 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
   return () => clearTimeout(timer);
  }, [selectedId]);
 
+ useEffect(() => {
+  if (!focus) return;
+  const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape' && !planOpen) setFocus(false); };
+  window.addEventListener('keydown', onKey);
+  return () => window.removeEventListener('keydown', onKey);
+ }, [focus, planOpen]);
+
  const counts = { available: available.length, sold: inventory.length - available.length };
  const where = selected ? (selected.level === 0 ? 'Ground floor' : `Floor ${selected.level}`) : '';
  const enquire = <a className={s.enquire} href={project.enquiryUrl} target="_blank" rel="noreferrer" aria-label={`Enquire about this home: ${where}, ${residence.shortTitle}`}>
@@ -98,7 +109,7 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
   <span className={s.enquireIcon} aria-hidden><ArrowUpRight size={15} strokeWidth={1.8} /></span>
  </a>;
 
- return <MotionConfig reducedMotion="user">
+ return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined}>
   <header className={s.header}>
    <Link href="/projects" className={s.brand}>
     <svg className={s.brandMark} viewBox="0 0 32 40" aria-hidden="true"><path d="M3 37V16a13 13 0 0 1 26 0v21M10 37V17a6 6 0 0 1 12 0v20M3 27h26" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>
@@ -117,10 +128,10 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
      <SegmentedControl id="mobile-panel" label="Show" fill value={mobilePanel} onChange={setMobilePanel} options={[{ value: 'building', label: 'Building' }, { value: 'details', label: 'Home details' }]} />
     </div>
     <div className={s.grid} data-mobile-panel={mobilePanel}>
-     <aside className={s.panel} aria-label="Selected home">
+     <motion.aside layout transition={SOFT_SPRING} className={s.panel} aria-label="Selected home">
       {/* Name on the left; status, browsing and the enquiry share the empty space beside it, so the
           media below keeps the height. */}
-      <div className={s.head}>
+      <motion.div layout="position" transition={SOFT_SPRING} className={s.head}>
        <div className={s.headText}>
         <h2 className={s.title}><SwapValue value={residence.shortTitle} order={navIndex} /></h2>
         <p className={s.lede} title={residence.description}><SwapValue value={residence.tagline} order={navIndex} /></p>
@@ -133,21 +144,27 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
           <span className={s.stepCount} aria-live="polite"><SwapValue value={String(navIndex + 1)} /><span>/ {available.length}</span></span>
           <button type="button" className={s.stepButton} aria-label="Next available home" onClick={() => stepHome(1)}><ChevronRight size={18} strokeWidth={1.6} aria-hidden /></button>
          </div>
+         <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
+          aria-label={focus ? 'Back to the building' : 'Open the apartment view'} title={focus ? 'Back to the building (Esc)' : 'Apartment view'}>
+          {focus ? <><Building2 size={17} strokeWidth={1.6} aria-hidden /><span>Building</span></> : <House size={17} strokeWidth={1.6} aria-hidden />}
+         </button>
          {enquire}
         </div>
        </div>
-      </div>
-      <dl className={s.facts}>
+      </motion.div>
+      <motion.dl layout="position" transition={SOFT_SPRING} className={s.facts}>
        <div><dt>Rooms</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
        <div><dt>Floor</dt><dd className={s.factNumber}><SwapValue value={selected ? levelLabel(selected.floor) : '—'} order={selected?.level} /></dd></div>
        <div><dt title="Measured from the floor plan, walls included; not the developer's official area">Interior<span className={s.approx}>, approx.</span></dt><dd className={s.factNumber}><SwapValue value={String(residence.area)} /><span className={s.factUnit}>m²</span></dd></div>
        <div><dt>Outdoor</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} /><span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} m²`} order={residence.outdoorArea} /></span></dd></div>
-      </dl>
-      <div className={s.tabs}>
+      </motion.dl>
+      <motion.div layout="position" transition={SOFT_SPRING} className={s.tabs}>
        <SegmentedControl id="media" label="Home preview" role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS} />
-      </div>
-      <MediaPanel tab={tab} residence={residence} media={media} onExpandPlan={() => setPlanOpen(true)} />
-     </aside>
+      </motion.div>
+      <motion.div layout transition={SOFT_SPRING} className={s.mediaWrap}>
+       <MediaPanel tab={tab} residence={residence} media={media} onExpandPlan={() => setPlanOpen(true)} />
+      </motion.div>
+     </motion.aside>
      <BuildingStage project={project} frames={frames} engine={engine} mode={mode} onModeChange={setMode} selectedApartment={selectedId}
       hovered={hovered} onHover={onHover} onSelect={zone => select(zone)} counts={counts}
       mobileSummary={<button type="button" className={s.mobileSummaryButton} onClick={() => setMobilePanel('details')}>
@@ -158,5 +175,5 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
    </section>
   </main>
   <PlanLightbox open={planOpen} onOpenChange={setPlanOpen} src={residence.plan} title={`${residence.shortTitle} floor plan`} />
- </MotionConfig>;
+ </div></MotionConfig>;
 }

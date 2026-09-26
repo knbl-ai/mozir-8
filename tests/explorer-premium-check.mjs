@@ -72,6 +72,18 @@ await page.waitForTimeout(500);
 await page.screenshot({ path: `${out}/explorer-lightbox.png` });
 await page.keyboard.press('Escape');
 
+await page.getByRole('button', { name: 'Open the apartment view' }).click();
+await page.waitForTimeout(900);
+await page.screenshot({ path: `${out}/explorer-apartment-view.png` });
+const media = await page.locator('#apartment-preview').boundingBox();
+check(!(await page.locator('header').isVisible()) && media.width > 1440 * 0.6, `apartment view: media takes the screen (${Math.round(media.width)}px wide)`);
+await page.keyboard.press('Escape');
+await page.waitForTimeout(700);
+check(await page.locator('header').isVisible() && await page.locator('canvas').isVisible(), 'Esc returns to the building');
+const beforeTurn = await page.locator('canvas').getAttribute('aria-label');
+await page.getByRole('button', { name: 'Turn left' }).click();
+await settle(page);
+check((await page.locator('canvas').getAttribute('aria-label')) !== beforeTurn, 'the building still turns after the apartment view');
 await page.getByRole('radio', { name: 'Architect’s view' }).click();
 await page.waitForTimeout(700);
 await page.screenshot({ path: `${out}/explorer-reference.png` });
