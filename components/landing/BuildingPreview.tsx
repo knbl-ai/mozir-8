@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import s from './landing.module.css';
 
 const FPS = 18; // 36 frames, 10° apart: one full turn in two seconds
+const BUILDING_SPAN = 0.72, BUILDING_CENTRE = 0.53; // of the frame's height
 
 // The Sales Gallery's own building, turning. It turns while the card is hovered or focused, and on
 // touch screens while it is on screen — the preview shows what the product does, not a picture of it.
@@ -19,10 +20,12 @@ export default function BuildingPreview({ frames, active }: { frames: string[]; 
   if (!c || !img || !ready.current[at.current]) return;
   const ctx = c.getContext('2d');
   if (!ctx) return;
-  // object-fit: cover, centred — the 6:5 card trims sky from the top and street from the bottom
-  const scale = Math.max(c.width / img.naturalWidth, c.height / img.naturalHeight);
+  // Cover the card, but keep the building itself (roof to street, the middle ~72% of the frame's
+  // height) in view whatever the card's shape: a wide card trims sky and ground, never the roof.
+  const scale = Math.max(c.width / img.naturalWidth, Math.min(c.height / img.naturalHeight, c.height / (img.naturalHeight * BUILDING_SPAN)));
   const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
-  ctx.drawImage(img, (c.width - w) / 2, (c.height - h) * 0.5, w, h);
+  const y = Math.min(0, Math.max(c.height - h, c.height / 2 - h * BUILDING_CENTRE));
+  ctx.drawImage(img, (c.width - w) / 2, y, w, h);
  };
 
  // Load after the page settles, first frame first; the rest only once the card is near the screen.

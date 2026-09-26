@@ -14,7 +14,7 @@ const LANGUAGES: { value: Lang; label: string; lang: string }[] = [{ value: 'en'
 function Demo({ href, text, preview, id }: { href: string; text: DemoCopy; id: string; preview: (active: boolean) => React.ReactNode }) {
  const [active, setActive] = useState(false);
  return <article className={s.demo} aria-labelledby={`${id}-name`}>
-  <Link href={href} className={s.previewLink} aria-label={text.cta}
+  <Link href={href} target="_blank" rel="noopener" className={s.previewLink} aria-label={`${text.cta} (opens in a new tab)`}
    onPointerEnter={e => e.pointerType === 'mouse' && setActive(true)} onPointerLeave={() => setActive(false)}
    onFocus={() => setActive(true)} onBlur={() => setActive(false)}>
    <span className={s.preview}>{preview(active)}</span>
@@ -27,7 +27,7 @@ function Demo({ href, text, preview, id }: { href: string; text: DemoCopy; id: s
    <h2 id={`${id}-name`} className={s.name}>{text.name}</h2>
    <p className={s.body}>{text.body}</p>
    <ul className={s.features}>{text.features.map(f => <li key={f}><Check size={15} strokeWidth={1.8} aria-hidden />{f}</li>)}</ul>
-   <Link href={href} className={s.cta}>{text.cta}<ArrowUpRight className={s.ctaIcon} size={16} strokeWidth={1.8} aria-hidden /></Link>
+   <Link href={href} target="_blank" rel="noopener" className={s.cta} aria-label={`${text.cta} (opens in a new tab)`}>{text.cta}<ArrowUpRight className={s.ctaIcon} size={16} strokeWidth={1.8} aria-hidden /></Link>
   </div>
  </article>;
 }
