@@ -140,8 +140,8 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
       <dl className={s.facts}>
        <div><dt>Rooms</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
        <div><dt>Floor</dt><dd className={s.factNumber}><SwapValue value={selected ? levelLabel(selected.floor) : '—'} order={selected?.level} /></dd></div>
-       <div><dt>Interior</dt><dd className={s.factPending}>Area to be confirmed</dd></div>
-       <div><dt>Outdoor</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} /></dd></div>
+       <div><dt title="Measured from the floor plan, walls included; not the developer's official area">Interior<span className={s.approx}>, approx.</span></dt><dd className={s.factNumber}><SwapValue value={String(residence.area)} /><span className={s.factUnit}>m²</span></dd></div>
+       <div><dt>Outdoor</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} /><span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} m²`} order={residence.outdoorArea} /></span></dd></div>
       </dl>
       <div className={s.tabs}>
        <SegmentedControl id="media" label="Home preview" role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS} />
