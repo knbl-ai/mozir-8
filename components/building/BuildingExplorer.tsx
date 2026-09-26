@@ -94,8 +94,8 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
  const counts = { available: available.length, sold: inventory.length - available.length };
  const where = selected ? (selected.level === 0 ? 'Ground floor' : `Floor ${selected.level}`) : '';
  const enquire = <a className={s.enquire} href={project.enquiryUrl} target="_blank" rel="noreferrer" aria-label={`Enquire about this home: ${where}, ${residence.shortTitle}`}>
-  <span className={s.enquireText}><strong>Enquire about this home</strong><SwapValue value={`${where} · ${residence.shortTitle}`} order={navIndex} /></span>
-  <span className={s.enquireIcon} aria-hidden><ArrowUpRight size={18} strokeWidth={1.6} /></span>
+  <span className={s.enquireText}>Enquire</span>
+  <span className={s.enquireIcon} aria-hidden><ArrowUpRight size={15} strokeWidth={1.8} /></span>
  </a>;
 
  return <MotionConfig reducedMotion="user">
@@ -133,8 +133,8 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
           <span className={s.stepCount} aria-live="polite"><SwapValue value={String(navIndex + 1)} /><span>/ {available.length}</span></span>
           <button type="button" className={s.stepButton} aria-label="Next available home" onClick={() => stepHome(1)}><ChevronRight size={18} strokeWidth={1.6} aria-hidden /></button>
          </div>
+         {enquire}
         </div>
-        {enquire}
        </div>
       </div>
       <dl className={s.facts}>
