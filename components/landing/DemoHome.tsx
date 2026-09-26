@@ -23,11 +23,15 @@ function Demo({ href, text, preview, id }: { href: string; text: DemoCopy; id: s
    </span>
   </Link>
   <div className={s.demoBody}>
-   <p className={s.kind}>{text.kind}</p>
-   <h2 id={`${id}-name`} className={s.name}>{text.name}</h2>
+   <div className={s.demoHead}>
+    <div>
+     <p className={s.kind}>{text.kind}</p>
+     <h2 id={`${id}-name`} className={s.name}>{text.name}</h2>
+    </div>
+    <Link href={href} target="_blank" rel="noopener" className={s.cta} aria-label={`${text.cta} (opens in a new tab)`}>{text.cta}<ArrowUpRight className={s.ctaIcon} size={16} strokeWidth={1.8} aria-hidden /></Link>
+   </div>
    <p className={s.body}>{text.body}</p>
    <ul className={s.features}>{text.features.map(f => <li key={f}><Check size={15} strokeWidth={1.8} aria-hidden />{f}</li>)}</ul>
-   <Link href={href} target="_blank" rel="noopener" className={s.cta} aria-label={`${text.cta} (opens in a new tab)`}>{text.cta}<ArrowUpRight className={s.ctaIcon} size={16} strokeWidth={1.8} aria-hidden /></Link>
   </div>
  </article>;
 }

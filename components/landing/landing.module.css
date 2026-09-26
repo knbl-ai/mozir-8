@@ -94,6 +94,8 @@ video.previewMedia[data-playing] { opacity: 1; }
 }
 
 .demoBody { padding: 18px 4px 0; display: flex; flex-direction: column; align-items: flex-start; flex: 1; }
+/* The button sits beside the name — right where the eye lands after the preview. */
+.demoHead { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 14px 24px; width: 100%; }
 .kind { margin: 0; font-size: 13px; line-height: 1.4; color: var(--ink-2); }
 .name { margin: 6px 0 0; font-family: var(--display); font-weight: 400; font-size: clamp(34px, 3.4vw, 46px); line-height: 1.05; letter-spacing: 0; }
 .body { margin: 14px 0 0; max-width: 52ch; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
@@ -102,12 +104,11 @@ video.previewMedia[data-playing] { opacity: 1; }
 .features svg { flex: none; margin-top: 2px; color: var(--accent); }
 
 .cta {
-  margin-top: auto; display: inline-flex; align-items: center; gap: 10px;
+  flex: none; margin-bottom: 4px; display: inline-flex; align-items: center; gap: 10px;
   height: 44px; padding: 0 18px 0 20px; border-radius: 999px;
   background: var(--accent); color: #fff; font-size: 14px; font-weight: 500;
   transition: background 0.2s var(--ease);
 }
-.features + .cta { margin-top: 28px; }
 .cta:hover { background: var(--accent-hover); }
 .ctaIcon { transition: transform 0.25s var(--ease); }
 .cta:hover .ctaIcon { transform: translate(2px, -2px); }
