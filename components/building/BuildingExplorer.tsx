@@ -2,7 +2,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, MotionConfig } from 'motion/react';
-import { ArrowUpRight, Box, Building2, ChevronRight, Eye, Images, Info, LayoutPanelLeft, Play } from 'lucide-react';
+import * as Popover from '@radix-ui/react-popover';
+import { Box, Building2, ChevronRight, Eye, Images, Info, LayoutPanelLeft, MessageCircle, Play } from 'lucide-react';
 import { localizeDevelopment, localizeImages, localizeResidence, resolveMedia, type ApartmentZone, type BuildingFrame, type Development } from '@/content/projects';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
@@ -105,10 +106,20 @@ export default function BuildingExplorer({ project: source, frames }: { project:
 
  const counts = { available: available.length, sold: inventory.length - available.length };
  const where = selected ? (selected.level === 0 ? t.groundFloor : t.floorN(selected.level)) : '';
- const enquire = <a className={s.enquire} href={project.enquiryUrl} target="_blank" rel="noreferrer" aria-label={t.enquireAbout(where, residence.shortTitle)}>
-  <span className={s.enquireText}>{t.enquire}</span>
-  <span className={s.enquireIcon} aria-hidden><ArrowUpRight size={15} strokeWidth={1.8} /></span>
- </a>;
+ // A demo has no agent to reach, so the button explains what it would do in a live project.
+ const enquire = <Popover.Root>
+  <Popover.Trigger className={s.enquire} aria-label={t.enquireAbout(where, residence.shortTitle)}>
+   <span className={s.enquireText}>{t.enquire}</span>
+   <span className={s.enquireIcon} aria-hidden><MessageCircle size={15} strokeWidth={1.8} /></span>
+  </Popover.Trigger>
+  <Popover.Portal>
+   <Popover.Content className={s.enquireNote} side="top" align="end" sideOffset={6} collisionPadding={{ top: 0, right: 8, bottom: 8, left: 8 }}>
+    <div className={s.enquireNoteHead}><strong>{t.enquireNoteTitle}</strong><span className={s.enquireNoteHome}>{where} · {residence.shortTitle}</span></div>
+    <p>{t.enquireNote}</p>
+    <Popover.Arrow className={s.enquireNoteArrow} width={14} height={7} />
+   </Popover.Content>
+  </Popover.Portal>
+ </Popover.Root>;
 
  return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined}>
   <header className={s.header}>

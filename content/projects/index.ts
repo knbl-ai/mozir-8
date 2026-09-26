@@ -11,7 +11,7 @@ export type Residence = { id: string; title: string; shortTitle: string; tagline
 export type ResidenceText = Pick<Residence, 'title' | 'shortTitle' | 'tagline' | 'outdoor' | 'label' | 'description' | 'about'>;
 export type ApartmentZone = { unit: string; apartment: string; status: 'for-sale' | 'sold'; floor: string; labelPoints: [number, number][]; points: string };
 export type BuildingFrame = { src: string; hotspots: ApartmentZone[] };
-export type Development = { id: string; name: string; location: string; description: string; he: Pick<Development, 'name' | 'location' | 'description'>; references: string[]; residences: Residence[]; enquiryUrl: string; media: Required<ResidenceMedia>; apartmentMedia?: Record<string, ResidenceMedia> };
+export type Development = { id: string; name: string; location: string; description: string; he: Pick<Development, 'name' | 'location' | 'description'>; references: string[]; residences: Residence[]; media: Required<ResidenceMedia>; apartmentMedia?: Record<string, ResidenceMedia> };
 const base = '/projects/building-preview';
 const placeholderImages: MediaImage[] = [
  { src: '/media/01_living.webp', label: 'Living & dining', labelHe: 'סלון ופינת אוכל' }, { src: '/media/02_main_bedroom.webp', label: 'Main bedroom', labelHe: 'חדר השינה הראשי' },
@@ -24,7 +24,6 @@ export const developments: Development[] = [{
  description: 'A new perspective on home. Explore the building, find your space, and discover the possibilities within.',
  he: { name: 'הכתובת הבאה', location: 'תצוגה מקדימה של הפרויקט', description: 'מבט חדש על הבית. סיירו בבניין, מצאו את המקום שלכם וגלו את האפשרויות שבו.' },
  references: [`${base}/building/exterior-front.jpg`, `${base}/building/exterior-rear.jpg`],
- enquiryUrl: 'https://www.yad2.co.il/yad1/project/6731',
  media: { film: { src: '/media/residence-film.mp4', poster: '/media/01_living.webp' }, images: placeholderImages, model: '/models/apartment.glb' },
  residences: [
  { id:'garden', title:'The Garden Residence', shortTitle:'Garden residence', tagline:'Four rooms on the ground floor, opening onto a private garden.', rooms:4, outdoor:'Garden', area:86, outdoorArea:90, label:'A private outdoor life', plan:`${base}/plans/garden.jpg`, sourceUnits:'01', description:'A four-room home opening onto a generous private garden, with living and dining at its heart.',
