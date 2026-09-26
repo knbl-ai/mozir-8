@@ -1,5 +1,13 @@
 # Multi-project foundation
 
+## Site map — 26 September 2026
+
+`/` is the demo hub: what the demo is, an English/Hebrew switch (Hebrew mirrors the layout; its
+text waits for the English to be approved) and two live previews. The Sales Gallery
+(`/projects/building-preview#explore`) sells a whole development; the Open House (`/mozir-8`,
+formerly the root) is the single-apartment website. The hub's copy lives in
+`components/landing/copy.ts`.
+
 ## Current state — 26 September 2026
 
 The project route is now a single-screen apartment-selection app: apartment media on the left, interactive building on the right. The header selects Front View, Rear View or Garden and an available demo unit. The media tabs are Floor plan, Video, Images, 3D and About. Video, images and the apartment model are explicitly identified Mozir 8 placeholders. There is no apartment-page CTA in this app.

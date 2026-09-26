@@ -107,7 +107,7 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
 
  return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined}>
   <header className={s.header}>
-   <Link href="/projects" className={s.brand}>
+   <Link href="/" className={s.brand} aria-label="Residences — all demos">
     <svg className={s.brandMark} viewBox="0 0 32 40" aria-hidden="true"><path d="M3 37V16a13 13 0 0 1 26 0v21M10 37V17a6 6 0 0 1 12 0v20M3 27h26" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>
     <span>Residences<small>The next address</small></span>
    </Link>
