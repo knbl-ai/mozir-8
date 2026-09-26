@@ -58,6 +58,11 @@ check(page.url().includes('apt=front-07'), `URL carries the home (${page.url()})
 for (const name of ['Images', 'Film', '3D', 'About', 'Floor plan']) {
  await page.getByRole('tab', { name }).click();
  await page.waitForTimeout(500);
+ if (name === '3D') {
+  await page.waitForFunction(() => document.querySelector('model-viewer')?.loaded, null, { timeout: 30000 });
+  await page.waitForTimeout(600);
+  check(!(await page.locator('[class*=modelVeil][data-visible]').count()), 'the 3D model shows once it has loaded');
+ }
  await page.screenshot({ path: `${out}/explorer-tab-${name.replace(/\W+/g, '').toLowerCase()}.png` });
 }
 await page.getByRole('button', { name: /floor plan full screen/ }).click();

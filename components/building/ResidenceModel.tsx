@@ -18,9 +18,11 @@ export default function ResidenceModel({ src, poster }: { src: string; poster?: 
  const [view, setView] = useState<View>('perspective');
  useEffect(() => { import('@google/model-viewer').then(() => setReady(true)).catch(() => setError(true)); }, []);
  useEffect(() => {
-  const el = host.current?.querySelector('model-viewer');
+  const el = host.current?.querySelector('model-viewer') as (HTMLElement & { src?: string; loaded?: boolean }) | null;
   if (!el) return;
-  const done = () => setLoadedSrc(el.getAttribute('src'));
+  // React 19 sets `src` as a property on custom elements, not an attribute — read the property.
+  const done = () => setLoadedSrc(el.src ?? null);
+  if (el.loaded) done();
   const fail = () => setError(true);
   el.addEventListener('load', done); el.addEventListener('error', fail);
   return () => { el.removeEventListener('load', done); el.removeEventListener('error', fail); };
