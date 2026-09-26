@@ -33,7 +33,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
  const stageRef = useRef<HTMLDivElement>(null);
  const pointer = useRef<{ x: number; y: number } | null>(null);
  const press = useRef<{ x: number; moved: boolean } | null>(null);
- const [showSold, setShowSold] = useState(true);
+ const [showSold, setShowSold] = useState(false);
  const [showAvailable, setShowAvailable] = useState(false);
  const [reference, setReference] = useState<'street' | 'reverse'>('street');
  const [hintSeen, setHintSeen] = useState(true);
@@ -125,7 +125,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
        <title>{`${h.floor} · ${project.residences.find(u => u.id === h.unit)?.shortTitle} · ${h.status === 'sold' ? 'Sold' : 'Available'}`}</title>
       </polygon>)}
       {labels.map(h => <foreignObject key={h.apartment} x="0" y="0" width="800" height="900" className={s.facadeLayer}>
-       <div className={s.facadeLabel} data-status={h.status} data-idle={h.apartment !== hovered || undefined} style={{ transform: facadeTransform(h.labelPoints) }}>{h.status === 'sold' ? 'Sold' : 'Available'}</div>
+       <div className={s.facadeLabel} data-status={h.status} data-idle={h.apartment !== hovered || undefined} style={{ transform: facadeTransform(h.labelPoints) }}>{h.status === 'sold' ? 'SOLD' : 'FOR SALE'}</div>
       </foreignObject>)}
      </svg>}
     </div>
@@ -140,31 +140,31 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
    {engine.failed && <div className={s.stageStatus} role="alert">This view couldn’t load. <button type="button" onClick={() => onModeChange('reference')}>Open the architect’s view</button></div>}
   </div>
 
-  <div className={s.stageTopLeft}>
-   <SegmentedControl id="stage-mode" label="Building presentation" variant="glass" value={mode} onChange={onModeChange}
-    options={[{ value: 'rotation', label: '360°', icon: Rotate3d, disabled: !frames.length, title: 'Turn the building' }, { value: 'reference', label: 'Architect’s view', icon: ImageIcon }]} />
-  </div>
-  <div className={s.stageTopRight}>
+  <AnimatePresence>
+   {mode === 'rotation' && !hintSeen && engine.firstReady && <motion.span key="hint" className={s.coachHint} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: DUR.base, ease: EASE, delay: 0.4 }}>
+    <Hand size={16} strokeWidth={1.6} className={s.coachHand} aria-hidden />{touch ? 'Drag to turn the building, tap a floor to choose' : 'Drag to turn the building, hover a floor to explore'}
+   </motion.span>}
+  </AnimatePresence>
+
+  {/* What to show on the building sits on the side, within thumb reach, clear of the facade's top. */}
+  <div className={s.sideRail}>
    {mode === 'rotation'
     ? <div className={s.chipGroup} role="group" aria-label="Show on the building">
      <button type="button" className={s.toneChip} data-tone="available" aria-pressed={showAvailable} onClick={() => setShowAvailable(v => !v)}>Available<span>{counts.available}</span></button>
      <button type="button" className={s.toneChip} data-tone="sold" aria-pressed={showSold} onClick={() => setShowSold(v => !v)}>Sold<span>{counts.sold}</span></button>
     </div>
-    : <SegmentedControl id="reference-view" label="Viewpoint" variant="glass" value={reference} onChange={setReference}
+    : <SegmentedControl id="reference-view" label="Viewpoint" variant="glass" vertical value={reference} onChange={setReference}
      options={[{ value: 'street', label: 'Street' }, { value: 'reverse', label: 'Reverse' }]} />}
   </div>
 
-  {mode === 'rotation' && <div className={s.stageBottom}>
-   <AnimatePresence>
-    {!hintSeen && engine.firstReady && <motion.span key="hint" className={s.coachHint} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: DUR.base, ease: EASE, delay: 0.4 }}>
-     <Hand size={16} strokeWidth={1.6} className={s.coachHand} aria-hidden />{touch ? 'Drag to turn the building, tap a floor to choose' : 'Drag to turn the building, hover a floor to explore'}
-    </motion.span>}
-   </AnimatePresence>
-   <div className={s.turnButtons}>
+  <div className={s.stageBottom}>
+   <SegmentedControl id="stage-mode" label="Building presentation" variant="glass" value={mode} onChange={onModeChange}
+    options={[{ value: 'rotation', label: '360°', icon: Rotate3d, disabled: !frames.length, title: 'Turn the building' }, { value: 'reference', label: 'Architect’s view', icon: ImageIcon }]} />
+   {mode === 'rotation' && <div className={s.turnButtons}>
     <button type="button" className={s.glassIcon} aria-label="Turn left" onClick={() => { dismissHint(); engine.step(6); }}><ChevronLeft size={18} strokeWidth={1.6} aria-hidden /></button>
     <button type="button" className={s.glassIcon} aria-label="Turn right" onClick={() => { dismissHint(); engine.step(-6); }}><ChevronRight size={18} strokeWidth={1.6} aria-hidden /></button>
-   </div>
-  </div>}
+   </div>}
+  </div>
   <div className={s.mobileSummary}>{mobileSummary}</div>
  </div>;
 }

@@ -93,7 +93,7 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
 
  const counts = { available: available.length, sold: inventory.length - available.length };
  const where = selected ? (selected.level === 0 ? 'Ground floor' : `Floor ${selected.level}`) : '';
- const enquire = <a className={s.enquire} href={project.enquiryUrl} target="_blank" rel="noreferrer">
+ const enquire = <a className={s.enquire} href={project.enquiryUrl} target="_blank" rel="noreferrer" aria-label={`Enquire about this home: ${where}, ${residence.shortTitle}`}>
   <span className={s.enquireText}><strong>Enquire about this home</strong><SwapValue value={`${where} · ${residence.shortTitle}`} order={navIndex} /></span>
   <span className={s.enquireIcon} aria-hidden><ArrowUpRight size={18} strokeWidth={1.6} /></span>
  </a>;
@@ -118,17 +118,25 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
     </div>
     <div className={s.grid} data-mobile-panel={mobilePanel}>
      <aside className={s.panel} aria-label="Selected home">
-      <div className={s.panelTop}>
-       <span className={s.toneTag} data-tone="available"><i />Available</span>
-       <span className={s.panelWhere}><SwapValue value={where} order={selected?.level} /></span>
-       <div className={s.stepper} role="group" aria-label="Browse available homes">
-        <button type="button" className={s.stepButton} aria-label="Previous available home" onClick={() => stepHome(-1)}><ChevronLeft size={18} strokeWidth={1.6} aria-hidden /></button>
-        <span className={s.stepCount} aria-live="polite"><SwapValue value={String(navIndex + 1)} /><span>/ {available.length}</span></span>
-        <button type="button" className={s.stepButton} aria-label="Next available home" onClick={() => stepHome(1)}><ChevronRight size={18} strokeWidth={1.6} aria-hidden /></button>
+      {/* Name on the left; status, browsing and the enquiry share the empty space beside it, so the
+          media below keeps the height. */}
+      <div className={s.head}>
+       <div className={s.headText}>
+        <h2 className={s.title}><SwapValue value={residence.shortTitle} order={navIndex} /></h2>
+        <p className={s.lede} title={residence.description}><SwapValue value={residence.tagline} order={navIndex} /></p>
+       </div>
+       <div className={s.headAside}>
+        <div className={s.headMeta}>
+         <span className={s.toneTag} data-tone="available"><i />Available</span>
+         <div className={s.stepper} role="group" aria-label="Browse available homes">
+          <button type="button" className={s.stepButton} aria-label="Previous available home" onClick={() => stepHome(-1)}><ChevronLeft size={18} strokeWidth={1.6} aria-hidden /></button>
+          <span className={s.stepCount} aria-live="polite"><SwapValue value={String(navIndex + 1)} /><span>/ {available.length}</span></span>
+          <button type="button" className={s.stepButton} aria-label="Next available home" onClick={() => stepHome(1)}><ChevronRight size={18} strokeWidth={1.6} aria-hidden /></button>
+         </div>
+        </div>
+        {enquire}
        </div>
       </div>
-      <h2 className={s.title}><SwapValue value={residence.shortTitle} order={navIndex} /></h2>
-      <p className={s.lede}><SwapValue value={residence.description} order={navIndex} /></p>
       <dl className={s.facts}>
        <div><dt>Rooms</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
        <div><dt>Floor</dt><dd className={s.factNumber}><SwapValue value={selected ? levelLabel(selected.floor) : '—'} order={selected?.level} /></dd></div>
@@ -139,7 +147,6 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
        <SegmentedControl id="media" label="Home preview" role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS} />
       </div>
       <MediaPanel tab={tab} residence={residence} media={media} onExpandPlan={() => setPlanOpen(true)} />
-      <div className={s.panelFoot}>{enquire}</div>
      </aside>
      <BuildingStage project={project} frames={frames} engine={engine} mode={mode} onModeChange={setMode} selectedApartment={selectedId}
       hovered={hovered} onHover={onHover} onSelect={zone => select(zone)} counts={counts}

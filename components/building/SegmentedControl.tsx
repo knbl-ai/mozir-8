@@ -9,9 +9,9 @@ export type SegmentOption<T extends string> = { value: T; label: ReactNode; icon
 
 // One sliding thumb shared by every option (motion layoutId), so a change of selection travels
 // rather than blinks. `tablist` wires the tab ARIA, otherwise it behaves as a radio group.
-export default function SegmentedControl<T extends string>({ id, options, value, onChange, label, variant = 'track', role = 'radiogroup', fill = false, controls }: {
+export default function SegmentedControl<T extends string>({ id, options, value, onChange, label, variant = 'track', role = 'radiogroup', fill = false, vertical = false, controls }: {
  id: string; options: SegmentOption<T>[]; value: T; onChange: (value: T) => void; label: string;
- variant?: 'track' | 'glass' | 'header'; role?: 'radiogroup' | 'tablist'; fill?: boolean; controls?: string;
+ variant?: 'track' | 'glass' | 'header'; role?: 'radiogroup' | 'tablist'; fill?: boolean; vertical?: boolean; controls?: string;
 }) {
  const enabled = options.filter(o => !o.disabled);
  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -23,7 +23,7 @@ export default function SegmentedControl<T extends string>({ id, options, value,
   onChange(next.value);
   (event.currentTarget.querySelector(`[data-value="${next.value}"]`) as HTMLElement | null)?.focus();
  };
- return <div role={role} aria-label={label} className={`${s.segmented} ${s[`segmented_${variant}`]} ${fill ? s.segmentedFill : ''}`} onKeyDown={onKeyDown}>
+ return <div role={role} aria-label={label} className={`${s.segmented} ${s[`segmented_${variant}`]} ${fill ? s.segmentedFill : ''} ${vertical ? s.segmentedVertical : ''}`} aria-orientation={vertical ? 'vertical' : undefined} onKeyDown={onKeyDown}>
   {options.map(o => {
    const active = o.value === value, Icon = o.icon;
    const a11y = role === 'tablist'
