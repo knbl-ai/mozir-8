@@ -1,4 +1,4 @@
-// Explorer walkthrough: rotation settles, views turn, picker/stepper/deep link select, media tabs,
+// Explorer walkthrough: rotation settles, views turn, picker/deep link select, media tabs,
 // lightbox, mobile. Usage: node tests/explorer-premium-check.mjs [baseUrl] [outDir]
 import { chromium } from '@playwright/test';
 import fs from 'node:fs/promises';
@@ -44,9 +44,6 @@ check((await angle()).includes('angle 37 of'), `Rear turns to the rear elevation
 check((await page.locator('h2').textContent()).includes('Rear residence'), 'Rear selects a rear home');
 check(await page.getByText('FOR SALE', { exact: true }).count() > 0, 'the chosen home keeps its FOR SALE label with the pointer elsewhere');
 
-await page.getByRole('button', { name: 'Next available home' }).click();
-await page.waitForTimeout(700);
-await page.screenshot({ path: `${out}/explorer-next.png` });
 
 await page.getByRole('button', { name: /Choose an apartment/ }).click();
 await page.waitForTimeout(400);
@@ -72,7 +69,7 @@ await page.waitForTimeout(500);
 await page.screenshot({ path: `${out}/explorer-lightbox.png` });
 await page.keyboard.press('Escape');
 
-await page.getByRole('button', { name: 'Open the apartment view' }).click();
+await page.getByRole('button', { name: /Step inside/ }).click();
 await page.waitForTimeout(900);
 await page.screenshot({ path: `${out}/explorer-apartment-view.png` });
 const media = await page.locator('#apartment-preview').boundingBox();

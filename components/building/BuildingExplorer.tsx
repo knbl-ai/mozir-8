@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, MotionConfig } from 'motion/react';
-import { ArrowUpRight, Box, Building2, ChevronLeft, ChevronRight, House, Images, Info, LayoutPanelLeft, Play } from 'lucide-react';
+import { ArrowUpRight, Box, Building2, ChevronRight, Eye, Images, Info, LayoutPanelLeft, Play } from 'lucide-react';
 import { resolveMedia, type ApartmentZone, type BuildingFrame, type Development } from '@/content/projects';
 import ApartmentPicker from './ApartmentPicker';
 import BuildingStage, { type StageMode } from './BuildingStage';
@@ -75,10 +75,6 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
   engine.rotateTo(view === 'five-room' ? 0 : view === 'four-room' ? Math.floor(frames.length / 2) : (first?.bestFrame ?? 0));
  };
 
- const stepHome = (direction: 1 | -1) => {
-  if (!available.length) return;
-  select(available[(Math.max(0, navIndex) + direction + available.length) % available.length], { turn: true });
- };
 
  // ?apt=front-03 opens on that home, facing it.
  useEffect(() => {
@@ -137,19 +133,12 @@ export default function BuildingExplorer({ project, frames }: { project: Develop
         <p className={s.lede} title={residence.description}><SwapValue value={residence.tagline} order={navIndex} /></p>
        </div>
        <div className={s.headAside}>
-        <div className={s.headMeta}>
-         <span className={s.toneTag} data-tone="available"><i />Available</span>
-         <div className={s.stepper} role="group" aria-label="Browse available homes">
-          <button type="button" className={s.stepButton} aria-label="Previous available home" onClick={() => stepHome(-1)}><ChevronLeft size={18} strokeWidth={1.6} aria-hidden /></button>
-          <span className={s.stepCount} aria-live="polite"><SwapValue value={String(navIndex + 1)} /><span>/ {available.length}</span></span>
-          <button type="button" className={s.stepButton} aria-label="Next available home" onClick={() => stepHome(1)}><ChevronRight size={18} strokeWidth={1.6} aria-hidden /></button>
-         </div>
-         <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
-          aria-label={focus ? 'Back to the building' : 'Open the apartment view'} title={focus ? 'Back to the building (Esc)' : 'Apartment view'}>
-          {focus ? <><Building2 size={17} strokeWidth={1.6} aria-hidden /><span>Building</span></> : <House size={17} strokeWidth={1.6} aria-hidden />}
-         </button>
-         {enquire}
-        </div>
+        <span className={s.toneTag} data-tone="available"><i />Available</span>
+        <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
+         aria-label={focus ? 'Back to the building' : 'Step inside: open the apartment view'} title={focus ? 'Back to the building (Esc)' : 'Plan, film, images and 3D, full screen'}>
+         {focus ? <Building2 size={16} strokeWidth={1.7} aria-hidden /> : <Eye size={16} strokeWidth={1.7} aria-hidden />}<span>{focus ? 'Building' : 'Step inside'}</span>
+        </button>
+        {enquire}
        </div>
       </motion.div>
       <motion.dl layout="position" transition={SOFT_SPRING} className={s.facts}>

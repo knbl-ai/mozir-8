@@ -115,14 +115,7 @@
 .headText { display: contents; }
 .head .title { grid-area: title; min-width: 0; }
 .head .lede { grid-area: lede; }
-.headAside { grid-area: aside; }
-.headAside { display: flex; align-items: center; }
-.headMeta { display: flex; align-items: center; gap: 8px; }
-.stepper { display: flex; align-items: center; gap: 2px; padding: 3px; border-radius: 999px; background: var(--fill); }
-.stepButton { width: 32px; height: 32px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-2); transition: background 0.2s var(--ease), color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
-.stepButton:hover { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgb(20 24 18 / 0.1); }
-.stepCount { display: inline-flex; align-items: baseline; gap: 3px; min-width: 48px; justify-content: center; font-weight: 500; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink); }
-.stepCount > span:last-child { color: var(--ink-3); }
+.headAside { grid-area: aside; display: flex; align-items: center; gap: 8px; }
 .title { margin: 0; font: 400 clamp(40px, 3.7vw, 62px)/1.02 var(--display); letter-spacing: -0.02em; color: var(--ink); }
 .lede { margin: 8px 0 0; font-size: 14px; line-height: 1.55; color: var(--ink-2); }
 /* Always one line: a wrapping description would move everything below it between homes. */
@@ -138,10 +131,9 @@
 .mediaWrap { flex: 1; min-height: 140px; margin-top: 12px; display: flex; flex-direction: column; }
 .mediaPanel { position: relative; flex: 1; min-height: 0; border-radius: 16px; overflow: hidden; background: var(--well); }
 .focusToggle {
-  width: 38px; height: 38px; flex: none; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;
-  color: var(--ink); background: var(--fill); transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  height: 38px; padding: 0 16px 0 13px; gap: 7px; flex: none; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 500; font-size: 14px; white-space: nowrap; color: var(--ink); background: var(--fill); transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
-.focusToggle[aria-pressed='true'] { width: auto; gap: 7px; padding: 0 14px 0 12px; font-weight: 500; font-size: 14px; }
 .focusToggle:hover { background: var(--card); box-shadow: 0 0 0 1px var(--hairline), 0 2px 8px rgb(20 24 18 / 0.08); }
 .mediaLayer { position: absolute; inset: 0; }
 
@@ -375,7 +367,7 @@
   .frame[data-focus] .head { grid-area: head; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'lede' 'aside'; row-gap: 10px; align-self: start; }
   .frame[data-focus] .title { font-size: clamp(38px, 3vw, 50px); }
   .frame[data-focus] .lede .swapItem { white-space: normal; }
-  .frame[data-focus] .headMeta { flex-wrap: wrap; margin-top: 8px; }
+  .frame[data-focus] .headAside { flex-wrap: wrap; margin-top: 8px; }
   .frame[data-focus] .facts { grid-area: facts; align-self: start; grid-template-columns: minmax(0, 1fr); gap: 0; margin: 22px 0 0; padding: 0; border: 0; }
   .frame[data-focus] .facts > div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 14px 0; border-top: 1px solid var(--hairline); }
   .frame[data-focus] .facts > div:last-child { border-bottom: 1px solid var(--hairline); }
@@ -428,18 +420,16 @@
   .grid[data-mobile-panel='details'] .stageColumn { display: none; }
   .frame[data-focus] .grid[data-mobile-panel='building'] .panel { display: flex; }
   .frame[data-focus] .explorer { padding: 10px; }
-  .focusToggle[aria-pressed='true'] { width: 38px; padding: 0; }
+  .focusToggle { width: 38px; padding: 0; }
   .focusToggle span { display: none; }
   .panel { padding: 16px 16px 12px; border-radius: 18px; }
   .head { grid-template-areas: 'title aside' 'lede lede'; gap: 6px 10px; align-items: center; }
   .headText { display: contents; }
   .title { grid-area: title; white-space: nowrap; overflow: hidden; min-width: 0; }
-  .stepCount { display: none; }
-  .stepButton { width: 36px; height: 36px; }
-  .lede { grid-area: lede; margin-top: 2px; }
+      .lede { grid-area: lede; margin-top: 2px; }
   .headAside { grid-area: aside; }
   .headAside { width: auto; flex-direction: row; align-items: center; gap: 6px; }
-  .headMeta .toneTag, .enquireText { display: none; }
+  .headAside .toneTag, .enquireText { display: none; }
   .enquire { width: 40px; height: 40px; padding: 0; justify-content: center; }
   .enquireIcon { background: none; }
   .title { font-size: 28px; }
