@@ -2,9 +2,9 @@ import type { ResidenceMedia } from './index';
 
 const base = '/projects/building-preview/apartments/front-view';
 
-// Approved Front View production assets. Film is one unified 30-second native 1080p generation.
+// Approved Front View production assets. Film is one unified 30-second native 1080p generation with the synchronized locator map.
 export const frontViewMedia: ResidenceMedia = {
- film: { src: `${base}/walkthrough-30s-1080-v2.mp4`, poster: `${base}/images/01_living_v1.webp` },
+ film: { src: `${base}/walkthrough-30s-1080-map-v3.mp4`, poster: `${base}/images/01_living_v1.webp` },
  model: `${base}/apartment-v2.glb`,
  modelOrbit: '25deg 45deg 80.75%',
  images: [

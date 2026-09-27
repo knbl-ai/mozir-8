@@ -682,3 +682,8 @@ Use the Front Residence material review as the shared contrast baseline: warm li
 The interactive viewer uses a warm charcoal radial background (`#827c73` → `#66615b` → `#4c4945`), neutral environment and exposure 1.05. The downloadable HTML viewer should match. Compare materials under identical lighting before adjusting exposure.
 
 Run `python3 scripts/improve-apartment-materials.py` from the website repo to create `apartment-v2.glb` from each original v1 GLB using `scripts/apartment-materials.json`. This material-only step preserves geometry buffers, nodes and accessors; it does not modify Blender production scenes. Reapply after a fresh Blender export. Inspect all three models in a browser, then regenerate asset ZIPs through the normal build. Version model URLs to avoid stale cached assets.
+
+
+### Front 1080p locator restoration — September 27, 2026
+
+The unified 30-second Front film now includes the approved floating map, silhouette outline and shadow. Rebuild with `pipeline/apartments/front_video_map_composite_1080.py` in the production workspace. It uses V13 camera samples (identical to V11 frames 1–360 then 409–720), maps locator jumps to measured generated-video cuts, and hides the map at 28 seconds for the overhead finale. In-shot position is guide-based and approximate, not optical tracking of generated footage. Deliver 1920×1080 H264, 24fps, 720 frames, silent, faststart; refresh the website media path and downloadable ZIP together.
