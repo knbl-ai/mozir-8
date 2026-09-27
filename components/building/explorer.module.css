@@ -433,13 +433,13 @@
   .frame[data-focus] .panel {
     display: grid; grid-template-columns: minmax(260px, 330px) minmax(0, 1fr); grid-template-rows: auto auto auto minmax(0, 1fr) auto;
     grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
-    grid-template-areas: 'head tabs' 'head media' 'contact media' 'facts media' '. media' 'actions media'; column-gap: 32px; padding: 28px;
+    grid-template-areas: 'head tabs' 'head media' 'facts media' 'contact media' '. media' 'actions media'; column-gap: 32px; padding: 28px;
   }
   .frame[data-focus] .head { grid-area: head; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'aside'; row-gap: 10px; align-self: start; }
   .frame[data-focus] .title { font-size: clamp(38px, 3vw, 50px); }
   .frame[data-focus] .head .headAside { justify-content: flex-start; }
   .frame[data-focus] .headAside { flex-wrap: wrap; margin-top: 8px; }
-  .frame[data-focus] .contact { grid-area: contact; flex-direction: column; align-items: stretch; margin-top: 18px; }
+  .frame[data-focus] .contact { grid-area: contact; flex-direction: column; align-items: stretch; margin-top: 22px; }
   .frame[data-focus] .contactActions { flex-wrap: wrap; }
   .frame[data-focus] .contactActions > * { flex: 1; justify-content: center; }
   .frame[data-focus] .facts { grid-area: facts; align-self: start; grid-template-columns: minmax(0, 1fr); gap: 0; margin: 22px 0 0; padding: 0; border: 0; }
