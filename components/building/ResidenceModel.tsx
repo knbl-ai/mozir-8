@@ -12,7 +12,7 @@ const ORBITS: Record<View, string> = { perspective: '25deg 45deg 80%', plan: '0d
 
 // One model-viewer for the explorer. Changing `src` (a different home's model) fades to a veil
 // and back in on load, instead of tearing down the viewer.
-export default function ResidenceModel({ src, poster }: { src: string; poster?: string }) {
+export default function ResidenceModel({ src, poster, defaultOrbit = ORBITS.perspective }: { src: string; poster?: string; defaultOrbit?: string }) {
  const t = explorerText[useLang()];
  const host = useRef<HTMLDivElement>(null);
  const [ready, setReady] = useState(false);
@@ -32,14 +32,14 @@ export default function ResidenceModel({ src, poster }: { src: string; poster?: 
  }, [ready]);
  const change = (next: View) => {
   const el = host.current?.querySelector('model-viewer') as Viewer | null;
-  if (el) el.cameraOrbit = ORBITS[next];
+  if (el) el.cameraOrbit = next === 'perspective' ? defaultOrbit : ORBITS[next];
   setView(next);
  };
  const loading = loadedSrc !== src && !error;
  return <div className={s.modelShell} ref={host}>
   {ready && createElement('model-viewer', {
    src, poster, alt: t.modelAlt,
-   'camera-controls': true, 'touch-action': 'pan-y', 'camera-orbit': ORBITS.perspective, 'interpolation-decay': '120',
+   'camera-controls': true, 'touch-action': 'pan-y', 'camera-orbit': defaultOrbit, 'interpolation-decay': '120',
    'min-camera-orbit': 'auto 0deg 9m', 'max-camera-orbit': 'auto 85deg 200%', 'field-of-view': '35deg',
    exposure: '1.05', 'shadow-intensity': '1', 'shadow-softness': '1', 'environment-image': 'neutral', 'interaction-prompt': 'none', loading: 'eager',
    style: { width: '100%', height: '100%' },

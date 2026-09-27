@@ -23,6 +23,9 @@ Copy into a new apartment workspace. Complete before expensive generation. Follo
 - Footprint irregularities and wall-angle checks:
 - Bedrooms / bathrooms / protected room:
 - Ceiling/opening heights: verified or assumed?
+- Review walls: full-height partitions (2.85 m assumed only if unspecified); ceiling hidden.
+- Foreground facade segments to hide / approximately 0.16 m section edges:
+- Overview and interior visibility presets checked (no default waist-height partitions):
 - Critical opening/fixture positions:
 - Terrace/garden boundary and access:
 - Unresolved dimensions:

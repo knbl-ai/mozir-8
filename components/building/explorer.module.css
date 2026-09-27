@@ -327,7 +327,7 @@
 .thumb[data-active='true'] { opacity: 1; outline-color: var(--accent); }
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .modelView { position: absolute; inset: 0; }
-.modelShell { position: absolute; inset: 0; background: linear-gradient(180deg, #f5f4f0, #e8e7e1); }
+.modelShell { position: absolute; inset: 0; background: linear-gradient(180deg, #bfc3c6, #a4aaaf); }
 .modelVeil {
   position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
   font-size: 13px; color: var(--ink-2); background: rgb(244 243 239 / 0.92);

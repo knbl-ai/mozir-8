@@ -1,0 +1,9 @@
+{
+  "source": "projects/building-preview/apartments/garden/model/Garden_04_Corridor_Blockout_Review.blend",
+  "objects": 944,
+  "bytes": 1951616,
+  "study_objects": 0,
+  "walls": "2.85m; roof and foreground exterior facade removed for viewing",
+  "materials": "PBR palette; Blender procedural textures not baked",
+  "compression": "Draco"
+}

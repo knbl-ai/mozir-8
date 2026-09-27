@@ -50,7 +50,10 @@ export default function BuildingExplorer({ project: source, frames }: { project:
 
  const selected = inventory.find(a => a.apartment === selectedId);
  const residence = project.residences.find(r => r.id === selected?.unit) ?? project.residences[0];
- const media = useMemo(() => resolveMedia(project, residence, selected?.apartment), [project, residence, selected?.apartment]);
+ const media = useMemo(() => {
+  const resolved = resolveMedia(project, residence, selected?.apartment);
+  return { ...resolved, images: localizeImages(resolved.images, lang) };
+ }, [project, residence, selected?.apartment, lang]);
  const navIndex = available.findIndex(a => a.apartment === selectedId);
 
  const select = (apartment: Apartment | ApartmentZone | undefined, { turn = false } = {}) => {

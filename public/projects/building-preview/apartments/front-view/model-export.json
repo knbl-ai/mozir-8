@@ -1,0 +1,9 @@
+{
+  "source": "projects/building-preview/apartments/front-view/model/Front_View_11_Living_Corridor_Review.blend",
+  "objects": 894,
+  "bytes": 1682148,
+  "study_objects": 23,
+  "walls": "2.85m; roof and foreground exterior facade removed for viewing",
+  "materials": "PBR palette; Blender procedural textures not baked",
+  "compression": "Draco"
+}
