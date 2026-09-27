@@ -2,9 +2,9 @@ import type { ResidenceMedia } from './index';
 
 const base = '/projects/building-preview/apartments/front-view';
 
-// Approved Front View production assets. Film is the 30-second 480p review version.
+// Approved Front View production assets. Film is one unified 30-second native 1080p generation.
 export const frontViewMedia: ResidenceMedia = {
- film: { src: `${base}/walkthrough-30s-v1.mp4`, poster: `${base}/images/01_living_v1.webp` },
+ film: { src: `${base}/walkthrough-30s-1080-v2.mp4`, poster: `${base}/images/01_living_v1.webp` },
  model: `${base}/apartment-v1.glb`,
  modelOrbit: '25deg 45deg 95%',
  images: [
