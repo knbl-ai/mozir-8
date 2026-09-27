@@ -46,12 +46,14 @@ export default function ApartmentPicker({ inventory, residences, listings, selec
        {inventory.filter(a => a.level === level).map(a => {
         const sold = a.status === 'sold', isSelected = a.apartment === selected?.apartment, r = residence(a), l = listings[a.apartment];
         const price = l && `${t.currency}${new Intl.NumberFormat('en-US').format(l.price)}`;
-        const detail = l && r ? `${t.aptNo(l.number)} · ${r.area} ${t.sqm}` : `${t.roomsCount(r?.rooms ?? 0)} · ${r?.outdoor}`;
+        // Up to three homes share a floor, so each option is short: the type, then number and price (or Sold).
+        const name = t.views[a.unit as keyof typeof t.views] ?? r?.shortTitle;
         return <button key={a.apartment} type="button" role="option" aria-selected={isSelected} disabled={sold} data-picker-selected={isSelected || undefined}
-         className={s.pickerOption} data-status={a.status} onClick={() => { onSelect(a); setOpen(false); }}
-         aria-label={`${floorName(a)}, ${r?.shortTitle}, ${t.roomsCount(r?.rooms ?? 0)}, ${detail}, ${price ?? t.sold}`}>
-         <span className={s.pickerOptionText}><strong>{r?.shortTitle}</strong><small>{detail}</small></span>
-         <span className={s.toneTag} data-tone={isSelected ? 'selected' : sold ? 'sold' : 'available'}>{isSelected && <Check className={s.pickerCheck} size={12} strokeWidth={2.4} aria-hidden />}{price ?? t.sold}</span>
+         className={s.pickerOption} data-status={a.status} data-unit={a.unit} onClick={() => { onSelect(a); setOpen(false); }}
+         aria-label={[floorName(a), r?.shortTitle, l && t.aptNo(l.number), l && `${r?.area} ${t.sqm}`, price ?? t.sold].filter(Boolean).join(', ')}>
+         <strong className={s.pickerName}>{name}{isSelected && <Check className={s.pickerCheck} size={13} strokeWidth={2.4} aria-hidden />}</strong>
+         {l ? <small className={s.pickerMeta}><span>{t.aptNo(l.number)}</span><span className={s.pickerSep} aria-hidden> · </span><span className={s.pickerPrice}>{price}</span></small>
+          : <small className={s.pickerMeta} data-tone="sold">{t.sold}</small>}
         </button>;
        })}
       </div>

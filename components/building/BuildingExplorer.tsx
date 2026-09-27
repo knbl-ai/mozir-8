@@ -20,7 +20,7 @@ import s from './explorer.module.css';
 
 const HOVER_INTENT_MS = 90;
 const ZOOM = 1.45; // the tower is framed close; matches .orbitZoom in the stylesheet
-const VIEWS = ['five-room', 'four-room', 'garden'] as const;
+const VIEWS = ['five-room', 'four-room', 'garden', 'compact'] as const;
 type ViewId = (typeof VIEWS)[number];
 const TABS: { value: MediaTab; icon: typeof Play }[] = [
  { value: 'plan', icon: LayoutPanelLeft }, { value: 'film', icon: Play }, { value: 'images', icon: Images }, { value: 'model', icon: Box }, { value: 'about', icon: Info },
@@ -102,6 +102,25 @@ export default function BuildingExplorer({ project: source, frames }: { project:
   return () => clearTimeout(timer);
  }, [selectedId]);
 
+ // The name stays on one line: when it is wider than the room beside the tags, it steps down in size
+ // (to 60% of the stylesheet's) instead of wrapping and pushing the facts down.
+ const titleRef = useRef<HTMLHeadingElement>(null);
+ useEffect(() => {
+  const title = titleRef.current;
+  if (!title) return;
+  const fit = () => {
+   title.style.fontSize = '';
+   const full = parseFloat(getComputedStyle(title).fontSize);
+   const need = title.scrollWidth, room = title.clientWidth;
+   if (need > room) title.style.fontSize = `${Math.max(full * 0.6, Math.floor(full * room / need))}px`;
+  };
+  fit();
+  const observer = new ResizeObserver(fit);
+  observer.observe(title);
+  document.fonts?.ready.then(fit).catch(() => {});
+  return () => observer.disconnect();
+ }, [residence.shortTitle, focus]);
+
  // The tab names the address and the agency in the visitor's language. Next's metadata writes the
  // static (English) title after hydration, so hold ours against later changes to <head>.
  useEffect(() => {
@@ -167,7 +186,11 @@ export default function BuildingExplorer({ project: source, frames }: { project:
    </button>
    </div>
    <div className={s.headerViews}>
-    <SegmentedControl id="header-view" label={t.viewsLabel} variant="header" value={(selected?.unit ?? 'five-room') as ViewId} onChange={chooseView} options={VIEWS.map(value => ({ value, label: t.views[value] }))} />
+    <SegmentedControl id="header-view" label={t.viewsLabel} variant="header" value={(selected?.unit ?? 'five-room') as ViewId} onChange={chooseView} options={VIEWS.map(value => {
+     // A type with nothing for sale stays in view, so the building's whole mix is visible, but can't be chosen.
+     const none = !available.some(a => a.unit === value);
+     return { value, label: t.views[value], disabled: none, title: none ? `${t.views[value]} · ${t.noneAvailable}` : undefined };
+    })} />
    </div>
    <div className={s.headerPicker}>
     <ApartmentPicker inventory={inventory} residences={project.residences} listings={project.listings} selected={selected} onSelect={a => select(a, { turn: true })} />
@@ -184,7 +207,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
           media below keeps the height. */}
       <motion.div layout="position" transition={SOFT_SPRING} className={s.head}>
        <div className={s.headText}>
-        <h2 className={s.title}><SwapValue value={residence.shortTitle} order={navIndex} /></h2>
+        <h2 ref={titleRef} className={s.title}><SwapValue value={residence.shortTitle} order={navIndex} /></h2>
         {/* Phones: number and price under the name, in place of the tag and the price row. */}
         {listing && <p className={s.titleMeta}><SwapValue value={`${t.aptNo(listing.number)} · ${t.currency}${formatPrice(listing.price)}`} order={listing.number} /></p>}
        </div>

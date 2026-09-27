@@ -35,22 +35,22 @@ await page.mouse.up();
 await settle(page);
 check((await angle()) !== start, `drag with a flick turns the building (${start} → ${await angle()})`);
 
-await page.getByRole('radio', { name: 'Rear' }).click();
+await page.getByRole('radio', { name: '4 rooms' }).click();
 await page.waitForTimeout(250);
 await page.screenshot({ path: `${out}/explorer-turning.png` });
 check(await page.locator('[data-moving]').count() === 1 && await page.locator('svg polygon').count() > 0, 'apartment overlays stay on screen while the building turns');
 await settle(page);
-check((await angle()).includes('angle 37 of'), `Rear turns to the rear elevation (${await angle()})`);
-check((await page.locator('h2').textContent()).includes('Rear residence'), 'Rear selects a rear home');
+check((await angle()).includes('angle 37 of'), `4 rooms turns to the rear elevation (${await angle()})`);
+check((await page.locator('h2').textContent()).includes('4-room apartment'), '4 rooms selects a rear home');
 check(await page.getByText('FOR SALE', { exact: true }).count() > 0, 'the chosen home keeps its FOR SALE label with the pointer elsewhere');
 
 
 await page.getByRole('button', { name: /Choose an apartment/ }).click();
 await page.waitForTimeout(400);
 await page.screenshot({ path: `${out}/explorer-picker.png` });
-await page.getByRole('option', { name: /Floor 7, Front residence/ }).click();
+await page.getByRole('option', { name: /Floor 7, 5-room apartment/ }).click();
 await settle(page);
-check((await page.locator('h2').textContent()).includes('Front residence'), 'picker selects Floor 7 front');
+check((await page.locator('h2').textContent()).includes('5-room apartment'), 'picker selects Floor 7 front');
 await page.waitForTimeout(500);
 check(page.url().includes('apt=front-07'), `URL carries the home (${page.url()})`);
 
@@ -88,7 +88,7 @@ await page.screenshot({ path: `${out}/explorer-reference.png` });
 const deep = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 await deep.goto(`${base}${pagePath}?apt=rear-04#explore`, { waitUntil: 'networkidle' });
 await deep.waitForTimeout(2200);
-check((await deep.locator('h2').textContent()).includes('Rear residence') && (await deep.locator('main').textContent()).includes('Floor 4'), 'deep link opens rear-04');
+check((await deep.locator('h2').textContent()).includes('4-room apartment') && (await deep.locator('main').textContent()).includes('Floor 4'), 'deep link opens rear-04');
 // Opening on a home turns the building at mount — under React's dev double-mount this once left the
 // turn loop dead: no overlays, no dragging.
 await settle(deep);

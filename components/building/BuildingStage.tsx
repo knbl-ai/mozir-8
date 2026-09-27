@@ -12,15 +12,15 @@ import { explorerText } from './strings';
 import type { FrameSequence } from './useFrameSequence';
 import s from './explorer.module.css';
 
-// Map a flat label onto a projected facade quad, including perspective foreshortening.
+// Lay a flat 160×28 label onto a projected facade quad (corners: top-left, top-right, bottom-right,
+// bottom-left): the parallelogram that best fits it, centred on it. Affine on purpose — every engine
+// draws a 2D matrix alike, while WebKit renders perspective (matrix3d) inconsistently on phones.
 function facadeTransform(p: [number, number][]) {
  const [[x0, y0], [x1, y1], [x2, y2], [x3, y3]] = p;
- const dx1 = x1 - x2, dx2 = x3 - x2, dx3 = x0 - x1 + x2 - x3;
- const dy1 = y1 - y2, dy2 = y3 - y2, dy3 = y0 - y1 + y2 - y3;
- const denominator = dx1 * dy2 - dx2 * dy1;
- const g = Math.abs(denominator) > 1e-8 ? (dx3 * dy2 - dx2 * dy3) / denominator : 0;
- const h = Math.abs(denominator) > 1e-8 ? (dx1 * dy3 - dx3 * dy1) / denominator : 0;
- return `matrix3d(${[(x1 - x0 + g * x1) / 160, (y1 - y0 + g * y1) / 160, 0, g / 160, (x3 - x0 + h * x3) / 28, (y3 - y0 + h * y3) / 28, 0, h / 28, 0, 0, 1, 0, x0, y0, 0, 1].join(',')})`;
+ const ux = (x1 - x0 + x2 - x3) / 320, uy = (y1 - y0 + y2 - y3) / 320;
+ const vx = (x3 - x0 + x2 - x1) / 56, vy = (y3 - y0 + y2 - y1) / 56;
+ const cx = (x0 + x1 + x2 + x3) / 4, cy = (y0 + y1 + y2 + y3) / 4;
+ return `matrix(${[ux, uy, vx, vy, cx - 80 * ux - 14 * vx, cy - 80 * uy - 14 * vy].join(',')})`;
 }
 
 const HINT_KEY = 'explorer.dragHintSeen';
@@ -52,6 +52,20 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
   const id = el && stageRef.current?.contains(el) ? el.getAttribute('data-apartment') : null;
   return frame?.hotspots.find(h => h.apartment === id) ?? null;
  };
+
+ // Facade labels live in an HTML layer the size of the SVG's 800×900 viewBox, scaled to the stage.
+ // (Inside the SVG, as foreignObject, WebKit misplaces transformed HTML: labels jumped off the building on iPhones.)
+ const labelLayer = useRef<HTMLDivElement>(null);
+ const hasFrame = Boolean(frame);
+ useEffect(() => {
+  const layer = labelLayer.current, box = layer?.parentElement;
+  if (!layer || !box) return;
+  const fit = () => { layer.style.transform = `scale(${box.clientWidth / 800})`; };
+  fit();
+  const observer = new ResizeObserver(fit);
+  observer.observe(box);
+  return () => observer.disconnect();
+ }, [hasFrame, engine.failed]);
 
  // A turn swaps the polygons under a still pointer without a pointerenter; re-read what's under it.
  useEffect(() => {
@@ -129,10 +143,16 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
        onPointerEnter={() => { if (!press.current && !turning) onHover(h, false); }}>
        <title>{`${/ground/i.test(h.floor) ? t.groundFloor : t.floorN(Number(h.floor.replace(/\D+/g, '')))} · ${project.residences.find(u => u.id === h.unit)?.shortTitle} · ${h.status === 'sold' ? t.sold : t.available}`}</title>
       </polygon>)}
-      {labels.map(h => <foreignObject key={h.apartment} x="0" y="0" width="800" height="900" className={s.facadeLayer}>
-       <div className={s.facadeLabel} data-status={h.status} data-idle={(h.apartment !== hovered && h.apartment !== selectedApartment) || undefined} style={{ transform: facadeTransform(h.labelPoints) }}>{h.status === 'sold' ? t.facadeSold : t.facadeForSale}</div>
-      </foreignObject>)}
      </svg>}
+     {frame && !engine.failed && <div ref={labelLayer} className={s.facadeLayer} aria-hidden>
+      {labels.map(h => {
+       // Homes on sale carry their listed number under the status, so the facade matches the listing.
+       const number = h.status === 'sold' ? undefined : project.listings[h.apartment]?.number;
+       return <div key={h.apartment} className={s.facadeLabel} data-status={h.status} data-numbered={number ? true : undefined} data-idle={(h.apartment !== hovered && h.apartment !== selectedApartment) || undefined} style={{ transform: facadeTransform(h.labelPoints) }}>
+        <span>{h.status === 'sold' ? t.facadeSold : t.facadeForSale}</span>{number && <span className={s.facadeApt}>{t.aptNo(number)}</span>}
+       </div>;
+      })}
+     </div>}
     </div>
    </div>
 

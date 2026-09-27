@@ -131,7 +131,7 @@
 .headText { display: contents; }
 .head .title { grid-area: title; min-width: 0; }
 .headAside { grid-area: aside; display: flex; align-items: center; gap: 8px; }
-.title { margin: 0; font: 400 clamp(40px, 3.7vw, 62px)/1.02 var(--display); letter-spacing: -0.02em; color: var(--ink); }
+.title { margin: 0; font: 400 clamp(40px, 3.7vw, 62px)/1.02 var(--display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
 .facts { margin: 16px 0 0; padding: 16px 0; display: grid; grid-template-columns: repeat(4, max-content) minmax(0, max-content); justify-content: space-between; gap: 16px; border-block: 1px solid var(--hairline); }
 .facts dt { font-weight: 500; font-size: 12px; color: var(--ink-3); }
 .facts dd { margin: 6px 0 0; }
@@ -214,7 +214,7 @@
 .hotspots .zoneSold, .hotspots .zoneHidden, .hotspots .zoneSoldHover { cursor: default; }
 .zoneSoldHover { fill: rgb(162 72 63 / 0.28); stroke: var(--sold); stroke-width: 2; }
 .zoneHidden { fill: transparent; stroke: transparent; }
-.facadeLayer { pointer-events: none; overflow: visible; direction: ltr; } /* the label is mapped from a left-origin box */
+.facadeLayer { position: absolute; left: 0; top: 0; width: 800px; height: 900px; transform-origin: 0 0; pointer-events: none; direction: ltr; } /* viewBox units; labels map from a left-origin box */
 .facadeLabel {
   position: absolute; left: 0; top: 0; width: 160px; height: 28px; transform-origin: 0 0;
   display: flex; align-items: center; justify-content: center; white-space: nowrap; pointer-events: none;
@@ -223,6 +223,9 @@
   transition: opacity 0.25s var(--ease);
 }
 .facadeLabel[data-status='sold'] { color: #873b35; }
+/* The number sits under the status, both lifted a little so the pair stays centred on the floor. */
+.facadeLabel[data-numbered] > span:first-child { transform: translateY(-9px); }
+.facadeApt { position: absolute; left: 0; right: 0; top: calc(100% - 7px); text-align: center; font: 700 15px/1 Arial, sans-serif; letter-spacing: 1px; }
 .facadeLabel[data-idle] { opacity: 0.5; }
 .stage[data-mode='info'] { cursor: default; }
 .projectLayer { position: absolute; inset: 0; z-index: 2; }
@@ -311,7 +314,7 @@
 .pickerChevron { grid-area: chevron; color: var(--ink-3); transition: transform 0.35s var(--ease); }
 .pickerTrigger[data-state='open'] .pickerChevron { transform: rotate(180deg); }
 .pickerContent {
-  z-index: 50; width: 470px; max-height: min(600px, var(--radix-popover-content-available-height)); display: flex; flex-direction: column;
+  z-index: 50; width: 520px; max-height: min(600px, var(--radix-popover-content-available-height)); display: flex; flex-direction: column;
   padding: 8px; border-radius: 20px; background: rgb(255 255 255 / 0.86); border: 1px solid var(--hairline); box-shadow: var(--shadow-float);
   backdrop-filter: blur(28px) saturate(1.6); -webkit-backdrop-filter: blur(28px) saturate(1.6);
   transform-origin: var(--radix-popover-content-transform-origin);
@@ -327,19 +330,23 @@
 .pickerFloor { display: grid; grid-template-columns: 30px 1fr; align-items: center; gap: 6px; padding: 4px 0; border-top: 1px solid var(--hairline); }
 .pickerFloor:first-child { border-top: 0; }
 .pickerLevel { text-align: center; font: 400 20px/1 var(--display); color: var(--ink-3); }
-.pickerRow { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; }
-.pickerOption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 10px; border-radius: 12px; text-align: start; transition: background 0.15s var(--ease); }
+/* Three columns follow the floor: two compact front homes and the rear one. On floors 6–7 the large
+   front home takes both front columns; the garden home has the ground floor to itself. */
+.pickerRow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.pickerOption[data-unit='five-room'] { grid-column: span 2; }
+.pickerOption[data-unit='garden'] { grid-column: 1 / -1; }
+.pickerOption { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 9px 10px; border-radius: 12px; text-align: start; transition: background 0.15s var(--ease); }
 .pickerOption:hover:not(:disabled) { background: var(--fill); }
 .pickerOption[aria-selected='true'] { background: var(--brand-blue-tint); }
 .pickerOption:disabled { cursor: not-allowed; }
-.pickerOption:disabled .pickerOptionText { opacity: 0.45; }
-.pickerOptionText { min-width: 0; }
-.pickerOptionText strong, .pickerOptionText small { white-space: nowrap; }
-.pickerOptionText strong { display: block; font-weight: 500; font-size: 13px; }
-.pickerOptionText small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--ink-3); }
-.pickerOption .toneTag { height: 22px; padding: 0 8px; font-size: 11px; flex: none; }
-.pickerCheck { flex: none; margin-inline-end: -2px; }
-.pickerOption .toneTag[data-tone='selected'] { gap: 4px; color: #fff; background: var(--brand-blue); }
+.pickerName { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; font-weight: 500; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pickerOption:disabled .pickerName { opacity: 0.45; }
+.pickerOption[aria-selected='true'] .pickerName { color: var(--brand-blue); }
+.pickerMeta { max-width: 100%; font-size: 11.5px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.pickerMeta[data-tone='sold'] { color: var(--sold); opacity: 0.75; }
+.pickerPrice { font-weight: 500; color: var(--available); }
+.pickerOption[aria-selected='true'] .pickerPrice { color: var(--brand-blue); }
+.pickerCheck { flex: none; }
 
 /* ── Media ──────────────────────────────────────────────────────────────── */
 .sampleTag {
@@ -483,11 +490,30 @@
   .headAside .toneTag { display: none; }
 }
 /* Mid widths: the address keeps its street, the neighbourhood line goes first. */
+/* Four apartment types in the top bar: tighter options below 1440 so the address keeps its words. */
+@media (max-width: 1440px) and (min-width: 1101px) {
+  .segmented_header .segment { padding: 0 16px; }
+}
+@media (max-width: 1400px) and (min-width: 761px) { .addressChip small { display: none; } }
+@media (max-width: 1240px) and (min-width: 761px) { .addressChip > span { display: none; } }
 @media (max-width: 1320px) and (min-width: 761px) {
   .addressChip small, .contactName small { display: none; }
+  .segmented_header .segment { padding: 0 12px; }
   .brand > span { display: none; }
   .headerStart { gap: 10px; }
   .stageBottom .segmentLabel svg { display: none; }
+}
+
+/* Tablets: the tags and buttons move under the name, which gets the panel's full width. In the top
+   bar the address folds into its pin (the Project view still names it) so the four types fit. */
+@media (max-width: 1024px) and (min-width: 761px) {
+  .head { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'aside'; row-gap: 10px; }
+  .head .headAside { justify-content: flex-start; }
+  .header { gap: 10px; }
+  .headerStart { gap: 10px; }
+  .segmented_header .segment { padding: 0 11px; font-size: 13px; }
+  .pickerTrigger { min-width: 0; width: 190px; }
+  .pickerValue { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }
 
 /* Narrow tablets: the price takes a row of its own under the other figures. */
@@ -516,7 +542,12 @@
   .headerPicker .pickerTrigger { width: auto; flex: 1 1 auto; max-width: 200px; }
   .pickerValue, .pickerCaption { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pickerValue { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .pickerContent { width: calc(100vw - 24px); }
+  .pickerContent { width: calc(100vw - 24px); background: rgb(255 255 255 / 0.97); }
+  /* A third of a phone is narrow: number and price take a line each. */
+  .pickerMeta:not([data-tone]) span { display: block; }
+  .pickerMeta:not([data-tone]) .pickerSep { display: none; }
+  .pickerOption { padding: 8px 6px; }
+  .pickerMeta { font-size: 11px; }
   .explorer { height: calc(100dvh - 116px); padding: 10px 12px 12px; scroll-margin-top: 0; }
   .mobileTabs { display: block; margin-bottom: 8px; flex: none; }
   .mobileTabs .segment, .tabs .segment { height: 30px; }

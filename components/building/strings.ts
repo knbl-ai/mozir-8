@@ -3,8 +3,9 @@ import type { Lang } from '@/lib/i18n';
 // Every word the Sales Gallery shows, apart from the residences themselves (content/projects).
 const en = {
  brand: 'Residences', allDemos: 'Residences — all demos',
- views: { 'five-room': 'Front', 'four-room': 'Rear', garden: 'Garden' },
- viewsLabel: 'Residence layouts',
+ views: { 'five-room': '5 rooms', 'four-room': '4 rooms', garden: 'Garden', compact: 'Compact' },
+ noneAvailable: 'None available right now',
+ viewsLabel: 'Apartment types',
  tabs: { plan: 'Floor plan', film: 'Film', images: 'Images', model: '3D', about: 'About' },
  homePreview: 'Home preview',
  exploreBuilding: 'Explore the building', show: 'Show', building: 'Building', homeDetails: 'Home details', details: 'Details', selectedHome: 'Selected home',
@@ -64,7 +65,8 @@ export type ExplorerText = typeof en;
 
 const he: ExplorerText = {
  brand: 'Residences', allDemos: 'Residences — כל ההדגמות',
- views: { 'five-room': 'חזית', 'four-room': 'עורף', garden: 'גן' },
+ views: { 'five-room': '5 חדרים', 'four-room': '4 חדרים', garden: 'גן', compact: 'קומפקטית' },
+ noneAvailable: 'אין דירות זמינות כרגע',
  viewsLabel: 'סוגי הדירות',
  tabs: { plan: 'תוכנית', film: 'סרטון', images: 'תמונות', model: 'תלת־ממד', about: 'על הדירה' },
  homePreview: 'תצוגת הדירה',

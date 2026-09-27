@@ -9,7 +9,8 @@ export const polygonArea = (points: string) => {
 
 export const levelOf = (floor: string) => (/ground/i.test(floor) ? 0 : Number(floor.replace(/\D+/g, '')) || 0);
 
-const UNIT_ORDER = ['garden', 'five-room', 'four-room'];
+// Along a floor as the building is laid out: the front (one large home, or two compact ones), then the rear.
+const UNIT_ORDER = ['garden', 'five-room', 'compact', 'four-room'];
 
 // One entry per apartment, with the frame that shows it largest — where a turn to it should land.
 export function buildInventory(frames: BuildingFrame[]): Apartment[] {
