@@ -31,7 +31,7 @@ await gallery.waitForTimeout(600);
 const galleryUrl = new URL(gallery.url());
 check(galleryUrl.searchParams.get('lang') === 'he' && !!galleryUrl.searchParams.get('apt'), 'choosing a home keeps ?lang=he beside ?apt=', galleryUrl.search);
 await gallery.getByRole('radio', { name: 'English' }).click();
-check(await dir(gallery) === 'en/ltr' && !new URL(gallery.url()).searchParams.has('lang'), 'Sales Gallery switches back to English and drops ?lang');
+check(await dir(gallery) === 'en/ltr' && new URL(gallery.url()).searchParams.get('lang') === 'en', 'Sales Gallery switches back to English and says so: ?lang=en');
 
 const mozir = await context.newPage();
 await mozir.goto(`${base}/mozir-8.html?lang=he`, { waitUntil: 'networkidle' });
@@ -42,6 +42,12 @@ check((await mozir.locator('#hero-title').innerText()).includes('לחיות'), '
 const plain = await context.newPage();
 await plain.goto(`${base}/mozir-8.html`, { waitUntil: 'networkidle' });
 check(await dir(plain) === 'he/rtl', 'without ?lang the last language used wins');
+check(new URL(plain.url()).searchParams.get('lang') === 'he', 'and the address gains ?lang=he, so a copied link opens in Hebrew');
+
+// An English link opens in English even for a visitor whose last language was Hebrew.
+const english = await context.newPage();
+await english.goto(`${base}/projects/building-preview.html?lang=en`, { waitUntil: 'networkidle' });
+check(await dir(english) === 'en/ltr', 'a ?lang=en link opens in English after a Hebrew visit');
 
 check(!errors.length, 'no page errors', errors.join(' | '));
 await browser.close();

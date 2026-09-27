@@ -31,14 +31,21 @@ const applyToDocument = (lang: Lang) => {
  root.setAttribute('data-lang-ready', '');
 };
 
-export function setLang(lang: Lang) {
- current = lang;
+// The address always names the language shown, English included, so a copied link opens in the
+// language it was copied in, whatever the recipient used last.
+const writeLangToUrl = (lang: Lang) => {
  try {
-  window.localStorage.setItem(LANG_STORAGE_KEY, lang);
   const url = new URL(window.location.href);
-  if (lang === 'en') url.searchParams.delete(LANG_PARAM); else url.searchParams.set(LANG_PARAM, lang);
+  if (url.searchParams.get(LANG_PARAM) === lang) return;
+  url.searchParams.set(LANG_PARAM, lang);
   window.history.replaceState(window.history.state, '', url);
  } catch { /* sandboxed */ }
+};
+
+export function setLang(lang: Lang) {
+ current = lang;
+ try { window.localStorage.setItem(LANG_STORAGE_KEY, lang); } catch { /* storage blocked */ }
+ writeLangToUrl(lang);
  applyToDocument(lang);
  listeners.forEach(l => l());
 }
@@ -47,13 +54,12 @@ export function setLang(lang: Lang) {
 // then a Hebrew visit keeps the body hidden (see globals.css), so English never flashes.
 export function useLang(): Lang {
  const lang = useSyncExternalStore(subscribe, snapshot, () => 'en' as Lang);
- useEffect(() => { applyToDocument(lang); }, [lang]);
+ useEffect(() => { applyToDocument(lang); writeLangToUrl(lang); }, [lang]);
  return lang;
 }
 
 // Keep the language on links that open another demo, so a new tab opens in the same language.
 export function withLang(href: string, lang: Lang) {
- if (lang === 'en') return href;
  const [path, hash] = href.split('#');
  const joined = `${path}${path.includes('?') ? '&' : '?'}${LANG_PARAM}=${lang}`;
  return hash === undefined ? joined : `${joined}#${hash}`;
