@@ -6,7 +6,10 @@
     "dev": "next dev --webpack --hostname 0.0.0.0",
     "build": "next build --webpack",
     "start": "python3 -m http.server 3088 --directory out",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "assets:downloads": "node --import tsx scripts/build-downloads.cjs",
+    "prebuild": "npm run assets:downloads",
+    "predev": "npm run assets:downloads"
   },
   "dependencies": {
     "@google/model-viewer": "4.3.1",
@@ -24,7 +27,9 @@
     "@types/node": "26.6.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "fflate": "^0.8.3",
     "tailwindcss": "4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "7.0.2"
   },
   "engines": {

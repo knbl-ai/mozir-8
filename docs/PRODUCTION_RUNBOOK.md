@@ -668,3 +668,9 @@ When only one continuous section fails and later rooms are accepted, regenerate 
 Garden and Rear View now use native720p videos with276px transparent locator canvases and15px bottom/right inset, preserving the earlier proportional overlay size. Render each residence’s own cutaway and project its current v2 camera trajectory through that same map camera. Warm-white silhouette edge and soft shadow; no panel/circle. Hide the map at28s for the full-apartment ending. Trim any provider extra final frame in the mapped delivery to retain exactly720frames/30s. Preserve generated originals.
 
 Register typed per-residence media modules, English/Hebrew gallery labels, own GLB and starting camera orbit. Use versioned media paths to avoid stale playback caches. Verify actual720p playback, image counts/loads, correct model source/load, typecheck and production build; keep parallel UI edits intact. The guide-derived map remains an approximate locator where AI motion deviates.
+
+### Buyer asset downloads
+
+The Sales Gallery download icon packages the active residence layout: current MP4, gallery WebP images in display order, original floor plan and GLB. `npm run assets:downloads` reads the same residence media records as the UI; it runs before dev/build. ZIPs in `public/downloads/` are generated and ignored by Git. Keep all source assets committed so Vercel can regenerate them.
+
+Each ZIP includes a README and `3D/Open apartment.html` with an embedded GLB. Buyers extract it and double-click the HTML to rotate/zoom without installing Blender or running a server. Internet is required for the pinned model-viewer library and decoders; offline users can import the separate GLB into Blender. GLB is a presentation model, not CAD or the original .blend scene. Assets are shared per layout, not floor-specific. After changing media, rebuild and verify ZIP contents and viewer loading.

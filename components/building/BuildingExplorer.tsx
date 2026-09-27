@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, MotionConfig } from 'motion/react';
 import * as Popover from '@radix-ui/react-popover';
-import { Box, Building2, ChevronRight, Eye, Images, Info, LayoutPanelLeft, MessageCircle, Play } from 'lucide-react';
+import { Box, Building2, ChevronRight, Download, Eye, Images, Info, LayoutPanelLeft, MessageCircle, Play } from 'lucide-react';
 import { localizeDevelopment, localizeImages, localizeResidence, resolveMedia, type ApartmentZone, type BuildingFrame, type Development } from '@/content/projects';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
@@ -161,6 +161,9 @@ export default function BuildingExplorer({ project: source, frames }: { project:
          {focus ? <Building2 size={16} strokeWidth={1.7} aria-hidden /> : <Eye size={16} strokeWidth={1.7} aria-hidden />}<span>{focus ? t.building : t.stepInside}</span>
         </button>
         {enquire}
+        {residence.media && <a className={s.downloadAssets} href={`/downloads/${project.id}/${residence.id}.zip`} download={`${residence.id}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
+         <Download size={18} strokeWidth={1.7} aria-hidden />
+        </a>}
        </div>
       </motion.div>
       <motion.dl layout="position" transition={SOFT_SPRING} className={s.facts}>

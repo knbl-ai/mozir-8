@@ -7,3 +7,5 @@ review/
 .vercel/
 .env*
 .DS_Store
+
+public/downloads/
