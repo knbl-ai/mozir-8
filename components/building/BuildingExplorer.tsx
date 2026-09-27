@@ -156,13 +156,13 @@ export default function BuildingExplorer({ project: source, frames }: { project:
        </div>
        <div className={s.headAside}>
         <span className={s.toneTag} data-tone="available"><i />{t.available}</span>
-        <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
+        {!focus && <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
          aria-label={focus ? t.backToBuilding : t.stepInsideLabel} title={focus ? t.backToBuildingTitle : t.stepInsideTitle}>
          {focus ? <Building2 size={16} strokeWidth={1.7} aria-hidden /> : <Eye size={16} strokeWidth={1.7} aria-hidden />}<span>{focus ? t.building : t.stepInside}</span>
-        </button>
+        </button>}
         {enquire}
        </div>
-        {residence.media && <a className={s.downloadAssets} href={`/downloads/${project.id}/${residence.id}.zip`} download={`${residence.id}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
+        {!focus && residence.media && <a className={s.downloadAssets} href={`/downloads/${project.id}/${residence.id}.zip`} download={`${residence.id}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
          <Download size={18} strokeWidth={1.7} aria-hidden />
         </a>}
       </motion.div>
@@ -172,6 +172,14 @@ export default function BuildingExplorer({ project: source, frames }: { project:
        <div><dt title={t.interiorTitle}>{t.interior}<span className={s.approx}>{t.approx}</span></dt><dd className={s.factNumber}><SwapValue value={String(residence.area)} /><span className={s.factUnit}>{t.sqm}</span></dd></div>
        <div><dt>{t.outdoor}</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} /><span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} ${t.sqm}`} order={residence.outdoorArea} /></span></dd></div>
       </motion.dl>
+      {focus && <div className={s.focusActions}>
+       {residence.media && <a className={s.downloadAssets} href={`/downloads/${project.id}/${residence.id}.zip`} download={`${residence.id}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
+        <Download size={18} strokeWidth={1.7} aria-hidden />
+       </a>}
+       <button type="button" className={s.focusToggle} onClick={() => setFocus(false)} aria-label={t.backToBuilding} title={t.backToBuildingTitle}>
+        <Building2 size={16} strokeWidth={1.7} aria-hidden /><span>{t.building}</span>
+       </button>
+      </div>}
       <motion.div layout="position" transition={SOFT_SPRING} className={s.tabs}>
        <SegmentedControl id="media" label={t.homePreview} role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS.map(o => ({ ...o, label: t.tabs[o.value] }))} />
       </motion.div>

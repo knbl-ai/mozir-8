@@ -372,10 +372,10 @@
 @media (min-width: 761px) {
   .frame[data-focus] .explorer { padding: 20px; }
   .frame[data-focus] .panel {
-    display: grid; grid-template-columns: minmax(260px, 330px) minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr);
-    grid-template-areas: 'head tabs' 'head media' 'facts media'; column-gap: 32px; padding: 28px;
+    display: grid; grid-template-columns: minmax(260px, 330px) minmax(0, 1fr); grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+    grid-template-areas: 'head tabs' 'head media' 'facts media' '. media' 'actions media'; column-gap: 32px; padding: 28px;
   }
-  .frame[data-focus] .head { grid-area: head; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'lede' 'aside' 'download'; row-gap: 10px; align-self: start; }
+  .frame[data-focus] .head { grid-area: head; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'title' 'lede' 'aside'; row-gap: 10px; align-self: start; }
   .frame[data-focus] .title { font-size: clamp(38px, 3vw, 50px); }
   .frame[data-focus] .lede .swapItem { white-space: normal; }
   .frame[data-focus] .headAside { flex-wrap: wrap; margin-top: 8px; }
@@ -500,3 +500,5 @@
 .downloadAssets:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
 .head > .downloadAssets { grid-area: download; justify-self: end; margin-top: 8px; }
+
+.focusActions { grid-area: actions; display: flex; flex-direction: column; align-items: center; gap: 26px; padding: 24px 0 32px; }
