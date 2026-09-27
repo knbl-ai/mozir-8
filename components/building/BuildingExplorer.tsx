@@ -161,10 +161,10 @@ export default function BuildingExplorer({ project: source, frames }: { project:
          {focus ? <Building2 size={16} strokeWidth={1.7} aria-hidden /> : <Eye size={16} strokeWidth={1.7} aria-hidden />}<span>{focus ? t.building : t.stepInside}</span>
         </button>
         {enquire}
+       </div>
         {residence.media && <a className={s.downloadAssets} href={`/downloads/${project.id}/${residence.id}.zip`} download={`${residence.id}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
          <Download size={18} strokeWidth={1.7} aria-hidden />
         </a>}
-       </div>
       </motion.div>
       <motion.dl layout="position" transition={SOFT_SPRING} className={s.facts}>
        <div><dt>{t.rooms}</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
