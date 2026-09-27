@@ -4,7 +4,7 @@ const base = '/projects/building-preview/apartments/garden';
 
 export const gardenMedia: ResidenceMedia = {
  film: { src: `${base}/walkthrough-30s-720-map-v2.mp4`, poster: `${base}/images/01_living_v1.webp` },
- model: `${base}/apartment-v1.glb`,
+ model: `${base}/apartment-v2.glb`,
  modelOrbit: '25deg 45deg 95%',
  images: [
   { src: `${base}/images/01_living_v1.webp`, label: "Living & dining", labelHe: "סלון ופינת אוכל" },

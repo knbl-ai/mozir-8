@@ -674,3 +674,11 @@ Register typed per-residence media modules, English/Hebrew gallery labels, own G
 The Sales Gallery download icon packages the active residence layout: current MP4, gallery WebP images in display order, original floor plan and GLB. `npm run assets:downloads` reads the same residence media records as the UI; it runs before dev/build. ZIPs in `public/downloads/` are generated and ignored by Git. Keep all source assets committed so Vercel can regenerate them.
 
 Each ZIP includes a README and `3D/Open apartment.html` with an embedded GLB. Buyers extract it and double-click the HTML to rotate/zoom without installing Blender or running a server. Internet is required for the pinned model-viewer library and decoders; offline users can import the separate GLB into Blender. GLB is a presentation model, not CAD or the original .blend scene. Assets are shared per layout, not floor-specific. After changing media, rebuild and verify ZIP contents and viewer loading.
+
+### Interactive GLB readability — approved September 27, 2026
+
+Use the Front Residence material review as the shared contrast baseline: warm light plaster, cooler medium-gray stone, darker bathroom floors, separate oak-floor and furniture roles, sage upholstery/cabinetry, taupe doors and contrasting skirting. Avoid assigning the same pale material to walls, floors and seating. Preserve layout-specific furniture and greenery.
+
+The interactive viewer uses a warm charcoal radial background (`#827c73` → `#66615b` → `#4c4945`), neutral environment and exposure 1.05. The downloadable HTML viewer should match. Compare materials under identical lighting before adjusting exposure.
+
+Run `python3 scripts/improve-apartment-materials.py` from the website repo to create `apartment-v2.glb` from each original v1 GLB using `scripts/apartment-materials.json`. This material-only step preserves geometry buffers, nodes and accessors; it does not modify Blender production scenes. Reapply after a fresh Blender export. Inspect all three models in a browser, then regenerate asset ZIPs through the normal build. Version model URLs to avoid stale cached assets.

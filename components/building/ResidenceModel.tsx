@@ -36,7 +36,7 @@ export default function ResidenceModel({ src, poster, defaultOrbit = ORBITS.pers
   setView(next);
  };
  const loading = loadedSrc !== src && !error;
- return <div className={s.modelShell} ref={host}>
+ return <div className={s.modelShell} style={{ background: 'radial-gradient(ellipse at 48% 40%, #827c73 0%, #66615b 60%, #4c4945 100%)' }} ref={host}>
   {ready && createElement('model-viewer', {
    src, poster, alt: t.modelAlt,
    'camera-controls': true, 'touch-action': 'pan-y', 'camera-orbit': defaultOrbit, 'interpolation-decay': '120',

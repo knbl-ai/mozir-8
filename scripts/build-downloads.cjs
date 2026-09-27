@@ -25,9 +25,9 @@ for (const project of developments) {
   files['floor-plan' + path.extname(residence.plan)] = readAsset(residence.plan);
   // Embedded model avoids file:// fetch restrictions: no local server or upload needed.
   files['3D/Open apartment.html'] = strToU8(`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(residence.title)} — 3D</title>
-<style>body{margin:0;font:16px system-ui;color:#242a26;background:#b8bdc0}header{position:absolute;z-index:1;top:20px;left:24px;right:24px}h1{font-size:22px;margin:0 0 8px}p{font-size:14px;margin:0}model-viewer{width:100%;height:100vh}button{margin-top:12px;padding:8px 16px;border:0;border-radius:20px;cursor:pointer}</style>
+<style>body{margin:0;font:16px system-ui;color:#fff;background:radial-gradient(ellipse at 48% 40%,#827c73 0%,#66615b 60%,#4c4945 100%)}header{position:absolute;z-index:1;top:20px;left:24px;right:24px}h1{font-size:22px;margin:0 0 8px}p{font-size:14px;margin:0}model-viewer{width:100%;height:100vh}button{margin-top:12px;padding:8px 16px;border:0;border-radius:20px;cursor:pointer}</style>
 <header><h1>${escape(residence.title)}</h1><p id="status">Loading viewer — internet connection required. Drag to rotate; scroll or pinch to zoom.</p><button id="reset">Reset view</button></header>
-<model-viewer camera-controls camera-orbit="${media.modelOrbit || '25deg 45deg 95%'}" field-of-view="35deg" shadow-intensity="1" environment-image="neutral" alt="Interactive apartment model"></model-viewer>
+<model-viewer camera-controls camera-orbit="${media.modelOrbit || '25deg 45deg 95%'}" field-of-view="35deg" exposure="1.05" shadow-intensity="1" environment-image="neutral" alt="Interactive apartment model"></model-viewer>
 <script type="module">
 const status = document.getElementById('status');
 try {
