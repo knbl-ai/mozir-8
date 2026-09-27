@@ -86,9 +86,9 @@ await page.waitForTimeout(700);
 await page.screenshot({ path: `${out}/explorer-reference.png` });
 
 const deep = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-await deep.goto(`${base}${pagePath}?apt=rear-05#explore`, { waitUntil: 'networkidle' });
+await deep.goto(`${base}${pagePath}?apt=rear-04#explore`, { waitUntil: 'networkidle' });
 await deep.waitForTimeout(2200);
-check((await deep.locator('h2').textContent()).includes('Rear residence') && (await deep.locator('main').textContent()).includes('Floor 5'), 'deep link opens rear-05');
+check((await deep.locator('h2').textContent()).includes('Rear residence') && (await deep.locator('main').textContent()).includes('Floor 4'), 'deep link opens rear-04');
 // Opening on a home turns the building at mount — under React's dev double-mount this once left the
 // turn loop dead: no overlays, no dragging.
 await settle(deep);

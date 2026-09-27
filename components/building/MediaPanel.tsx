@@ -94,7 +94,7 @@ function GalleryView({ images, placeholder }: { images: ResolvedMedia['images'];
  </div>;
 }
 
-export default function MediaPanel({ tab, residence, media, onExpandPlan }: { tab: MediaTab; residence: Residence; media: ResolvedMedia; onExpandPlan: () => void }) {
+export default function MediaPanel({ tab, residence, media, specs, onExpandPlan }: { tab: MediaTab; residence: Residence; media: ResolvedMedia; specs: { label: string; value: string }[]; onExpandPlan: () => void }) {
  const t = explorerText[useLang()];
  return <div className={s.mediaPanel} id="apartment-preview" role="tabpanel" aria-labelledby={`media-${tab}-tab`}>
   <AnimatePresence initial={false} mode="popLayout">
@@ -105,8 +105,9 @@ export default function MediaPanel({ tab, residence, media, onExpandPlan }: { ta
     {tab === 'model' && <div className={s.modelView}><ResidenceModel src={media.model} defaultOrbit={media.modelOrbit} /><SampleTag show={media.placeholder.model}>{t.sampleModel}</SampleTag></div>}
     {tab === 'about' && <article className={s.aboutView}>
      <AnimatePresence initial={false} mode="wait">
-      <motion.div key={residence.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: DUR.quick, ease: EASE }}>
+      <motion.div key={specs.map(x => x.value).join('|')} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: DUR.quick, ease: EASE }}>
        <h3>{t.aboutHome(residence.shortTitle)}</h3>
+       <dl className={s.specList}>{specs.map(x => <div key={x.label}><dt>{x.label}</dt><dd>{x.value}</dd></div>)}</dl>
        {residence.about.map(p => <p key={p.slice(0, 24)}>{p}</p>)}
       </motion.div>
      </AnimatePresence>

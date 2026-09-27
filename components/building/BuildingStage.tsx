@@ -1,10 +1,11 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Image as ImageIcon, Rotate3d } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Image as ImageIcon, MapPin, Rotate3d } from 'lucide-react';
 import type { ApartmentZone, BuildingFrame, Development } from '@/content/projects';
 import { DUR, EASE } from './motion';
 import { polygonArea } from './inventory';
+import ProjectInfo from './ProjectInfo';
 import SegmentedControl from './SegmentedControl';
 import { useLang } from '@/lib/i18n';
 import { explorerText } from './strings';
@@ -25,12 +26,12 @@ function facadeTransform(p: [number, number][]) {
 const HINT_KEY = 'explorer.dragHintSeen';
 const readHintSeen = () => { try { return localStorage.getItem(HINT_KEY) === '1'; } catch { return false; } };
 
-export type StageMode = 'rotation' | 'reference';
+export type StageMode = 'rotation' | 'reference' | 'info';
 
-export default function BuildingStage({ project, frames, engine, mode, onModeChange, selectedApartment, hovered, onHover, onSelect, counts, mobileSummary }: {
+export default function BuildingStage({ project, frames, engine, mode, onModeChange, selectedApartment, hovered, onHover, onSelect, counts, priceFrom, mobileSummary }: {
  project: Development; frames: BuildingFrame[]; engine: FrameSequence; mode: StageMode; onModeChange: (mode: StageMode) => void;
  selectedApartment?: string; hovered: string | null; onHover: (zone: ApartmentZone | null, commit: boolean) => void; onSelect: (zone: ApartmentZone) => void;
- counts: { available: number; sold: number }; mobileSummary: React.ReactNode;
+ counts: { available: number; sold: number }; priceFrom: number; mobileSummary: React.ReactNode;
 }) {
  const t = explorerText[useLang()];
  const stageRef = useRef<HTMLDivElement>(null);
@@ -144,9 +145,14 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
    {engine.failed && <div className={s.stageStatus} role="alert">{t.failed} <button type="button" onClick={() => onModeChange('reference')}>{t.openArchitect}</button></div>}
   </div>
 
+  <AnimatePresence initial={false}>
+   {mode === 'info' && <motion.div key="info" className={s.projectLayer} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: DUR.base, ease: EASE }}>
+    <ProjectInfo project={project} available={counts.available} priceFrom={priceFrom} />
+   </motion.div>}
+  </AnimatePresence>
 
   {/* Bottom-right: what the building shows (Front/Rear sits top centre in the architect’s view). Top: the first-use hint. Sides: turning. Bottom centre: how it is shown. */}
-  <div className={mode === 'rotation' ? s.stageCorner : s.stageTop}>
+  {mode !== 'info' && <div className={mode === 'rotation' ? s.stageCorner : s.stageTop}>
    {mode === 'rotation'
     ? <div className={s.legend} role="group" aria-label={t.showOnBuilding}>
      {([['available', t.forSale, counts.available, showAvailable, setShowAvailable], ['sold', t.sold, counts.sold, showSold, setShowSold]] as const).map(([tone, label, count, on, set]) =>
@@ -158,7 +164,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
     </div>
     : <SegmentedControl id="reference-view" label={t.viewpoint} variant="glass" value={reference} onChange={setReference}
      options={[{ value: 'street', label: t.front }, { value: 'reverse', label: t.rear }]} />}
-  </div>
+  </div>}
 
   <div className={s.stageTop}>
    <AnimatePresence>
@@ -175,7 +181,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
 
   <div className={s.stageBottom}>
    <SegmentedControl id="stage-mode" label={t.presentation} variant="glass" value={mode} onChange={onModeChange}
-    options={[{ value: 'rotation', label: '360°', icon: Rotate3d, disabled: !frames.length, title: t.turnBuilding }, { value: 'reference', label: t.architectView, icon: ImageIcon }]} />
+    options={[{ value: 'rotation', label: '360°', icon: Rotate3d, disabled: !frames.length, title: t.turnBuilding }, { value: 'reference', label: t.architectView, icon: ImageIcon }, { value: 'info', label: t.projectTab, icon: MapPin, title: t.projectLabel }]} />
   </div>
   <div className={s.mobileSummary}>{mobileSummary}</div>
  </div>;

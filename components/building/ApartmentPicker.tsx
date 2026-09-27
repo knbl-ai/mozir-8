@@ -2,7 +2,7 @@
 import { useState, type KeyboardEvent } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { Check, ChevronDown } from 'lucide-react';
-import type { Residence } from '@/content/projects';
+import type { Listing, Residence } from '@/content/projects';
 import { useLang } from '@/lib/i18n';
 import { type Apartment } from './inventory';
 import { explorerText } from './strings';
@@ -10,8 +10,8 @@ import SwapValue from './SwapValue';
 import s from './explorer.module.css';
 
 // The building, read top to bottom: one row per floor, its homes side by side.
-export default function ApartmentPicker({ inventory, residences, selected, onSelect }: {
- inventory: Apartment[]; residences: Residence[]; selected?: Apartment; onSelect: (apartment: Apartment) => void;
+export default function ApartmentPicker({ inventory, residences, listings, selected, onSelect }: {
+ inventory: Apartment[]; residences: Residence[]; listings: Record<string, Listing>; selected?: Apartment; onSelect: (apartment: Apartment) => void;
 }) {
  const [open, setOpen] = useState(false);
  const t = explorerText[useLang()];
@@ -44,12 +44,14 @@ export default function ApartmentPicker({ inventory, residences, selected, onSel
       <span className={s.pickerLevel} aria-hidden>{level === 0 ? t.groundShort : level}</span>
       <div className={s.pickerRow}>
        {inventory.filter(a => a.level === level).map(a => {
-        const sold = a.status === 'sold', isSelected = a.apartment === selected?.apartment, r = residence(a);
+        const sold = a.status === 'sold', isSelected = a.apartment === selected?.apartment, r = residence(a), l = listings[a.apartment];
+        const price = l && `${t.currency}${new Intl.NumberFormat('en-US').format(l.price)}`;
+        const detail = l && r ? `${t.aptNo(l.number)} · ${r.area} ${t.sqm}` : `${t.roomsCount(r?.rooms ?? 0)} · ${r?.outdoor}`;
         return <button key={a.apartment} type="button" role="option" aria-selected={isSelected} disabled={sold} data-picker-selected={isSelected || undefined}
          className={s.pickerOption} data-status={a.status} onClick={() => { onSelect(a); setOpen(false); }}
-         aria-label={`${floorName(a)}, ${r?.shortTitle}, ${t.roomsCount(r?.rooms ?? 0)}, ${sold ? t.sold : t.available}`}>
-         <span className={s.pickerOptionText}><strong>{r?.shortTitle}</strong><small>{t.roomsCount(r?.rooms ?? 0)} · {r?.outdoor}</small></span>
-         {isSelected ? <Check className={s.pickerCheck} size={16} strokeWidth={2} aria-hidden /> : <span className={s.toneTag} data-tone={sold ? 'sold' : 'available'}>{sold ? t.sold : t.available}</span>}
+         aria-label={`${floorName(a)}, ${r?.shortTitle}, ${t.roomsCount(r?.rooms ?? 0)}, ${detail}, ${price ?? t.sold}`}>
+         <span className={s.pickerOptionText}><strong>{r?.shortTitle}</strong><small>{detail}</small></span>
+         {isSelected ? <Check className={s.pickerCheck} size={16} strokeWidth={2} aria-hidden /> : <span className={s.toneTag} data-tone={sold ? 'sold' : 'available'}>{price ?? t.sold}</span>}
         </button>;
        })}
       </div>
