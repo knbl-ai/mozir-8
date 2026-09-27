@@ -16,7 +16,7 @@ export default function ProjectInfo({ project, available, priceFrom }: { project
   { icon: Building2, label: t.buildingFacts, value: t.floorsN(info.floors) },
   { icon: CalendarDays, label: t.moveIn, value: info.moveIn },
   { icon: KeyRound, label: t.availabilityNow, value: t.homesAvailable(available) },
-  { icon: Tag, label: t.prices, value: t.priceFrom(`${t.currency}${new Intl.NumberFormat('en-US').format(priceFrom)}`) },
+  { icon: Tag, label: t.prices, value: t.priceFrom(`${t.currency}${new Intl.NumberFormat('en-US').format(priceFrom)}`), brand: true },
   { icon: Car, label: t.parking, value: info.parking },
   { icon: Package, label: t.storage, value: info.storage },
  ];
@@ -28,7 +28,7 @@ export default function ProjectInfo({ project, available, priceFrom }: { project
 
    <h3 className={s.projectHeading}>{t.highlights}</h3>
    <dl className={s.projectFacts}>
-    {facts.map(({ icon: Icon, label, value, note }) => <div key={label}>
+    {facts.map(({ icon: Icon, label, value, note, brand }) => <div key={label} data-brand={brand || undefined}>
      <span className={s.projectFactIcon} aria-hidden><Icon size={16} strokeWidth={1.6} /></span>
      <dt>{label}</dt>
      <dd>{value}{note && <small>{note}</small>}</dd>

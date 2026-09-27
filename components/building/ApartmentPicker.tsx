@@ -51,7 +51,7 @@ export default function ApartmentPicker({ inventory, residences, listings, selec
          className={s.pickerOption} data-status={a.status} onClick={() => { onSelect(a); setOpen(false); }}
          aria-label={`${floorName(a)}, ${r?.shortTitle}, ${t.roomsCount(r?.rooms ?? 0)}, ${detail}, ${price ?? t.sold}`}>
          <span className={s.pickerOptionText}><strong>{r?.shortTitle}</strong><small>{detail}</small></span>
-         {isSelected ? <Check className={s.pickerCheck} size={16} strokeWidth={2} aria-hidden /> : <span className={s.toneTag} data-tone={sold ? 'sold' : 'available'}>{price ?? t.sold}</span>}
+         <span className={s.toneTag} data-tone={isSelected ? 'selected' : sold ? 'sold' : 'available'}>{isSelected && <Check className={s.pickerCheck} size={12} strokeWidth={2.4} aria-hidden />}{price ?? t.sold}</span>
         </button>;
        })}
       </div>

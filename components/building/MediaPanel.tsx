@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronLeft, ChevronRight, Maximize2, Play } from 'lucide-react';
+import { CalendarDays, Car, ChevronLeft, ChevronRight, Compass, Maximize2, Package, Play, type LucideIcon } from 'lucide-react';
 import type { ResolvedMedia, Residence } from '@/content/projects';
 import { DUR, EASE, swap } from './motion';
 import ResidenceModel from './ResidenceModel';
@@ -10,6 +10,8 @@ import { explorerText } from './strings';
 import s from './explorer.module.css';
 
 export type MediaTab = 'plan' | 'film' | 'images' | 'model' | 'about';
+export type Spec = { key: 'exposure' | 'parking' | 'storage' | 'moveIn'; label: string; value: string };
+const SPEC_ICONS: Record<Spec['key'], LucideIcon> = { exposure: Compass, parking: Car, storage: Package, moveIn: CalendarDays };
 
 // Show a new image only once it is decoded, so a swap never flashes an empty frame.
 function useDecodedSrc(src: string) {
@@ -94,7 +96,7 @@ function GalleryView({ images, placeholder }: { images: ResolvedMedia['images'];
  </div>;
 }
 
-export default function MediaPanel({ tab, residence, media, specs, onExpandPlan }: { tab: MediaTab; residence: Residence; media: ResolvedMedia; specs: { label: string; value: string }[]; onExpandPlan: () => void }) {
+export default function MediaPanel({ tab, residence, media, specs, onExpandPlan }: { tab: MediaTab; residence: Residence; media: ResolvedMedia; specs: Spec[]; onExpandPlan: () => void }) {
  const t = explorerText[useLang()];
  return <div className={s.mediaPanel} id="apartment-preview" role="tabpanel" aria-labelledby={`media-${tab}-tab`}>
   <AnimatePresence initial={false} mode="popLayout">
@@ -106,9 +108,19 @@ export default function MediaPanel({ tab, residence, media, specs, onExpandPlan 
     {tab === 'about' && <article className={s.aboutView}>
      <AnimatePresence initial={false} mode="wait">
       <motion.div key={specs.map(x => x.value).join('|')} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: DUR.quick, ease: EASE }}>
+       <span className={s.projectKicker}>{residence.label}</span>
        <h3>{t.aboutHome(residence.shortTitle)}</h3>
-       <dl className={s.specList}>{specs.map(x => <div key={x.label}><dt>{x.label}</dt><dd>{x.value}</dd></div>)}</dl>
-       {residence.about.map(p => <p key={p.slice(0, 24)}>{p}</p>)}
+       <h4 className={s.projectHeading}>{t.homeFacts}</h4>
+       <dl className={`${s.projectFacts} ${s.aboutFacts}`}>
+        {specs.map(({ key, label, value }) => { const Icon = SPEC_ICONS[key]; return <div key={key}>
+         <span className={s.projectFactIcon} aria-hidden><Icon size={16} strokeWidth={1.6} /></span>
+         <dt>{label}</dt><dd>{value}</dd>
+        </div>; })}
+       </dl>
+       {residence.about.map((p, i) => <section key={p.slice(0, 24)}>
+        {t.aboutSections[i] && <h4 className={s.projectHeading}>{t.aboutSections[i]}</h4>}
+        <p>{p}</p>
+       </section>)}
       </motion.div>
      </AnimatePresence>
     </article>}

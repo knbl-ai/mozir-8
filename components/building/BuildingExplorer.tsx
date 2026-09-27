@@ -9,7 +9,7 @@ import { useLang } from '@/lib/i18n';
 import ApartmentPicker from './ApartmentPicker';
 import BuildingStage, { type StageMode } from './BuildingStage';
 import { buildInventory, isWellInView, type Apartment } from './inventory';
-import MediaPanel, { type MediaTab } from './MediaPanel';
+import MediaPanel, { type MediaTab, type Spec } from './MediaPanel';
 import PlanLightbox from './PlanLightbox';
 import SegmentedControl from './SegmentedControl';
 import SwapValue from './SwapValue';
@@ -145,17 +145,13 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  const download = residence.media && <a className={s.downloadAssets} href={`/downloads/${project.id}/${residence.id}.zip`} download={`${residence.id}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
   <Download size={18} strokeWidth={1.7} aria-hidden />
  </a>;
- const specs = [
-  listing && { label: t.specs.number, value: String(listing.number) },
-  { label: t.specs.floor, value: where },
-  { label: t.specs.area, value: `${residence.area} ${t.sqm} · ${t.withStorage}` },
-  { label: t.specs.outdoor, value: `${residence.outdoor} · ${residence.outdoorArea} ${t.sqm}` },
-  { label: t.specs.exposure, value: residence.exposure },
-  { label: t.specs.parking, value: info.parking },
-  { label: t.specs.storage, value: info.storage },
-  { label: t.specs.moveIn, value: info.moveIn },
-  listing && { label: t.specs.price, value: `${t.currency}${formatPrice(listing.price)}` },
- ].filter(Boolean) as { label: string; value: string }[];
+ // Only what the facts row above the tabs doesn't already show (rooms, floor, area, outdoor, price, number).
+ const specs: Spec[] = [
+  { key: 'exposure', label: t.specs.exposure, value: residence.exposure },
+  { key: 'parking', label: t.specs.parking, value: t.parkingShort },
+  { key: 'storage', label: t.specs.storage, value: t.storageShort },
+  { key: 'moveIn', label: t.specs.moveIn, value: info.moveIn },
+ ];
  const openProject = () => { setMode('info'); setMobilePanel('building'); };
 
  return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined}>

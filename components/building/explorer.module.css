@@ -18,6 +18,12 @@
   --hairline-strong: rgb(29 33 28 / 0.16);
   --fill: rgb(29 33 28 / 0.05);
   --accent: #2f3a2b;
+  /* RE/MAX, sampled from the logo. Used only in small details: red marks places, blue marks facts
+     and people; status colours (available/sold) and WhatsApp green keep their meaning. */
+  --brand-red: #df1828;
+  --brand-blue: #0039a8;
+  --brand-blue-tint: rgb(0 57 168 / 0.08);
+  --brand-red-tint: rgb(223 24 40 / 0.08);
   --accent-hover: #3b4936;
   --available: #2f7a4a;
   --available-tint: rgb(47 122 74 / 0.1);
@@ -73,6 +79,14 @@
 .segmentedVertical .segment { width: 100%; }
 .segmentedFill .segment { flex: 1; padding: 0 8px; }
 .segmented_header .segment { height: 38px; padding: 0 24px; font-size: 14px; }
+/* Brand touch on the light switches (views, media tabs): the chosen option is outlined in RE/MAX
+   blue and set in blue, its icon in red. Unchosen options stay neutral. */
+.segmented_track .segmentThumb, .segmented_header .segmentThumb {
+  box-shadow: 0 0 0 1px rgb(0 57 168 / 0.3), 0 1px 2px rgb(0 57 168 / 0.08), 0 3px 10px rgb(0 57 168 / 0.07);
+}
+.segmented_track .segment[data-active], .segmented_header .segment[data-active] { color: var(--brand-blue); }
+.segmented_track .segment[data-active] svg { color: var(--brand-red); }
+.segmented_track .segment:hover:not(:disabled):not([data-active]), .segmented_header .segment:hover:not(:disabled):not([data-active]) { color: rgb(0 57 168 / 0.75); }
 .segmented_glass {
   background: var(--glass); border: 1px solid var(--glass-edge); border-radius: 14px; box-shadow: var(--shadow-soft);
   backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
@@ -131,19 +145,15 @@
   .head .lede { font-size: 13px; line-height: 1.4; }
   .head .headAside { align-self: end; justify-content: flex-end; }
 }
-.facts { margin: 16px 0 0; padding: 16px 0; display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.6fr); gap: 16px; border-block: 1px solid var(--hairline); }
+.facts { margin: 16px 0 0; padding: 16px 0; display: grid; grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.95fr) minmax(0, 0.85fr) minmax(0, 1.1fr) minmax(0, 1.6fr); gap: 16px; border-block: 1px solid var(--hairline); }
 .facts dt { font-weight: 500; font-size: 12px; color: var(--ink-3); }
 .facts dd { margin: 6px 0 0; }
 .factNumber { font: 400 32px/1 var(--sans); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 .factWord { font: 400 22px/32px var(--sans); letter-spacing: -0.02em; }
 .factUnit { margin-inline-start: 5px; font-size: 14px; letter-spacing: 0; color: var(--ink-3); }
-.factPrice dd { white-space: nowrap; }
+.factPrice dd { white-space: nowrap; color: var(--brand-blue); }
+.factPrice .factCurrency { color: inherit; opacity: 0.7; }
 .factCurrency { margin-inline-end: 3px; font-size: 0.62em; vertical-align: 0.32em; color: var(--ink-2); }
-/* Every fact about the chosen home, as a two-column list above the prose. */
-.specList { margin: 0 0 20px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; max-width: 72ch; }
-.specList > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--hairline); }
-.specList dt { font-size: 13px; color: var(--ink-3); flex: none; }
-.specList dd { margin: 0; font-weight: 500; font-size: 13.5px; text-align: end; }
 .tabs { margin-top: 18px; flex: none; }
 .mediaWrap { flex: 1; min-height: 140px; margin-top: 12px; display: flex; flex-direction: column; }
 .mediaPanel { position: relative; flex: 1; min-height: 0; border-radius: 16px; overflow: hidden; background: var(--well); }
@@ -152,12 +162,16 @@
   font-weight: 500; font-size: 14px; white-space: nowrap; color: var(--ink); background: var(--fill); transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
 .focusToggle:hover { background: var(--card); box-shadow: 0 0 0 1px var(--hairline), 0 2px 8px rgb(20 24 18 / 0.08); }
+/* Step inside wears the same brand touch as the chosen tab: blue outline and text, red icon. */
+.headAside .focusToggle { background: var(--card); color: var(--brand-blue); box-shadow: 0 0 0 1px rgb(0 57 168 / 0.3); }
+.headAside .focusToggle svg { color: var(--brand-red); }
+.headAside .focusToggle:hover { background: var(--brand-blue-tint); box-shadow: 0 0 0 1px rgb(0 57 168 / 0.45), 0 2px 8px rgb(0 57 168 / 0.1); }
 .mediaLayer { position: absolute; inset: 0; }
 
 /* Contact: the second row of the panel, one agent and three direct ways to reach them. */
 .contact { margin-top: 14px; padding: 10px 10px 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-radius: 16px; background: var(--well); }
 .contactWho { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.contactAvatar { width: 34px; height: 34px; flex: none; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--accent); color: #fff; font-weight: 500; font-size: 12px; letter-spacing: 0.04em; }
+.contactAvatar { width: 34px; height: 34px; flex: none; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--brand-blue); color: #fff; font-weight: 500; font-size: 12px; letter-spacing: 0.04em; }
 .contactName { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .contactName strong { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .contactName small { font-size: 12px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -173,12 +187,12 @@
 .contactPrimary:active, .contactButton:active { transform: scale(0.97); }
 .contactPhone { font-variant-numeric: tabular-nums; }
 .contactShort { display: none; }
-.aptTag { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; font-weight: 500; font-size: 12px; white-space: nowrap; color: var(--ink); background: var(--fill); font-variant-numeric: tabular-nums; }
+.aptTag { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; font-weight: 500; font-size: 12px; white-space: nowrap; color: var(--brand-blue); background: var(--brand-blue-tint); font-variant-numeric: tabular-nums; }
 
 /* Address in the header: opens the project view with the map. */
 .addressChip { display: inline-flex; align-items: center; gap: 8px; min-width: 0; height: 40px; padding: 0 12px 0 10px; border-radius: 12px; text-align: start; color: var(--ink); transition: background 0.2s var(--ease); }
 .addressChip:hover, .addressChip[aria-pressed='true'] { background: var(--fill); }
-.addressChip svg { flex: none; color: var(--accent); }
+.addressChip svg { flex: none; color: var(--brand-red); }
 .addressChip span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .addressChip strong { font-weight: 500; font-size: 13.5px; line-height: 1.1; white-space: nowrap; }
 .addressChip small { font-size: 11px; line-height: 1.1; color: var(--ink-3); white-space: nowrap; }
@@ -226,22 +240,26 @@
 .projectLayer { position: absolute; inset: 0; z-index: 2; }
 .projectView { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; background: var(--card); user-select: text; -webkit-user-select: text; }
 .projectInner { padding: 30px 30px 96px; }
-.projectKicker { font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.projectKicker { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brand-red); }
+/* The logo's blue slash, as a small signature before the kicker and the section headings. */
+.projectKicker::before, .projectHeading::before { content: ''; flex: none; width: 4px; height: 14px; background: var(--brand-blue); transform: skewX(-24deg); }
 .projectTitle { margin: 8px 0 0; font: 400 clamp(36px, 3.2vw, 52px)/1.02 var(--display); letter-spacing: -0.02em; }
 .projectIntro { margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: var(--ink-2); max-width: 60ch; }
-.projectHeading { margin: 26px 0 12px; font-weight: 500; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+.projectHeading { display: flex; align-items: center; gap: 9px; margin: 26px 0 12px; font-weight: 500; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
 .projectFacts { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
 .projectFacts > div { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: 'icon label' 'icon value'; column-gap: 12px; row-gap: 3px; align-items: start; padding: 12px 14px; border-radius: 14px; background: var(--well); }
-.projectFactIcon { grid-area: icon; width: 32px; height: 32px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: var(--card); color: var(--accent); }
+.projectFactIcon { grid-area: icon; width: 32px; height: 32px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: var(--card); color: var(--brand-blue); box-shadow: 0 0 0 1px var(--brand-blue-tint); }
 .projectFacts dt { grid-area: label; font-size: 12px; color: var(--ink-3); }
 .projectFacts dd { grid-area: value; margin: 0; font-weight: 500; font-size: 14px; line-height: 1.35; }
+.projectFacts [data-brand] dd { color: var(--brand-blue); }
 .projectFacts > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .projectFacts dd small { display: block; margin-top: 2px; font-weight: 400; font-size: 12px; color: var(--ink-2); }
 .mapFrame { position: relative; aspect-ratio: 16 / 10; border-radius: 16px; overflow: hidden; background: var(--well); box-shadow: 0 0 0 1px var(--hairline); }
 .mapFrame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .mapLinks { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
 .mapLinks a { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px; border-radius: 999px; background: var(--fill); color: var(--ink); font-weight: 500; font-size: 13px; text-decoration: none; transition: background 0.2s var(--ease); }
-.mapLinks a:hover { background: rgb(29 33 28 / 0.09); }
+.mapLinks a svg { color: var(--brand-red); }
+.mapLinks a:hover { background: var(--brand-blue-tint); color: var(--brand-blue); }
 .projectText { margin: 0; max-width: 64ch; font-size: 14.5px; line-height: 1.7; color: var(--ink-2); }
 .projectText + .projectText { margin-top: 12px; }
 .projectDisclaimer { margin: 22px 0 0; padding-top: 14px; border-top: 1px solid var(--hairline); font-size: 11.5px; line-height: 1.55; color: var(--ink-3); max-width: 70ch; }
@@ -322,17 +340,18 @@
 .pickerFloor:first-child { border-top: 0; }
 .pickerLevel { text-align: center; font: 400 20px/1 var(--display); color: var(--ink-3); }
 .pickerRow { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; }
-.pickerOption { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 10px; border-radius: 12px; text-align: start; transition: background 0.15s var(--ease); }
+.pickerOption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 10px; border-radius: 12px; text-align: start; transition: background 0.15s var(--ease); }
 .pickerOption:hover:not(:disabled) { background: var(--fill); }
-.pickerOption[aria-selected='true'] { background: rgb(47 58 43 / 0.08); }
+.pickerOption[aria-selected='true'] { background: var(--brand-blue-tint); }
 .pickerOption:disabled { cursor: not-allowed; }
 .pickerOption:disabled .pickerOptionText { opacity: 0.45; }
 .pickerOptionText { min-width: 0; }
 .pickerOptionText strong, .pickerOptionText small { white-space: nowrap; }
 .pickerOptionText strong { display: block; font-weight: 500; font-size: 13px; }
 .pickerOptionText small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--ink-3); }
-.pickerOption .toneTag { height: 22px; padding: 0 8px; font-size: 11px; }
-.pickerCheck { color: var(--accent); flex: none; margin-inline-end: 4px; }
+.pickerOption .toneTag { height: 22px; padding: 0 8px; font-size: 11px; flex: none; }
+.pickerCheck { flex: none; margin-inline-end: -2px; }
+.pickerOption .toneTag[data-tone='selected'] { gap: 4px; color: #fff; background: var(--brand-blue); }
 
 /* ── Media ──────────────────────────────────────────────────────────────── */
 .sampleTag {
@@ -385,9 +404,12 @@
 .modelVeil[data-visible] { opacity: 1; }
 .modelTools { position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; gap: 6px; }
 .aboutView { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; padding: 28px 30px; background: #fbfbf9; }
-.aboutView h3 { margin: 0 0 14px; font: 400 28px/1.15 var(--display); }
-.aboutView p { margin: 0; max-width: 64ch; font-size: 15px; line-height: 1.75; color: var(--ink-2); }
-.aboutView p + p { margin-top: 14px; }
+.aboutView h3 { margin: 8px 0 0; font: 400 clamp(28px, 2.4vw, 36px)/1.1 var(--display); }
+.aboutView .projectHeading { margin: 22px 0 10px; }
+.aboutView p { margin: 0; max-width: 64ch; font-size: 15px; line-height: 1.7; color: var(--ink-2); }
+.aboutView { background: var(--card); padding-bottom: 32px; }
+.aboutFacts { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 640px; }
+.aboutFacts > div:last-child:nth-child(odd) { grid-column: auto; }
 
 /* ── Floor-plan lightbox ────────────────────────────────────────────────── */
 .lightboxOverlay { position: fixed; inset: 0; z-index: 60; background: rgb(247 246 243 / 0.7); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
@@ -525,11 +547,14 @@
   .contactActions > * { flex: 1; justify-content: center; padding: 0 8px; height: 38px; }
   .contactPhone { display: none; }
   .contactShort { display: inline; }
-  .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .facts { grid-template-columns: minmax(0, 0.6fr) minmax(0, 1.05fr) minmax(0, 0.9fr) minmax(0, 1fr); }
   .factPrice { grid-column: 1 / -1; display: flex; align-items: baseline; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--hairline); }
   .factPrice dd { margin: 0; }
-  .specList { grid-template-columns: minmax(0, 1fr); }
   .projectInner { padding: 20px 18px 150px; }
+  .aboutView { padding: 18px 14px 24px; }
+  .aboutFacts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .aboutFacts > div { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'label' 'value'; padding: 10px 12px; }
+  .aboutFacts .projectFactIcon { display: none; }
   .title { font-size: 28px; }
   .lede { font-size: 12.5px; }
   .facts { gap: 8px; margin-top: 14px; padding: 12px 0; }
@@ -586,5 +611,5 @@
   font-weight: 500; font-size: 15px; white-space: nowrap; color: #fff; background: var(--ink); box-shadow: 0 1px 2px rgb(20 24 18 / 0.14);
   transition: background 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.1s;
 }
-.returnButton:hover { background: var(--accent-hover); box-shadow: 0 6px 18px -6px rgb(20 24 18 / 0.4); }
+.returnButton:hover { background: var(--brand-blue); box-shadow: 0 6px 18px -6px rgb(20 24 18 / 0.4); }
 .returnButton:active { transform: scale(0.98); }
