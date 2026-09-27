@@ -185,7 +185,8 @@ export default function BuildingExplorer({ project: source, frames }: { project:
       <motion.div layout="position" transition={SOFT_SPRING} className={s.head}>
        <div className={s.headText}>
         <h2 className={s.title}><SwapValue value={residence.shortTitle} order={navIndex} /></h2>
-        <p className={s.lede} title={residence.description}><SwapValue value={residence.tagline} order={navIndex} /></p>
+        {/* Phones: number and price under the name, in place of the tag and the price row. */}
+        {listing && <p className={s.titleMeta}><SwapValue value={`${t.aptNo(listing.number)} · ${t.currency}${formatPrice(listing.price)}`} order={listing.number} /></p>}
        </div>
        <div className={s.headAside}>
         {listing && <span className={s.aptTag}><SwapValue value={t.aptNo(listing.number)} order={listing.number} /></span>}
@@ -197,7 +198,6 @@ export default function BuildingExplorer({ project: source, frames }: { project:
         {download}
        </div>
       </motion.div>
-      {contactRow}
       <motion.dl layout="position" transition={SOFT_SPRING} className={s.facts}>
        <div><dt>{t.rooms}</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
        <div><dt>{t.floor}</dt><dd className={s.factNumber}><SwapValue value={selected ? (selected.level === 0 ? t.ground : String(selected.level)) : '—'} order={selected?.level} /></dd></div>
@@ -216,6 +216,8 @@ export default function BuildingExplorer({ project: source, frames }: { project:
       <motion.div layout transition={SOFT_SPRING} className={s.mediaWrap}>
        <MediaPanel tab={tab} residence={residence} media={media} specs={specs} onExpandPlan={() => setPlanOpen(true)} />
       </motion.div>
+      {/* Last in the panel, so reaching the agent is always at its foot, under the media. */}
+      {contactRow}
      </motion.aside>
      <BuildingStage project={project} frames={frames} engine={engine} mode={mode} onModeChange={setMode} selectedApartment={selectedId}
       hovered={hovered} onHover={onHover} onSelect={zone => select(zone)} counts={counts} priceFrom={Math.min(...Object.values(project.listings).map(l => l.price))}
