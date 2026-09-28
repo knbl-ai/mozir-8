@@ -133,6 +133,14 @@ Blender procedural texture nodes were sufficient for this stage. Full texture ba
 
 A blockout is a low-cost preview of camera movement and editing. It is not a final render. Show it in the open Blender window so the reviewer can scrub and play it.
 
+### Priorities before templates — AFK review, 28 September 2026
+
+This runbook is a starting template, not a shot list to follow blindly. Read the actual plan, identify the apartment’s strongest spatial features, and budget the tour around them. A large penthouse with a wraparound terrace needs time to communicate outdoor length, corners and distinct uses; a compact apartment may need a shorter route. Do not force every home into 30 seconds. When no duration is specified, propose one that supports readable movement. An explicit user duration or delivery limit takes precedence: re-budget shots, shorten travel and remove redundant room coverage rather than extending the film. AFK A-P1 subsequently changed from a strict 30-second edit to a 40-second edit to recover comfortable pacing, with an explicit hard location cut at 30 seconds for separate 30- and 10-second generations. This latest user instruction supersedes earlier duration choices. Keep total edit duration separate from per-request generation length, and never split a continuous room reveal arbitrarily. Split later generation only when needed and at real location cuts.
+
+Show circulation as a meaningful journey: where a corridor explains the private wing, walk along part of it and turn through a real doorway into a room. A momentary glance alone may not communicate its length or room connections. Avoid redundant passes and blank-wall holds. Where a master bedroom connects to an ensuite, show that connection with a continuous walk through the dressing area and actual bathroom entrance, when framing and clearance allow it.
+
+For an L-shaped terrace, establish both directions after stepping outside, then travel toward the corner to reveal the second leg and its defining feature. Retain realistic distances and walking pace. Do not invent a pool: distinguish installed equipment from a source-plan spa preparation or illustrative staging. A bedroom may be furnished as an office when requested; retain the original sleeping layout as a reversible alternative and preserve the plan’s room count.
+
 ### Reusable apartment-tour direction — 26 September 2026
 
 Treat each plan as a new spatial story. Establish the entrance, lead through the main living space toward the outdoor feature, then cover the private wing and utility spaces. Build one apartment end-to-end before repeating the workflow: review the first apartment at each gate, the second in supervised batches, and the third independently within the approved conventions.
@@ -687,3 +695,12 @@ Run `python3 scripts/improve-apartment-materials.py` from the website repo to cr
 ### Front 1080p locator restoration — September 27, 2026
 
 The unified 30-second Front film now includes the approved floating map, silhouette outline and shadow. Rebuild with `pipeline/apartments/front_video_map_composite_1080.py` in the production workspace. It uses V13 camera samples (identical to V11 frames 1–360 then 409–720), maps locator jumps to measured generated-video cuts, and hides the map at 28 seconds for the overhead finale. In-shot position is guide-based and approximate, not optical tracking of generated footage. Deliver 1920×1080 H264, 24fps, 720 frames, silent, faststart; refresh the website media path and downloadable ZIP together.
+
+
+### AFK A-P1: reference consistency during a kitchen approach
+
+The480p draft showed flicker when moving from the deep living-room viewpoint toward the bar. The separately generated kitchen/bar close-up differed from the wide living view. For the1080p revision, omit02-kitchen from both requests: the approved wide living image alone governs the living room, kitchen, island/bar, stools and pendants, including close approaches. Keep references for genuinely distinct rooms and terraces. Remap every @Image index when removing a reference. Explicitly request stable furniture identity, countertop geometry, textures and exposure throughout camera movement. This is a targeted revision pending video review, not proof that prompting guarantees flicker removal.
+
+For pool/spa scenes, request calm continuous ripples, subtle circulating-water motion, evolving sky/foliage reflections and gentle underwater caustics. Keep pool edges and water level fixed; exclude dramatic waves, splashes and flashing illumination. Check the actual video for motion rather than judging a single frame.
+
+Pool-motion instructions must be scoped only to clips that actually show the pool. The AFK1080p part2 included the global pool paragraph and invented a second pool on the small terrace. Remove this instruction from pool-free segments; explicitly distinguish the main pool terrace from the small seating-only terrace.

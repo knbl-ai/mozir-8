@@ -7,7 +7,8 @@ const BUILDING_SPAN = 0.72, BUILDING_CENTRE = 0.53; // of the frame's height
 
 // The Sales Gallery's own building, turning. It turns while the card is hovered or focused, and on
 // touch screens while it is on screen — the preview shows what the product does, not a picture of it.
-export default function BuildingPreview({ frames, active }: { frames: string[]; active: boolean }) {
+// span/centre: where the building sits in its frames (share of the frame's height), so it stays in view.
+export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, centre = BUILDING_CENTRE }: { frames: string[]; active: boolean; span?: number; centre?: number }) {
  const canvas = useRef<HTMLCanvasElement>(null);
  const images = useRef<HTMLImageElement[]>([]);
  const ready = useRef<boolean[]>([]);
@@ -22,9 +23,9 @@ export default function BuildingPreview({ frames, active }: { frames: string[]; 
   if (!ctx) return;
   // Cover the card, but keep the building itself (roof to street, the middle ~72% of the frame's
   // height) in view whatever the card's shape: a wide card trims sky and ground, never the roof.
-  const scale = Math.max(c.width / img.naturalWidth, Math.min(c.height / img.naturalHeight, c.height / (img.naturalHeight * BUILDING_SPAN)));
+  const scale = Math.max(c.width / img.naturalWidth, Math.min(c.height / img.naturalHeight, c.height / (img.naturalHeight * span)));
   const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
-  const y = Math.min(0, Math.max(c.height - h, c.height / 2 - h * BUILDING_CENTRE));
+  const y = Math.min(0, Math.max(c.height - h, c.height / 2 - h * centre));
   ctx.drawImage(img, (c.width - w) / 2, y, w, h);
  };
 

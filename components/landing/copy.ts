@@ -6,7 +6,7 @@ export type DemoCopy = {
 export type LandingCopy = {
  brand: string; brandNote: string; newTab: string;
  title: string; lede: string; sample: string;
- salesGallery: DemoCopy; openHouse: DemoCopy;
+ salesGallery: DemoCopy; openHouse: DemoCopy; penthouse: DemoCopy;
  footer: string;
 };
 
@@ -14,8 +14,8 @@ const en: LandingCopy = {
  brand: 'Residences',
  brandNote: 'Property marketing demos',
  newTab: 'opens in a new tab',
- title: 'Two ways to show a home before the first visit.',
- lede: 'This is a working demo of two property-marketing websites. One sells a whole new building, home by home. The other gives a single apartment a website of its own.',
+ title: 'Three ways to show a home before the first visit.',
+ lede: 'This is a working demo of three property-marketing websites. One sells a whole new building, home by home. One gives a single apartment a website of its own. The third presents one luxury home on its building, in the project’s own look.',
  sample: 'Everything here is sample data. Availability is invented, areas are estimates from the plans, and the interiors, films and 3D furniture are illustrations.',
  salesGallery: {
   kind: 'For a new development',
@@ -35,6 +35,15 @@ const en: LandingCopy = {
   hint: 'Hover to play the film',
   touchHint: 'Open it to watch the film',
  },
+ penthouse: {
+  kind: 'For a luxury home',
+  name: 'Penthouse',
+  body: 'One penthouse, shown on its own building: turn the tower to find it on the top floor, then open its plan, the developer’s renders and a 3D model of the layout. Shown with A-P1 at A.f.k, Neot Afeka.',
+  features: ['The building turns, the penthouse marked', 'Plan, renders and a 3D layout', 'In the project’s own look and colours', 'The sales line, one tap away'],
+  cta: 'Open the penthouse',
+  hint: 'Hover to turn the building',
+  touchHint: 'The building turns as you scroll past',
+ },
  footer: 'A demo, not an offer to sell. Confirm any property detail with the developer.',
 };
 
@@ -42,8 +51,8 @@ const he: LandingCopy = {
  brand: 'Residences',
  brandNote: 'הדגמות לשיווק נדל״ן',
  newTab: 'נפתח בכרטיסייה חדשה',
- title: 'שתי דרכים להציג בית עוד לפני הביקור הראשון.',
- lede: 'זוהי הדגמה חיה של שני אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה.',
+ title: 'שלוש דרכים להציג בית עוד לפני הביקור הראשון.',
+ lede: 'זוהי הדגמה חיה של שלושה אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה. השלישי מציג דירת יוקרה אחת על הבניין שלה, בעיצוב של הפרויקט.',
  sample: 'כל מה שמוצג כאן הוא מידע לדוגמה: הזמינות בדויה, השטחים הם הערכות לפי התוכניות, והעיצוב הפנימי, הסרטונים והריהוט בתלת־ממד הם המחשות.',
  salesGallery: {
   kind: 'לפרויקט חדש',
@@ -62,6 +71,15 @@ const he: LandingCopy = {
   cta: 'למוזיר 8',
   hint: 'רחפו מעל התמונה כדי להפעיל את הסרטון',
   touchHint: 'פתחו כדי לצפות בסרטון',
+ },
+ penthouse: {
+  kind: 'לדירת יוקרה',
+  name: 'פנטהאוז',
+  body: 'פנטהאוז אחד, מוצג על הבניין שלו: מסובבים את המגדל כדי למצוא אותו בקומה העליונה, ופותחים את התוכנית, את הדמיות היזם ומודל תלת־ממד של התכנון. מוצג עם A-P1 בפרויקט A.f.k, נאות אפקה.',
+  features: ['הבניין מסתובב, הפנטהאוז מסומן', 'תוכנית, הדמיות ותכנון בתלת־ממד', 'בעיצוב ובצבעים של הפרויקט', 'קו המכירות, בנגיעה אחת'],
+  cta: 'לפנטהאוז',
+  hint: 'רחפו מעל התמונה כדי לסובב את הבניין',
+  touchHint: 'הבניין מסתובב כשהוא על המסך',
  },
  footer: 'זוהי הדגמה ולא הצעה למכירה. יש לאמת כל פרט על הנכס מול היזם.',
 };

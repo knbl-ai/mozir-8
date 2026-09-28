@@ -4,8 +4,11 @@ import type { BuildingFrame } from '@/content/projects';
 import DemoHome from '@/components/landing/DemoHome';
 
 // Every second frame of the Sales Gallery's building is enough for the preview's turn.
+const readFrames = (project: string): BuildingFrame[] => {
+ const manifest = path.join(process.cwd(), 'public/projects', project, 'building/frames.json');
+ return fs.existsSync(manifest) ? JSON.parse(fs.readFileSync(manifest, 'utf8')) : [];
+};
+const everySecond = (frames: BuildingFrame[]) => frames.filter((_, i) => i % 2 === 0).map(f => f.src);
 export default function Home() {
- const manifest = path.join(process.cwd(), 'public/projects/building-preview/building/frames.json');
- const frames: BuildingFrame[] = fs.existsSync(manifest) ? JSON.parse(fs.readFileSync(manifest, 'utf8')) : [];
- return <DemoHome buildingFrames={frames.filter((_, i) => i % 2 === 0).map(f => f.src)} />;
+ return <DemoHome buildingFrames={everySecond(readFrames('building-preview'))} penthouseFrames={everySecond(readFrames('afk-urban-comfort'))} />;
 }

@@ -57,6 +57,11 @@
 /* Demos */
 .demos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3.2vw, 48px); padding-bottom: clamp(48px, 7vw, 96px); }
 .demo { display: flex; flex-direction: column; min-width: 0; }
+/* Three demos: one row on wide screens, the features list stacking inside the narrower cards. */
+@media (min-width: 1280px) {
+  .demos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .demos .features { grid-template-columns: 1fr; }
+}
 
 .previewLink { position: relative; display: block; border-radius: 20px; overflow: hidden; background: var(--well); isolation: isolate; }
 .preview { position: relative; display: block; aspect-ratio: 6 / 5; max-height: max(300px, calc(100svh - 370px)); width: 100%; }

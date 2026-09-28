@@ -35,7 +35,7 @@ function Demo({ href, text, newTab, preview, id }: { href: string; text: DemoCop
  </article>;
 }
 
-export default function DemoHome({ buildingFrames }: { buildingFrames: string[] }) {
+export default function DemoHome({ buildingFrames, penthouseFrames }: { buildingFrames: string[]; penthouseFrames: string[] }) {
  const lang = useLang();
  const t = copy[lang];
 
@@ -62,6 +62,8 @@ export default function DemoHome({ buildingFrames }: { buildingFrames: string[] 
      preview={active => <BuildingPreview frames={buildingFrames} active={active} />} />
     <Demo id="open-house" href={withLang('/mozir-8', lang)} text={t.openHouse} newTab={t.newTab}
      preview={active => <FilmPreview poster="/media/01_living.webp" film="/media/residence-film.mp4" active={active} />} />
+    <Demo id="penthouse" href={withLang('/projects/afk-urban-comfort#explore', lang)} text={t.penthouse} newTab={t.newTab}
+     preview={active => <BuildingPreview frames={penthouseFrames} active={active} span={0.6} centre={0.5} />} />
    </div>
   </main>
 
