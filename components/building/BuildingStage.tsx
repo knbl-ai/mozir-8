@@ -31,7 +31,7 @@ export type StageMode = 'rotation' | 'reference' | 'info';
 export default function BuildingStage({ project, frames, engine, mode, onModeChange, selectedApartment, hovered, onHover, onSelect, counts, priceFrom, mobileSummary }: {
  project: Development; frames: BuildingFrame[]; engine: FrameSequence; mode: StageMode; onModeChange: (mode: StageMode) => void;
  selectedApartment?: string; hovered: string | null; onHover: (zone: ApartmentZone | null, commit: boolean) => void; onSelect: (zone: ApartmentZone) => void;
- counts: { available: number; sold: number }; priceFrom: number; mobileSummary: React.ReactNode;
+ counts: { available: number; sold: number }; priceFrom?: number; mobileSummary: React.ReactNode;
 }) {
  const t = explorerText[useLang()];
  const stageRef = useRef<HTMLDivElement>(null);
@@ -90,19 +90,22 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [mode, frames.length, hintSeen]);
 
+ // With a legend-driven highlight the "For sale" switch really switches: off, a home shows only under the pointer.
+ const legendOnly = project.selectionHighlight === 'legend';
  const zoneClass = (h: ApartmentZone) => {
   const sold = h.status === 'sold';
   if (h.apartment === hovered) return sold ? s.zoneSoldHover : s.zoneHover;
-  if (h.apartment === selectedApartment && !sold) return s.zoneSelected;
+  if (h.apartment === selectedApartment && !sold && (showAvailable || !legendOnly)) return s.zoneSelected;
   if (sold) return showSold ? s.zoneSold : s.zoneHidden;
   return showAvailable ? s.zoneAvailable : s.zoneQuiet;
  };
 
  const labels = frame ? [...new Set(frame.hotspots.map(h => h.apartment))].map(id => {
-  const h = frame.hotspots.filter(z => z.apartment === id).sort((a, b) => polygonArea(b.points) - polygonArea(a.points))[0];
+  // Only facade faces carry label corners (a roof face has none): label the largest of those.
+  const h = frame.hotspots.filter(z => z.apartment === id && z.labelPoints).sort((a, b) => polygonArea(b.points) - polygonArea(a.points))[0];
   // The chosen home keeps its label whether or not the pointer is on it; hover adds one for another floor.
-  const visible = h.apartment === hovered || h.apartment === selectedApartment || (h.status === 'sold' ? showSold : showAvailable);
-  return h.labelPoints && visible ? h : null;
+  const visible = h.apartment === hovered || (h.apartment === selectedApartment && !legendOnly) || (h.status === 'sold' ? showSold : showAvailable);
+  return h?.labelPoints && visible ? h : null;
  }).filter(Boolean) as ApartmentZone[] : [];
 
  const referenceSrc = project.references[reference === 'street' ? 0 : 1];
@@ -139,6 +142,13 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
      {frames[0] && !engine.firstReady && <img className={s.orbitPoster} src={frames[engine.displayed]?.src ?? frames[0].src} alt="" draggable={false} />}
      <canvas ref={engine.canvasRef} className={s.orbitCanvas} role="img" aria-label={t.angle(engine.displayed + 1, frames.length)} />
      {frame && !engine.failed && <svg viewBox="0 0 800 900" className={s.hotspots} aria-label={t.availability}>
+      {/* Soft glow round a lit home. Used only where a theme asks for it (CSS filter: url(#zone-glow)). */}
+      <defs><filter id="zone-glow" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
+       <feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="spread" />
+       <feGaussianBlur in="spread" stdDeviation="4" result="blur" />
+       <feFlood className={s.zoneGlowColor} result="tint" /><feComposite in="tint" in2="blur" operator="in" result="glow" />
+       <feMerge><feMergeNode in="glow" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter></defs>
       {frame.hotspots.map((h, i) => <polygon key={`${h.apartment}-${i}`} data-apartment={h.apartment} data-status={h.status} points={h.points} className={zoneClass(h)}
        onPointerEnter={() => { if (!press.current && !turning) onHover(h, false); }}>
        <title>{`${/ground/i.test(h.floor) ? t.groundFloor : t.floorN(Number(h.floor.replace(/\D+/g, '')))} · ${project.residences.find(u => u.id === h.unit)?.shortTitle} · ${h.status === 'sold' ? t.sold : t.available}`}</title>

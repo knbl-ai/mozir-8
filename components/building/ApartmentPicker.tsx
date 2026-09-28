@@ -45,14 +45,14 @@ export default function ApartmentPicker({ inventory, residences, listings, selec
       <div className={s.pickerRow}>
        {inventory.filter(a => a.level === level).map(a => {
         const sold = a.status === 'sold', isSelected = a.apartment === selected?.apartment, r = residence(a), l = listings[a.apartment];
-        const price = l && `${t.currency}${new Intl.NumberFormat('en-US').format(l.price)}`;
+        const price = l && (l.price ? `${t.currency}${new Intl.NumberFormat('en-US').format(l.price)}` : t.onRequest);
         // Up to three homes share a floor, so each option is short: the type, then number and price (or Sold).
         const name = t.views[a.unit as keyof typeof t.views] ?? r?.shortTitle;
         return <button key={a.apartment} type="button" role="option" aria-selected={isSelected} disabled={sold} data-picker-selected={isSelected || undefined}
          className={s.pickerOption} data-status={a.status} data-unit={a.unit} onClick={() => { onSelect(a); setOpen(false); }}
-         aria-label={[floorName(a), r?.shortTitle, l && t.aptNo(l.number), l && `${r?.area} ${t.sqm}`, price ?? t.sold].filter(Boolean).join(', ')}>
+         aria-label={[floorName(a), r?.shortTitle, l?.number && t.aptNo(l.number), l && r?.area && `${r.area} ${t.sqm}`, price ?? t.sold].filter(Boolean).join(', ')}>
          <strong className={s.pickerName}>{name}{isSelected && <Check className={s.pickerCheck} size={13} strokeWidth={2.4} aria-hidden />}</strong>
-         {l ? <small className={s.pickerMeta}><span>{t.aptNo(l.number)}</span><span className={s.pickerSep} aria-hidden> · </span><span className={s.pickerPrice}>{price}</span></small>
+         {l ? <small className={s.pickerMeta}>{l.number && <><span>{t.aptNo(l.number)}</span><span className={s.pickerSep} aria-hidden> · </span></>}<span className={s.pickerPrice}>{price}</span></small>
           : <small className={s.pickerMeta} data-tone="sold">{t.sold}</small>}
         </button>;
        })}

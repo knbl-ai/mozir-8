@@ -10,5 +10,5 @@ export default async function Project({params}:{params:Promise<{project:string}>
  const p=getDevelopment((await params).project);if(!p)notFound();
  const manifest=path.join(process.cwd(),'public/projects',p.id,'building/frames.json');
  const frames:BuildingFrame[]=fs.existsSync(manifest)?JSON.parse(fs.readFileSync(manifest,'utf8')):[];
- return <div className={styles.shell}><BuildingExplorer project={p} frames={applyListings(frames,p)}/></div>;
+ return <div className={styles.shell} data-theme={p.brand?.theme}><BuildingExplorer project={p} frames={applyListings(frames,p)}/></div>;
 }

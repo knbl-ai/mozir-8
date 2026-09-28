@@ -20,13 +20,17 @@ import s from './explorer.module.css';
 
 const HOVER_INTENT_MS = 90;
 const ZOOM = 1.45; // the tower is framed close; matches .orbitZoom in the stylesheet
-const VIEWS = ['five-room', 'four-room', 'garden', 'compact'] as const;
-type ViewId = (typeof VIEWS)[number];
+const DEFAULT_VIEWS = ['five-room', 'four-room', 'garden', 'compact'];
+type ViewId = string;
 const TABS: { value: MediaTab; icon: typeof Play }[] = [
  { value: 'plan', icon: LayoutPanelLeft }, { value: 'film', icon: Play }, { value: 'images', icon: Images }, { value: 'model', icon: Box }, { value: 'about', icon: Info },
 ];
 
 const formatPrice = (price: number) => new Intl.NumberFormat('en-US').format(price);
+const lowestPrice = (listings: Development['listings']) => {
+ const prices = Object.values(listings).flatMap(l => l.price ?? []);
+ return prices.length ? Math.min(...prices) : undefined;
+};
 
 const readDeepLink = () => { try { return new URLSearchParams(window.location.search).get('apt'); } catch { return null; } };
 
@@ -36,7 +40,8 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  const project = useMemo(() => localizeDevelopment({ ...source, residences: source.residences.map(r => localizeResidence(r, lang)), media: { ...source.media, images: localizeImages(source.media.images, lang) } }, lang), [source, lang]);
  const inventory = useMemo(() => buildInventory(frames), [frames]);
  const available = useMemo(() => inventory.filter(a => a.status === 'for-sale'), [inventory]);
- const [selectedId, setSelectedId] = useState(available.find(a => a.unit === 'five-room')?.apartment ?? available[0]?.apartment ?? '');
+ const views = project.views ?? DEFAULT_VIEWS;
+ const [selectedId, setSelectedId] = useState(available.find(a => a.unit === views[0])?.apartment ?? available[0]?.apartment ?? '');
  const [hovered, setHovered] = useState<string | null>(null);
  const [mode, setMode] = useState<StageMode>(frames.length ? 'rotation' : 'reference');
  const [tab, setTab] = useState<MediaTab>('plan');
@@ -77,12 +82,19 @@ export default function BuildingExplorer({ project: source, frames }: { project:
   else hoverTimer.current = setTimeout(() => select(zone), HOVER_INTENT_MS);
  };
  useEffect(() => () => { if (hoverTimer.current) clearTimeout(hoverTimer.current); }, []);
+ // The picker and plan lightbox are portals outside the themed shell; they read the theme from <html>.
+ useEffect(() => {
+  const theme = source.brand?.theme;
+  if (!theme) return;
+  document.documentElement.dataset.theme = theme;
+  return () => { delete document.documentElement.dataset.theme; };
+ }, [source.brand?.theme]);
 
  const chooseView = (view: ViewId) => {
   setMode('rotation');
   const first = available.find(a => a.unit === view);
   if (first) setSelectedId(first.apartment);
-  // Front and rear face their elevation squarely; the garden turns to where its home shows best.
+  // Front and rear face their elevation squarely; other types turn to where their home shows best.
   engine.rotateTo(view === 'five-room' ? 0 : view === 'four-room' ? Math.floor(frames.length / 2) : (first?.bestFrame ?? 0));
  };
 
@@ -141,56 +153,61 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  const counts = { available: available.length, sold: inventory.length - available.length };
  const where = selected ? (selected.level === 0 ? t.groundFloor : t.floorN(selected.level)) : '';
  const { contact, info } = project;
+ const priceText = listing?.price ? `${t.currency}${formatPrice(listing.price)}` : t.onRequest;
  // Every way to reach the agent names the home, so the enquiry arrives already specific.
  const homeRef = t.homeRef(listing?.number, where, residence.shortTitle);
  const message = t.enquiryText(project.name, homeRef);
  const contactRow = <motion.div layout="position" transition={SOFT_SPRING} className={s.contact} role="group" aria-label={t.contactFor(homeRef)}>
   <div className={s.contactWho}>
    <span className={s.contactAvatar} aria-hidden>{contact.name.split(' ').map(w => w[0]).join('').slice(0, 2)}</span>
-   <span className={s.contactName}><strong>{contact.name}</strong><small>{t.salesAgent} · {contact.agency}</small></span>
+   <span className={s.contactName}><strong>{contact.name}</strong><small>{contact.role ?? t.salesAgent} · {contact.agency}</small></span>
   </div>
   <div className={s.contactActions}>
-   <a className={s.contactPrimary} href={`https://wa.me/${contact.phoneIntl.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer" aria-label={t.whatsappAbout(homeRef)}>
+   {contact.whatsapp !== false && <a className={s.contactPrimary} href={`https://wa.me/${contact.phoneIntl.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer" aria-label={t.whatsappAbout(homeRef)}>
     <MessageCircle size={16} strokeWidth={1.8} aria-hidden /><span>{t.whatsapp}</span>
-   </a>
-   <a className={s.contactButton} href={`tel:${contact.phoneIntl}`} aria-label={t.callAgent(contact.name, contact.phone)}>
+   </a>}
+   <a className={contact.whatsapp === false ? s.contactPrimary : s.contactButton} href={`tel:${contact.phoneIntl}`} aria-label={t.callAgent(contact.name, contact.phone)}>
     <Phone size={15} strokeWidth={1.8} aria-hidden /><span dir="ltr" className={s.contactPhone}>{contact.phone}</span><span className={s.contactShort}>{t.call}</span>
    </a>
-   <a className={s.contactButton} href={`mailto:${contact.email}?subject=${encodeURIComponent(`${project.name} · ${homeRef}`)}&body=${encodeURIComponent(message)}`} aria-label={t.emailAbout(homeRef)} title={contact.email}>
+   {contact.email && <a className={s.contactButton} href={`mailto:${contact.email}?subject=${encodeURIComponent(`${project.name} · ${homeRef}`)}&body=${encodeURIComponent(message)}`} aria-label={t.emailAbout(homeRef)} title={contact.email}>
     <Mail size={15} strokeWidth={1.8} aria-hidden /><span>{t.email}</span>
-   </a>
+   </a>}
   </div>
  </motion.div>;
  const download = residence.media && <a className={s.downloadAssets} href={`/downloads/${project.id}/${residence.id}.zip`} download={`${residence.id}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
   <Download size={18} strokeWidth={1.7} aria-hidden />
  </a>;
  // Only what the facts row above the tabs doesn't already show (rooms, floor, area, outdoor, price, number).
- const specs: Spec[] = [
+ const specs: Spec[] = ([
   { key: 'exposure', label: t.specs.exposure, value: residence.exposure },
-  { key: 'parking', label: t.specs.parking, value: t.parkingShort },
-  { key: 'storage', label: t.specs.storage, value: t.storageShort },
-  { key: 'moveIn', label: t.specs.moveIn, value: info.moveIn },
- ];
+  { key: 'parking', label: t.specs.parking, value: info.parking ? t.parkingShort : '' },
+  { key: 'storage', label: t.specs.storage, value: info.storage ? t.storageShort : '' },
+  { key: 'moveIn', label: t.specs.moveIn, value: info.moveIn ?? '' },
+ ] satisfies Spec[]).filter(spec => spec.value);
  const openProject = () => { setMode('info'); setMobilePanel('building'); };
 
  return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined}>
   <header className={s.header}>
    <div className={s.headerStart}>
    <Link href="/" className={s.brand} aria-label={contact.agency}>
-    <img className={s.brandLogo} src="/remax-logo.png" alt={contact.agency} width={130} height={24} />
+    {project.brand
+     ? <img className={s.brandLogo} data-brand={project.brand.theme} src={project.brand.logo} alt={project.name} width={project.brand.logoWidth} height={project.brand.logoHeight} />
+     : <img className={s.brandLogo} src="/remax-logo.png" alt={contact.agency} width={130} height={24} />}
     <span className={s.brandAddress}>{info.address}</span>
    </Link>
-   <LanguageSwitch id="explorer-lang" compact />
+   <LanguageSwitch id="explorer-lang" compact tone={project.brand?.headerTone ?? 'light'} />
    <button type="button" className={s.addressChip} onClick={openProject} aria-pressed={mode === 'info'} title={t.addressTitle}>
     <MapPin size={15} strokeWidth={1.7} aria-hidden /><span><strong>{info.address}</strong><small>{info.area}</small></span>
    </button>
    </div>
    <div className={s.headerViews}>
-    <SegmentedControl id="header-view" label={t.viewsLabel} variant="header" value={(selected?.unit ?? 'five-room') as ViewId} onChange={chooseView} options={VIEWS.map(value => {
+    {views.length <= 1 && project.brand?.wordmark && <img className={s.headerWordmark} src={project.brand.wordmark.src} alt={project.brand.wordmark.alt} width={project.brand.wordmark.width} height={project.brand.wordmark.height} />}
+    {views.length > 1 && <SegmentedControl id="header-view" label={t.viewsLabel} variant="header" value={(selected?.unit ?? views[0]) as ViewId} onChange={chooseView} options={views.map(value => {
      // A type with nothing for sale stays in view, so the building's whole mix is visible, but can't be chosen.
      const none = !available.some(a => a.unit === value);
-     return { value, label: t.views[value], disabled: none, title: none ? `${t.views[value]} · ${t.noneAvailable}` : undefined };
-    })} />
+     const label = t.views[value as keyof typeof t.views] ?? project.residences.find(r => r.id === value)?.shortTitle ?? value;
+     return { value, label, disabled: none, title: none ? `${label} · ${t.noneAvailable}` : undefined };
+    })} />}
    </div>
    <div className={s.headerPicker}>
     <ApartmentPicker inventory={inventory} residences={project.residences} listings={project.listings} selected={selected} onSelect={a => select(a, { turn: true })} />
@@ -209,10 +226,10 @@ export default function BuildingExplorer({ project: source, frames }: { project:
        <div className={s.headText}>
         <h2 ref={titleRef} className={s.title}><SwapValue value={residence.shortTitle} order={navIndex} /></h2>
         {/* Phones: number and price under the name, in place of the tag and the price row. */}
-        {listing && <p className={s.titleMeta}><SwapValue value={`${t.aptNo(listing.number)} · ${t.currency}${formatPrice(listing.price)}`} order={listing.number} /></p>}
+        {listing && <p className={s.titleMeta}><SwapValue value={[listing.number && t.aptNo(listing.number), priceText].filter(Boolean).join(' · ')} order={listing.number} /></p>}
        </div>
        <div className={s.headAside}>
-        {listing && <span className={s.aptTag}><SwapValue value={t.aptNo(listing.number)} order={listing.number} /></span>}
+        {listing?.number && <span className={s.aptTag}><SwapValue value={t.aptNo(listing.number)} order={listing.number} /></span>}
         <span className={s.toneTag} data-tone="available"><i />{t.available}</span>
         {!focus && <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
          aria-label={focus ? t.backToBuilding : t.stepInsideLabel} title={focus ? t.backToBuildingTitle : t.stepInsideTitle}>
@@ -224,9 +241,11 @@ export default function BuildingExplorer({ project: source, frames }: { project:
       <motion.dl layout="position" transition={SOFT_SPRING} className={s.facts}>
        <div><dt>{t.rooms}</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
        <div><dt>{t.floor}</dt><dd className={s.factNumber}><SwapValue value={selected ? (selected.level === 0 ? t.ground : String(selected.level)) : '—'} order={selected?.level} /></dd></div>
-       <div><dt title={t.interiorTitle}>{t.interior}</dt><dd className={s.factNumber}><SwapValue value={String(residence.area)} /><span className={s.factUnit}>{t.sqm}</span></dd></div>
+       <div><dt title={t.interiorTitle}>{t.interior}</dt><dd className={s.factNumber}><SwapValue value={residence.area ? String(residence.area) : '—'} /><span className={s.factUnit}>{t.sqm}</span></dd></div>
        <div><dt>{t.outdoor}</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} /><span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} ${t.sqm}`} order={residence.outdoorArea} /></span></dd></div>
-       <div className={s.factPrice}><dt>{t.price}</dt><dd className={s.factNumber}><span className={s.factCurrency}>{t.currency}</span><SwapValue value={listing ? formatPrice(listing.price) : '—'} order={listing?.price} /></dd></div>
+       <div className={s.factPrice}><dt>{t.price}</dt>{listing && !listing.price
+        ? <dd className={s.factWord}><SwapValue value={t.onRequest} /></dd>
+        : <dd className={s.factNumber}><span className={s.factCurrency}>{t.currency}</span><SwapValue value={listing?.price ? formatPrice(listing.price) : '—'} order={listing?.price} /></dd>}</div>
       </motion.dl>
       {focus && <div className={s.focusActions}>
        <button type="button" className={s.returnButton} onClick={() => setFocus(false)} title={t.backToBuildingTitle}>
@@ -243,9 +262,9 @@ export default function BuildingExplorer({ project: source, frames }: { project:
       {contactRow}
      </motion.aside>
      <BuildingStage project={project} frames={frames} engine={engine} mode={mode} onModeChange={setMode} selectedApartment={selectedId}
-      hovered={hovered} onHover={onHover} onSelect={zone => select(zone)} counts={counts} priceFrom={Math.min(...Object.values(project.listings).map(l => l.price))}
+      hovered={hovered} onHover={onHover} onSelect={zone => select(zone)} counts={counts} priceFrom={lowestPrice(project.listings)}
       mobileSummary={<button type="button" className={s.mobileSummaryButton} onClick={() => setMobilePanel('details')}>
-       <span><SwapValue value={residence.shortTitle} order={navIndex} /><small><SwapValue value={[where, listing && t.aptNo(listing.number), listing && `${t.currency}${formatPrice(listing.price)}`].filter(Boolean).join(' · ')} order={selected?.level} /></small></span>
+       <span><SwapValue value={residence.shortTitle} order={navIndex} /><small><SwapValue value={[where, listing?.number && t.aptNo(listing.number), listing && priceText].filter(Boolean).join(' · ')} order={selected?.level} /></small></span>
        <span className={s.mobileSummaryAction}>{t.details}<ChevronRight size={16} strokeWidth={1.6} aria-hidden /></span>
       </button>} />
     </div>

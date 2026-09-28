@@ -18,6 +18,7 @@ const en = {
  enquiryText: (project: string, home: string) => `Hello, I'd like details about ${home} at ${project}.`,
  homeRef: (number: number | undefined, where: string, home: string) => `${number ? `apartment ${number}, ` : ''}${where}, ${home}`,
  rooms: 'Rooms', floor: 'Floor', interior: 'Area', outdoor: 'Outdoor', sqm: 'm²', price: 'Price', currency: '₪',
+ onRequest: 'On request', pricesOnRequest: 'On request from the sales office',
  interiorTitle: 'Listed area, including the private storage room',
  aptNo: (n: number) => `Apt. ${n}`,
  specs: { exposure: 'Exposure', parking: 'Parking', storage: 'Storage room', moveIn: 'Expected move-in' },
@@ -25,14 +26,14 @@ const en = {
  aboutSections: ['The layout', 'Worth checking'], homeFacts: 'Home details',
  // project info
  projectTab: 'Project', projectLabel: 'The project and its location', address: 'Address', buildingFacts: 'Building', floorsN: (n: number) => `${n} floors`,
- moveIn: 'Expected move-in', parking: 'Parking', storage: 'Storage', availabilityNow: 'Availability', homesAvailable: (n: number) => `${n} homes available`,
+ moveIn: 'Expected move-in', parking: 'Parking', storage: 'Storage', availabilityNow: 'Availability', homesAvailable: (n: number) => n === 1 ? '1 home available' : `${n} homes available`,
  prices: 'Prices', priceFrom: (p: string) => `From ${p}`, locationTitle: 'The location', mapTitle: (place: string) => `Map of ${place}`,
  openMaps: 'Google Maps', openWaze: 'Waze', addressTitle: 'The project, its location and a map', highlights: 'Project highlights', salesAgent: 'Sales agent',
  groundFloor: 'Ground floor', ground: 'Ground', groundShort: 'G',
  floorN: (n: number) => `Floor ${n}`,
  floorPlanOf: (home: string) => `${home} floor plan`,
  // picker
- chooseHome: 'Choose a home', availableHomes: (n: number) => `${n} available homes`, availableOf: (n: number, total: number) => `${n} of ${total} available`,
+ chooseHome: 'Choose a home', availableHomes: (n: number) => n === 1 ? '1 available home' : `${n} available homes`, availableOf: (n: number, total: number) => `${n} of ${total} available`,
  pickerLabel: (summary: string) => `Choose an apartment. Selected: ${summary}`, byFloor: 'Apartments by floor',
  roomsCount: (n: number) => `${n} rooms`,
  // stage
@@ -58,7 +59,7 @@ const en = {
  lightboxHint: 'Scroll or pinch to zoom · drag to move · double-click for a closer look',
  // 3D model
  modelAlt: 'Rotatable furnished cutaway of the apartment', preparingModel: 'Preparing the 3D model', modelFailed: 'The 3D model can’t be shown on this device.',
- modelView: 'Model view', model3d: '3D', modelTop: 'Top', modelOutdoor: 'Outdoor', resetView: 'Reset the view',
+ modelView: 'Model view', modelLeft: 'Turn the model left', modelRight: 'Turn the model right', model3d: '3D', modelTop: 'Top', modelOutdoor: 'Outdoor', resetView: 'Reset the view',
 };
 
 export type ExplorerText = typeof en;
@@ -80,19 +81,20 @@ const he: ExplorerText = {
  enquiryText: (project, home) => `שלום, אשמח לקבל פרטים על ${home} בפרויקט ${project}.`,
  homeRef: (number, where, home) => `${number ? `דירה ${number}, ` : ''}${where}, ${home}`,
  rooms: 'חדרים', floor: 'קומה', interior: 'שטח', outdoor: 'שטח חוץ', sqm: 'מ״ר', price: 'מחיר', currency: '₪',
+ onRequest: 'לפי בקשה', pricesOnRequest: 'לפי בקשה ממשרד המכירות',
  interiorTitle: 'השטח המצוין, כולל מחסן דירתי',
  aptNo: n => `דירה ${n}`,
  specs: { exposure: 'כיווני אוויר', parking: 'חניה', storage: 'מחסן', moveIn: 'אכלוס צפוי' },
  parkingShort: 'תת קרקעית רגילה', storageShort: 'מחסן דירתי, כלול בשטח',
  aboutSections: ['תכנון הדירה', 'כדאי לבדוק'], homeFacts: 'פרטי הדירה',
  projectTab: 'הפרויקט', projectLabel: 'הפרויקט והמיקום', address: 'כתובת', buildingFacts: 'הבניין', floorsN: n => `${n} קומות`,
- moveIn: 'אכלוס צפוי', parking: 'חניה', storage: 'מחסן', availabilityNow: 'זמינות', homesAvailable: n => `${n} דירות זמינות`,
+ moveIn: 'אכלוס צפוי', parking: 'חניה', storage: 'מחסן', availabilityNow: 'זמינות', homesAvailable: n => n === 1 ? 'דירה אחת זמינה' : `${n} דירות זמינות`,
  prices: 'מחירים', priceFrom: p => `החל מ־${p}`, locationTitle: 'המיקום', mapTitle: place => `מפה של ${place}`,
  openMaps: 'Google Maps', openWaze: 'Waze', addressTitle: 'הפרויקט, המיקום ומפה', highlights: 'עיקרי הפרויקט', salesAgent: 'סוכן המכירות',
  groundFloor: 'קומת קרקע', ground: 'קרקע', groundShort: 'ק',
  floorN: n => `קומה ${n}`,
  floorPlanOf: home => `תוכנית ${home}`,
- chooseHome: 'בחרו דירה', availableHomes: n => `${n} דירות זמינות`, availableOf: (n, total) => `${n} מתוך ${total} זמינות`,
+ chooseHome: 'בחרו דירה', availableHomes: n => n === 1 ? 'דירה אחת זמינה' : `${n} דירות זמינות`, availableOf: (n, total) => `${n} מתוך ${total} זמינות`,
  pickerLabel: summary => `בחירת דירה. נבחרה: ${summary}`, byFloor: 'הדירות לפי קומה',
  roomsCount: n => `${n} חדרים`,
  stageLabel: 'הבניין ב־360°. גררו או השתמשו בחצים ימינה ושמאלה כדי לסובב אותו.', architectLabel: 'מבט אדריכלי על הבניין',
@@ -114,7 +116,7 @@ const he: ExplorerText = {
  zoomOut: 'הקטנה', zoomIn: 'הגדלה', fit: 'התאמה למסך', close: 'סגירה',
  lightboxHint: 'גללו או צבטו כדי להגדיל · גררו כדי להזיז · לחיצה כפולה למבט מקרוב',
  modelAlt: 'מודל מרוהט של הדירה בחתך, לסיבוב', preparingModel: 'מודל התלת־ממד נטען', modelFailed: 'לא ניתן להציג את מודל התלת־ממד במכשיר הזה.',
- modelView: 'תצוגת המודל', model3d: 'תלת־ממד', modelTop: 'מלמעלה', modelOutdoor: 'חוץ', resetView: 'איפוס התצוגה',
+ modelView: 'תצוגת המודל', modelLeft: 'סיבוב המודל שמאלה', modelRight: 'סיבוב המודל ימינה', model3d: 'תלת־ממד', modelTop: 'מלמעלה', modelOutdoor: 'חוץ', resetView: 'איפוס התצוגה',
 };
 
 export const explorerText: Record<Lang, ExplorerText> = { en, he };

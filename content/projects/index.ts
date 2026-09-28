@@ -13,16 +13,28 @@ export type Residence = { id: string; title: string; shortTitle: string; tagline
 // Every sentence a visitor reads about a residence, so a language swaps all of them at once.
 export type ResidenceText = Pick<Residence, 'title' | 'shortTitle' | 'tagline' | 'outdoor' | 'exposure' | 'label' | 'description' | 'about'>;
 // What the sales listing says about one home on the building. Homes the listing leaves out are not for sale.
-export type Listing = { number: number; price: number };
-export type Contact = { name: string; agency: string; phone: string; phoneIntl: string; email: string };
-export type ProjectInfo = { address: string; area: string; kicker: string; floors: number; moveIn: string; parking: string; storage: string; intro: string; location: string[]; disclaimer: string; mapQuery: string };
+// A listing without a number or price still marks the home for sale; the price then reads "on request".
+export type Listing = { number?: number; price?: number };
+// `role` replaces "Sales agent" (e.g. a project sales line); WhatsApp and email show only when usable.
+export type Contact = { name: string; agency: string; phone: string; phoneIntl: string; email?: string; role?: string; whatsapp?: boolean };
+// Facts a project hasn't published (floors, move-in, parking, storage) are left out rather than guessed.
+export type ProjectInfo = { address: string; area: string; kicker: string; floors?: number; moveIn?: string; parking?: string; storage?: string; intro: string; location: string[]; disclaimer: string; mapQuery: string };
+// Per-project look: the header logo and a colour theme (a [data-theme] block in explorer.module.css).
+// `wordmark`: the campaign lettering, shown in the header's centre when there are no apartment-type tabs.
+export type Brand = { logo: string; logoWidth: number; logoHeight: number; theme?: string; headerTone?: 'light' | 'dark'; wordmark?: { src: string; width: number; height: number; alt: string }; directoryNote?: string; directoryNoteHe?: string };
 export type ApartmentZone = { unit: string; apartment: string; status: 'for-sale' | 'sold'; floor: string; labelPoints: [number, number][]; points: string };
 export type BuildingFrame = { src: string; hotspots: ApartmentZone[] };
-export type Development = { id: string; name: string; location: string; description: string; info: ProjectInfo; contact: Contact; source: string;
+export type Development = { id: string; name: string; location: string; description: string; info: ProjectInfo; contact: Contact; source: string; brand?: Brand;
+ // Apartment-type tabs in the header, by residence id; one type or fewer hides them. Defaults to the Sales Gallery's four.
+ views?: string[];
+ // 'legend': the chosen home is outlined on the building only while "For sale" is switched on (else on hover).
+ // Default 'always' keeps the chosen home outlined whatever the legend says.
+ selectionHighlight?: 'always' | 'legend';
  // Keyed by the facade zone id (front-06, rear-04, …): the listing is the source of truth for availability.
  listings: Record<string, Listing>;
- he: Pick<Development, 'name' | 'location' | 'description'> & { info: Omit<ProjectInfo, 'floors' | 'mapQuery'>; contact: Pick<Contact, 'name' | 'agency'> }; references: string[]; residences: Residence[]; media: Required<Pick<ResidenceMedia, 'film' | 'images' | 'model'>> & Pick<ResidenceMedia, 'modelOrbit'>; apartmentMedia?: Record<string, ResidenceMedia> };
+ he: Pick<Development, 'name' | 'location' | 'description'> & { info: Omit<ProjectInfo, 'floors' | 'mapQuery'>; contact: Pick<Contact, 'name' | 'agency' | 'role'> }; references: string[]; residences: Residence[]; media: Required<Pick<ResidenceMedia, 'film' | 'images' | 'model'>> & Pick<ResidenceMedia, 'modelOrbit'>; apartmentMedia?: Record<string, ResidenceMedia> };
 const base = '/projects/building-preview';
+const afk = '/projects/afk-urban-comfort';
 const placeholderImages: MediaImage[] = [
  { src: '/media/01_living.webp', label: 'Living & dining', labelHe: 'סלון ופינת אוכל' }, { src: '/media/02_main_bedroom.webp', label: 'Main bedroom', labelHe: 'חדר השינה הראשי' },
  { src: '/media/03_ensuite.webp', label: 'En-suite bathroom', labelHe: 'חדר רחצה צמוד' }, { src: '/media/04_small_bedroom.webp', label: 'Second bedroom', labelHe: 'חדר שינה שני' },
@@ -81,6 +93,69 @@ export const developments: Development[] = [{
   he: { title: 'דירה קומפקטית', shortTitle: 'דירה קומפקטית', tagline: 'חזית קומות 1–5, לא במלאי הנוכחי.', outdoor: '', exposure: '', label: '', description: 'אחת משתי דירות החזית בכל אחת מקומות 1–5.', about: [] } },
  ]
 }];
+// A.f.k · Urban Comfort, Building 1: one home on show, the A-P1 penthouse. The building is a study model built
+// from the marketing renders and the apartment plan; nothing the developer hasn't published is stated.
+const afkImages: MediaImage[] = [
+ { src: `${afk}/media/apartment-v1/01-living.webp`, label: 'Living room', labelHe: 'סלון' },
+ { src: `${afk}/media/apartment-v1/02-kitchen.webp`, label: 'Kitchen', labelHe: 'מטבח' },
+ { src: `${afk}/media/apartment-v1/03-terrace.webp`, label: 'Main terrace', labelHe: 'המרפסת הראשית' },
+ { src: `${afk}/media/apartment-v1/04-spa.webp`, label: 'Corner spa', labelHe: 'פינת הג׳קוזי' },
+ { src: `${afk}/media/apartment-v1/05-corridor.webp`, label: 'Private corridor', labelHe: 'מסדרון חדרי השינה' },
+ { src: `${afk}/media/apartment-v1/06-master.webp`, label: 'Master bedroom', labelHe: 'חדר השינה הראשי' },
+ { src: `${afk}/media/apartment-v1/07-ensuite.webp`, label: 'Master ensuite', labelHe: 'חדר הרחצה של סוויטת ההורים' },
+ { src: `${afk}/media/apartment-v1/08-bedroom.webp`, label: 'Bedroom', labelHe: 'חדר שינה' },
+ { src: `${afk}/media/apartment-v1/09-office.webp`, label: 'Home office', labelHe: 'חדר עבודה' },
+ { src: `${afk}/media/apartment-v1/10-protected-bedroom.webp`, label: 'Protected bedroom', labelHe: 'חדר שינה בממ״ד' },
+ { src: `${afk}/media/apartment-v1/11-bathroom.webp`, label: 'Family bathroom', labelHe: 'חדר הרחצה המשפחתי' },
+ { src: `${afk}/media/apartment-v1/12-laundry.webp`, label: 'Laundry', labelHe: 'חדר כביסה' },
+ { src: `${afk}/media/apartment-v1/13-small-terrace.webp`, label: 'Small terrace', labelHe: 'המרפסת הקטנה' },
+ { src: `${afk}/media/apartment-v1/14-top-down.webp`, label: 'Complete apartment · top view', labelHe: 'הדירה כולה · מבט על' },
+];
+developments.push({
+ id: 'afk-urban-comfort', name: 'A.f.k Urban Comfort', location: 'Neot Afeka · Tel Aviv',
+ description: 'The A-P1 penthouse in Building 1 of A.f.k, Neot Afeka: five rooms on the top floor, wrapped by an L-shaped terrace.',
+ source: '',
+ brand: { logo: `${afk}/building/afk-logo-raspberry.png`, logoWidth: 71, logoHeight: 34, theme: 'afk', headerTone: 'dark', wordmark: { src: `${afk}/building/urban-comfort-wordmark.png`, width: 1006, height: 78, alt: 'Urban Comfort' },
+  directoryNote: 'Penthouse explorer · Building 1 · Preview', directoryNoteHe: 'סיור בפנטהאוז · בניין 1 · תצוגה מקדימה' },
+ views: ['a-p1'],
+ selectionHighlight: 'legend',
+ info: {
+  address: 'A.f.k · Building 1', area: 'Neot Afeka · Tel Aviv', kicker: 'Urban comfort in Neot Afeka',
+  intro: 'Building 1 of A.f.k, by Shikun & Binui Nadlan and Metropolis. Its top floor holds A-P1, a five-room penthouse set back behind a long L-shaped terrace, with a second terrace off the kitchen and preparation for a jacuzzi.',
+  location: ['Neot Afeka is a residential neighbourhood in north Tel Aviv. The project’s plot lies between Avraham Shlonsky Street and Kehilat Padova Street, beside Kehilat Venezia Street.',
+   'The building on this page is a study model made from the developer’s renders and the A-P1 plan, to show where the penthouse sits. The courtyard facades, the landscaping and the exact number of floors are illustrative.'],
+  disclaimer: 'For illustration only; not a representation or commitment. The developer’s visualisations are marked as such, the 3D building and apartment are study models, the architect’s-view images are AI-generated illustrations of that model, and areas are estimates from the plan’s dimensions. Binding details are those in the sale agreement. E&OE.',
+  mapQuery: 'קהילת פדובה, תל אביב',
+ },
+ contact: { name: 'A.f.k Sales', agency: 'Shikun & Binui · Metropolis', phone: '*6766', phoneIntl: '*6766', role: 'Project sales line', whatsapp: false },
+ listings: { 'b1-ap1': {} },
+ he: {
+  name: 'A.f.k אורבן קומפורט', location: 'נאות אפקה · תל אביב', description: 'פנטהאוז A-P1 בבניין 1 בפרויקט A.f.k, נאות אפקה: חמישה חדרים בקומה העליונה, עם מרפסת גדולה בצורת L.',
+  info: {
+   address: 'A.f.k · בניין 1', area: 'נאות אפקה · תל אביב', kicker: 'איכות חיים עירונית בנאות אפקה',
+   intro: 'בניין 1 בפרויקט A.f.k של שיכון ובינוי נדל״ן ומטרופוליס. בקומה העליונה נמצא A-P1, פנטהאוז בן חמישה חדרים הנסוג מאחורי מרפסת ארוכה בצורת L, עם מרפסת נוספת ליד המטבח והכנה לג׳קוזי.',
+   location: ['נאות אפקה היא שכונת מגורים בצפון תל אביב. המגרש של הפרויקט נמצא בין רחוב אברהם שלונסקי לרחוב קהילת פדובה, לצד רחוב קהילת ונציה.',
+    'הבניין בעמוד זה הוא מודל עבודה שנבנה מהדמיות היזם ומתוכנית A-P1, כדי להראות היכן נמצא הפנטהאוז. חזיתות החצר, הפיתוח הסביבתי ומספר הקומות המדויק הם להמחשה בלבד.'],
+   disclaimer: 'להמחשה בלבד; אינו מהווה מצג או התחייבות. הדמיות היזם מסומנות ככאלה, הבניין והדירה בתלת־ממד הם מודלי עבודה, תמונות המבט האדריכלי הן המחשות שנוצרו בבינה מלאכותית מתוך המודל, והשטחים הם הערכה לפי מידות התוכנית. הנתונים המחייבים הם אלה שבהסכם המכר. ט.ל.ח.',
+  },
+  contact: { name: 'מכירות A.f.k', agency: 'שיכון ובינוי · מטרופוליס', role: 'קו המכירות של הפרויקט' },
+ },
+ // Architect's view: AI-generated stills of the study model (gpt-image-2.5, from our orbit render + the developer's style).
+ references: [`${afk}/building/architect-front.jpg`, `${afk}/building/architect-rear.jpg`],
+ media: { film: { src: '/media/residence-film.mp4', poster: '/media/01_living.webp' }, images: afkImages, model: `${afk}/models/a-p1.glb` },
+ apartmentMedia: { 'b1-ap1': { film: { src: `${afk}/media/a-p1-film-1080-v2.mp4`, poster: `${afk}/media/apartment-v1/01-living.webp` }, images: afkImages, model: `${afk}/models/a-p1.glb`, modelOrbit: '0deg 55deg 62%' } },
+ residences: [
+  { id: 'a-p1', title: 'Penthouse A-P1', shortTitle: 'Penthouse A-P1', tagline: '5 rooms on the top floor, L-shaped terrace with jacuzzi preparation.', rooms: 5, outdoor: 'Terraces',
+   area: 120, outdoorArea: 90, exposure: 'South, west & east', label: 'Life on the top floor', plan: `${afk}/plans/a-p1.jpg`, sourceUnits: 'Building 1 · type A-P1',
+   description: 'A five-room penthouse: living, dining and kitchen open onto a 21-metre terrace that turns the corner to a jacuzzi deck, with four bedrooms including the Mamad and a master suite.',
+   about: ['The living room, dining area and kitchen form one space along the south facade, opening onto a terrace about 21 m long that wraps round to the west, where the plan prepares for a jacuzzi. A second, smaller terrace opens off the kitchen. The bedroom wing holds three bedrooms, the Mamad (safe room) that doubles as a fourth, a family bathroom, a guest WC, a laundry room and the master suite with its own bathroom and dressing area.',
+    'Areas here are estimates from the plan’s dimensions (about 120 m² inside, about 90 m² of terraces); ask the sales office for the listed figures. Worth checking: the pergola extent over the terrace, the jacuzzi preparation, and furniture clearances in the bedrooms.'],
+   he: { title: 'פנטהאוז A-P1', shortTitle: 'פנטהאוז A-P1', tagline: '5 חדרים בקומה העליונה, מרפסת L עם הכנה לג׳קוזי.', outdoor: 'מרפסות', exposure: 'דרום, מערב ומזרח', label: 'חיים בקומה העליונה',
+    description: 'פנטהאוז בן חמישה חדרים: הסלון, פינת האוכל והמטבח נפתחים למרפסת באורך 21 מטר שפונה סביב הפינה אל משטח הג׳קוזי, עם ארבעה חדרי שינה כולל הממ״ד וסוויטת הורים.',
+    about: ['הסלון, פינת האוכל והמטבח יוצרים חלל אחד לאורך החזית הדרומית, ונפתחים למרפסת באורך של כ־21 מ׳ הפונה מערבה, שם מתוכננת הכנה לג׳קוזי. מרפסת נוספת וקטנה יותר יוצאת מהמטבח. באגף השינה שלושה חדרי שינה, ממ״ד שמשמש כחדר רביעי, חדר רחצה משפחתי, שירותי אורחים, חדר כביסה וסוויטת הורים עם חדר רחצה וחדר ארונות.',
+     'השטחים כאן הם הערכה לפי מידות התוכנית (כ־120 מ״ר פנים וכ־90 מ״ר מרפסות); את הנתונים הרשמיים יש לקבל ממשרד המכירות. כדאי לבדוק: את היקף הפרגולה מעל המרפסת, את ההכנה לג׳קוזי ואת המרווחים לריהוט בחדרי השינה.'] } },
+ ],
+});
 export const getDevelopment = (id:string) => developments.find(p=>p.id===id);
 
 export const localizeResidence = (residence: Residence, lang: Lang): Residence => lang === 'he' ? { ...residence, ...residence.he } : residence;

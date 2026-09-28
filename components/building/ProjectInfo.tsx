@@ -6,20 +6,20 @@ import { explorerText } from './strings';
 import s from './explorer.module.css';
 
 // The building as a whole: what the listing says about the project, and where it is.
-export default function ProjectInfo({ project, available, priceFrom }: { project: Development; available: number; priceFrom: number }) {
+export default function ProjectInfo({ project, available, priceFrom }: { project: Development; available: number; priceFrom?: number }) {
  const lang = useLang();
  const t = explorerText[lang];
  const { info } = project;
  const query = encodeURIComponent(info.mapQuery);
  const facts = [
   { icon: MapPin, label: t.address, value: info.address, note: info.area },
-  { icon: Building2, label: t.buildingFacts, value: t.floorsN(info.floors) },
+  { icon: Building2, label: t.buildingFacts, value: info.floors ? t.floorsN(info.floors) : '' },
   { icon: CalendarDays, label: t.moveIn, value: info.moveIn },
   { icon: KeyRound, label: t.availabilityNow, value: t.homesAvailable(available) },
-  { icon: Tag, label: t.prices, value: t.priceFrom(`${t.currency}${new Intl.NumberFormat('en-US').format(priceFrom)}`), brand: true },
+  { icon: Tag, label: t.prices, value: priceFrom ? t.priceFrom(`${t.currency}${new Intl.NumberFormat('en-US').format(priceFrom)}`) : t.pricesOnRequest, brand: true },
   { icon: Car, label: t.parking, value: info.parking },
   { icon: Package, label: t.storage, value: info.storage },
- ];
+ ].filter(fact => fact.value);
  return <div className={s.projectView} role="region" aria-label={t.projectLabel}>
   <div className={s.projectInner}>
    <span className={s.projectKicker}>{info.kicker}</span>
