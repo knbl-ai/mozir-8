@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { ArrowLeft, ArrowUpRight, Box, ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Map as MapIcon } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Box, ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Map as MapIcon, MapPin } from 'lucide-react';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
 import { BUILDINGS, TYPES, UNITS, orbitUrl, project, unitById, type Orbit, type Unit } from '@/content/projects/gindi';
@@ -11,6 +11,7 @@ import { type Filter, matches } from './FloorMatrix';
 import HomePanel, { Plate, type HomeTab } from './HomePanel';
 import HomePicker from './HomePicker';
 import ContactDialog from './ContactDialog';
+import ComplexInfo from './ComplexInfo';
 import s from './gindi.module.css';
 
 type View = 'complex' | number;
@@ -56,6 +57,7 @@ export default function GindiSite() {
  const [focus, setFocus] = useState(false);
  // The complex as one picture: the developer's aerial in place of the turning towers.
  const [aerial, setAerial] = useState(false);
+ const [info, setInfo] = useState(false);
  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
  const faceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
  const [tip, setTip] = useState<{ x: number; y: number } | null>(null);
@@ -439,6 +441,7 @@ export default function GindiSite() {
       <h1 className={s.wordmark}><span>GINDI</span>COLORS</h1>
       <p className={s.tagline}>{lang === 'he' ? project.taglineHe : project.tagline}</p>
       <p className={s.heroLine}>{t.heroLine}</p>
+      <button type="button" className={s.aboutBtn} data-ui onClick={() => setInfo(true)}><MapPin size={15} strokeWidth={1.5} aria-hidden />{t.aboutComplex}</button>
      </motion.div>}
     </AnimatePresence>
     <AnimatePresence>
@@ -492,5 +495,6 @@ export default function GindiSite() {
 
   <footer className={s.footer}><p>{t.disclaimer}</p><p>{t.sampleNote}</p></footer>
   <ContactDialog unit={contact} onClose={() => setContact(undefined)} />
+  <ComplexInfo open={info} onOpenChange={setInfo} />
  </div></MotionConfig>;
 }
