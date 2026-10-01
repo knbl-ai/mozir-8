@@ -1,5 +1,9 @@
 # Apartment plan → interactive property website
 
+## Current ending and pacing rule — 30 September 2026
+
+For future apartment videos, do not include an animated top-down shot in the AI-video blockout or generated tour. Generate the complete furnished top-down image separately and append that still in the final edit when requested. This supersedes older per-project examples that reserve the last two seconds of the blockout for overhead animation; do not retroactively alter completed videos. Allocate the recovered tour time to slower useful room reveals. Keep gentle continuous camera movement within each shot; avoid stationary staring, rapid alternating pans, and downward balcony views. Balcony eye height should retain furniture and the exterior together. Adapt the path to each apartment rather than blindly following a template. Record final still duration separately from generated tour duration.
+
 Reusable production runbook · established on Mozir 8, Apartment 02 · 24 September 2026
 
 This documents the process that produced the approved apartment, film, soundtrack and website. It separates approved decisions from suggested defaults for future apartments. It is a production workflow, not an automatic plan-to-model converter or a construction-validation procedure.
@@ -235,6 +239,10 @@ The first realistic images stayed too close to Blender, especially the chairs. T
 Retain architecture while allowing slender, believable designer furniture, authentic construction, seams, natural textile folds, stone pores and irregular wood grain. Restraint matters: a lived-in, tidy home rather than a showroom filled with ornaments.
 
 ### Generate fresh images
+
+**Image resolution:** Generate location/window-view images in **2K** (landscape 2048 × 1152) and apartment/interior images in **4K** (landscape 3840 × 2160, or equivalent portrait orientation). Request native generation at the target resolution and verify actual saved dimensions; upscaling alone does not satisfy the generation requirement.
+
+**Window-view viewpoint:** Place the camera in the project's building looking outward, rather than reproducing an aerial visualization of the development. Exclude the project's own recognizable tower cluster. Use supplied aerial images for regional character, not as a literal window sightline. Include a nearby playground or park only in the direction where it belongs; do not repeat the same foreground in every direction. Record unverified height and orientation assumptions. When a view is rejected, generate a fresh image rather than retouching it.
 
 The user explicitly preferred **new generation from scratch**, not repeated edits of previous AI output, because edited iterations appeared to lose quality. Return to the raw Blender guide with a corrected prompt when a reference fails.
 

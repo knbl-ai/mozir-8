@@ -6,7 +6,7 @@ export type DemoCopy = {
 export type LandingCopy = {
  brand: string; brandNote: string; newTab: string;
  title: string; lede: string; sample: string;
- salesGallery: DemoCopy; openHouse: DemoCopy; penthouse: DemoCopy;
+ salesGallery: DemoCopy; openHouse: DemoCopy; penthouse: DemoCopy; complex: DemoCopy;
  footer: string;
 };
 
@@ -14,8 +14,8 @@ const en: LandingCopy = {
  brand: 'Residences',
  brandNote: 'Property marketing demos',
  newTab: 'opens in a new tab',
- title: 'Three ways to show a home before the first visit.',
- lede: 'This is a working demo of three property-marketing websites. One sells a whole new building, home by home. One gives a single apartment a website of its own. The third presents one luxury home on its building, in the project’s own look.',
+ title: 'Four ways to show a home before the first visit.',
+ lede: 'This is a working demo of four property-marketing websites. One sells a whole new building, home by home. One gives a single apartment a website of its own. The third presents one luxury home on its building, in the project’s own look. The fourth sells a four-tower neighbourhood in its developer’s brand: pick a building, then a floor, then a home.',
  sample: 'Everything here is sample data. Availability is invented, areas are estimates from the plans, and the interiors, films and 3D furniture are illustrations.',
  salesGallery: {
   kind: 'For a new development',
@@ -44,6 +44,15 @@ const en: LandingCopy = {
   hint: 'Hover to turn the building',
   touchHint: 'The building turns as you scroll past',
  },
+ complex: {
+  kind: 'For a multi-building project',
+  name: 'Gindi Colors',
+  body: 'A four-tower neighbourhood in the developer’s own luxury look: turn the complex, fly into any building, and pick a home on its facade or floor by floor. Shown with Gindi Colors, Kiryat HaSharon.',
+  features: ['Four towers, one turn of the complex', 'Every building, every floor, every home', 'Plans, interiors and outlooks per home', 'In Gindi’s charcoal and gold'],
+  cta: 'Open Gindi Colors',
+  hint: 'Hover to turn the complex',
+  touchHint: 'The complex turns as you scroll past',
+ },
  footer: 'A demo, not an offer to sell. Confirm any property detail with the developer.',
 };
 
@@ -51,8 +60,8 @@ const he: LandingCopy = {
  brand: 'Residences',
  brandNote: 'הדגמות לשיווק נדל״ן',
  newTab: 'נפתח בכרטיסייה חדשה',
- title: 'שלוש דרכים להציג בית עוד לפני הביקור הראשון.',
- lede: 'זוהי הדגמה חיה של שלושה אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה. השלישי מציג דירת יוקרה אחת על הבניין שלה, בעיצוב של הפרויקט.',
+ title: 'ארבע דרכים להציג בית עוד לפני הביקור הראשון.',
+ lede: 'זוהי הדגמה חיה של ארבעה אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה. השלישי מציג דירת יוקרה אחת על הבניין שלה, בעיצוב של הפרויקט. הרביעי משווק שכונה של ארבעה מגדלים במיתוג היזם: בוחרים בניין, קומה — ואת הבית.',
  sample: 'כל מה שמוצג כאן הוא מידע לדוגמה: הזמינות בדויה, השטחים הם הערכות לפי התוכניות, והעיצוב הפנימי, הסרטונים והריהוט בתלת־ממד הם המחשות.',
  salesGallery: {
   kind: 'לפרויקט חדש',
@@ -80,6 +89,15 @@ const he: LandingCopy = {
   cta: 'לפנטהאוז',
   hint: 'רחפו מעל התמונה כדי לסובב את הבניין',
   touchHint: 'הבניין מסתובב כשהוא על המסך',
+ },
+ complex: {
+  kind: 'לפרויקט רב־בנייני',
+  name: 'גינדי קולורס',
+  body: 'שכונה של ארבעה מגדלים, בשפת היוקרה של היזם: מסובבים את המתחם, נכנסים לכל בניין ובוחרים דירה על החזית או קומה אחר קומה. מוצג עם גינדי קולורס, קריית השרון.',
+  features: ['ארבעה מגדלים, סיבוב אחד של המתחם', 'כל בניין, כל קומה, כל דירה', 'תוכניות, הדמיות ונופים לכל דירה', 'בשחור ובזהב של גינדי'],
+  cta: 'לגינדי קולורס',
+  hint: 'רחפו מעל התמונה כדי לסובב את המתחם',
+  touchHint: 'המתחם מסתובב כשהוא על המסך',
  },
  footer: 'זוהי הדגמה ולא הצעה למכירה. יש לאמת כל פרט על הנכס מול היזם.',
 };

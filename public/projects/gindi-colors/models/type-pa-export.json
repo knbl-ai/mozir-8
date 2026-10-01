@@ -1,0 +1,8 @@
+{
+  "source": "projects/Gindi-Kiryat-Hasharon-Netanya/apartments/penthouse-pa/model/GKH_PA_Blockout_v08.blend",
+  "objects": 918,
+  "bytes": 2359792,
+  "left_out": "ceiling, removable foreground facade, source plan, cameras, lights",
+  "materials": "principled values and viewport colours; procedural textures not baked",
+  "compression": "Draco"
+}

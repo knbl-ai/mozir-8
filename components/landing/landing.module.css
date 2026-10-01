@@ -57,13 +57,15 @@
 /* Demos */
 .demos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3.2vw, 48px); padding-bottom: clamp(48px, 7vw, 96px); }
 .demo { display: flex; flex-direction: column; min-width: 0; }
-/* Three demos: one row on wide screens, the features list stacking inside the narrower cards. */
-@media (min-width: 1280px) {
-  .demos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* Four demos: two by two, one row of four on very wide screens (the features list stacking inside). */
+@media (min-width: 1800px) {
+  .demos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .demos .features { grid-template-columns: 1fr; }
 }
 
 .previewLink { position: relative; display: block; border-radius: 20px; overflow: hidden; background: var(--well); isolation: isolate; }
+/* Gindi Colors: its frames have no sky, so they sit on the brand's charcoal. */
+.previewLink[data-tone='dark'] { background: radial-gradient(120% 90% at 50% 38%, #24221f 0%, #151514 70%); }
 .preview { position: relative; display: block; aspect-ratio: 6 / 5; max-height: max(300px, calc(100svh - 370px)); width: 100%; }
 .previewMedia {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;

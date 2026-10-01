@@ -1,0 +1,8 @@
+{
+  "source": "projects/Gindi-Kiryat-Hasharon-Netanya/apartments/type-a/model/GKH_A_Blockout_v08.blend",
+  "objects": 668,
+  "bytes": 1511428,
+  "left_out": "ceiling, removable foreground facade, source plan, cameras, lights",
+  "materials": "principled values and viewport colours; procedural textures not baked",
+  "compression": "Draco"
+}

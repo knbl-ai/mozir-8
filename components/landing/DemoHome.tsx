@@ -10,10 +10,10 @@ import BuildingPreview from './BuildingPreview';
 import FilmPreview from './FilmPreview';
 import s from './landing.module.css';
 
-function Demo({ href, text, newTab, preview, id }: { href: string; text: DemoCopy; newTab: string; id: string; preview: (active: boolean) => React.ReactNode }) {
+function Demo({ href, text, newTab, preview, id, tone }: { href: string; text: DemoCopy; newTab: string; id: string; tone?: 'dark'; preview: (active: boolean) => React.ReactNode }) {
  const [active, setActive] = useState(false);
  return <article className={s.demo} aria-labelledby={`${id}-name`}>
-  <Link href={href} target="_blank" rel="noopener" className={s.previewLink} aria-label={`${text.cta} (${newTab})`}
+  <Link href={href} target="_blank" rel="noopener" className={s.previewLink} data-tone={tone} aria-label={`${text.cta} (${newTab})`}
    onPointerEnter={e => e.pointerType === 'mouse' && setActive(true)} onPointerLeave={() => setActive(false)}
    onFocus={() => setActive(true)} onBlur={() => setActive(false)}>
    <span className={s.preview}>{preview(active)}</span>
@@ -35,7 +35,7 @@ function Demo({ href, text, newTab, preview, id }: { href: string; text: DemoCop
  </article>;
 }
 
-export default function DemoHome({ buildingFrames, penthouseFrames }: { buildingFrames: string[]; penthouseFrames: string[] }) {
+export default function DemoHome({ buildingFrames, penthouseFrames, complexFrames }: { buildingFrames: string[]; penthouseFrames: string[]; complexFrames: string[] }) {
  const lang = useLang();
  const t = copy[lang];
 
@@ -64,6 +64,8 @@ export default function DemoHome({ buildingFrames, penthouseFrames }: { building
      preview={active => <FilmPreview poster="/media/01_living.webp" film="/media/residence-film.mp4" active={active} />} />
     <Demo id="penthouse" href={withLang('/projects/afk-urban-comfort#explore', lang)} text={t.penthouse} newTab={t.newTab}
      preview={active => <BuildingPreview frames={penthouseFrames} active={active} span={0.6} centre={0.5} />} />
+    <Demo id="gindi-colors" href={withLang('/gindi-colors', lang)} text={t.complex} newTab={t.newTab} tone="dark"
+     preview={active => <BuildingPreview frames={complexFrames} active={active} span={0.7} centre={0.47} />} />
    </div>
   </main>
 

@@ -26,6 +26,8 @@ export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, 
   const scale = Math.max(c.width / img.naturalWidth, Math.min(c.height / img.naturalHeight, c.height / (img.naturalHeight * span)));
   const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
   const y = Math.min(0, Math.max(c.height - h, c.height / 2 - h * centre));
+  // Frames with a transparent sky (the complex) would pile up on the last one: start each from a clean canvas.
+  ctx.clearRect(0, 0, c.width, c.height);
   ctx.drawImage(img, (c.width - w) / 2, y, w, h);
  };
 

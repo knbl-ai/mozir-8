@@ -15,6 +15,17 @@ choice; the hub passes the language to both demos. Words live in `components/lan
 by unicode-range so Latin keeps each page's own typefaces. The old `/projects` list and the
 per-plan pages are unlinked and stay English. `tests/language-check.mjs` covers the flow.
 
+## Gindi Colors — 30 September 2026
+
+`/gindi-colors` is the hub's fourth demo: a four-tower complex in Gindi Holdings' charcoal-and-gold look. The complex
+turns (60 pre-rendered views); a building is chosen on the image, from the cards or from the header, and the view zooms
+into that tower's own ring (the same 60 angles, so the zoom is matched frame to frame). In a tower the layout follows the Sales Gallery template:
+the building on the left, the chosen home in a large media panel on the right (mirrored in Hebrew) (plan, film, interiors, 3D, views, about); hovering a home
+on the facade selects it after 90 ms (sold homes don't select); the floor-by-floor grid is the header's home picker. The URL keeps `?b=<building>&u=<home>`. Code: `components/gindi/`; data: `content/projects/gindi.ts`;
+frames and hotspots: `public/projects/gindi-colors/orbit/` (from the production scripts `render_web.py` and
+`package_web.py` in `projects/Gindi-Kiryat-Hasharon-Netanya/building/`). Availability is sample data.
+QA: `node review/gindi-check.mjs <baseUrl> <outDir>` (with `npm start`, set `GINDI_PAGE=/gindi-colors.html`).
+
 ## Current state — 26 September 2026
 
 The project route is now a single-screen apartment-selection app: apartment media on the left, interactive building on the right. The header selects Front View, Rear View or Garden and an available demo unit. The media tabs are Floor plan, Video, Images, 3D and About. Video, images and the apartment model are explicitly identified Mozir 8 placeholders. There is no apartment-page CTA in this app.
