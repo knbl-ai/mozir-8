@@ -2,7 +2,7 @@
 import { useEffect, useId, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Box, Building2, Eye, ChevronLeft, ChevronRight, Download, Images, Info, LayoutPanelLeft, Maximize2, Play, X } from 'lucide-react';
+import { Box, Building2, Pin, PinOff, Eye, ChevronLeft, ChevronRight, Download, Images, Info, LayoutPanelLeft, Maximize2, Play, X } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
 import { PLATES, TYPES, UNITS, type GindiType, type Unit } from '@/content/projects/gindi';
 import ResidenceModel from '@/components/building/ResidenceModel';
@@ -50,7 +50,7 @@ export type HomeTab = 'plan' | 'film' | 'images' | '3d' | 'about';
 const ICONS: Record<HomeTab, typeof Play> = { plan: LayoutPanelLeft, film: Play, images: Images, '3d': Box, about: Info };
 
 // The chosen home, given the room it needs: name and facts on top, then the media filling the rest of the panel.
-export default function HomePanel({ unit, tab, onTab, onContact, focus, onFocus, plate }: { unit: Unit; tab: HomeTab; onTab: (t: HomeTab) => void; onContact: () => void; focus: boolean; onFocus: (v: boolean) => void; plate?: PlatePick }) {
+export default function HomePanel({ unit, tab, onTab, onContact, focus, onFocus, plate, pinned, onPin }: { unit: Unit; tab: HomeTab; onTab: (t: HomeTab) => void; onContact: () => void; focus: boolean; onFocus: (v: boolean) => void; plate?: PlatePick; pinned?: boolean; onPin?: () => void }) {
  const lang = useLang(); const t = gindiText[lang];
  const info = TYPES[unit.type];
  const media = info.media;
@@ -88,6 +88,9 @@ export default function HomePanel({ unit, tab, onTab, onContact, focus, onFocus,
     <div className={s.homeKickerRow}>
      <p className={s.kicker}>{t.buildingN(unit.building)} · {t.floorN(unit.floor)}</p>
      <span className={s.pill} data-status={unit.status}>{t.statusText(unit.status)}</span>
+     {/* Pinned: hovering other homes leaves this one in view; click again to let the pointer lead. */}
+     {onPin && <button type="button" className={s.pinChip} aria-pressed={!!pinned} onClick={onPin} title={pinned ? t.unpinTitle : t.pinTitle}>
+      {pinned ? <Pin size={12} strokeWidth={1.8} aria-hidden /> : <PinOff size={12} strokeWidth={1.6} aria-hidden />}{pinned ? t.pinned : t.pin}</button>}
     </div>
     {/* Keyed fade-in only: an exit in "wait" mode could strand the previous home's name when homes change quickly. */}
     <motion.h2 key={unit.id} className={s.homeTitle} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .22 }}>

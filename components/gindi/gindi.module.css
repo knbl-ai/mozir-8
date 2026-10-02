@@ -727,7 +727,7 @@
 
 /* hover card in the building column */
 .hoverCard {
-  display: flex; flex-direction: column; gap: 3px; width: 220px; margin-top: 16px; padding: 14px 16px 15px;
+  position: relative; display: flex; flex-direction: column; gap: 3px; width: 220px; margin-top: 16px; padding: 14px 16px 15px;
   background: rgb(18 18 17 / 0.72); border: 1px solid rgb(214 181 104 / 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -755,3 +755,12 @@
   .towerTitle .towerName { font-size: 48px; margin-top: 0; }
   .towerTitle .legend { margin-top: 12px; }
 }
+
+/* Pinned home: a chip by the status in the panel, a badge on the side card, and a steady (not breathing) selection on the facade. */
+.pinChip { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 9.5px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-2); transition: all 0.2s var(--ease); }
+.pinChip:hover { color: var(--ink); border-color: var(--gold-soft); }
+.pinChip[aria-pressed='true'] { color: #1a1814; border-color: transparent; background: var(--gold-grad); }
+[dir='rtl'] .pinChip { letter-spacing: 0.04em; font-size: 11px; }
+.pinBadge { position: absolute; top: 14px; inset-inline-end: 14px; display: inline-flex; align-items: center; gap: 5px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+[dir='rtl'] .pinBadge { letter-spacing: 0.02em; font-size: 11px; }
+.hoverCard[data-pinned] { border-color: var(--gold); box-shadow: 0 0 0 1px rgb(214 181 104 / 0.35), 0 0 24px rgb(214 170 80 / 0.2); }

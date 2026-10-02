@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { ArrowLeft, ArrowUpRight, Box, ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Map as MapIcon, MapPin, Mountain } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Box, ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Map as MapIcon, MapPin, Mountain, Pin } from 'lucide-react';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
 import { BUILDINGS, TYPES, UNITS, orbitUrl, project, unitById, type Orbit, type Unit } from '@/content/projects/gindi';
@@ -62,6 +62,8 @@ export default function GindiSite() {
  const [aerial, setAerial] = useState(false);
  const [info, setInfo] = useState(false);
  const [views, setViews] = useState(false);
+ // A clicked home is pinned: the panel, card and plan stay on it while the pointer wanders; clicking it again lets go.
+ const [pinned, setPinned] = useState(false);
  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
  const faceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
  const [tip, setTip] = useState<{ x: number; y: number } | null>(null);
@@ -267,18 +269,26 @@ export default function GindiSite() {
   setHoverUnit(id);
   const u = id ? unitById.get(id) : null;
   if (hoverTimer.current) clearTimeout(hoverTimer.current);
-  if (u && u.status === 'available' && id !== selected) hoverTimer.current = setTimeout(() => setSelected(id), 90);
+  if (u && u.status === 'available' && id !== selected && !pinned) hoverTimer.current = setTimeout(() => setSelected(id), 90);
  };
  useEffect(() => () => { if (hoverTimer.current) clearTimeout(hoverTimer.current); if (faceTimer.current) clearTimeout(faceTimer.current); }, []);
  // A tile hovered in the picker turns the tower to face its home, after a short pause so sweeping across the grid doesn't spin it.
  const pickerHover = (id: string | null) => {
   hoverHome(id);
   if (faceTimer.current) clearTimeout(faceTimer.current);
-  if (id) faceTimer.current = setTimeout(() => reveal(id, true), 140);
+  if (id && !pinned) faceTimer.current = setTimeout(() => reveal(id, true), 140);
  };
+ // Click pins a home; clicking the pinned one again unpins it; clicking another moves the pin there.
+ const pinHome = (id: string, face = false) => {
+  if (pinned && id === selected) { setPinned(false); return; }
+  if (unitById.get(id)?.status !== 'available') return;
+  if (hoverTimer.current) clearTimeout(hoverTimer.current);
+  selectUnit(id, face); setPinned(true);
+ };
+ useEffect(() => { if (!selected) setPinned(false); }, [selected]);
  const onPick = (id: string) => {
   if (view === 'complex') go(Number(id.slice(1)));
-  else if (unitById.get(id)?.status === 'available') selectUnit(id);
+  else pinHome(id);
  };
  // Arriving in a tower opens a home at once (the template never shows an empty panel): the chosen one if it is
  // in this tower, else an available home on the facade in view — a 5-room first, as it has the most to show.
@@ -313,7 +323,8 @@ export default function GindiSite() {
   const u = unitById.get(id);
   if (!u) return undefined;
   // One home at a time: the hovered one stands in for the chosen one, so the facade, the card and the panel agree.
-  if (id === activeId) return id === hoverUnit ? (u.status === 'sold' ? 'hover-sold' : 'hover') : 'selected';
+  if (id === activeId) return id === hoverUnit && !pinned ? (u.status === 'sold' ? 'hover-sold' : 'hover') : 'selected';
+  if (pinned && id === hoverUnit) return u.status === 'sold' ? 'hover-sold' : 'hover';
   if (id === selected || id === hoverUnit) return undefined;
   const filtering = filter !== 'all' || onlyAvailable;
   if (filtering && matches(u, filter, onlyAvailable)) return 'match';
@@ -347,10 +358,11 @@ export default function GindiSite() {
   return () => { ro.disconnect(); box.removeEventListener('transitionend', measure); };
  }, [towerSpan, busy, layout, focus]);
  const tipUnit = hoverUnit ? unitById.get(hoverUnit) : null;
- const infoUnit = (tipUnit && tipUnit.building === view ? tipUnit : null) ?? (selectedUnit && selectedUnit.building === view ? selectedUnit : null);
+ const selectedHere = selectedUnit && selectedUnit.building === view ? selectedUnit : null;
+ const infoUnit = pinned && selectedHere ? selectedHere : (tipUnit && tipUnit.building === view ? tipUnit : null) ?? selectedHere;
  const activeId = infoUnit?.id ?? null;
  // The floor plan's homes behave like the picker's tiles: hover shows one (the building turns to it), click chooses it.
- const platePick = { onHover: pickerHover, onPick: (id: string) => { if (unitById.get(id)?.status === 'available') selectUnit(id, true); } };
+ const platePick = { onHover: pickerHover, onPick: (id: string) => pinHome(id, true) };
 
  const renderLayer = (v: View) => {
   const key = ringKey(v);
@@ -396,7 +408,7 @@ export default function GindiSite() {
    <div className={s.headerEnd}>
     <LanguageSwitch id="gindi-lang" compact tone="dark" />
     {inTower && !busy && <HomePicker units={unitsHere} selected={selectedUnit && selectedUnit.building === view ? selectedUnit : null} filter={filter} onFilter={setFilter}
-     onlyAvailable={onlyAvailable} onOnlyAvailable={setOnlyAvailable} hovered={hoverUnit} onHover={pickerHover} onSelect={id => selectUnit(id, true)} />}
+     onlyAvailable={onlyAvailable} onOnlyAvailable={setOnlyAvailable} hovered={hoverUnit} onHover={pickerHover} onSelect={id => { if (hoverTimer.current) clearTimeout(hoverTimer.current); selectUnit(id, true); setPinned(true); }} />}
    </div>
   </header>
 
@@ -515,8 +527,9 @@ export default function GindiSite() {
       </div>
       </div>
       {/* The home under the pointer (else the chosen one), with its sale status spelled out. */}
-      {infoUnit && <div className={s.hoverCard} data-status={infoUnit.status} data-live={infoUnit.id === hoverUnit || undefined}>
+      {infoUnit && <div className={s.hoverCard} data-status={infoUnit.status} data-live={(infoUnit.id === hoverUnit && !pinned) || undefined} data-pinned={pinned || undefined}>
        <span className={s.hoverStatus}>{t.statusText(infoUnit.status)}</span>
+       {pinned && <span className={s.pinBadge} title={t.unpinTitle}><Pin size={12} strokeWidth={1.8} aria-hidden />{t.pinned}</span>}
        <strong>{lang === 'he' ? TYPES[infoUnit.type].nameHe : TYPES[infoUnit.type].name}</strong>
        <span>{t.floorN(infoUnit.floor)}</span>
        <span className={s.hoverFacts}>{[TYPES[infoUnit.type].rooms && t.roomsN(TYPES[infoUnit.type].rooms!), TYPES[infoUnit.type].area && t.m2(TYPES[infoUnit.type].area!), t.exposureText(infoUnit.exposure)].filter(Boolean).join(' · ')}</span>
@@ -529,7 +542,8 @@ export default function GindiSite() {
    <AnimatePresence>
     {inTower && !busy && selectedUnit && selectedUnit.building === view && <motion.aside key={`home${view}`} className={s.homePanel} aria-label={t.homeSelected}
      initial={{ opacity: 0, x: lang === 'he' ? -30 : 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: lang === 'he' ? -20 : 20 }} transition={{ duration: .55, ease: [.22, 1, .36, 1] }}>
-     <HomePanel unit={infoUnit ?? selectedUnit} tab={homeTab} onTab={setHomeTab} onContact={() => setContact(infoUnit ?? selectedUnit)} focus={focus} onFocus={setFocus} plate={platePick} />
+     <HomePanel unit={infoUnit ?? selectedUnit} tab={homeTab} onTab={setHomeTab} onContact={() => setContact(infoUnit ?? selectedUnit)} focus={focus} onFocus={setFocus} plate={platePick}
+      pinned={pinned && infoUnit?.id === selected} onPin={() => { if (pinned) setPinned(false); else if (infoUnit) pinHome(infoUnit.id); }} />
     </motion.aside>}
    </AnimatePresence>
   </div>
