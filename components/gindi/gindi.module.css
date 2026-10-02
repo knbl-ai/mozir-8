@@ -240,8 +240,52 @@
   .ciMap { height: 340px; }
 }
 
+/* Views from the building: a button riding above the tower's roof, and a panel with the picture beside a compass. */
+.viewsBtn {
+  position: absolute; z-index: 4; translate: -50% calc(-100% - 14px); display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 16px; white-space: nowrap;
+  border: 1px solid rgb(214 181 104 / 0.5); border-radius: 999px; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink);
+  background: rgb(20 20 19 / 0.62); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: border-color 0.2s, background 0.2s;
+}
+.viewsBtn svg { color: var(--gold); }
+.viewsBtn { animation: fadeIn 0.5s var(--ease) both; }
+@keyframes fadeIn { from { opacity: 0; } }
+.viewsBtn:hover { border-color: var(--gold); background: rgb(30 28 24 / 0.85); }
+.dialog.buildingViews { width: min(1280px, calc(100vw - 32px)); padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) 300px; overflow: hidden; --ink: #f4f0e9; }
+.bvStill { position: relative; aspect-ratio: 16 / 9; max-height: calc(100dvh - 64px); overflow: hidden; background: #0e0e0d; }
+.bvStill img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bvSide { display: flex; flex-direction: column; gap: 14px; padding: 30px 26px 24px; overflow-y: auto; }
+.bvSide .ciTitle { margin-top: 0; font-size: 28px; line-height: 1.15; padding-inline-end: 30px; }
+.compass { display: block; width: 200px; height: 200px; margin: 4px auto 0; overflow: visible; }
+.compassRing { fill: rgb(255 255 255 / 0.03); stroke: rgb(255 255 255 / 0.22); stroke-width: 0.6; }
+.compassTick { stroke: rgb(255 255 255 / 0.28); stroke-width: 0.5; }
+.compassTurn { transform-origin: 0 0; transform-box: view-box; transition: transform 0.55s cubic-bezier(.22, 1, .36, 1); }
+.compassWedge { fill: rgb(214 181 104 / 0.32); stroke: #e8cf8e; stroke-width: 0.6; }
+.compassTower { fill: #f4f0e9; stroke: #171615; stroke-width: 1; }
+.compassDir { cursor: pointer; outline: none; }
+.compassDir circle { fill: #171615; stroke: rgb(255 255 255 / 0.25); stroke-width: 0.6; transition: fill 0.2s, stroke 0.2s; }
+.compassDir text { font-size: 7.5px; font-weight: 500; text-anchor: middle; dominant-baseline: central; fill: rgb(244 240 233 / 0.75); font-family: inherit; }
+.compassDir:hover circle, .compassDir:focus-visible circle { stroke: var(--gold); }
+.compassDir[data-on] circle { fill: #cfae62; stroke: #ead491; }
+.compassDir[data-on] text { fill: #1a1814; }
+.buildingViews .chips { justify-content: center; }
+.bvWhat span { font-size: 10px; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+.bvWhat p { margin: 6px 0 0; font-size: 15px; line-height: 1.55; color: #f4f0e9; }
+.buildingViews .ciNote { margin: auto 0 0; }
+@media (max-width: 960px) {
+  .viewsBtn { height: 30px; padding: 0 12px; font-size: 10px; letter-spacing: 0.12em; }
+  .dialog.buildingViews { grid-template-columns: 1fr; max-height: calc(100dvh - 24px); overflow-y: auto; }
+  .bvSide { padding: 18px 18px 18px; }
+  .compass { width: 150px; height: 150px; }
+}
+
 /* ---------------------------------------------------------------- tower title */
 .towerTitle { position: absolute; z-index: 5; top: 112px; inset-inline-start: clamp(20px, 3vw, 48px); }
+@media (min-width: 961px) {
+  /* Along the tower's height: top level with the roof, foot level with the base (kept clear of the header and the turn arrows). */
+  .towerTitle { top: max(104px, var(--col-top, 112px)); bottom: max(124px, var(--col-bottom, 124px)); display: flex; flex-direction: column; justify-content: space-between; }
+  .towerTitle .towerPlate { margin-top: 0; }
+  .towerTitle .hoverCard { margin-top: 0; }
+}
 .backLink { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-2); transition: color 0.2s; }
 .backLink:hover { color: var(--gold); }
 .towerName { margin: 8px 0 6px; font-weight: 300; font-size: 60px; line-height: 0.9; letter-spacing: 0.06em; }
@@ -320,7 +364,12 @@
 .plateHome:not(:has([data-on])):hover .plateUnit { fill: rgb(214 181 104 / 0.24); stroke: rgb(240 216 148 / 0.7); }
 .plateHome:not(:has([data-on])):hover .plateLabel { fill: var(--ink); }
 .plateHome[data-status='sold'] { cursor: default; }
-.plateHome[data-status='sold'] .plateLabel { text-decoration: line-through; }
+/* Status on the floor, as the legend: for sale a gold tint, sold dark with light hatching; the shown home stays solid gold. */
+[data-status='available'] > .plateUnit:not([data-on]) { fill: rgb(214 181 104 / 0.16); stroke: rgb(214 181 104 / 0.5); }
+[data-status='sold'] > .plateUnit:not([data-on]) { fill: rgb(10 10 10 / 0.5); }
+.plateSold { pointer-events: none; }
+.plateHatch { stroke: rgb(255 255 255 / 0.22); stroke-width: 0.35; }
+[data-status='sold'] > .plateLabel:not([data-on]) { fill: rgb(244 240 233 / 0.4); }
 .plateNorth path { fill: var(--gold); }
 .plateNorth text { font-size: 2.2px; text-anchor: middle; fill: var(--gold); font-family: var(--sans); }
 
@@ -508,12 +557,6 @@
 /* the model's caption at the top, beside the full-screen button, clear of the turn/zoom controls */
 .mediaModel .mediaCaption { top: 16px; bottom: auto; inset-inline: auto; left: 58px; max-width: calc(100% - 400px); }
 @media (max-width: 960px) { .mediaModel .mediaCaption { display: none; } }
-.mediaViews { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 8px; }
-.mediaViews[data-n='3'] figure:first-child { grid-column: 1 / -1; }
-.mediaViews figure { position: relative; margin: 0; min-height: 0; overflow: hidden; }
-.mediaViews img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
-.mediaViews figcaption { position: absolute; bottom: 10px; inset-inline-start: 10px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: #fff; background: rgb(15 15 14 / 0.6); }
-.mediaViews .mediaNote { position: absolute; bottom: -2px; inset-inline-end: 0; display: none; }
 .mediaAbout { overflow-y: auto; padding-inline-end: 8px; }
 .aboutLead { margin: 0; font-size: 16px; line-height: 1.75; color: var(--ink); max-width: 62ch; }
 .aboutList { margin: 22px 0 18px; display: grid; gap: 14px; }
@@ -665,7 +708,12 @@
   .page:not([data-focus]) .homeTitle small { display: none; }
 }
 /* the home's place on its floor, on the building side */
-.towerPlate { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 22px; }
+.towerPlate { display: flex; flex-direction: row; align-items: center; gap: 18px; margin-top: 22px; }
+.plateFloor { display: flex; flex-direction: column; gap: 2px; margin: 0; padding-inline-start: 16px; border-inline-start: 1px solid var(--line); }
+.towerPlate .plateFloor span { font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-3); }
+.plateFloor strong { font-weight: 300; font-size: 40px; line-height: 1.05; letter-spacing: 0.04em; color: var(--ink); }
+[dir='rtl'] .towerPlate .plateFloor span { letter-spacing: 0.02em; font-size: 11px; }
+.plateFloor em { font-style: normal; font-size: 11px; letter-spacing: 0.04em; color: var(--gold); white-space: nowrap; }
 .towerPlate .plate { width: 120px; height: 120px; }
 .towerPlate span { font-size: 12px; letter-spacing: 0.06em; color: var(--ink-2); }
 @media (max-width: 960px) { .towerPlate { display: none; } }
@@ -693,9 +741,17 @@
 [dir='rtl'] .hoverStatus { letter-spacing: 0.02em; font-size: 13px; }
 @media (max-width: 960px) { .hoverCard { display: none; } }
 @media (min-width: 961px) { .page[data-view='tower'] .turn { top: auto; bottom: 64px; translate: none; } }
+
 /* Phones: the download icon, Step inside and Book a meeting share one full-width row; in step inside Book a meeting takes the first row, Download and Back share the second. */
 @media (max-width: 960px) {
   .page:not([data-focus]) .homeActions { align-self: stretch; gap: 8px; }
   .page:not([data-focus]) .homeActions .stepBtn, .page:not([data-focus]) .homeActions .goldBtn { flex: 1; min-width: 0; justify-content: center; padding: 0 10px; font-size: 11px; letter-spacing: 0.1em; }
   .page[data-focus] .homeActions .goldBtn { grid-column: 1 / -1; }
+}
+/* Short screens: the tower is short too, so the column drops its small labels to keep head, plan and card apart. */
+@media (min-width: 961px) and (max-height: 820px) {
+  .towerTitle .kicker, .towerTitle .towerName small { display: none; }
+  .towerTitle .backLink { margin-bottom: 8px; }
+  .towerTitle .towerName { font-size: 48px; margin-top: 0; }
+  .towerTitle .legend { margin-top: 12px; }
 }

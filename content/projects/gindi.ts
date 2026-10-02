@@ -130,7 +130,13 @@ const floorsOf = (t: GindiType, b: number): number[] => {
  return Array.from({ length: 21 - from }, (_, i) => from + i);
 };
 // Sample availability: a fixed hash per home, so every visitor sees the same building.
-const hash = (s: string) => { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967296; };
+// FNV-1a alone barely moves when only the last letter differs (b1-f05-a vs b1-f05-b), which sold whole floors together;
+// the murmur3 finaliser spreads every bit, so neighbours on a floor fall independently.
+const hash = (s: string) => {
+ let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); }
+ h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16;
+ return (h >>> 0) / 4294967296;
+};
 export const unitId = (b: number, f: number, t: GindiType) => `b${b}-f${String(f).padStart(2, '0')}-${t.toLowerCase()}`;
 
 export const BUILDINGS = [1, 2, 3, 4] as const;
@@ -139,6 +145,14 @@ export const UNITS: Unit[] = BUILDINGS.flatMap(b => (Object.keys(QUADS[b]) as Gi
  const soldShare = t === 'PA' || t === 'PB' ? .5 : .22 + .3 * (1 - f / 20);          // lower floors sell first
  return { id, building: b, floor: f, type: t, quadrant: QUADS[b][t], exposure: EXPOSURE[QUADS[b][t]], status: hash(id) < soldShare ? 'sold' : 'available' } as Unit;
 })));
+// Every floor is mixed, never all sold or all on sale: on a uniform floor the home whose draw sits furthest
+// from the rest (highest when all sold, lowest when all on sale) flips.
+for (const b of BUILDINGS) for (let f = 1; f <= 21; f++) {
+ const floor = UNITS.filter(u => u.building === b && u.floor === f);
+ if (floor.length < 2) continue;
+ if (floor.every(u => u.status === 'sold')) floor.reduce((x, y) => hash(y.id) > hash(x.id) ? y : x).status = 'available';
+ else if (floor.every(u => u.status === 'available')) floor.reduce((x, y) => hash(y.id) < hash(x.id) ? y : x).status = 'sold';
+}
 export const unitById = new Map(UNITS.map(u => [u.id, u]));
 
 export type Plate = { outline: string; core: string; units: Partial<Record<GindiType, { points: string; quadrant: Quadrant; cx: number; cy: number }>> };

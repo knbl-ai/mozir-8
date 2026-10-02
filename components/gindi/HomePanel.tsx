@@ -1,10 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Box, Building2, Eye, ChevronLeft, ChevronRight, Download, Images, Info, LayoutPanelLeft, Maximize2, Mountain, Play, X } from 'lucide-react';
+import { Box, Building2, Eye, ChevronLeft, ChevronRight, Download, Images, Info, LayoutPanelLeft, Maximize2, Play, X } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
-import { PLATES, TYPES, UNITS, VIEWS, type GindiType, type Unit } from '@/content/projects/gindi';
+import { PLATES, TYPES, UNITS, type GindiType, type Unit } from '@/content/projects/gindi';
 import ResidenceModel from '@/components/building/ResidenceModel';
 import { gindiText } from './strings';
 import s from './gindi.module.css';
@@ -22,17 +22,21 @@ export function Plate({ unit, onHover, onPick }: { unit: Unit } & PlatePick) {
  const R = PLATES.radius + 1.5;
  const ph = unit.floor === 21;
  const types: GindiType[] = ph ? ['PA', 'PB'] : ['A', 'B', 'C', 'D'];
+ const hatch = `plate-sold-${useId().replace(/:/g, '')}`;
  return <svg className={s.plate} viewBox={`${-R} ${-R} ${2 * R} ${2 * R}`} role="img" aria-label={t.position}>
+  {/* Sold homes carry the legend's hatching; homes for sale its gold tint. */}
+  <defs><pattern id={hatch} width="1.4" height="1.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="1.4" className={s.plateHatch} /></pattern></defs>
   <polygon points={plate.outline} className={s.plateOutline} />
   {types.map(tp => {
    const p = plate.units[tp]; if (!p) return null;
    const home = homeAt.get(`${unit.building}-${unit.floor}-${tp}`);
    const live = !!home && !!(onHover || onPick);
-   return <g key={tp} className={live ? s.plateHome : undefined} data-status={live ? home!.status : undefined}
+   return <g key={tp} className={live ? s.plateHome : undefined} data-status={home?.status}
     onPointerEnter={live ? () => onHover?.(home!.id) : undefined} onPointerLeave={live ? () => onHover?.(null) : undefined}
     onClick={live ? e => { e.stopPropagation(); onPick?.(home!.id); } : undefined}>
    {live && <title>{`${lang === 'he' ? TYPES[tp].nameHe : TYPES[tp].name} · ${t.statusText(home!.status)}`}</title>}
    <polygon points={p.points} className={s.plateUnit} data-on={tp === unit.type || undefined} />
+   {home?.status === 'sold' && <polygon points={p.points} fill={`url(#${hatch})`} className={s.plateSold} />}
    <text x={p.cx} y={ph ? Math.sign(p.cy) * PH_LABEL_Y : p.cy} className={s.plateLabel} data-on={tp === unit.type || undefined}>{tp}</text>
   </g>; })}
   <polygon points={plate.core} className={s.plateCore} />
@@ -42,17 +46,17 @@ export function Plate({ unit, onHover, onPick }: { unit: Unit } & PlatePick) {
  </svg>;
 }
 
-export type HomeTab = 'plan' | 'film' | 'images' | '3d' | 'views' | 'about';
-const ICONS: Record<HomeTab, typeof Play> = { plan: LayoutPanelLeft, film: Play, images: Images, '3d': Box, views: Mountain, about: Info };
+export type HomeTab = 'plan' | 'film' | 'images' | '3d' | 'about';
+const ICONS: Record<HomeTab, typeof Play> = { plan: LayoutPanelLeft, film: Play, images: Images, '3d': Box, about: Info };
 
 // The chosen home, given the room it needs: name and facts on top, then the media filling the rest of the panel.
 export default function HomePanel({ unit, tab, onTab, onContact, focus, onFocus, plate }: { unit: Unit; tab: HomeTab; onTab: (t: HomeTab) => void; onContact: () => void; focus: boolean; onFocus: (v: boolean) => void; plate?: PlatePick }) {
  const lang = useLang(); const t = gindiText[lang];
  const info = TYPES[unit.type];
  const media = info.media;
- const tabs: HomeTab[] = ['plan', ...(media?.film ? ['film' as const] : []), ...(media?.images.length ? ['images' as const] : []), ...(media?.model ? ['3d' as const] : []), 'views', 'about'];
+ const tabs: HomeTab[] = ['plan', ...(media?.film ? ['film' as const] : []), ...(media?.images.length ? ['images' as const] : []), ...(media?.model ? ['3d' as const] : []), 'about'];
  const shown: HomeTab = tabs.includes(tab) ? tab : 'plan';
- const label: Record<HomeTab, string> = { plan: t.plan, film: t.film, images: t.interiors, '3d': t.model3d, views: t.views, about: t.aboutTab };
+ const label: Record<HomeTab, string> = { plan: t.plan, film: t.film, images: t.interiors, '3d': t.model3d, about: t.aboutTab };
  const [shot, setShot] = useState(0);
  const [zoom, setZoom] = useState<string | null>(null);
  const [modelFull, setModelFull] = useState(false);
@@ -85,11 +89,10 @@ export default function HomePanel({ unit, tab, onTab, onContact, focus, onFocus,
      <p className={s.kicker}>{t.buildingN(unit.building)} · {t.floorN(unit.floor)}</p>
      <span className={s.pill} data-status={unit.status}>{t.statusText(unit.status)}</span>
     </div>
-    <AnimatePresence mode="wait" initial={false}>
-     <motion.h2 key={unit.id} className={s.homeTitle} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: .22 }}>
-      {name}<small>{lang === 'he' ? info.kindHe : info.kind}</small>
-     </motion.h2>
-    </AnimatePresence>
+    {/* Keyed fade-in only: an exit in "wait" mode could strand the previous home's name when homes change quickly. */}
+    <motion.h2 key={unit.id} className={s.homeTitle} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .22 }}>
+     {name}<small>{lang === 'he' ? info.kindHe : info.kind}</small>
+    </motion.h2>
    </div>
    {focus && <Plate unit={unit} {...plate} />}
    {!focus && actions}
@@ -142,10 +145,6 @@ export default function HomePanel({ unit, tab, onTab, onContact, focus, onFocus,
     <div className={s.modelBox}>{!modelFull && <ResidenceModel src={media.model} defaultOrbit={media.modelOrbit} />}</div>
     <button type="button" className={s.modelExpand} onClick={() => setModelFull(true)} aria-label={t.openModel} title={t.openModel}><Maximize2 size={15} strokeWidth={1.5} aria-hidden /></button>
     <span className={s.mediaCaption}>{t.modelNote} · {t.illustrative}</span>
-   </div>}
-   {shown === 'views' && <div className={s.mediaViews} data-n={unit.exposure.length}>
-    {unit.exposure.map(d => <figure key={d}><img src={VIEWS[d]} alt={t.dir[d]} onClick={() => setZoom(VIEWS[d])} /><figcaption>{t.dir[d]}</figcaption></figure>)}
-    <p className={s.mediaNote}>{t.viewsNote}</p>
    </div>}
    {shown === 'about' && <div className={s.mediaAbout}>
     <p className={s.aboutLead}>{(lang === 'he' ? info.aboutHe : info.about) ?? t.planToCome}</p>

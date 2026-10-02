@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { ArrowLeft, ArrowUpRight, Box, ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Map as MapIcon, MapPin } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Box, ChevronLeft, ChevronRight, Eye, EyeOff, Hand, Map as MapIcon, MapPin, Mountain } from 'lucide-react';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
 import { BUILDINGS, TYPES, UNITS, orbitUrl, project, unitById, type Orbit, type Unit } from '@/content/projects/gindi';
@@ -12,12 +12,15 @@ import HomePanel, { Plate, type HomeTab } from './HomePanel';
 import HomePicker from './HomePicker';
 import ContactDialog from './ContactDialog';
 import ComplexInfo from './ComplexInfo';
+import BuildingViews from './BuildingViews';
 import s from './gindi.module.css';
 
 type View = 'complex' | number;
 const COUNT = 60;
 const EASE = 'cubic-bezier(.62,.02,.2,1)';
 const ZOOM_MS = 1500;
+// The homes' box stops at the penthouse floor; the rooftop pavilion stands about this share of its height above it.
+const ROOF_CLEAR = 0.09;
 const ringKey = (v: View) => v === 'complex' ? 'complex' : `b${v}`;
 
 const area = (pts: string) => {
@@ -58,6 +61,7 @@ export default function GindiSite() {
  // The complex as one picture: the developer's aerial in place of the turning towers.
  const [aerial, setAerial] = useState(false);
  const [info, setInfo] = useState(false);
+ const [views, setViews] = useState(false);
  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
  const faceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
  const [tip, setTip] = useState<{ x: number; y: number } | null>(null);
@@ -73,6 +77,8 @@ export default function GindiSite() {
  const pendingReveal = useRef<string | null>(null);
 
  useEffect(() => { setTouch(window.matchMedia('(hover: none)').matches); try { setHintSeen(localStorage.getItem('gindi.hint') === '1'); } catch { setHintSeen(false); } }, []);
+ // In a tower the hint shares the top of the stage with the Views button: it shows for a few seconds, then gives way.
+ useEffect(() => { if (hintSeen || typeof view !== 'number' || busy) return; const id = setTimeout(dismissHint, 4500); return () => clearTimeout(id); }, [hintSeen, view, busy]); // eslint-disable-line react-hooks/exhaustive-deps
  const dismissHint = () => { if (hintSeen) return; setHintSeen(true); try { localStorage.setItem('gindi.hint', '1'); } catch { /* private */ } };
 
  // ---- data
@@ -318,6 +324,28 @@ export default function GindiSite() {
  const complexFrame = complex?.frames[frameIdx];
  const towerFrame = tower?.frames[frameIdx];
  const hoverBox = hoverTower && complexFrame?.boxes[hoverTower];
+ const roofBox = typeof view === 'number' ? towerFrame?.boxes[view] : undefined;
+ // The tower's full height over the whole turn (frame units), so the side column can line up with it.
+ const towerSpan = useMemo(() => {
+  if (typeof view !== 'number' || !tower) return null;
+  let y0 = Infinity, y1 = -Infinity;
+  tower.frames.forEach(f => { const b = f.boxes[view]; if (b) { y0 = Math.min(y0, b[1]); y1 = Math.max(y1, b[3]); } });
+  return y0 < y1 ? { y0: y0 - (y1 - y0) * ROOF_CLEAR, y1 } : null;
+ }, [tower, view]);
+ const [column, setColumn] = useState<{ top: number; bottom: number } | null>(null);
+ useEffect(() => {
+  const stage = stageRef.current, box = boxRef.current;
+  if (!stage || !box || !towerSpan || busy) { setColumn(null); return; }
+  const measure = () => {
+   const sr = stage.getBoundingClientRect(), br = box.getBoundingClientRect();
+   const y = (v: number) => br.top - sr.top + v / FRAME_H * br.height;
+   setColumn({ top: Math.round(y(towerSpan.y0)), bottom: Math.round(sr.height - y(towerSpan.y1)) });
+  };
+  measure();
+  const ro = new ResizeObserver(measure); ro.observe(stage);
+  box.addEventListener('transitionend', measure);
+  return () => { ro.disconnect(); box.removeEventListener('transitionend', measure); };
+ }, [towerSpan, busy, layout, focus]);
  const tipUnit = hoverUnit ? unitById.get(hoverUnit) : null;
  const infoUnit = (tipUnit && tipUnit.building === view ? tipUnit : null) ?? (selectedUnit && selectedUnit.building === view ? selectedUnit : null);
  const activeId = infoUnit?.id ?? null;
@@ -405,6 +433,10 @@ export default function GindiSite() {
        <span className={s.cardGo}>{t.explore}<ArrowUpRight size={14} strokeWidth={1.6} aria-hidden /></span>
       </motion.div>}
      </AnimatePresence>
+     {/* The outlook belongs to the building, not to one home: its button rides just above the roof as the tower turns. */}
+     {inTower && !busy && !focus && roofBox && hintSeen && <button type="button" className={s.viewsBtn} data-ui onClick={() => setViews(true)}
+      style={{ left: `${(roofBox[0] + roofBox[2]) / 2 / 16}%`, top: `${(roofBox[1] - (roofBox[3] - roofBox[1]) * ROOF_CLEAR) / 9}%` }}>
+      <Mountain size={15} strokeWidth={1.5} aria-hidden />{t.buildingViews}</button>}
     </div>
 
     {!complex && <span className={s.status} role="status"><span className={s.spinner} />{t.loading}</span>}
@@ -459,18 +491,28 @@ export default function GindiSite() {
 
     {/* Tower: its name, the way back, availability on the facade. */}
     <AnimatePresence>
-     {inTower && !busy && <motion.div key={`t${view}`} className={s.towerTitle} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: .5, ease: [.22, 1, .36, 1] }}>
+     {inTower && !busy && <motion.div key={`t${view}`} className={s.towerTitle} style={column ? { '--col-top': `${column.top}px`, '--col-bottom': `${column.bottom}px` } as React.CSSProperties : undefined} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: .5, ease: [.22, 1, .36, 1] }}>
+      {/* Spread along the tower: its name level with the roof, the floor plan mid-height, the home's card at its foot. */}
+      <div className={s.colHead}>
       <button type="button" className={s.backLink} onClick={() => go('complex')}><ArrowLeft size={15} strokeWidth={1.5} className={s.dirIcon} aria-hidden />{t.complex}</button>
       <p className={s.kicker}>GINDI COLORS</p>
       <h2 className={s.towerName}><small>{t.building}</small>{t.buildingShort(view as number)}</h2>
       <p className={s.cardMeta}>{t.residencesN(unitsHere.length)} · {t.availableN(unitsHere.length - soldHere)}</p>
+      </div>
+      <div className={s.colMid}>
       {infoUnit && <div className={s.towerPlate} data-ui>
        <Plate unit={infoUnit} {...platePick} />
+       {/* Beside the plan: which floor it shows, and how much of that floor is still on sale. */}
+       <p className={s.plateFloor} aria-label={t.floorN(infoUnit.floor)}>
+        <span>{t.floor}</span><strong>{t.floorShort(infoUnit.floor)}</strong>
+        <em>{t.availableN(UNITS.filter(u => u.building === infoUnit.building && u.floor === infoUnit.floor && u.status === 'available').length)}</em>
+       </p>
       </div>}
       <div className={s.legend}>
        <button type="button" className={s.legendBtn} aria-pressed={showAvail} onClick={() => setShowAvail(v => !v)}>
         {showAvail ? <Eye size={14} strokeWidth={1.6} aria-hidden /> : <EyeOff size={14} strokeWidth={1.6} aria-hidden />}
         <span className={s.swatchAvail} />{t.forSale}<span className={s.swatchSold} />{t.sold}</button>
+      </div>
       </div>
       {/* The home under the pointer (else the chosen one), with its sale status spelled out. */}
       {infoUnit && <div className={s.hoverCard} data-status={infoUnit.status} data-live={infoUnit.id === hoverUnit || undefined}>
@@ -496,5 +538,6 @@ export default function GindiSite() {
   <footer className={s.footer}><p>{t.disclaimer}</p><p>{t.sampleNote}</p></footer>
   <ContactDialog unit={contact} onClose={() => setContact(undefined)} />
   <ComplexInfo open={info} onOpenChange={setInfo} />
+  {inTower && <BuildingViews building={view as number} open={views} onOpenChange={setViews} />}
  </div></MotionConfig>;
 }
