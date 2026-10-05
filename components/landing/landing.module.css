@@ -57,10 +57,16 @@
 /* Demos */
 .demos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3.2vw, 48px); padding-bottom: clamp(48px, 7vw, 96px); }
 .demo { display: flex; flex-direction: column; min-width: 0; }
-/* Four demos: two by two, one row of four on very wide screens (the features list stacking inside). */
+/* Five demos: two by two with the fifth across the full width (a wide preview, its features in a row),
+   one row of five on very wide screens (the features list stacking inside). */
+.demos > .demo:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.demos > .demo:last-child:nth-child(odd) .features { max-width: none; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.demos > .demo:last-child:nth-child(odd) .preview { aspect-ratio: 21 / 9; }
 @media (min-width: 1800px) {
-  .demos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .demos .features { grid-template-columns: 1fr; }
+  .demos { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .demos > .demo:last-child:nth-child(odd) { grid-column: auto; }
+  .demos > .demo:last-child:nth-child(odd) .preview { aspect-ratio: 6 / 5; }
+  .demos .features, .demos > .demo:last-child:nth-child(odd) .features { grid-template-columns: 1fr; }
 }
 
 .previewLink { position: relative; display: block; border-radius: 20px; overflow: hidden; background: var(--well); isolation: isolate; }
@@ -115,6 +121,8 @@ video.previewMedia[data-playing] { opacity: 1; }
 .footer p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-3); }
 
 @media (max-width: 900px) {
+  .demos > .demo:last-child:nth-child(odd) .preview { aspect-ratio: 6 / 5; }
+  .demos > .demo:last-child:nth-child(odd) .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .intro { grid-template-columns: 1fr; align-items: start; }
   .demos { grid-template-columns: 1fr; row-gap: 64px; }
 }

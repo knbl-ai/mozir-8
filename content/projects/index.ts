@@ -5,6 +5,8 @@ import type { Lang } from '@/lib/i18n';
 export type MediaImage = { src: string; label: string; labelHe?: string };
 // Everything a buyer can look at for one home. Any field left out falls back a level:
 // apartment → residence type → the project's shared (placeholder) set.
+// A home over several floors: one model per view (both floors, then each floor), switched in the 3D tab.
+export type ModelLevel = { id: string; label: string; labelHe?: string; src: string };
 export type ResidenceMedia = { film?: { src: string; poster: string }; images?: MediaImage[]; model?: string; modelOrbit?: string };
 export type Residence = { id: string; title: string; shortTitle: string; tagline: string; rooms: number; outdoor: string;
  // The developer's listed m² (the private storage room is included in it) and the listed garden or balcony.
@@ -167,7 +169,7 @@ export const applyListings = (frames: BuildingFrame[], project: Development): Bu
  frames.map(f => ({ ...f, hotspots: f.hotspots.map(h => ({ ...h, status: project.listings[h.apartment] ? 'for-sale' : 'sold' })) }));
 export const localizeImages = (images: MediaImage[], lang: Lang): MediaImage[] => lang === 'he' ? images.map(i => ({ ...i, label: i.labelHe ?? i.label })) : images;
 
-export type ResolvedMedia = { film: { src: string; poster: string }; images: MediaImage[]; model: string; modelOrbit?: string; placeholder: { film: boolean; images: boolean; model: boolean } };
+export type ResolvedMedia = { film: { src: string; poster: string }; images: MediaImage[]; model: string; modelOrbit?: string; modelLevels?: ModelLevel[]; placeholder: { film: boolean; images: boolean; model: boolean } };
 // The most specific media wins; `placeholder` marks what still comes from the shared set.
 export function resolveMedia(project: Development, residence: Residence, apartment?: string): ResolvedMedia {
  const own = apartment ? project.apartmentMedia?.[apartment] : undefined;

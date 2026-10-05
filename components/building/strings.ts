@@ -59,7 +59,7 @@ const en = {
  lightboxHint: 'Scroll or pinch to zoom · drag to move · double-click for a closer look',
  // 3D model
  modelAlt: 'Rotatable furnished cutaway of the apartment', preparingModel: 'Preparing the 3D model', modelFailed: 'The 3D model can’t be shown on this device.',
- modelView: 'Model view', modelLeft: 'Turn the model left', modelRight: 'Turn the model right', model3d: '3D', modelTop: 'Top', modelOutdoor: 'Outdoor', resetView: 'Reset the view',
+ modelView: 'Model view', modelLeft: 'Turn the model left', modelRight: 'Turn the model right', model3d: '3D', modelTop: 'Top', modelOutdoor: 'Outdoor', resetView: 'Reset the view', modelFloors: 'Floors',
 };
 
 export type ExplorerText = typeof en;
@@ -116,7 +116,7 @@ const he: ExplorerText = {
  zoomOut: 'הקטנה', zoomIn: 'הגדלה', fit: 'התאמה למסך', close: 'סגירה',
  lightboxHint: 'גללו או צבטו כדי להגדיל · גררו כדי להזיז · לחיצה כפולה למבט מקרוב',
  modelAlt: 'מודל מרוהט של הדירה בחתך, לסיבוב', preparingModel: 'מודל התלת־ממד נטען', modelFailed: 'לא ניתן להציג את מודל התלת־ממד במכשיר הזה.',
- modelView: 'תצוגת המודל', modelLeft: 'סיבוב המודל שמאלה', modelRight: 'סיבוב המודל ימינה', model3d: 'תלת־ממד', modelTop: 'מלמעלה', modelOutdoor: 'חוץ', resetView: 'איפוס התצוגה',
+ modelView: 'תצוגת המודל', modelLeft: 'סיבוב המודל שמאלה', modelRight: 'סיבוב המודל ימינה', model3d: 'תלת־ממד', modelTop: 'מלמעלה', modelOutdoor: 'חוץ', resetView: 'איפוס התצוגה', modelFloors: 'קומות',
 };
 
 export const explorerText: Record<Lang, ExplorerText> = { en, he };

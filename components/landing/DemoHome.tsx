@@ -66,6 +66,8 @@ export default function DemoHome({ buildingFrames, penthouseFrames, complexFrame
      preview={active => <BuildingPreview frames={penthouseFrames} active={active} span={0.6} centre={0.5} />} />
     <Demo id="gindi-colors" href={withLang('/gindi-colors', lang)} text={t.complex} newTab={t.newTab} tone="dark"
      preview={active => <BuildingPreview frames={complexFrames} active={active} span={0.7} centre={0.47} />} />
+    <Demo id="klee-8" href={withLang('/klee-8', lang)} text={t.boutique} newTab={t.newTab}
+     preview={active => <FilmPreview poster="/projects/klee-8/media/apt-3/g-garden.webp" film="/projects/klee-8/media/apt-3/film.mp4" active={active} />} />
    </div>
   </main>
 

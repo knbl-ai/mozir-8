@@ -6,7 +6,7 @@ export type DemoCopy = {
 export type LandingCopy = {
  brand: string; brandNote: string; newTab: string;
  title: string; lede: string; sample: string;
- salesGallery: DemoCopy; openHouse: DemoCopy; penthouse: DemoCopy; complex: DemoCopy;
+ salesGallery: DemoCopy; openHouse: DemoCopy; penthouse: DemoCopy; complex: DemoCopy; boutique: DemoCopy;
  footer: string;
 };
 
@@ -14,8 +14,8 @@ const en: LandingCopy = {
  brand: 'Residences',
  brandNote: 'Property marketing demos',
  newTab: 'opens in a new tab',
- title: 'Four ways to show a home before the first visit.',
- lede: 'This is a working demo of four property-marketing websites. One sells a whole new building, home by home. One gives a single apartment a website of its own. The third presents one luxury home on its building, in the project’s own look. The fourth sells a four-tower neighbourhood in its developer’s brand: pick a building, then a floor, then a home.',
+ title: 'Five ways to show a home before the first visit.',
+ lede: 'This is a working demo of five property-marketing websites. One sells a whole new building, home by home. One gives a single apartment a website of its own. The third presents one luxury home on its building, in the project’s own look. The fourth sells a four-tower neighbourhood in its developer’s brand: pick a building, then a floor, then a home. The fifth is a boutique building’s front page for young buyers: three homes to step inside, a duplex in 3D floor by floor.',
  sample: 'Everything here is sample data. Availability is invented, areas are estimates from the plans, and the interiors, films and 3D furniture are illustrations.',
  salesGallery: {
   kind: 'For a new development',
@@ -53,6 +53,15 @@ const en: LandingCopy = {
   hint: 'Hover to turn the complex',
   touchHint: 'The complex turns as you scroll past',
  },
+ boutique: {
+  kind: 'For a boutique building',
+  name: 'N°8 KLEE',
+  body: 'A front page for young buyers: three homes side by side, the building and its map beside them. Step into any home for its film, plan, images and 3D; the garden duplex shows both floors together or one at a time. Shown with N°8 KLEE, New North, Tel Aviv.',
+  features: ['Three homes, one tap to step inside', 'A walkthrough film for every home', 'Duplex in 3D: both floors or each one', 'The building, the map and the agent'],
+  cta: 'Open N°8 KLEE',
+  hint: 'Hover to play a walkthrough',
+  touchHint: 'Open it to watch the films',
+ },
  footer: 'A demo, not an offer to sell. Confirm any property detail with the developer.',
 };
 
@@ -60,8 +69,8 @@ const he: LandingCopy = {
  brand: 'Residences',
  brandNote: 'הדגמות לשיווק נדל״ן',
  newTab: 'נפתח בכרטיסייה חדשה',
- title: 'ארבע דרכים להציג בית עוד לפני הביקור הראשון.',
- lede: 'זוהי הדגמה חיה של ארבעה אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה. השלישי מציג דירת יוקרה אחת על הבניין שלה, בעיצוב של הפרויקט. הרביעי משווק שכונה של ארבעה מגדלים במיתוג היזם: בוחרים בניין, קומה — ואת הבית.',
+ title: 'חמש דרכים להציג בית עוד לפני הביקור הראשון.',
+ lede: 'זוהי הדגמה חיה של חמישה אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה. השלישי מציג דירת יוקרה אחת על הבניין שלה, בעיצוב של הפרויקט. הרביעי משווק שכונה של ארבעה מגדלים במיתוג היזם: בוחרים בניין, קומה — ואת הבית. החמישי הוא עמוד הבית של בניין בוטיק לקונים צעירים: שלוש דירות להיכנס אליהן, ודופלקס בתלת־ממד קומה אחר קומה.',
  sample: 'כל מה שמוצג כאן הוא מידע לדוגמה: הזמינות בדויה, השטחים הם הערכות לפי התוכניות, והעיצוב הפנימי, הסרטונים והריהוט בתלת־ממד הם המחשות.',
  salesGallery: {
   kind: 'לפרויקט חדש',
@@ -98,6 +107,15 @@ const he: LandingCopy = {
   cta: 'לגינדי קולורס',
   hint: 'רחפו מעל התמונה כדי לסובב את המתחם',
   touchHint: 'המתחם מסתובב כשהוא על המסך',
+ },
+ boutique: {
+  kind: 'לבניין בוטיק',
+  name: 'N°8 KLEE',
+  body: 'עמוד בית לקונים צעירים: שלוש דירות זו לצד זו, והבניין והמפה לצידן. נכנסים לכל דירה לסרטון, לתוכנית, לתמונות ולתלת־ממד; דופלקס הגן מוצג בשתי הקומות יחד או בכל קומה לחוד. מוצג עם N°8 KLEE, הצפון החדש, תל אביב.',
+  features: ['שלוש דירות, נגיעה אחת כדי להיכנס', 'סרטון סיור לכל דירה', 'דופלקס בתלת־ממד: שתי קומות או כל אחת', 'הבניין, המפה והסוכן'],
+  cta: 'ל־N°8 KLEE',
+  hint: 'רחפו מעל התמונה כדי להפעיל סיור',
+  touchHint: 'פתחו כדי לצפות בסרטונים',
  },
  footer: 'זוהי הדגמה ולא הצעה למכירה. יש לאמת כל פרט על הנכס מול היזם.',
 };

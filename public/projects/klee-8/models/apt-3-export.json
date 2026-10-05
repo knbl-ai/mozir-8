@@ -1,0 +1,16 @@
+{
+  "source": "/Users/vladiyudi/Reposatories/Apartment's 3D/projects/KLEE-8-Tel-Aviv/apt_3/model/model_present.blend",
+  "objects": 503,
+  "floors": [
+    343,
+    160
+  ],
+  "bytes": {
+    "apt-3.glb": 682020,
+    "apt-3-1.glb": 454024,
+    "apt-3-2.glb": 231828
+  },
+  "left_out": "cameras, lights (present.py already removed ceilings, cameras and context)",
+  "materials": "principled values; procedural textures not baked",
+  "compression": "Draco"
+}

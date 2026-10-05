@@ -1,6 +1,7 @@
 'use client';
 import { createElement, useEffect, useRef, useState } from 'react';
-import { Box, Focus, LayoutPanelLeft, Minus, Plus, RotateCcw, RotateCw, Trees } from 'lucide-react';
+import { Box, Focus, Layers, LayoutPanelLeft, Minus, Plus, RotateCcw, RotateCw, Trees } from 'lucide-react';
+import type { ModelLevel } from '@/content/projects';
 import SegmentedControl from './SegmentedControl';
 import { useLang } from '@/lib/i18n';
 import { explorerText } from './strings';
@@ -12,9 +13,13 @@ type View = 'perspective' | 'plan' | 'terrace';
 const ORBITS: Record<View, string> = { perspective: '25deg 45deg 80%', plan: '0deg 0deg 100%', terrace: '125deg 50deg 85%' };
 
 // One model-viewer for the explorer. Changing `src` (a different home's model) fades to a veil
-// and back in on load, instead of tearing down the viewer.
-export default function ResidenceModel({ src, poster, defaultOrbit = ORBITS.perspective }: { src: string; poster?: string; defaultOrbit?: string }) {
+// and back in on load, instead of tearing down the viewer. `levels` (a duplex): a floors switch that
+// swaps between the floors side by side and each floor on its own, keeping the camera angle.
+export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = ORBITS.perspective, levels }: { src: string; poster?: string; defaultOrbit?: string; levels?: ModelLevel[] }) {
  const t = explorerText[useLang()];
+ const [levelState, setLevel] = useState({ id: levels?.[0]?.id, for: levels });
+ if (levelState.for !== levels) setLevel({ id: levels?.[0]?.id, for: levels }); // another home starts on its first view
+ const src = levels?.find(l => l.id === levelState.id)?.src ?? homeSrc;
  const host = useRef<HTMLDivElement>(null);
  const [ready, setReady] = useState(false);
  const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
@@ -62,6 +67,10 @@ export default function ResidenceModel({ src, poster, defaultOrbit = ORBITS.pers
    <span className={s.spinner} /><span>{t.preparingModel}</span>
   </div>
   {error && <div className={s.modelVeil} data-visible><span>{t.modelFailed}</span></div>}
+  {levels && levels.length > 1 && <div className={s.modelLevels}>
+   <SegmentedControl id="model-level" label={t.modelFloors} variant="glass" value={levelState.id ?? levels[0].id} onChange={id => setLevel(v => ({ ...v, id }))}
+    options={levels.map((l, i) => ({ value: l.id, label: l.label, icon: i === 0 ? Layers : undefined }))} />
+  </div>}
   <div className={s.modelTools}>
    <SegmentedControl id="model-view" label={t.modelView} variant="glass" value={view} onChange={change}
     options={[{ value: 'perspective', label: t.model3d, icon: Box }, { value: 'plan', label: t.modelTop, icon: LayoutPanelLeft }, { value: 'terrace', label: t.modelOutdoor, icon: Trees }]} />

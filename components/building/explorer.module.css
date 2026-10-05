@@ -407,6 +407,12 @@
 }
 .modelVeil[data-visible] { opacity: 1; }
 .modelTools { position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; gap: 6px; }
+/* A duplex: both floors side by side, or one floor at a time — the first thing to choose, top left. */
+.modelLevels { position: absolute; top: 12px; left: 12px; z-index: 2; }
+@media (max-width: 760px) {
+  .modelLevels { top: auto; bottom: 64px; left: 50%; transform: translateX(-50%); }
+  .modelLevels .segment { padding: 0 10px; font-size: 12px; white-space: nowrap; }
+}
 /* Turn and zoom buttons, centred under the model; one glass pill holding four round buttons. */
 .modelNav {
   position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; gap: 4px; padding: 4px; border-radius: 999px;

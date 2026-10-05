@@ -81,3 +81,28 @@ for (const [type, info] of Object.entries(TYPES)) {
  fs.writeFileSync(path.join(dest, `type-${type.toLowerCase()}.zip`), zip);
  console.log(`Packaged gindi-colors/type-${type.toLowerCase()}: ${Object.keys(files).length} files, ${(zip.length / 1024 / 1024).toFixed(1)} MB`);
 }
+
+// N°8 KLEE: one package per home; the duplex carries both floors together and each floor alone.
+const { kleeHomes } = require('../content/projects/klee.ts');
+for (const home of kleeHomes) {
+ const m = home.media;
+ const files = {};
+ files['video/apartment-tour.mp4'] = readAsset(m.film.src);
+ m.images.forEach((image, i) => { files[`images/${String(i + 1).padStart(2, '0')}-${slug(image.label)}${path.extname(image.src)}`] = readAsset(image.src); });
+ files['floor-plan' + path.extname(home.plan)] = readAsset(home.plan);
+ const models = m.modelLevels?.length ? m.modelLevels : [{ id: 'apartment', label: home.title, src: m.model }];
+ const list = [];
+ for (const level of models) {
+  const name = models.length > 1 ? slug(level.label) : 'apartment';
+  const model = readAsset(level.src);
+  files[`3D/${name}.glb`] = model;
+  files[`3D/Open ${name}.html`] = viewerHtml(`${home.title} · ${level.label}`, model, m.modelOrbit);
+  list.push(`- 3D/${name}.glb + Open ${name}.html: ${level.label}`);
+ }
+ files['README.txt'] = strToU8(`N°8 KLEE · ${home.title}\n${home.rooms} rooms · ${home.area} m² · ${home.outdoor} ${home.outdoorArea} m²\n\nContents\n- video/: MP4 walkthrough film\n- images/: interiors in gallery order (WebP)\n- floor-plan: the developer's plan\n${list.join('\n')}\n\nExtract the ZIP first. Double-click an .html file in Chrome, Edge or Safari (internet is needed to load the viewer; the model is embedded). Offline: Blender > File > Import > glTF 2.0.\n\nInteriors, film and 3D are illustrations; areas follow the developer's plans and are not verified.\n`);
+ const dest = path.join(publicRoot, 'downloads', 'klee-8');
+ fs.mkdirSync(dest, { recursive: true });
+ const zip = zipSync(files, { level: 0 });
+ fs.writeFileSync(path.join(dest, `${home.id}.zip`), zip);
+ console.log(`Packaged klee-8/${home.id}: ${Object.keys(files).length} files, ${(zip.length / 1024 / 1024).toFixed(1)} MB`);
+}
