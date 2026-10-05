@@ -5,7 +5,7 @@
     242
   ],
   "bytes": {
-    "apt-1.glb": 339092
+    "apt-1.glb": 338956
   },
   "web_palette": {
     "floors": {
@@ -14,7 +14,7 @@
       "concrete": "#9C958B"
     },
     "walls": "#F6F3EE",
-    "wall_tops": "#5F574F"
+    "wall_tops": "#C2BDB6"
   },
   "zfight_fixes": [
     {
@@ -72,38 +72,8 @@
       "by_mm": 8.0
     },
     {
-      "moved": "bed-E door 0 | leaf",
-      "against": "Wall bed-E.001",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall bed-W.001",
-      "against": "Wall S-main",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall vest-W",
-      "against": "Wall S-main",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall N-facade.003",
-      "against": "Wall E-main",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall vest-N",
-      "against": "Wall E-main",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall vest-E.001",
-      "against": "Wall vest-S",
+      "moved": "Wall vest-E",
+      "against": "Wall vest-N",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -182,6 +152,18 @@
     {
       "moved": "bedroom wardrobe right | seam",
       "against": "bedroom wardrobe right | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall N-facade.003",
+      "against": "Wall E-main",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall vest-E.001",
+      "against": "Wall vest-S",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -474,6 +456,16 @@
       "by_mm": -8.0
     }
   ],
+  "opened": {
+    "open_deg": 30.0,
+    "stub_m": 0.12,
+    "walls": [
+      "Wall S-main",
+      "Wall vest-S",
+      "Wall E-main"
+    ],
+    "objects_cut": 7
+  },
   "left_out": "cameras, lights (present.py already removed ceilings, cameras and context)",
   "materials": "principled values; procedural textures not baked",
   "compression": "Draco"

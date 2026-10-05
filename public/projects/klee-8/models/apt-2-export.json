@@ -5,7 +5,7 @@
     334
   ],
   "bytes": {
-    "apt-2.glb": 466412
+    "apt-2.glb": 466556
   },
   "web_palette": {
     "floors": {
@@ -14,7 +14,7 @@
       "concrete": "#9C958B"
     },
     "walls": "#F6F3EE",
-    "wall_tops": "#5F574F"
+    "wall_tops": "#C2BDB6"
   },
   "zfight_fixes": [
     {
@@ -84,12 +84,6 @@
       "by_mm": 8.0
     },
     {
-      "moved": "Wall mamad-N.001",
-      "against": "Wall mamad-E",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "Wall mamad-W.001",
       "against": "Wall mamad-S",
       "axis": "z",
@@ -98,24 +92,6 @@
     {
       "moved": "mamad-W safe_door 0 | leaf",
       "against": "Wall mamad-W",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall master-E.001",
-      "against": "Wall bath2-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall corner-SE",
-      "against": "Wall bath2-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall bath2-S.001",
-      "against": "Wall mamad-E",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -186,24 +162,6 @@
       "by_mm": 8.0
     },
     {
-      "moved": "bath2-S window 0 | jamb",
-      "against": "bath2-S window 0 | head",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath2-S window 0 | jamb.001",
-      "against": "bath2-S window 0 | head",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath2-S window 0 | glazing",
-      "against": "bath2-S window 0 | head",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "master-S window 0 | jamb",
       "against": "master-S window 0 | glazing",
       "axis": "z",
@@ -267,6 +225,30 @@
       "moved": "master wardrobe 14 | seam.002",
       "against": "master wardrobe 14 | body",
       "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall master-E.001",
+      "against": "Wall bath2-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall corner-SE",
+      "against": "Wall bath2-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bath2-S.001",
+      "against": "Wall mamad-E",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath2-S window 0 | sill",
+      "against": "bath2-S window 0 | jamb.001",
+      "axis": "x",
       "by_mm": 8.0
     },
     {
@@ -354,26 +336,8 @@
       "by_mm": -4.4
     },
     {
-      "moved": "Wall master-E.001",
-      "against": "Wall corner-SE",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "bath1-E window 0 | glazing",
       "against": "bath1-E window 0 | jamb",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath2-S window 0 | jamb",
-      "against": "bath2-S window 0 | glazing",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath2-S window 0 | jamb.001",
-      "against": "bath2-S window 0 | glazing",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -398,6 +362,18 @@
     {
       "moved": "living kitchen_run 0 | sink",
       "against": "living kitchen_run 0 | worktop",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Rail 0 | bar.077",
+      "against": "Parapet 2",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall master-E.001",
+      "against": "Wall corner-SE",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -516,18 +492,6 @@
       "by_mm": 8.0
     },
     {
-      "moved": "bath2-S window 0 | sill",
-      "against": "bath2-S window 0 | jamb",
-      "axis": "x",
-      "by_mm": -8.0
-    },
-    {
-      "moved": "bath2-S window 0 | head",
-      "against": "bath2-S window 0 | jamb",
-      "axis": "x",
-      "by_mm": -8.0
-    },
-    {
       "moved": "living-S slider 1 | sill",
       "against": "Wall living-S.001",
       "axis": "x",
@@ -564,12 +528,6 @@
       "by_mm": 8.0
     },
     {
-      "moved": "bath2-S window 0 | head",
-      "against": "Wall bath2-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "mamad open_rack 22 | shelf",
       "against": "mamad open_rack 22 | upright.001",
       "axis": "y",
@@ -582,18 +540,6 @@
       "by_mm": -6.0
     },
     {
-      "moved": "bath2-S window 0 | glazing",
-      "against": "bath2-S window 0 | head",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath2-S window 0 | head",
-      "against": "bath2-S window 0 | jamb",
-      "axis": "y",
-      "by_mm": 8.0
-    },
-    {
       "moved": "mamad open_rack 22 | rail",
       "against": "mamad open_rack 22 | upright.001",
       "axis": "y",
@@ -604,18 +550,6 @@
       "against": "mamad open_rack 22 | upright",
       "axis": "y",
       "by_mm": -6.0
-    },
-    {
-      "moved": "bath2-S window 0 | jamb",
-      "against": "bath2-S window 0 | glazing",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath2-S window 0 | jamb.001",
-      "against": "bath2-S window 0 | glazing",
-      "axis": "z",
-      "by_mm": 8.0
     },
     {
       "moved": "mamad open_rack 22 | shelf",
@@ -654,6 +588,20 @@
       "by_mm": -6.0
     }
   ],
+  "opened": {
+    "open_deg": 30.0,
+    "stub_m": 0.12,
+    "walls": [
+      "Wall mamad-E",
+      "Wall bath2-S",
+      "bath2-S window 0 | sill wall",
+      "Wall bath2-S.001",
+      "Wall master-E.001",
+      "Wall corner-SE",
+      "Parapet 2"
+    ],
+    "objects_cut": 15
+  },
   "left_out": "cameras, lights (present.py already removed ceilings, cameras and context)",
   "materials": "principled values; procedural textures not baked",
   "compression": "Draco"

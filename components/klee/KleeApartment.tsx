@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MotionConfig } from 'motion/react';
 import { ArrowLeft, Box, Download, Images, Info, LayoutPanelLeft, Mail, MessageCircle, Phone, Play } from 'lucide-react';
-import LanguageSwitch from '@/components/LanguageSwitch';
 import MediaPanel, { type MediaTab, type Spec } from '@/components/building/MediaPanel';
 import PlanLightbox from '@/components/building/PlanLightbox';
 import SegmentedControl from '@/components/building/SegmentedControl';
@@ -79,13 +78,12 @@ export default function KleeApartment({ home: source }: { home: KleeHome }) {
        <div><dt>{t.outdoor}</dt><dd className={es.factWord}>{home.outdoor}<span className={es.factUnit}>{home.outdoorArea} {t.sqm}</span></dd></div>
        <div className={es.factPrice}><dt>{t.price}</dt><dd className={es.factWord}>{k.priceOnRequest}</dd></div>
       </dl>
-      <div className={es.focusActions}>
+      <div className={`${es.focusActions} ${s.aptActions}`}>
        <div className={s.homeSwitch}><SegmentedControl id="klee-home" label={k.otherHomes} vertical fill value={source.id} onChange={id => router.push(withLang(`/klee-8/${id}`, lang))}
         options={kleeHomes.map(h => ({ value: h.id, label: <span className={s.homeOption}><b>{h.number}</b>{h.shortTitle}<small>{k.rooms(h.rooms)}</small></span> }))} /></div>
        <Link href={back} className={es.returnButton} title={k.allHomesTitle}>
         <ArrowLeft size={18} strokeWidth={1.7} aria-hidden className={s.backIcon} /><span>{k.allHomes}</span>
        </Link>
-       <div className={s.panelLang}><LanguageSwitch id="klee-apt-lang" compact /></div>
       </div>
       <div className={es.tabs}>
        <SegmentedControl id="media" label={t.homePreview} role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS.map(o => ({ ...o, label: t.tabs[o.value] }))} />

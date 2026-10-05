@@ -52,7 +52,7 @@ export const kleeHomes: KleeHome[] = [
   about: ['The entrance opens straight into one bright room: the kitchen runs along the wall to a rounded breakfast bar, the sofa faces the 6.4-metre balcony, and the slider fills the room with morning light over Namir Road’s trees. The bedroom fits a queen bed between two wardrobe niches; the bathroom has a walk-in shower.',
    'Areas follow the developer’s Type B plan (about 35 m² inside and 10.5 m² of balcony). Worth checking: the bedroom window faces a service yard, and the furniture shown is one way to live in it.'],
   media: {
-   film: { src: `${base}/media/apt-1/film.mp4`, poster: `${base}/media/apt-1/poster.webp` }, model: `${base}/models/apt-1.glb`, modelOrbit: '15deg 36deg 140%',
+   film: { src: `${base}/media/apt-1/film.mp4`, poster: `${base}/media/apt-1/poster.webp` }, model: `${base}/models/apt-1.glb`, modelOrbit: '30deg 42deg 140%',
    images: [img('apt-1', 'v-living', 'Living room and kitchen', 'סלון ומטבח'), img('apt-1', 'v-balcony', 'Balcony', 'מרפסת'),
     img('apt-1', 'v-living-back', 'Living room toward the entrance', 'הסלון לכיוון הכניסה'), img('apt-1', 'v-bedroom', 'Bedroom', 'חדר שינה'),
     img('apt-1', 'top', 'The whole apartment from above', 'כל הדירה ממבט על')],
@@ -72,7 +72,7 @@ export const kleeHomes: KleeHome[] = [
   about: ['Living, dining and kitchen share one long room along the west façade, opening onto a balcony 8.4 metres long, over the treetops of Klee Street and toward the Kikar HaMedina towers at sunset. The master bedroom has its own en-suite; the mamad (safe room) doubles as a study or guest room; a family bathroom sits off the corridor.',
    'Areas follow the developer’s Type C plan (about 68 m² inside and 12 m² of balcony). Worth checking: the mamad’s window and door rules, and the furniture clearances in the dining area.'],
   media: {
-   film: { src: `${base}/media/apt-2/film.mp4`, poster: `${base}/media/apt-2/poster.webp` }, model: `${base}/models/apt-2.glb`, modelOrbit: '15deg 36deg 95%',
+   film: { src: `${base}/media/apt-2/film.mp4`, poster: `${base}/media/apt-2/poster.webp` }, model: `${base}/models/apt-2.glb`, modelOrbit: '30deg 42deg 95%',
    images: [img('apt-2', 'v-living', 'Living and dining', 'סלון ופינת אוכל'), img('apt-2', 'v-balcony', 'West balcony', 'המרפסת המערבית'),
     img('apt-2', 'v-mamad', 'Study (safe room)', 'חדר עבודה (ממ״ד)'), img('apt-2', 'v-master', 'Master bedroom', 'חדר השינה הראשי'),
     img('apt-2', 'v-ensuite', 'En-suite', 'חדר רחצה צמוד'), img('apt-2', 'top', 'The whole apartment from above', 'כל הדירה ממבט על')],
@@ -92,7 +92,7 @@ export const kleeHomes: KleeHome[] = [
   about: ['Upstairs, the living room, kitchen and dining area open east onto a balcony over the street trees, with a kids’ room, a mamad (safe room) used as a study, and a family bathroom. A two-flight stair drops to the garden floor: a master bedroom with an en-suite and walk-in wardrobe, a laundry room, and a glass door straight onto the private garden.',
    'About 105 m² over two floors, an 11 m² balcony and a garden of about 19 m², traced from the developer’s plans; ask the sales office for the listed figures. Worth checking: the garden’s exact size and the stair headroom.'],
   media: {
-   film: { src: `${base}/media/apt-3/film.mp4`, poster: `${base}/media/apt-3/poster.webp` }, model: `${base}/models/apt-3.glb`, modelOrbit: '0deg 34deg 95%',
+   film: { src: `${base}/media/apt-3/film.mp4`, poster: `${base}/media/apt-3/poster.webp` }, model: `${base}/models/apt-3.glb`, modelOrbit: '30deg 40deg 95%',
    modelLevels: [
     { id: 'both', label: 'Both floors', labelHe: 'שתי הקומות', src: `${base}/models/apt-3.glb` },
     { id: 'entry', label: 'Entry floor', labelHe: 'קומת הכניסה', src: `${base}/models/apt-3-1.glb` },

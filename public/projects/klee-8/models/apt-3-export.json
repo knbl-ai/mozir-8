@@ -6,9 +6,9 @@
     160
   ],
   "bytes": {
-    "apt-3.glb": 715392,
-    "apt-3-1.glb": 470648,
-    "apt-3-2.glb": 249096
+    "apt-3.glb": 715376,
+    "apt-3-1.glb": 470708,
+    "apt-3-2.glb": 249016
   },
   "web_palette": {
     "floors": {
@@ -17,7 +17,7 @@
       "concrete": "#9C958B"
     },
     "walls": "#F6F3EE",
-    "wall_tops": "#5F574F"
+    "wall_tops": "#C2BDB6"
   },
   "zfight_fixes": [
     {
@@ -111,14 +111,8 @@
       "by_mm": 8.0
     },
     {
-      "moved": "Wall S-living",
-      "against": "Wall W",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall hall-W",
-      "against": "Wall S-living.001",
+      "moved": "Wall mamad-N",
+      "against": "Wall hall-W",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -129,50 +123,8 @@
       "by_mm": 8.0
     },
     {
-      "moved": "Wall E",
-      "against": "Wall N-facade.002",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall bed1-S",
-      "against": "Wall E.001",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall E.001",
-      "against": "Wall bath-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall E.002",
-      "against": "Wall S-mamad",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "Wall mamad-N.001",
       "against": "Wall hall-E.001",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall shower-E",
-      "against": "Wall bath-N",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall bath-E",
-      "against": "Wall bath-N",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall bath-E.001",
-      "against": "Wall bath-S",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -189,26 +141,14 @@
       "by_mm": 8.0
     },
     {
-      "moved": "Wall svc-W",
-      "against": "Wall svc-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall svc-E.001",
-      "against": "Wall svc-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall master-W",
-      "against": "Wall svc-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "Wall master-SW",
-      "against": "Wall bathlo-NW",
+      "against": "Wall master-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall master-N",
+      "against": "Wall master-W",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -225,18 +165,6 @@
       "by_mm": 8.0
     },
     {
-      "moved": "Wall bathlo-W",
-      "against": "Wall lo-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall walkin-W",
-      "against": "Wall lo-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "Wall lo-E-N",
       "against": "Wall lo-N.001",
       "axis": "z",
@@ -249,14 +177,8 @@
       "by_mm": 8.0
     },
     {
-      "moved": "Wall lo-E-S.001",
-      "against": "Wall lo-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall hall-E",
-      "against": "Stair main | flight 0 wall above",
+      "moved": "lo-E-S slider 0 | pocket jamb.001",
+      "against": "Wall lo-E-S.001",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -291,42 +213,6 @@
       "by_mm": 8.0
     },
     {
-      "moved": "E window 0 | jamb",
-      "against": "E window 0 | glazing",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "E window 0 | jamb.001",
-      "against": "E window 0 | glazing",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "E window 1 | jamb",
-      "against": "E window 1 | glazing",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "E window 1 | jamb.001",
-      "against": "E window 1 | glazing",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath-E window 0 | jamb",
-      "against": "bath-E window 0 | head",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath-E window 0 | jamb.001",
-      "against": "bath-E window 0 | head",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "lo-N window 0 | jamb",
       "against": "lo-N window 0 | glazing",
       "axis": "z",
@@ -335,18 +221,6 @@
     {
       "moved": "lo-N window 0 | jamb.001",
       "against": "lo-N window 0 | glazing",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "lo-E-S slider 0 | jamb.001",
-      "against": "lo-E-S slider 0 | pocket jamb.001",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Parapet 5",
-      "against": "Parapet 4",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -379,6 +253,42 @@
       "against": "garden olive 2 | leaves 6",
       "axis": "z",
       "by_mm": 8.0
+    },
+    {
+      "moved": "Wall E.002",
+      "against": "Wall S-mamad",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall shower-E",
+      "against": "Stair main | flight 0 wall above",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Parapet 5",
+      "against": "Parapet 4",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "E window 0 | sill",
+      "against": "E window 0 | jamb.001",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "E window 1 | sill",
+      "against": "E window 1 | jamb.001",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bath-E window 0 | sill",
+      "against": "bath-E window 0 | jamb.001",
+      "axis": "y",
+      "by_mm": -8.0
     },
     {
       "moved": "bath_up shower 20 | glass",
@@ -609,50 +519,26 @@
       "by_mm": -8.0
     },
     {
-      "moved": "Wall bed1-W.001",
-      "against": "Wall bed1-S",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall bed1-S",
-      "against": "Wall E.001",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "Wall mamad-N.001",
       "against": "Wall hall-E.001",
       "axis": "z",
       "by_mm": 8.0
     },
     {
-      "moved": "Wall lo-N",
-      "against": "Wall svc-W",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
       "moved": "Wall master-SW",
-      "against": "Wall master-W",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall bathlo-NW",
-      "against": "Wall bathlo-W",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Wall bathlo-N.001",
-      "against": "Wall walkin-W",
+      "against": "Wall bathlo-NW",
       "axis": "z",
       "by_mm": 8.0
     },
     {
       "moved": "N-facade slider 0 | jamb.001",
       "against": "N-facade slider 0 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed1-W door 0 | leaf",
+      "against": "Wall bed1-S",
       "axis": "z",
       "by_mm": 8.0
     },
@@ -681,36 +567,6 @@
       "by_mm": -8.0
     },
     {
-      "moved": "E window 0 | sill",
-      "against": "E window 0 | jamb",
-      "axis": "y",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Kitchen run | sink",
-      "against": "Kitchen run | worktop",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "E window 1 | sill",
-      "against": "E window 1 | jamb",
-      "axis": "y",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath-E window 0 | sill",
-      "against": "bath-E window 0 | jamb",
-      "axis": "y",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath-E window 0 | head",
-      "against": "bath-E window 0 | jamb",
-      "axis": "y",
-      "by_mm": 8.0
-    },
-    {
       "moved": "lo-N window 0 | sill",
       "against": "lo-N window 0 | jamb",
       "axis": "x",
@@ -727,6 +583,12 @@
       "against": "lo-E-S slider 0 | pocket jamb",
       "axis": "y",
       "by_mm": 10.0
+    },
+    {
+      "moved": "Kitchen run | sink",
+      "against": "Kitchen run | worktop",
+      "axis": "z",
+      "by_mm": 8.0
     },
     {
       "moved": "Kitchen run | hob",
@@ -825,46 +687,28 @@
       "by_mm": 8.0
     },
     {
+      "moved": "bed1-W door 0 | leaf",
+      "against": "Wall bed1-W.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
       "moved": "Parapet 3",
       "against": "Wall lo-E-N",
       "axis": "z",
       "by_mm": 8.0
     },
     {
-      "moved": "Wall bed1-W.001",
+      "moved": "Kids wardrobe | body",
       "against": "Wall bed1-S",
       "axis": "z",
       "by_mm": 8.0
-    },
-    {
-      "moved": "Wall master-SW",
-      "against": "Wall bathlo-NW",
-      "axis": "z",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "Kids wardrobe | body",
-      "against": "Wall E.001",
-      "axis": "y",
-      "by_mm": 11.0
     },
     {
       "moved": "N-facade slider 0 | sill",
       "against": "N-facade slider 0 | pocket jamb",
       "axis": "x",
       "by_mm": -10.0
-    },
-    {
-      "moved": "bath-E window 0 | jamb",
-      "against": "bath-E window 0 | head",
-      "axis": "x",
-      "by_mm": -8.0
-    },
-    {
-      "moved": "bath-E window 0 | jamb.001",
-      "against": "bath-E window 0 | head",
-      "axis": "x",
-      "by_mm": -8.0
     },
     {
       "moved": "Kitchen tall units | seam",
@@ -934,9 +778,9 @@
     },
     {
       "moved": "Kids wardrobe | body",
-      "against": "Floor | bed1",
+      "against": "Wall E.001",
       "axis": "y",
-      "by_mm": -11.0
+      "by_mm": 11.0
     },
     {
       "moved": "Sofa | arm",
@@ -949,12 +793,6 @@
       "against": "Sofa | back",
       "axis": "x",
       "by_mm": 8.0
-    },
-    {
-      "moved": "bath-E window 0 | sill",
-      "against": "bath-E window 0 | jamb",
-      "axis": "x",
-      "by_mm": -6.0
     },
     {
       "moved": "garden bamboo planter north | box",
@@ -994,15 +832,9 @@
     },
     {
       "moved": "Kids wardrobe | body",
-      "against": "Wall E.001",
+      "against": "Floor | bed1",
       "axis": "y",
-      "by_mm": 11.0
-    },
-    {
-      "moved": "bath-E window 0 | sill",
-      "against": "Wall bath-E",
-      "axis": "x",
-      "by_mm": -12.0
+      "by_mm": -11.0
     },
     {
       "moved": "Sofa | arm",
@@ -1042,9 +874,9 @@
     },
     {
       "moved": "Kids wardrobe | body",
-      "against": "Floor | bed1",
+      "against": "Wall E.001",
       "axis": "y",
-      "by_mm": -11.0
+      "by_mm": 11.0
     },
     {
       "moved": "Sofa | arm",
@@ -1055,12 +887,6 @@
     {
       "moved": "Sofa | arm.001",
       "against": "Sofa | back",
-      "axis": "x",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath-E window 0 | sill",
-      "against": "bath-E window 0 | jamb",
       "axis": "x",
       "by_mm": 8.0
     },
@@ -1090,15 +916,9 @@
     },
     {
       "moved": "Kids wardrobe | body",
-      "against": "Wall E.001",
+      "against": "Floor | bed1",
       "axis": "y",
-      "by_mm": 11.0
-    },
-    {
-      "moved": "bath-E window 0 | sill",
-      "against": "Wall bath-E",
-      "axis": "x",
-      "by_mm": -8.0
+      "by_mm": -11.0
     },
     {
       "moved": "Sofa | arm",
@@ -1138,9 +958,9 @@
     },
     {
       "moved": "Kids wardrobe | body",
-      "against": "Floor | bed1",
+      "against": "Wall E.001",
       "axis": "y",
-      "by_mm": -11.0
+      "by_mm": 11.0
     },
     {
       "moved": "Sofa | arm",
@@ -1151,12 +971,6 @@
     {
       "moved": "Sofa | arm.001",
       "against": "Sofa | back",
-      "axis": "x",
-      "by_mm": 8.0
-    },
-    {
-      "moved": "bath-E window 0 | sill",
-      "against": "bath-E window 0 | jamb",
       "axis": "x",
       "by_mm": 8.0
     },
@@ -1185,6 +999,29 @@
       "by_mm": -6.0
     }
   ],
+  "opened": {
+    "open_deg": 30.0,
+    "stub_m": 0.12,
+    "walls": [
+      "Wall S-living",
+      "Wall S-living.001",
+      "Wall E",
+      "E window 0 | sill wall",
+      "Wall E.001",
+      "E window 1 | sill wall",
+      "Wall E.002",
+      "Wall shower-E",
+      "Wall bath-E",
+      "bath-E window 0 | sill wall",
+      "Wall bath-E.001",
+      "Wall S-mamad",
+      "Wall svc-S",
+      "Wall lo-S",
+      "Parapet 4",
+      "Parapet 5"
+    ],
+    "objects_cut": 30
+  },
   "left_out": "cameras, lights (present.py already removed ceilings, cameras and context)",
   "materials": "principled values; procedural textures not baked",
   "compression": "Draco"
