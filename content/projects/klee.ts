@@ -14,8 +14,8 @@ export type KleeHome = Residence & {
  media: Required<Pick<NonNullable<Residence['media']>, 'film' | 'images' | 'model'>> & { modelOrbit?: string; modelLevels?: ModelLevel[] };
 };
 
-export const kleeContact: Contact = { name: 'Natan Aharonovich', agency: 'RE/MAX Ocean', phone: '050-5413123', phoneIntl: '+972505413123', email: 'shirli@remax-ocean.com' };
-export const kleeContactHe = { name: 'נתן אהרונוביץ', agency: 'RE/MAX Ocean' };
+export const kleeContact: Contact = { name: 'Shirli', agency: 'RE/MAX Ocean', phone: '054-4711166', phoneIntl: '+972544711166', email: 'shirli@remax-ocean.com' };
+export const kleeContactHe = { name: 'שירלי', agency: 'RE/MAX Ocean' };
 
 export const kleeBuilding = {
  name: 'N°8 KLEE', address: 'Klee St 8, Tel Aviv', mapQuery: 'Klee St 8, Tel Aviv-Yafo',
