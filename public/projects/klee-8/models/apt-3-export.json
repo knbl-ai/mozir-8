@@ -6,10 +6,1185 @@
     160
   ],
   "bytes": {
-    "apt-3.glb": 682020,
-    "apt-3-1.glb": 454024,
-    "apt-3-2.glb": 231828
+    "apt-3.glb": 715392,
+    "apt-3-1.glb": 470648,
+    "apt-3-2.glb": 249096
   },
+  "web_palette": {
+    "floors": {
+      "porcelain": "#B5A48C",
+      "bath_tile": "#A8A094",
+      "concrete": "#9C958B"
+    },
+    "walls": "#F6F3EE",
+    "wall_tops": "#5F574F"
+  },
+  "zfight_fixes": [
+    {
+      "moved": "Kitchen tall units | body",
+      "against": "Floor | living",
+      "axis": "y",
+      "by_mm": -6.7
+    },
+    {
+      "moved": "Kitchen run | worktop",
+      "against": "Kitchen run | bases",
+      "axis": "y",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "living rug 4 | rug",
+      "against": "Floor | living",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "garden deck | rug",
+      "against": "Floor | garden",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kids wardrobe | body",
+      "against": "Floor | bed1",
+      "axis": "y",
+      "by_mm": -5.5
+    },
+    {
+      "moved": "bed1-W door 0 | leaf",
+      "against": "Floor | bed1",
+      "axis": "y",
+      "by_mm": -13.0
+    },
+    {
+      "moved": "bath_up shower 20 | tray",
+      "against": "Floor | bath_up",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "garden bamboo planter north | box",
+      "against": "Floor | garden",
+      "axis": "y",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "service washer 27 | washer",
+      "against": "Floor | service",
+      "axis": "y",
+      "by_mm": -10.5
+    },
+    {
+      "moved": "Walk-in rack 2 | upright",
+      "against": "Floor | walkin",
+      "axis": "y",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "Walk-in rack 2 | upright.001",
+      "against": "Floor | walkin",
+      "axis": "y",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "garden bamboo planter | box",
+      "against": "Floor | garden",
+      "axis": "x",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Parapet 3",
+      "against": "Floor | garden",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Wall N-facade",
+      "against": "Wall W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed1-W",
+      "against": "Wall N-facade.002",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall S-living",
+      "against": "Wall W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall hall-W",
+      "against": "Wall S-living.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed1-W.001",
+      "against": "Wall bed1-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall E",
+      "against": "Wall N-facade.002",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed1-S",
+      "against": "Wall E.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall E.001",
+      "against": "Wall bath-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall E.002",
+      "against": "Wall S-mamad",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall mamad-N.001",
+      "against": "Wall hall-E.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall shower-E",
+      "against": "Wall bath-N",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bath-E",
+      "against": "Wall bath-N",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bath-E.001",
+      "against": "Wall bath-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall hall-E.001",
+      "against": "Wall bath-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall lo-N",
+      "against": "Wall svc-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall svc-W",
+      "against": "Wall svc-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall svc-E.001",
+      "against": "Wall svc-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall master-W",
+      "against": "Wall svc-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall master-SW",
+      "against": "Wall bathlo-NW",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bathlo-NW",
+      "against": "Wall bathlo-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bathlo-N.001",
+      "against": "Wall walkin-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bathlo-W",
+      "against": "Wall lo-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall walkin-W",
+      "against": "Wall lo-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall lo-E-N",
+      "against": "Wall lo-N.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "lo-E-S slider 0 | pocket jamb",
+      "against": "Wall lo-E-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall lo-E-S.001",
+      "against": "Wall lo-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall hall-E",
+      "against": "Stair main | flight 0 wall above",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 0 | jamb",
+      "against": "N-facade slider 0 | pocket jamb",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 0 | jamb.001",
+      "against": "N-facade slider 0 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 0 | pocket jamb.001",
+      "against": "Wall N-facade.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade window 1 | jamb",
+      "against": "N-facade window 1 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade window 1 | jamb.001",
+      "against": "N-facade window 1 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "E window 0 | jamb",
+      "against": "E window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "E window 0 | jamb.001",
+      "against": "E window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "E window 1 | jamb",
+      "against": "E window 1 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "E window 1 | jamb.001",
+      "against": "E window 1 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E window 0 | jamb",
+      "against": "bath-E window 0 | head",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E window 0 | jamb.001",
+      "against": "bath-E window 0 | head",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "lo-N window 0 | jamb",
+      "against": "lo-N window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "lo-N window 0 | jamb.001",
+      "against": "lo-N window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "lo-E-S slider 0 | jamb.001",
+      "against": "lo-E-S slider 0 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Parapet 5",
+      "against": "Parapet 4",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Study wardrobe | seam",
+      "against": "Study wardrobe | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Study wardrobe | seam.001",
+      "against": "Study wardrobe | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Study wardrobe | seam.002",
+      "against": "Study wardrobe | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Study wardrobe | seam.003",
+      "against": "Study wardrobe | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "garden olive 2 | leaves 5",
+      "against": "garden olive 2 | leaves 6",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath_up shower 20 | glass",
+      "against": "Stair main | flight 0 wall above",
+      "axis": "y",
+      "by_mm": -5.8
+    },
+    {
+      "moved": "Sofa | base",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Sofa | arm",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Sofa | arm.001",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "lo-E-S slider 0 | sill",
+      "against": "lo-E-S slider 0 | jamb",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Study desk chair | seat",
+      "against": "Study desk chair | back",
+      "axis": "y",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 0 nosing 0",
+      "against": "Stair main | flight 0 tread 0",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 0 nosing 1",
+      "against": "Stair main | flight 0 tread 1",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 0 nosing 2",
+      "against": "Stair main | flight 0 tread 2",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 0 nosing 3",
+      "against": "Stair main | flight 0 tread 3",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 0 nosing 4",
+      "against": "Stair main | flight 0 tread 4",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 0 nosing 5",
+      "against": "Stair main | flight 0 tread 5",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 1 nosing 0",
+      "against": "Stair main | flight 1 tread 0",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 1 nosing 1",
+      "against": "Stair main | flight 1 tread 1",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 1 nosing 2",
+      "against": "Stair main | flight 1 tread 2",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 1 nosing 3",
+      "against": "Stair main | flight 1 tread 3",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 1 nosing 4",
+      "against": "Stair main | flight 1 tread 4",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 1 nosing 5",
+      "against": "Stair main | flight 1 tread 5",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Walk-in rack 1 | shelf",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Stair main | flight 1 nosing 6",
+      "against": "Stair main | flight 1 tread 6",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Stair main | flight 1 nosing 7",
+      "against": "Stair main | flight 1 tread 7",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Rail 0 | bar",
+      "against": "Rail 1 | bar",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Rail 0 | bar.062",
+      "against": "Rail 2 | bar",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen run | plinth",
+      "against": "Kitchen run | bases",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "armchair 1 | back",
+      "against": "armchair 1 | seat",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "armchair 2 | back",
+      "against": "armchair 2 | seat",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kids desk chair | seat",
+      "against": "Kids desk chair | back",
+      "axis": "x",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "Study sofa bed | back",
+      "against": "Study sofa bed | base",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Study sofa bed | base",
+      "against": "Study sofa bed | arm",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "garden lounge chair 1 | back",
+      "against": "garden lounge chair 1 | cushion",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "garden lounge sofa | arm",
+      "against": "garden lounge sofa | base",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "garden lounge sofa | arm.001",
+      "against": "garden lounge sofa | base",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Walk-in rack 1 | rail",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "y",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "garden lounge chair 2 | back",
+      "against": "garden lounge chair 2 | cushion",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bath_lo shower 24 | tray",
+      "against": "bath_lo shower 24 | glass",
+      "axis": "x",
+      "by_mm": 13.0
+    },
+    {
+      "moved": "garden lounge sofa | back",
+      "against": "garden lounge sofa | base",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kids wardrobe | body",
+      "against": "Floor | bed1",
+      "axis": "x",
+      "by_mm": 10.5
+    },
+    {
+      "moved": "garden bamboo planter north | box",
+      "against": "Floor | garden",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Wall bed1-W.001",
+      "against": "Wall bed1-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed1-S",
+      "against": "Wall E.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall mamad-N.001",
+      "against": "Wall hall-E.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall lo-N",
+      "against": "Wall svc-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall master-SW",
+      "against": "Wall master-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bathlo-NW",
+      "against": "Wall bathlo-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bathlo-N.001",
+      "against": "Wall walkin-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 0 | jamb.001",
+      "against": "N-facade slider 0 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Parapet 3",
+      "against": "Wall lo-N.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen tall units | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen tall units | seam.001",
+      "against": "Kitchen tall units | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade window 1 | sill",
+      "against": "N-facade window 1 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "E window 0 | sill",
+      "against": "E window 0 | jamb",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen run | sink",
+      "against": "Kitchen run | worktop",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "E window 1 | sill",
+      "against": "E window 1 | jamb",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E window 0 | sill",
+      "against": "bath-E window 0 | jamb",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E window 0 | head",
+      "against": "bath-E window 0 | jamb",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "lo-N window 0 | sill",
+      "against": "lo-N window 0 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "N-facade slider 0 | sill",
+      "against": "N-facade slider 0 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "lo-E-S slider 0 | sill",
+      "against": "lo-E-S slider 0 | pocket jamb",
+      "axis": "y",
+      "by_mm": 10.0
+    },
+    {
+      "moved": "Kitchen run | hob",
+      "against": "Kitchen run | worktop",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Sofa | back",
+      "against": "Sofa | base",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Sofa | base",
+      "against": "Sofa | arm",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Study sofa bed | back",
+      "against": "Study sofa bed | base",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Study sofa bed | arm",
+      "against": "Study sofa bed | base",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Study sofa bed | arm.001",
+      "against": "Study sofa bed | base",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Study wardrobe | seam",
+      "against": "Study wardrobe | body",
+      "axis": "y",
+      "by_mm": 5.0
+    },
+    {
+      "moved": "Study wardrobe | seam.001",
+      "against": "Study wardrobe | body",
+      "axis": "y",
+      "by_mm": 5.0
+    },
+    {
+      "moved": "Study wardrobe | seam.002",
+      "against": "Study wardrobe | body",
+      "axis": "y",
+      "by_mm": 5.0
+    },
+    {
+      "moved": "Study wardrobe | seam.003",
+      "against": "Study wardrobe | body",
+      "axis": "y",
+      "by_mm": 5.0
+    },
+    {
+      "moved": "bath_up shower 20 | tray",
+      "against": "bath_up shower 20 | glass",
+      "axis": "y",
+      "by_mm": 7.2
+    },
+    {
+      "moved": "Walk-in rack 1 | shelf",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "y",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "Walk-in rack 1 | rail",
+      "against": "Walk-in rack 1 | upright.001",
+      "axis": "y",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | rail",
+      "against": "Walk-in rack 2 | upright.001",
+      "axis": "x",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "Walk-in rack 2 | shelf",
+      "against": "Walk-in rack 2 | upright.001",
+      "axis": "x",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "garden lounge sofa | base",
+      "against": "garden lounge sofa | arm",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Parapet 3",
+      "against": "Wall lo-E-N",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed1-W.001",
+      "against": "Wall bed1-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall master-SW",
+      "against": "Wall bathlo-NW",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kids wardrobe | body",
+      "against": "Wall E.001",
+      "axis": "y",
+      "by_mm": 11.0
+    },
+    {
+      "moved": "N-facade slider 0 | sill",
+      "against": "N-facade slider 0 | pocket jamb",
+      "axis": "x",
+      "by_mm": -10.0
+    },
+    {
+      "moved": "bath-E window 0 | jamb",
+      "against": "bath-E window 0 | head",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bath-E window 0 | jamb.001",
+      "against": "bath-E window 0 | head",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen tall units | body",
+      "axis": "x",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "Kitchen tall units | seam.001",
+      "against": "Kitchen tall units | body",
+      "axis": "x",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "Sofa | back",
+      "against": "Sofa | base",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Sofa | arm",
+      "against": "Sofa | base",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Sofa | arm.001",
+      "against": "Sofa | base",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Study sofa bed | base",
+      "against": "Study sofa bed | back",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Walk-in rack 1 | rail",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "y",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 1 | shelf",
+      "against": "Walk-in rack 1 | upright.001",
+      "axis": "y",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | rail",
+      "against": "Walk-in rack 2 | upright",
+      "axis": "x",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | shelf",
+      "against": "Walk-in rack 2 | upright",
+      "axis": "x",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "garden lounge sofa | back",
+      "against": "garden lounge sofa | base",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kids wardrobe | body",
+      "against": "Floor | bed1",
+      "axis": "y",
+      "by_mm": -11.0
+    },
+    {
+      "moved": "Sofa | arm",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Sofa | arm.001",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E window 0 | sill",
+      "against": "bath-E window 0 | jamb",
+      "axis": "x",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "garden bamboo planter north | box",
+      "against": "Parapet 3",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Walk-in rack 1 | shelf",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "y",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 1 | rail",
+      "against": "Walk-in rack 1 | upright.001",
+      "axis": "y",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | rail",
+      "against": "Walk-in rack 2 | upright.001",
+      "axis": "x",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | shelf",
+      "against": "Walk-in rack 2 | upright.001",
+      "axis": "x",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "garden lounge sofa | base",
+      "against": "garden lounge sofa | back",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Kids wardrobe | body",
+      "against": "Wall E.001",
+      "axis": "y",
+      "by_mm": 11.0
+    },
+    {
+      "moved": "bath-E window 0 | sill",
+      "against": "Wall bath-E",
+      "axis": "x",
+      "by_mm": -12.0
+    },
+    {
+      "moved": "Sofa | arm",
+      "against": "Sofa | base",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Sofa | arm.001",
+      "against": "Sofa | base",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Walk-in rack 1 | rail",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "y",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 1 | shelf",
+      "against": "Walk-in rack 1 | upright.001",
+      "axis": "y",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | rail",
+      "against": "Walk-in rack 2 | upright",
+      "axis": "x",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | shelf",
+      "against": "Walk-in rack 2 | upright",
+      "axis": "x",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Kids wardrobe | body",
+      "against": "Floor | bed1",
+      "axis": "y",
+      "by_mm": -11.0
+    },
+    {
+      "moved": "Sofa | arm",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Sofa | arm.001",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E window 0 | sill",
+      "against": "bath-E window 0 | jamb",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Walk-in rack 1 | shelf",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "y",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 1 | rail",
+      "against": "Walk-in rack 1 | upright.001",
+      "axis": "y",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | rail",
+      "against": "Walk-in rack 2 | upright.001",
+      "axis": "x",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | shelf",
+      "against": "Walk-in rack 2 | upright.001",
+      "axis": "x",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Kids wardrobe | body",
+      "against": "Wall E.001",
+      "axis": "y",
+      "by_mm": 11.0
+    },
+    {
+      "moved": "bath-E window 0 | sill",
+      "against": "Wall bath-E",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Sofa | arm",
+      "against": "Sofa | base",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Sofa | arm.001",
+      "against": "Sofa | base",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Walk-in rack 1 | rail",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "y",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 1 | shelf",
+      "against": "Walk-in rack 1 | upright.001",
+      "axis": "y",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | rail",
+      "against": "Walk-in rack 2 | upright",
+      "axis": "x",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | shelf",
+      "against": "Walk-in rack 2 | upright",
+      "axis": "x",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Kids wardrobe | body",
+      "against": "Floor | bed1",
+      "axis": "y",
+      "by_mm": -11.0
+    },
+    {
+      "moved": "Sofa | arm",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Sofa | arm.001",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E window 0 | sill",
+      "against": "bath-E window 0 | jamb",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Walk-in rack 1 | shelf",
+      "against": "Walk-in rack 1 | upright",
+      "axis": "y",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 1 | rail",
+      "against": "Walk-in rack 1 | upright.001",
+      "axis": "y",
+      "by_mm": 6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | rail",
+      "against": "Walk-in rack 2 | upright.001",
+      "axis": "x",
+      "by_mm": -6.0
+    },
+    {
+      "moved": "Walk-in rack 2 | shelf",
+      "against": "Walk-in rack 2 | upright.001",
+      "axis": "x",
+      "by_mm": -6.0
+    }
+  ],
   "left_out": "cameras, lights (present.py already removed ceilings, cameras and context)",
   "materials": "principled values; procedural textures not baked",
   "compression": "Draco"

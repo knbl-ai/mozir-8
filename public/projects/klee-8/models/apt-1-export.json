@@ -5,8 +5,475 @@
     242
   ],
   "bytes": {
-    "apt-1.glb": 324796
+    "apt-1.glb": 339092
   },
+  "web_palette": {
+    "floors": {
+      "porcelain": "#B5A48C",
+      "bath_tile": "#A8A094",
+      "concrete": "#9C958B"
+    },
+    "walls": "#F6F3EE",
+    "wall_tops": "#5F574F"
+  },
+  "zfight_fixes": [
+    {
+      "moved": "Slab | bedroom",
+      "against": "Slab | living",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen east run | plinth",
+      "against": "Floor | living",
+      "axis": "y",
+      "by_mm": 7.9
+    },
+    {
+      "moved": "living rug 5 | rug",
+      "against": "Floor | living",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Floor | bedroom",
+      "against": "Floor | living",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall N-facade",
+      "against": "Wall bath-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bath-W",
+      "against": "Wall bed-N",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bath-E.001",
+      "against": "Wall bed-N",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed-W",
+      "against": "Wall bed-N",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed-E",
+      "against": "Wall bed-N",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-E door 0 | leaf",
+      "against": "Wall bed-E.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed-W.001",
+      "against": "Wall S-main",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall vest-W",
+      "against": "Wall S-main",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall N-facade.003",
+      "against": "Wall E-main",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall vest-N",
+      "against": "Wall E-main",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall vest-E.001",
+      "against": "Wall vest-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade window 0 | jamb",
+      "against": "N-facade window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade window 0 | jamb.001",
+      "against": "N-facade window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 1 | jamb",
+      "against": "N-facade slider 1 | pocket jamb",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 1 | jamb.001",
+      "against": "N-facade slider 1 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 1 | pocket jamb",
+      "against": "Wall N-facade.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 1 | pocket jamb.001",
+      "against": "Wall N-facade.002",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade window 2 | jamb",
+      "against": "N-facade window 2 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade window 2 | jamb.001",
+      "against": "N-facade window 2 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-W window 0 | jamb",
+      "against": "bed-W window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-W window 0 | jamb.001",
+      "against": "bed-W window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Parapet 3",
+      "against": "Wall bed-N",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bedroom wardrobe left | seam",
+      "against": "bedroom wardrobe left | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bedroom wardrobe right | seam",
+      "against": "bedroom wardrobe right | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath vanity 11 | mirror",
+      "against": "Wall bed-N",
+      "axis": "y",
+      "by_mm": 10.1
+    },
+    {
+      "moved": "Kitchen east run | sink",
+      "against": "Kitchen east run | worktop",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen east run | worktop",
+      "against": "Kitchen east run | bases",
+      "axis": "x",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Kitchen side counter | hob",
+      "against": "Kitchen side counter | worktop",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Kitchen side counter | plinth",
+      "against": "Kitchen side counter | bases",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen side counter | worktop",
+      "against": "Kitchen side counter | bases",
+      "axis": "y",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "bar stool 1 | seat",
+      "against": "bar stool 2 | seat",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bar stool 2 | seat",
+      "against": "bar stool 1 | back",
+      "axis": "x",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "living sofa 4 | back",
+      "against": "living sofa 4 | base",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "living sofa 4 | base",
+      "against": "living sofa 4 | arm",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bath shower 9 | tray",
+      "against": "bath shower 9 | glass",
+      "axis": "x",
+      "by_mm": 13.0
+    },
+    {
+      "moved": "bedroom bed 12 | frame",
+      "against": "bedroom wardrobe left | body",
+      "axis": "y",
+      "by_mm": 10.0
+    },
+    {
+      "moved": "Slab | bedroom",
+      "against": "Floor | living",
+      "axis": "z",
+      "by_mm": 12.0
+    },
+    {
+      "moved": "bedroom low shelf | body",
+      "against": "Floor | bedroom",
+      "axis": "y",
+      "by_mm": -9.1
+    },
+    {
+      "moved": "bedroom wardrobe right | body",
+      "against": "Floor | bedroom",
+      "axis": "x",
+      "by_mm": 6.5
+    },
+    {
+      "moved": "bedroom wardrobe left | body",
+      "against": "Floor | bedroom",
+      "axis": "x",
+      "by_mm": -2.7
+    },
+    {
+      "moved": "Wall N-facade",
+      "against": "Wall bath-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 1 | jamb",
+      "against": "N-facade slider 1 | pocket jamb",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 1 | jamb.001",
+      "against": "N-facade slider 1 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Parapet 3",
+      "against": "Wall bath-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade window 0 | sill",
+      "against": "N-facade window 0 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "N-facade window 2 | sill",
+      "against": "N-facade window 2 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bed-W window 0 | sill",
+      "against": "bed-W window 0 | jamb",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen east run | hob",
+      "against": "Kitchen east run | worktop",
+      "axis": "z",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "Kitchen side counter | hob",
+      "against": "Wall bath-E.001",
+      "axis": "y",
+      "by_mm": 5.3
+    },
+    {
+      "moved": "Kitchen side counter | worktop",
+      "against": "Wall bath-E.001",
+      "axis": "y",
+      "by_mm": -11.1
+    },
+    {
+      "moved": "bar stool 1 | seat",
+      "against": "bar stool 2 | back",
+      "axis": "x",
+      "by_mm": -11.0
+    },
+    {
+      "moved": "living sofa 4 | back",
+      "against": "living sofa 4 | base",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "living sofa 4 | arm",
+      "against": "living sofa 4 | base",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "living sofa 4 | arm.001",
+      "against": "living sofa 4 | base",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Floor | bedroom",
+      "against": "Slab | bedroom",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-facade slider 1 | sill",
+      "against": "N-facade slider 1 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Kitchen side counter | worktop",
+      "against": "Wall bed-N",
+      "axis": "x",
+      "by_mm": 9.9
+    },
+    {
+      "moved": "bar stool 1 | seat",
+      "against": "bar stool 2 | seat",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "living sofa 4 | base",
+      "against": "living sofa 4 | back",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bedroom wardrobe left | seam",
+      "against": "bedroom wardrobe left | body",
+      "axis": "y",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "bedroom wardrobe right | seam",
+      "against": "bedroom wardrobe right | body",
+      "axis": "y",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "N-facade slider 1 | sill",
+      "against": "N-facade slider 1 | pocket jamb",
+      "axis": "x",
+      "by_mm": -10.0
+    },
+    {
+      "moved": "Kitchen side counter | worktop",
+      "against": "Kitchen side counter | bases",
+      "axis": "x",
+      "by_mm": -7.9
+    },
+    {
+      "moved": "bar stool 1 | seat",
+      "against": "bar stool 2 | back",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Kitchen side counter | worktop",
+      "against": "Wall bed-N",
+      "axis": "x",
+      "by_mm": 7.9
+    },
+    {
+      "moved": "bar stool 1 | seat",
+      "against": "bar stool 2 | seat",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen side counter | worktop",
+      "against": "Kitchen side counter | bases",
+      "axis": "x",
+      "by_mm": -7.9
+    },
+    {
+      "moved": "bar stool 1 | seat",
+      "against": "bar stool 2 | back",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Kitchen side counter | worktop",
+      "against": "Wall bed-N",
+      "axis": "x",
+      "by_mm": 7.9
+    },
+    {
+      "moved": "bar stool 1 | seat",
+      "against": "bar stool 2 | seat",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen side counter | worktop",
+      "against": "Kitchen side counter | bases",
+      "axis": "x",
+      "by_mm": -7.9
+    },
+    {
+      "moved": "bar stool 1 | seat",
+      "against": "bar stool 2 | back",
+      "axis": "x",
+      "by_mm": -8.0
+    }
+  ],
   "left_out": "cameras, lights (present.py already removed ceilings, cameras and context)",
   "materials": "principled values; procedural textures not baked",
   "compression": "Draco"
