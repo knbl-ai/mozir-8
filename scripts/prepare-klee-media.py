@@ -15,16 +15,16 @@ FILMS = {'apt-1': 'apt_1/deliverables/video/klee8-apt1_1080p_map_sound.mp4',
          'apt-2': 'apt_2/deliverables/video/klee8-apt2_1080p_map_sound.mp4',
          'apt-3': 'apt_3/deliverables/video/klee8-apt3_1080p_map.mp4'}
 POSTER_AT = {'apt-1': 3.0, 'apt-2': 3.0, 'apt-3': 3.0}
-# Gallery order = the walk's order; the first is the front page's card.
-STILLS = {
- 'apt-1': ['keyframes/generated/g-kitchen.png', 'keyframes/generated/g-living-hero.png', 'keyframes/generated/g-view.png',
-           'keyframes/generated/g-bedroom.png', 'keyframes/final/top.png'],
- 'apt-2': ['keyframes/generated/g-living-hero.164944.png', 'keyframes/generated/g-dining.png', 'keyframes/generated/g-view.png',
-           'keyframes/generated/g-master.png', 'deliverables/images/v-mamad.png', 'deliverables/images/v-ensuite.png', 'keyframes/final/top.png'],
- 'apt-3': ['keyframes/generated/g-garden.png', 'keyframes/generated/g-living.png', 'keyframes/generated/g-kitchen.png',
-           'keyframes/generated/g-stair.png', 'keyframes/generated/g-master.png', 'keyframes/generated/g-mamad.png',
-           'keyframes/generated/g-ensuite.png', 'keyframes/generated/g-bath.png', 'keyframes/final/top.png'],
+# Gallery = exactly the reference images the final films were generated from (traced through each 1080p
+# request to its draft's uploads, byte-identical), in walk order, then the film's closing top-down.
+# The first is the front page's card.
+USED = {
+ 'apt-1': ['v-living', 'v-balcony', 'v-living-back', 'v-bedroom'],
+ 'apt-2': ['v-living', 'v-balcony', 'v-mamad', 'v-master', 'v-ensuite'],
+ 'apt-3': ['v-garden', 'v-living', 'v-balcony', 'v-dining', 'v-west', 'v-kids-t', 'v-corridor-s3', 'v-bath', 'v-mamad',
+           'v-stair', 'v-master-walk', 'v-bed'],
 }
+STILLS = {apt: [f'keyframes/generated/{n}.png' for n in names] + ['keyframes/final/top.png'] for apt, names in USED.items()}
 PLANS = {'apt-1': ['source/apt_1/WhatsApp Image 2026-10-04 at 14.54.48.jpeg'],
          'apt-2': ['source/apt_2/WhatsApp Image 2026-10-04 at 14.55.01.jpeg'],
          # the duplex: entry floor and garden floor side by side, on one sheet
