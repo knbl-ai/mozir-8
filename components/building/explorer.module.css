@@ -1012,7 +1012,7 @@
 .shell[data-theme='borges'] .toneTag i { background: var(--lapa-gold); box-shadow: 0 0 0 3px rgb(177 127 51 / 0.2); }
 /* Step inside: deep blue, gold on hover — the one solid button on the card. */
 .shell[data-theme='borges'] .headAside .focusToggle,
-.shell[data-theme='borges'] .focusToggle { background: var(--lapa-blue); color: #fff; box-shadow: none; font: 500 11.5px/1 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; border-radius: 2px; height: 42px; padding: 0 20px 0 16px; gap: 9px; transition: background 0.4s var(--ease); }
+.shell[data-theme='borges'] .focusToggle { background: var(--lapa-blue); color: #fff; box-shadow: none; font: 500 11.5px/1 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; border-radius: 999px; height: 42px; padding: 0 22px 0 18px; gap: 9px; transition: background 0.4s var(--ease); }
 .shell[data-theme='borges'] .headAside .focusToggle svg { color: #e6c38c; }
 .shell[data-theme='borges'] .headAside .focusToggle:hover { background: var(--lapa-gold); }
 .shell[data-theme='borges'] .headAside .focusToggle:hover svg { color: #fff; }
@@ -1054,8 +1054,8 @@
 .shell[data-theme='borges'] .facadeLabel { font: 500 26px/1 var(--display); letter-spacing: 3px; color: #fff; text-shadow: 0 0 2px rgb(32 58 96), 0 0 6px rgb(32 58 96 / 0.8), 0 0 14px rgb(32 58 96 / 0.5); }
 /* Header picker. */
 .shell[data-theme='borges'] .pickerCaption { font: var(--lapa-caps); letter-spacing: 0.18em; text-transform: uppercase; color: var(--lapa-gold); }
-.shell[data-theme='borges'] .pickerTrigger { border-radius: 2px; }
-:global(html[data-theme='borges']) .pickerContent { background: rgb(253 252 251 / 0.97); border-radius: 4px; }
+.shell[data-theme='borges'] .pickerTrigger { border-radius: 14px; }
+:global(html[data-theme='borges']) .pickerContent { background: rgb(253 252 251 / 0.97); border-radius: 18px; }
 :global(html[data-theme='borges']) .pickerHead strong { font: 400 22px/1 var(--display); color: var(--ink); }
 :global(html[data-theme='borges']) .pickerLevel { font-family: var(--display); color: var(--lapa-gold); }
 :global(html[data-theme='borges']) .pickerOption[aria-selected='true'] { background: var(--lapa-blue); }
@@ -1084,9 +1084,9 @@
 .shell[data-theme='borges'] .legend {
   background: rgb(253 252 251 / 0.94); border: 0; color: var(--ink);
   box-shadow: inset 0 0 0 1px rgb(177 127 51 / 0.35), 0 10px 30px -12px rgb(32 30 25 / 0.35);
-  border-radius: 4px; padding: 6px; gap: 0; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px; padding: 6px; gap: 0; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
 }
-.shell[data-theme='borges'] .legendRow { border-radius: 2px; padding: 6px 12px 6px 6px; gap: 10px; min-width: 150px; }
+.shell[data-theme='borges'] .legendRow { border-radius: 11px; padding: 6px 12px 6px 6px; gap: 10px; min-width: 150px; }
 .shell[data-theme='borges'] .legendRow + .legendRow { box-shadow: inset 0 1px 0 rgb(43 43 43 / 0.08); }
 .shell[data-theme='borges'] .legendRow:hover { background: rgb(177 127 51 / 0.07); }
 .shell[data-theme='borges'] .legendTile { width: 24px; height: 24px; border-radius: 50%; background: transparent; color: var(--ink-3); box-shadow: inset 0 0 0 1px rgb(43 43 43 / 0.18); }
