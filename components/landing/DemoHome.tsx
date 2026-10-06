@@ -35,7 +35,7 @@ function Demo({ href, text, newTab, preview, id, tone }: { href: string; text: D
  </article>;
 }
 
-export default function DemoHome({ buildingFrames, penthouseFrames, complexFrames }: { buildingFrames: string[]; penthouseFrames: string[]; complexFrames: string[] }) {
+export default function DemoHome({ buildingFrames, penthouseFrames, complexFrames, heritageFrames }: { buildingFrames: string[]; penthouseFrames: string[]; complexFrames: string[]; heritageFrames: string[] }) {
  const lang = useLang();
  const t = copy[lang];
 
@@ -68,6 +68,8 @@ export default function DemoHome({ buildingFrames, penthouseFrames, complexFrame
      preview={active => <BuildingPreview frames={complexFrames} active={active} span={0.7} centre={0.47} />} />
     <Demo id="klee-8" href={withLang('/klee-8', lang)} text={t.boutique} newTab={t.newTab}
      preview={active => <FilmPreview poster="/projects/klee-8/media/apt-3/v-garden.webp" film="/projects/klee-8/media/apt-3/film.mp4" active={active} />} />
+    <Demo id="borges-15" href={withLang('/projects/borges-15', lang)} text={t.heritage} newTab={t.newTab}
+     preview={active => <BuildingPreview frames={heritageFrames} active={active} span={0.6} centre={0.5} />} />
    </div>
   </main>
 

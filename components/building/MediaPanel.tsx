@@ -33,6 +33,12 @@ function SampleTag({ show, children }: { show: boolean; children: string }) {
  return show ? <span className={s.sampleTag}>{children}</span> : null;
 }
 
+// A tab whose media isn't produced yet (empty src): a quiet panel, never another home's media (R-PIPE-PLACEHOLDER).
+function ComingSoon({ kind }: { kind: 'film' | 'images' | 'model' }) {
+ const t = explorerText[useLang()];
+ return <div className={s.comingSoon} data-pending={kind}><span className={s.sampleTag}>{t.comingSoonTag}</span><p>{t.comingSoon[kind]}</p></div>;
+}
+
 function PlanView({ src, title, onExpand }: { src: string; title: string; onExpand: () => void }) {
  const t = explorerText[useLang()];
  const shown = useDecodedSrc(src);
@@ -45,24 +51,28 @@ function PlanView({ src, title, onExpand }: { src: string; title: string; onExpa
 }
 
 function FilmView({ film, placeholder }: { film: ResolvedMedia['film']; placeholder: boolean }) {
- const t = explorerText[useLang()];
+ const lang = useLang();
+ const t = explorerText[lang];
+ // A work-in-progress film (the P2 blockout, runbook §11) says so on the page.
+ const note = lang === 'he' ? film.noteHe ?? film.note : film.note;
  const video = useRef<HTMLVideoElement>(null);
  const [playing, setPlaying] = useState(false);
  return <div className={s.filmView}>
   <AnimatePresence initial={false}>
    <motion.div key={film.src} className={s.filmLayer} {...fade} transition={swap}>
-    <video ref={video} src={film.src} poster={film.poster} playsInline muted preload="metadata" controls={playing}
+    <video ref={video} src={film.src} poster={film.poster} playsInline preload="metadata" controls={playing}
      onPlay={() => setPlaying(true)} onEnded={() => setPlaying(false)} />
    </motion.div>
   </AnimatePresence>
   <AnimatePresence>
    {!playing && <motion.button key="play" type="button" className={s.playButton} aria-label={t.playFilm}
     initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.15 }} transition={swap}
-    onClick={() => { void video.current?.play(); }}>
+    onClick={() => { const v = video.current; if (!v) return; v.muted = false; v.volume = 1; void v.play(); }}>
     <Play size={22} strokeWidth={1.6} fill="currentColor" aria-hidden />
    </motion.button>}
   </AnimatePresence>
   <SampleTag show={placeholder}>{t.sampleFilm}</SampleTag>
+  <SampleTag show={!placeholder && Boolean(note)}>{note ?? ''}</SampleTag>
  </div>;
 }
 
@@ -102,9 +112,10 @@ export default function MediaPanel({ tab, residence, media, specs, onExpandPlan 
   <AnimatePresence initial={false} mode="popLayout">
    <motion.div key={tab} className={s.mediaLayer} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} transition={{ duration: DUR.quick, ease: EASE }}>
     {tab === 'plan' && <PlanView src={residence.plan} title={residence.shortTitle} onExpand={onExpandPlan} />}
-    {tab === 'film' && <FilmView film={media.film} placeholder={media.placeholder.film} />}
-    {tab === 'images' && <GalleryView images={media.images} placeholder={media.placeholder.images} />}
-    {tab === 'model' && <div className={s.modelView}><ResidenceModel src={media.model} defaultOrbit={media.modelOrbit} levels={media.modelLevels} /><SampleTag show={media.placeholder.model}>{t.sampleModel}</SampleTag></div>}
+    {tab === 'film' && (media.film.src ? <FilmView film={media.film} placeholder={media.placeholder.film} /> : <ComingSoon kind="film" />)}
+    {tab === 'images' && (media.images.length ? <GalleryView images={media.images} placeholder={media.placeholder.images} /> : <ComingSoon kind="images" />)}
+    {tab === 'model' && !media.model && <ComingSoon kind="model" />}
+    {tab === 'model' && media.model && <div className={s.modelView}><ResidenceModel src={media.model} defaultOrbit={media.modelOrbit} levels={media.modelLevels} /><SampleTag show={media.placeholder.model}>{t.sampleModel}</SampleTag></div>}
     {tab === 'about' && <article className={s.aboutView}>
      <AnimatePresence initial={false} mode="wait">
       <motion.div key={specs.map(x => x.value).join('|')} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: DUR.quick, ease: EASE }}>

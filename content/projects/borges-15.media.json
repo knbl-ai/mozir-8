@@ -1,0 +1,92 @@
+{
+ "3b": {
+  "model": "/projects/borges-15/models/3b.glb",
+  "modelOrbit": "30deg 48deg 84%",
+  "modelLevels": [
+   {
+    "id": "both",
+    "label": "Both floors",
+    "labelHe": "שתי הקומות",
+    "src": "/projects/borges-15/models/3b.glb"
+   },
+   {
+    "id": "upper",
+    "label": "Upper floor",
+    "labelHe": "הקומה העליונה",
+    "src": "/projects/borges-15/models/3b-1.glb"
+   },
+   {
+    "id": "entry",
+    "label": "Entry floor",
+    "labelHe": "קומת הכניסה",
+    "src": "/projects/borges-15/models/3b-2.glb"
+   }
+  ],
+  "film": {
+   "src": "/projects/borges-15/media/3b/film-1080p.mp4",
+   "poster": "/projects/borges-15/media/3b/film-1080p-poster.webp"
+  },
+  "images": [
+   {
+    "src": "/projects/borges-15/media/3b/g-entry.webp",
+    "label": "From the entrance to the river",
+    "labelHe": "מהכניסה אל הנהר"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/g-media.webp",
+    "label": "Living room",
+    "labelHe": "סלון"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/g-living.webp",
+    "label": "Back toward the kitchen",
+    "labelHe": "חזרה לכיוון המטבח"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/g-stair.webp",
+    "label": "Kitchen and oak stair",
+    "labelHe": "מטבח ומדרגות עץ אלון"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/v-bath1.webp",
+    "label": "Shower room",
+    "labelHe": "חדר רחצה"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/v-bed1.webp",
+    "label": "Guest bedroom",
+    "labelHe": "חדר אורחים"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/v-stair.webp",
+    "label": "Up the oak stair",
+    "labelHe": "במעלה מדרגות העץ"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/g-bed3.webp",
+    "label": "River-side suite",
+    "labelHe": "הסוויטה מול הנהר"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/v-varanda-s.webp",
+    "label": "Balcony over the river",
+    "labelHe": "מרפסת מעל הנהר"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/g-bed2.webp",
+    "label": "Primary suite",
+    "labelHe": "סוויטת ההורים"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/v-varanda-n.webp",
+    "label": "Balcony toward the Basilica",
+    "labelHe": "מרפסת מול הבזיליקה"
+   },
+   {
+    "src": "/projects/borges-15/media/3b/top.webp",
+    "label": "Both floors from above",
+    "labelHe": "שתי הקומות ממבט על"
+   }
+  ]
+ }
+}

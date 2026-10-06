@@ -8,7 +8,7 @@ import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
 import ApartmentPicker from './ApartmentPicker';
 import BuildingStage, { type StageMode } from './BuildingStage';
-import { buildInventory, isWellInView, type Apartment } from './inventory';
+import { buildInventory, isWellInView, unitsInventory, type Apartment } from './inventory';
 import MediaPanel, { type MediaTab, type Spec } from './MediaPanel';
 import PlanLightbox from './PlanLightbox';
 import SegmentedControl from './SegmentedControl';
@@ -38,18 +38,20 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  const lang = useLang();
  const t = explorerText[lang];
  const project = useMemo(() => localizeDevelopment({ ...source, residences: source.residences.map(r => localizeResidence(r, lang)), media: { ...source.media, images: localizeImages(source.media.images, lang) } }, lang), [source, lang]);
- const inventory = useMemo(() => buildInventory(frames), [frames]);
+ // No building model yet: the homes come from `units`, and the page opens on the apartment view (runbook §11).
+ const noBuilding = source.building === false;
+ const inventory = useMemo(() => noBuilding && source.units ? unitsInventory(source.units, source.listings) : buildInventory(frames), [frames, noBuilding, source.units, source.listings]);
  const available = useMemo(() => inventory.filter(a => a.status === 'for-sale'), [inventory]);
  const views = project.views ?? DEFAULT_VIEWS;
  const [selectedId, setSelectedId] = useState(available.find(a => a.unit === views[0])?.apartment ?? available[0]?.apartment ?? '');
  const [hovered, setHovered] = useState<string | null>(null);
  const [mode, setMode] = useState<StageMode>(frames.length ? 'rotation' : 'reference');
  const [tab, setTab] = useState<MediaTab>('plan');
- const [mobilePanel, setMobilePanel] = useState<'building' | 'details'>('building');
+ const [mobilePanel, setMobilePanel] = useState<'building' | 'details'>(noBuilding ? 'details' : 'building');
  const [planOpen, setPlanOpen] = useState(false);
  // Apartment view: the building and the top bar step aside so the plan, film, images and 3D get the
  // screen; the facts stay beside them in a column.
- const [focus, setFocus] = useState(false);
+ const [focus, setFocus] = useState(noBuilding);
  const sources = useMemo(() => frames.map(f => f.src), [frames]);
  const engine = useFrameSequence(sources, 0, ZOOM);
  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -58,7 +60,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  const residence = project.residences.find(r => r.id === selected?.unit) ?? project.residences[0];
  const media = useMemo(() => {
   const resolved = resolveMedia(project, residence, selected?.apartment);
-  return { ...resolved, images: localizeImages(resolved.images, lang) };
+  return { ...resolved, images: localizeImages(resolved.images, lang), modelLevels: resolved.modelLevels?.map(l => ({ ...l, label: lang === 'he' ? l.labelHe ?? l.label : l.label })) };
  }, [project, residence, selected?.apartment, lang]);
  const navIndex = available.findIndex(a => a.apartment === selectedId);
  const listing = selected ? project.listings[selected.apartment] : undefined;
@@ -103,7 +105,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  useEffect(() => {
   const id = readDeepLink();
   const entry = id ? inventory.find(a => a.apartment === id && a.status === 'for-sale') : undefined;
-  if (entry) { setSelectedId(entry.apartment); engine.rotateTo(entry.bestFrame); }
+  if (entry) { setSelectedId(entry.apartment); if (!noBuilding) engine.rotateTo(entry.bestFrame); }
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
  useEffect(() => {
@@ -144,16 +146,17 @@ export default function BuildingExplorer({ project: source, frames }: { project:
   return () => observer.disconnect();
  }, [project]);
  useEffect(() => {
-  if (!focus) return;
+  if (!focus || noBuilding) return;
   const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape' && !planOpen) setFocus(false); };
   window.addEventListener('keydown', onKey);
   return () => window.removeEventListener('keydown', onKey);
  }, [focus, planOpen]);
 
  const counts = { available: available.length, sold: inventory.length - available.length };
- const where = selected ? (selected.level === 0 ? t.groundFloor : t.floorN(selected.level)) : '';
+ const where = selected ? (selected.floorLabel ? `${t.floor} ${selected.floorLabel}` : selected.level === 0 ? t.groundFloor : t.floorN(selected.level)) : '';
+ const currency = project.currency ?? t.currency;
  const { contact, info } = project;
- const priceText = listing?.price ? `${t.currency}${formatPrice(listing.price)}` : t.onRequest;
+ const priceText = listing?.price ? `${currency}${formatPrice(listing.price)}` : t.onRequest;
  // Every way to reach the agent names the home, so the enquiry arrives already specific.
  const homeRef = t.homeRef(listing?.number, where, residence.shortTitle);
  const message = t.enquiryText(project.name, homeRef);
@@ -186,7 +189,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  ] satisfies Spec[]).filter(spec => spec.value);
  const openProject = () => { setMode('info'); setMobilePanel('building'); };
 
- return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined}>
+ return <MotionConfig reducedMotion="user"><div className={s.frame} data-focus={focus || undefined} data-standalone={noBuilding || undefined}>
   <header className={s.header}>
    <div className={s.headerStart}>
    <Link href="/" className={s.brand} aria-label={contact.agency}>
@@ -210,7 +213,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
     })} />}
    </div>
    <div className={s.headerPicker}>
-    <ApartmentPicker inventory={inventory} residences={project.residences} listings={project.listings} selected={selected} onSelect={a => select(a, { turn: true })} />
+    <ApartmentPicker inventory={inventory} residences={project.residences} listings={project.listings} selected={selected} onSelect={a => select(a, { turn: !noBuilding })} currency={currency} />
    </div>
   </header>
   <main>
@@ -231,7 +234,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
        <div className={s.headAside}>
         {listing?.number && <span className={s.aptTag}><SwapValue value={t.aptNo(listing.number)} order={listing.number} /></span>}
         <span className={s.toneTag} data-tone="available"><i />{t.available}</span>
-        {!focus && <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
+        {!focus && !noBuilding && <button type="button" className={s.focusToggle} onClick={() => setFocus(v => !v)} aria-pressed={focus}
          aria-label={focus ? t.backToBuilding : t.stepInsideLabel} title={focus ? t.backToBuildingTitle : t.stepInsideTitle}>
          {focus ? <Building2 size={16} strokeWidth={1.7} aria-hidden /> : <Eye size={16} strokeWidth={1.7} aria-hidden />}<span>{focus ? t.building : t.stepInside}</span>
         </button>}
@@ -240,14 +243,14 @@ export default function BuildingExplorer({ project: source, frames }: { project:
       </motion.div>
       <motion.dl layout="position" transition={SOFT_SPRING} className={s.facts}>
        <div><dt>{t.rooms}</dt><dd className={s.factNumber}><SwapValue value={String(residence.rooms)} /></dd></div>
-       <div><dt>{t.floor}</dt><dd className={s.factNumber}><SwapValue value={selected ? (selected.level === 0 ? t.ground : String(selected.level)) : '—'} order={selected?.level} /></dd></div>
+       <div><dt>{t.floor}</dt><dd className={s.factNumber}><SwapValue value={selected ? (selected.floorLabel ?? (selected.level === 0 ? t.ground : String(selected.level))) : '—'} order={selected?.level} /></dd></div>
        <div><dt title={t.interiorTitle}>{t.interior}</dt><dd className={s.factNumber}><SwapValue value={residence.area ? String(residence.area) : '—'} /><span className={s.factUnit}>{t.sqm}</span></dd></div>
-       <div><dt>{t.outdoor}</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} /><span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} ${t.sqm}`} order={residence.outdoorArea} /></span></dd></div>
+       <div><dt>{t.outdoor}</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} />{residence.outdoorArea > 0 && <span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} ${t.sqm}`} order={residence.outdoorArea} /></span>}</dd></div>
        <div className={s.factPrice}><dt>{t.price}</dt>{listing && !listing.price
         ? <dd className={s.factWord}><SwapValue value={t.onRequest} /></dd>
-        : <dd className={s.factNumber}><span className={s.factCurrency}>{t.currency}</span><SwapValue value={listing?.price ? formatPrice(listing.price) : '—'} order={listing?.price} /></dd>}</div>
+        : <dd className={s.factNumber}><span className={s.factCurrency}>{currency}</span><SwapValue value={listing?.price ? formatPrice(listing.price) : '—'} order={listing?.price} /></dd>}</div>
       </motion.dl>
-      {focus && <div className={s.focusActions}>
+      {focus && !noBuilding && <div className={s.focusActions}>
        <button type="button" className={s.returnButton} onClick={() => setFocus(false)} title={t.backToBuildingTitle}>
         <Building2 size={18} strokeWidth={1.7} aria-hidden /><span>{t.returnToBuilding}</span>
        </button>

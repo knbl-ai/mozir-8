@@ -50,6 +50,7 @@ const en = {
  presentation: 'Building presentation', turnBuilding: 'Turn the building', architectView: 'Architect’s view',
  // media
  openPlan: (home: string) => `Open the ${home} floor plan full screen`,
+ comingSoon: { film: 'The walkthrough film is in production', images: 'Interior images are in production', model: 'The 3D model is in production' }, comingSoonTag: 'Coming soon',
  sampleFilm: 'Sample film from another home', sampleImages: 'Sample imagery from another home', sampleModel: 'Sample model from another home',
  playFilm: 'Play the film', previousImage: 'Previous image', nextImage: 'Next image', images: 'Images',
  imageOf: (n: number, total: number) => `${n} of ${total}`, showImage: (label: string) => `Show ${label}`,
@@ -109,6 +110,7 @@ const he: ExplorerText = {
  turnLeft: 'סיבוב שמאלה', turnRight: 'סיבוב ימינה',
  presentation: 'תצוגת הבניין', turnBuilding: 'סיבוב הבניין', architectView: 'מבט אדריכלי',
  openPlan: home => `פתיחת תוכנית ${home} במסך מלא`,
+ comingSoon: { film: 'סרטון הסיור בהפקה', images: 'תמונות הפנים בהפקה', model: 'מודל התלת־ממד בהפקה' }, comingSoonTag: 'בקרוב',
  sampleFilm: 'סרטון לדוגמה מדירה אחרת', sampleImages: 'תמונות לדוגמה מדירה אחרת', sampleModel: 'מודל לדוגמה מדירה אחרת',
  playFilm: 'הפעלת הסרטון', previousImage: 'התמונה הקודמת', nextImage: 'התמונה הבאה', images: 'תמונות',
  imageOf: (n, total) => `${n} מתוך ${total}`, showImage: label => `הצגת ${label}`,

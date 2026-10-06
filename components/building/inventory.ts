@@ -26,6 +26,10 @@ export function buildInventory(frames: BuildingFrame[]): Apartment[] {
  return [...byId.values()].sort((a, b) => a.level - b.level || UNIT_ORDER.indexOf(a.unit) - UNIT_ORDER.indexOf(b.unit));
 }
 
+// A project without a building model (`units` in place of frames.json): one entry per home, in listing order.
+export const unitsInventory = (units: { unit: string; apartment: string; floor: string; floorLabel?: string }[], listings: Record<string, unknown>): Apartment[] =>
+ units.map(u => ({ ...u, status: listings[u.apartment] ? 'for-sale' : 'sold', labelPoints: [], points: '', level: levelOf(u.floor), bestFrame: 0, areaByFrame: [0] }));
+
 // Already well in view from here? Then there is no reason to turn the building.
 export const isWellInView = (apartment: Apartment, frame: number) =>
  apartment.areaByFrame[frame] >= apartment.areaByFrame[apartment.bestFrame] * 0.6;

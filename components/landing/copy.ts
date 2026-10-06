@@ -6,7 +6,7 @@ export type DemoCopy = {
 export type LandingCopy = {
  brand: string; brandNote: string; newTab: string;
  title: string; lede: string; sample: string;
- salesGallery: DemoCopy; openHouse: DemoCopy; penthouse: DemoCopy; complex: DemoCopy; boutique: DemoCopy;
+ salesGallery: DemoCopy; openHouse: DemoCopy; penthouse: DemoCopy; complex: DemoCopy; boutique: DemoCopy; heritage: DemoCopy;
  footer: string;
 };
 
@@ -14,8 +14,8 @@ const en: LandingCopy = {
  brand: 'Residences',
  brandNote: 'Property marketing demos',
  newTab: 'opens in a new tab',
- title: 'Five ways to show a home before the first visit.',
- lede: 'This is a working demo of five property-marketing websites. One sells a whole new building, home by home. One gives a single apartment a website of its own. The third presents one luxury home on its building, in the project’s own look. The fourth sells a four-tower neighbourhood in its developer’s brand: pick a building, then a floor, then a home. The fifth is a boutique building’s front page for young buyers: three homes to step inside, a duplex in 3D floor by floor.',
+ title: 'Six ways to show a home before the first visit.',
+ lede: 'This is a working demo of six property-marketing websites. One sells a whole new building, home by home. One gives a single apartment a website of its own. The third presents one luxury home on its building, in the project’s own look. The fourth sells a four-tower neighbourhood in its developer’s brand: pick a building, then a floor, then a home. The fifth is a boutique building’s front page for young buyers: three homes to step inside, a duplex in 3D floor by floor. The sixth rebuilds a historic Lisbon house from its plans, tile by tile, with its duplex to walk through.',
  sample: 'Everything here is sample data. Availability is invented, areas are estimates from the plans, and the interiors, films and 3D furniture are illustrations.',
  salesGallery: {
   kind: 'For a new development',
@@ -62,6 +62,15 @@ const en: LandingCopy = {
   hint: 'Hover to play a walkthrough',
   touchHint: 'Open it to watch the films',
  },
+ heritage: {
+  kind: 'For a historic building',
+  name: 'Borges 15',
+  body: 'A Lisbon house rebuilt from the developer’s plans: its azulejo façade, stone and terracotta roof, in the street it stands in. Turn it to find the duplex under the roof, then watch its film with sound, open the plan, the images and the 3D home. Shown with 3B at Borges 15, Lapa, Lisbon.',
+  features: ['The house rebuilt from its plans, tile by tile', 'The duplex marked on the building', 'A walkthrough film with sound, plan and 3D', 'In the project’s Lapa look'],
+  cta: 'Open Borges 15',
+  hint: 'Hover to turn the building',
+  touchHint: 'The building turns as you scroll past',
+ },
  footer: 'A demo, not an offer to sell. Confirm any property detail with the developer.',
 };
 
@@ -69,8 +78,8 @@ const he: LandingCopy = {
  brand: 'Residences',
  brandNote: 'הדגמות לשיווק נדל״ן',
  newTab: 'נפתח בכרטיסייה חדשה',
- title: 'חמש דרכים להציג בית עוד לפני הביקור הראשון.',
- lede: 'זוהי הדגמה חיה של חמישה אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה. השלישי מציג דירת יוקרה אחת על הבניין שלה, בעיצוב של הפרויקט. הרביעי משווק שכונה של ארבעה מגדלים במיתוג היזם: בוחרים בניין, קומה — ואת הבית. החמישי הוא עמוד הבית של בניין בוטיק לקונים צעירים: שלוש דירות להיכנס אליהן, ודופלקס בתלת־ממד קומה אחר קומה.',
+ title: 'שש דרכים להציג בית עוד לפני הביקור הראשון.',
+ lede: 'זוהי הדגמה חיה של שישה אתרים לשיווק נדל״ן. האחד מוכר בניין חדש שלם, דירה אחר דירה. השני נותן לדירה אחת אתר משלה. השלישי מציג דירת יוקרה אחת על הבניין שלה, בעיצוב של הפרויקט. הרביעי משווק שכונה של ארבעה מגדלים במיתוג היזם: בוחרים בניין, קומה — ואת הבית. החמישי הוא עמוד הבית של בניין בוטיק לקונים צעירים: שלוש דירות להיכנס אליהן, ודופלקס בתלת־ממד קומה אחר קומה. השישי משחזר בית היסטורי בליסבון מהתוכניות, אריח אחר אריח, עם הדופלקס שלו לסיור.',
  sample: 'כל מה שמוצג כאן הוא מידע לדוגמה: הזמינות בדויה, השטחים הם הערכות לפי התוכניות, והעיצוב הפנימי, הסרטונים והריהוט בתלת־ממד הם המחשות.',
  salesGallery: {
   kind: 'לפרויקט חדש',
@@ -116,6 +125,15 @@ const he: LandingCopy = {
   cta: 'ל־N°8 KLEE',
   hint: 'רחפו מעל התמונה כדי להפעיל סיור',
   touchHint: 'פתחו כדי לצפות בסרטונים',
+ },
+ heritage: {
+  kind: 'לבניין היסטורי',
+  name: 'Borges 15',
+  body: 'בית בליסבון שנבנה מחדש מתוכניות היזם: חזית האזולז׳ו, האבן וגג הרעפים, ברחוב שבו הוא עומד. מסובבים כדי למצוא את הדופלקס מתחת לגג, וצופים בסרטון עם קול, בתוכנית, בתמונות ובדירה בתלת־ממד. מוצג עם 3B בבורז׳ש 15, לאפה, ליסבון.',
+  features: ['הבית משוחזר מהתוכניות, אריח אחר אריח', 'הדופלקס מסומן על הבניין', 'סרטון סיור עם קול, תוכנית ותלת־ממד', 'בעיצוב לאפה של הפרויקט'],
+  cta: 'לבורז׳ש 15',
+  hint: 'רחפו מעל התמונה כדי לסובב את הבניין',
+  touchHint: 'הבניין מסתובב כשהוא על המסך',
  },
  footer: 'זוהי הדגמה ולא הצעה למכירה. יש לאמת כל פרט על הנכס מול היזם.',
 };

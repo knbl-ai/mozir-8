@@ -7,7 +7,7 @@ export type MediaImage = { src: string; label: string; labelHe?: string };
 // apartment → residence type → the project's shared (placeholder) set.
 // A home over several floors: one model per view (both floors, then each floor), switched in the 3D tab.
 export type ModelLevel = { id: string; label: string; labelHe?: string; src: string };
-export type ResidenceMedia = { film?: { src: string; poster: string }; images?: MediaImage[]; model?: string; modelOrbit?: string };
+export type ResidenceMedia = { film?: { src: string; poster: string; note?: string; noteHe?: string }; images?: MediaImage[]; model?: string; modelOrbit?: string; modelLevels?: ModelLevel[] };
 export type Residence = { id: string; title: string; shortTitle: string; tagline: string; rooms: number; outdoor: string;
  // The developer's listed m² (the private storage room is included in it) and the listed garden or balcony.
  area: number; outdoorArea: number; exposure: string; label: string; plan: string; description: string; sourceUnits: string; about: string[]; media?: ResidenceMedia;
@@ -24,7 +24,8 @@ export type ProjectInfo = { address: string; area: string; kicker: string; floor
 // Per-project look: the header logo and a colour theme (a [data-theme] block in explorer.module.css).
 // `wordmark`: the campaign lettering, shown in the header's centre when there are no apartment-type tabs.
 export type Brand = { logo: string; logoWidth: number; logoHeight: number; theme?: string; headerTone?: 'light' | 'dark'; wordmark?: { src: string; width: number; height: number; alt: string }; directoryNote?: string; directoryNoteHe?: string };
-export type ApartmentZone = { unit: string; apartment: string; status: 'for-sale' | 'sold'; floor: string; labelPoints: [number, number][]; points: string };
+// `floorLabel`: what the facts show for the floor when it isn't one number (a duplex: '3–4').
+export type ApartmentZone = { unit: string; apartment: string; status: 'for-sale' | 'sold'; floor: string; floorLabel?: string; labelPoints: [number, number][]; points: string };
 export type BuildingFrame = { src: string; hotspots: ApartmentZone[] };
 export type Development = { id: string; name: string; location: string; description: string; info: ProjectInfo; contact: Contact; source: string; brand?: Brand;
  // Apartment-type tabs in the header, by residence id; one type or fewer hides them. Defaults to the Sales Gallery's four.
@@ -32,6 +33,12 @@ export type Development = { id: string; name: string; location: string; descript
  // 'legend': the chosen home is outlined on the building only while "For sale" is switched on (else on hover).
  // Default 'always' keeps the chosen home outlined whatever the legend says.
  selectionHighlight?: 'always' | 'legend';
+ // No building model yet (runbook §11, P1–P5): the page opens straight on the apartment view, and the homes
+ // come from `units` instead of the facade hotspots in building/frames.json.
+ building?: false;
+ units?: { unit: string; apartment: string; floor: string; floorLabel?: string }[];
+ // Shown before prices; the Sales Gallery default is ₪.
+ currency?: string;
  // Keyed by the facade zone id (front-06, rear-04, …): the listing is the source of truth for availability.
  listings: Record<string, Listing>;
  he: Pick<Development, 'name' | 'location' | 'description'> & { info: Omit<ProjectInfo, 'floors' | 'mapQuery'>; contact: Pick<Contact, 'name' | 'agency' | 'role'> }; references: string[]; residences: Residence[]; media: Required<Pick<ResidenceMedia, 'film' | 'images' | 'model'>> & Pick<ResidenceMedia, 'modelOrbit'>; apartmentMedia?: Record<string, ResidenceMedia> };
@@ -169,7 +176,7 @@ export const applyListings = (frames: BuildingFrame[], project: Development): Bu
  frames.map(f => ({ ...f, hotspots: f.hotspots.map(h => ({ ...h, status: project.listings[h.apartment] ? 'for-sale' : 'sold' })) }));
 export const localizeImages = (images: MediaImage[], lang: Lang): MediaImage[] => lang === 'he' ? images.map(i => ({ ...i, label: i.labelHe ?? i.label })) : images;
 
-export type ResolvedMedia = { film: { src: string; poster: string }; images: MediaImage[]; model: string; modelOrbit?: string; modelLevels?: ModelLevel[]; placeholder: { film: boolean; images: boolean; model: boolean } };
+export type ResolvedMedia = { film: { src: string; poster: string; note?: string; noteHe?: string }; images: MediaImage[]; model: string; modelOrbit?: string; modelLevels?: ModelLevel[]; placeholder: { film: boolean; images: boolean; model: boolean } };
 // The most specific media wins; `placeholder` marks what still comes from the shared set.
 export function resolveMedia(project: Development, residence: Residence, apartment?: string): ResolvedMedia {
  const own = apartment ? project.apartmentMedia?.[apartment] : undefined;
@@ -179,6 +186,11 @@ export function resolveMedia(project: Development, residence: Residence, apartme
  return {
   film: film ?? project.media.film, images: images?.length ? images : project.media.images, model: model ?? project.media.model,
   modelOrbit: own?.model ? own.modelOrbit : residence.media?.model ? residence.media.modelOrbit : project.media.modelOrbit,
+  modelLevels: own?.model ? own.modelLevels : residence.media?.model ? residence.media.modelLevels : undefined,
   placeholder: { film: !film, images: !images?.length, model: !model },
  };
 }
+
+// Borges 15, Lisbon (runbook §11): apartment-only until the building model exists.
+import { borges15 } from './borges-15';
+developments.push(borges15);

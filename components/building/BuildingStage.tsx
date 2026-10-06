@@ -192,7 +192,7 @@ export default function BuildingStage({ project, frames, engine, mode, onModeCha
        <span className={s.legendCount}>{count}</span>
       </button>)}
     </div>
-    : <SegmentedControl id="reference-view" label={t.viewpoint} variant="glass" value={reference} onChange={setReference}
+    : project.references.length > 1 && <SegmentedControl id="reference-view" label={t.viewpoint} variant="glass" value={reference} onChange={setReference}
      options={[{ value: 'street', label: t.front }, { value: 'reverse', label: t.rear }]} />}
   </div>}
 

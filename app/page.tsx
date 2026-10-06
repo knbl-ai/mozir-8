@@ -15,5 +15,5 @@ const readComplex = (): string[] => {
  return fs.existsSync(manifest) ? (JSON.parse(fs.readFileSync(manifest, 'utf8')).frames as { src: string }[]).filter((_, i) => i % 2 === 0).map(f => f.src) : [];
 };
 export default function Home() {
- return <DemoHome buildingFrames={everySecond(readFrames('building-preview'))} penthouseFrames={everySecond(readFrames('afk-urban-comfort'))} complexFrames={readComplex()} />;
+ return <DemoHome buildingFrames={everySecond(readFrames('building-preview'))} penthouseFrames={everySecond(readFrames('afk-urban-comfort'))} complexFrames={readComplex()} heritageFrames={everySecond(readFrames('borges-15'))} />;
 }

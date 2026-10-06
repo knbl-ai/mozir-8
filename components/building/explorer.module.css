@@ -358,6 +358,9 @@
 .pickerCheck { flex: none; }
 
 /* ── Media ──────────────────────────────────────────────────────────────── */
+.comingSoon { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 24px; text-align: center; background: var(--surface-2, rgba(0,0,0,.04)); border-radius: inherit; }
+.comingSoon p { margin: 0; color: var(--muted, #6b6b6b); font-size: 15px; max-width: 30ch; }
+.comingSoon .sampleTag { position: static; }
 .sampleTag {
   position: absolute; top: 12px; left: 12px; z-index: 2; pointer-events: none;
   padding: 5px 10px; border-radius: 999px; font-weight: 500; font-size: 11px; color: var(--ink-2);
@@ -455,7 +458,13 @@
 
 /* ── Apartment view: media first, facts in a side column ─────────────────── */
 .frame[data-focus] .header, .frame[data-focus] .stageColumn, .frame[data-focus] .mobileTabs { display: none; }
-.frame[data-focus] .explorer { height: 100dvh; }
+/* No building model yet (runbook §11): the apartment view, with the header kept for the language switch and picker. */
+.frame[data-standalone] .header { display: grid; }
+.frame[data-standalone] .addressChip, .frame[data-standalone] .mobileTabs { display: none; }
+.frame[data-standalone] .explorer { height: calc(100dvh - 72px); }
+@media (max-width: 760px) { .frame[data-standalone] .explorer { height: auto; min-height: calc(100dvh - 64px); } }
+
+.frame[data-focus]:not([data-standalone]) .explorer { height: 100dvh; }
 .frame[data-focus] .grid { grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 761px) {
   .frame[data-focus] .explorer { padding: 20px; }
@@ -948,3 +957,152 @@
 @media (max-width: 760px) {
   .shell[data-theme='afk'] .orbitZoom { transform: translateY(13%) scale(1.3); }
 }
+
+/* ── Borges 15 · Lapa Boutique Residences (borges15.com tokens) ────────────────
+   Off-white surfaces, charcoal ink, deep blue for facts, gold for acting and for the home on the building;
+   Playfair Display (SIL OFL) as the display face, as on borges15.com. Light header with the LAPA lettering. */
+@font-face { font-family: 'Lapa Display'; src: url('/fonts/playfair-400.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Lapa Display'; src: url('/fonts/playfair-500.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+.shell[data-theme='borges'],
+:global(html[data-theme='borges']) .pickerContent,
+:global(html[data-theme='borges']) .lightbox,
+:global(html[data-theme='borges']) .lightboxOverlay {
+  --lapa-gold: #b17f33;
+  --lapa-gold-soft: #bf9d6c;
+  --lapa-blue: #203a60;
+  --lapa-cream: #f2efeb;
+  --lapa-caps: 500 10.5px/1.2 var(--sans);
+  --surface: #fdfcfb;
+  --card: #ffffff;
+  --well: #f5f2ee;
+  --ink: #2b2b2b;
+  --ink-2: #5f5f5f;
+  --ink-3: #8f8a84;
+  --hairline: rgb(43 43 43 / 0.08);
+  --hairline-strong: rgb(43 43 43 / 0.16);
+  --fill: rgb(43 43 43 / 0.05);
+  --accent: var(--lapa-blue);
+  --accent-hover: #2b4c7c;
+  --brand-blue: var(--lapa-blue);
+  --brand-blue-tint: rgb(32 58 96 / 0.07);
+  --brand-red: var(--lapa-gold);
+  --brand-red-tint: rgb(177 127 51 / 0.12);
+  --available: #8a6224;
+  --available-tint: rgb(177 127 51 / 0.13);
+  --cta: var(--lapa-gold);
+  --cta-hover: #9a6d28;
+  --cta-glow: rgb(177 127 51 / 0.45);
+  --zone: 200 145 60;
+  --zone-strong: #8a6224;
+  --facade-ink: #6e4c18;
+  --mark: var(--lapa-gold);
+  --header-bg: rgb(253 252 251 / 0.88);
+  --display: 'Lapa Display', 'Hebrew Display', Georgia, serif;
+}
+.shell[data-theme='borges'] { background: var(--surface); }
+.shell[data-theme='borges'] .header { border-bottom: 1px solid var(--hairline); }
+.shell[data-theme='borges'] .brandLogo[data-brand='borges'] { height: 38px; width: auto; }
+.shell[data-theme='borges'] ::selection { background: rgb(177 127 51 / 0.25); }
+.shell[data-theme='borges'] :focus-visible { outline-color: var(--lapa-gold); }
+.shell[data-theme='borges'] .title { color: var(--ink); }
+.shell[data-theme='borges'] .projectKicker { color: var(--lapa-gold); }
+.shell[data-theme='borges'] .facts dt { font: var(--lapa-caps); letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); }
+.shell[data-theme='borges'] .factNumber, .shell[data-theme='borges'] .factWord { font-family: var(--display); color: var(--lapa-blue); }
+.shell[data-theme='borges'] .toneTag { background: transparent; box-shadow: inset 0 0 0 1px rgb(177 127 51 / 0.45); color: var(--lapa-gold); font: var(--lapa-caps); letter-spacing: 0.16em; text-transform: uppercase; }
+.shell[data-theme='borges'] .toneTag i { background: var(--lapa-gold); box-shadow: 0 0 0 3px rgb(177 127 51 / 0.2); }
+/* Step inside: deep blue, gold on hover — the one solid button on the card. */
+.shell[data-theme='borges'] .headAside .focusToggle,
+.shell[data-theme='borges'] .focusToggle { background: var(--lapa-blue); color: #fff; box-shadow: none; font: 500 11.5px/1 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; border-radius: 2px; height: 42px; padding: 0 20px 0 16px; gap: 9px; transition: background 0.4s var(--ease); }
+.shell[data-theme='borges'] .headAside .focusToggle svg { color: #e6c38c; }
+.shell[data-theme='borges'] .headAside .focusToggle:hover { background: var(--lapa-gold); }
+.shell[data-theme='borges'] .headAside .focusToggle:hover svg { color: #fff; }
+.shell[data-theme='borges'] .returnButton { background: var(--lapa-blue); letter-spacing: 0.16em; text-transform: uppercase; font-size: 12px; }
+.shell[data-theme='borges'] .returnButton:hover { background: var(--lapa-gold); }
+.shell[data-theme='borges'] .tabs .segmented { background: transparent; padding: 0; border-radius: 0; box-shadow: inset 0 -1px 0 var(--hairline-strong); }
+.shell[data-theme='borges'] .tabs .segment { height: 40px; border-radius: 0; font: var(--lapa-caps); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); }
+.shell[data-theme='borges'] .tabs .segment[data-active] { color: var(--ink); }
+.shell[data-theme='borges'] .tabs .segment[data-active] svg { color: var(--lapa-gold); }
+.shell[data-theme='borges'] .tabs .segmentThumb { background: transparent; border-radius: 0; box-shadow: inset 0 -2px 0 var(--lapa-gold); }
+/* Over the building: deep-blue glass, cream type. */
+.shell[data-theme='borges'] .segmented_glass,
+.shell[data-theme='borges'] .glassIcon,
+.shell[data-theme='borges'] .legend,
+.shell[data-theme='borges'] .coachHint,
+.shell[data-theme='borges'] .playButton { background: rgb(32 58 96 / 0.72); border: 1px solid rgb(255 255 255 / 0.16); color: #fdfcfb; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.shell[data-theme='borges'] .segmented_glass .segment { color: rgb(253 252 251 / 0.72); font: var(--lapa-caps); letter-spacing: 0.14em; text-transform: uppercase; }
+.shell[data-theme='borges'] .segmented_glass .segment[data-active] { color: var(--lapa-blue); }
+.shell[data-theme='borges'] .segmented_glass .segmentThumb { background: #fdfcfb; }
+.shell[data-theme='borges'] .glassIcon:hover { background: var(--lapa-gold); border-color: transparent; color: #fff; }
+.shell[data-theme='borges'] .coachHint { font: var(--lapa-caps); letter-spacing: 0.14em; text-transform: uppercase; }
+.shell[data-theme='borges'] .coachHand { color: #e6c38c; }
+.shell[data-theme='borges'] .legendTile { background: rgb(255 255 255 / 0.1); color: rgb(253 252 251 / 0.6); }
+.shell[data-theme='borges'] .legendLabel { font: var(--lapa-caps); letter-spacing: 0.14em; text-transform: uppercase; color: rgb(253 252 251 / 0.65); }
+.shell[data-theme='borges'] .legendCount { color: rgb(253 252 251 / 0.55); }
+.shell[data-theme='borges'] .legendRow[aria-pressed='true'][data-tone='available'] .legendTile { background: #e6c38c; color: #4a3410; }
+.shell[data-theme='borges'] .legendRow[aria-pressed='true'][data-tone='available'] .legendLabel { color: #e6c38c; }
+.shell[data-theme='borges'] .legendRow[aria-pressed='true'] .legendCount { color: #fdfcfb; }
+/* The home on the building: a warm gold glow that reads on the green-white tiles and the terracotta roof. */
+.shell[data-theme='borges'] { --zone-lit: 238 190 110; }
+.shell[data-theme='borges'] .zoneGlowColor { flood-color: rgb(var(--zone-lit)); flood-opacity: 0.55; }
+.shell[data-theme='borges'] .zoneSelected,
+.shell[data-theme='borges'] .zoneHover { filter: url(#zone-glow); stroke: rgb(var(--zone-lit)); }
+.shell[data-theme='borges'] .zoneSelected { fill: rgb(var(--zone-lit) / 0.24); stroke-width: 2; animation: lapaBreathe 2.6s ease-in-out infinite; }
+.shell[data-theme='borges'] .zoneHover { fill: rgb(var(--zone-lit) / 0.34); stroke-width: 2.4; }
+.shell[data-theme='borges'] .zoneAvailable { fill: rgb(var(--zone-lit) / 0.18); stroke: rgb(var(--zone-lit) / 0.85); stroke-width: 1.8; }
+@keyframes lapaBreathe { 0%, 100% { fill-opacity: 1; stroke-opacity: 0.95; } 50% { fill-opacity: 0.6; stroke-opacity: 0.7; } }
+@media (prefers-reduced-motion: reduce) { .shell[data-theme='borges'] .zoneSelected { animation: none; } }
+.shell[data-theme='borges'] .facadeLabel { font: 500 26px/1 var(--display); letter-spacing: 3px; color: #fff; text-shadow: 0 0 2px rgb(32 58 96), 0 0 6px rgb(32 58 96 / 0.8), 0 0 14px rgb(32 58 96 / 0.5); }
+/* Header picker. */
+.shell[data-theme='borges'] .pickerCaption { font: var(--lapa-caps); letter-spacing: 0.18em; text-transform: uppercase; color: var(--lapa-gold); }
+.shell[data-theme='borges'] .pickerTrigger { border-radius: 2px; }
+:global(html[data-theme='borges']) .pickerContent { background: rgb(253 252 251 / 0.97); border-radius: 4px; }
+:global(html[data-theme='borges']) .pickerHead strong { font: 400 22px/1 var(--display); color: var(--ink); }
+:global(html[data-theme='borges']) .pickerLevel { font-family: var(--display); color: var(--lapa-gold); }
+:global(html[data-theme='borges']) .pickerOption[aria-selected='true'] { background: var(--lapa-blue); }
+:global(html[data-theme='borges']) .pickerOption[aria-selected='true'] .pickerName { color: #fff; }
+:global(html[data-theme='borges']) .pickerOption[aria-selected='true'] :is(.pickerPrice, .pickerMeta, .pickerCheck) { color: #e6c38c; }
+/* Contact: a cream card with the gold sales button. */
+.shell[data-theme='borges'] .contact { background: var(--lapa-cream); box-shadow: inset 0 0 0 1px var(--hairline); }
+.shell[data-theme='borges'] .contactAvatar { background: var(--lapa-blue); font-family: var(--display); }
+.shell[data-theme='borges'] .contactName small { font: var(--lapa-caps); letter-spacing: 0.12em; text-transform: uppercase; color: var(--lapa-gold); }
+.shell[data-theme='borges'] .contactPhone { direction: ltr; unicode-bidi: isolate; }
+.shell[data-theme='borges'] .expandHint { background: var(--lapa-blue); color: #fff; }
+.shell[data-theme='borges'] .planView:hover .expandHint { background: var(--lapa-gold); }
+.shell[data-theme='borges'] .projectFactIcon { background: var(--lapa-blue); color: #e6c38c; box-shadow: none; }
+.shell[data-theme='borges'] .mapLinks a:hover { background: var(--lapa-blue); color: #fff; }
+:global(html[lang='he']) .shell[data-theme='borges'] *,
+:global(html[lang='he'][data-theme='borges']) .pickerContent * { letter-spacing: 0 !important; }
+@media (max-width: 760px) {
+  .shell[data-theme='borges'] .brandLogo[data-brand='borges'] { height: 28px; }
+  .shell[data-theme='borges'] .headAside .focusToggle { width: 42px; padding: 0; gap: 0; }
+}
+/* Borges 15 is a five-storey house in a street, not a tower: frame the whole roof and its neighbours. */
+.shell[data-theme='borges'] .orbitZoom { transform: translateY(3%) scale(1.12); }
+@media (max-width: 760px) { .shell[data-theme='borges'] .orbitZoom { transform: translateY(9%) scale(1.15); } }
+/* Borges 15: the For sale / Sold key as a small printed card — cream paper, a gold hairline, charcoal
+   tracked capitals and the counts in Playfair; a switched-on row lights a gold (for sale) or stone (sold) tile. */
+.shell[data-theme='borges'] .legend {
+  background: rgb(253 252 251 / 0.94); border: 0; color: var(--ink);
+  box-shadow: inset 0 0 0 1px rgb(177 127 51 / 0.35), 0 10px 30px -12px rgb(32 30 25 / 0.35);
+  border-radius: 4px; padding: 6px; gap: 0; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.shell[data-theme='borges'] .legendRow { border-radius: 2px; padding: 6px 12px 6px 6px; gap: 10px; min-width: 150px; }
+.shell[data-theme='borges'] .legendRow + .legendRow { box-shadow: inset 0 1px 0 rgb(43 43 43 / 0.08); }
+.shell[data-theme='borges'] .legendRow:hover { background: rgb(177 127 51 / 0.07); }
+.shell[data-theme='borges'] .legendTile { width: 24px; height: 24px; border-radius: 50%; background: transparent; color: var(--ink-3); box-shadow: inset 0 0 0 1px rgb(43 43 43 / 0.18); }
+.shell[data-theme='borges'] .legendLabel { font: 500 10px/1 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3); }
+.shell[data-theme='borges'] .legendCount { margin-inline-start: auto; font: 400 20px/1 var(--display); color: var(--ink-3); }
+.shell[data-theme='borges'] .legendRow[aria-pressed='true'][data-tone='available'] .legendTile { background: var(--lapa-gold); color: #fff; box-shadow: 0 0 0 3px rgb(177 127 51 / 0.16); }
+.shell[data-theme='borges'] .legendRow[aria-pressed='true'][data-tone='available'] .legendLabel { color: var(--lapa-gold); }
+.shell[data-theme='borges'] .legendRow[aria-pressed='true'][data-tone='sold'] .legendTile { background: #7d7468; color: #fff; box-shadow: 0 0 0 3px rgb(125 116 104 / 0.16); }
+.shell[data-theme='borges'] .legendRow[aria-pressed='true'][data-tone='sold'] .legendLabel { color: var(--ink); }
+.shell[data-theme='borges'] .legendRow[aria-pressed='true'] .legendCount { color: var(--lapa-blue); }
+/* Borges 15: the lettering on the building in the outlines' own colours, made more intense — a warm
+   yellow for the home on sale, a strong red for sold — bold tracked capitals with a dark edge so they read
+   on the pale tiles and on the terracotta roof alike. */
+.shell[data-theme='borges'] .facadeLabel {
+  font: 600 25px/1 var(--sans); letter-spacing: 3px; opacity: 1; color: #ff3b2f;
+  text-shadow: 0 0 1px rgb(25 18 14), 0 0 2px rgb(25 18 14 / 0.9), 0 1px 4px rgb(25 18 14 / 0.75), 0 0 10px rgb(25 18 14 / 0.4);
+}
+.shell[data-theme='borges'] .facadeLabel[data-status='for-sale'] { color: #ffc531; font-weight: 600; }
+.shell[data-theme='borges'] .facadeLabel[data-idle] { opacity: 0.88; }
