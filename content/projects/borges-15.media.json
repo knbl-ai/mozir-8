@@ -88,5 +88,55 @@
     "labelHe": "שתי הקומות ממבט על"
    }
   ]
+ },
+ "1a": {
+  "model": "/projects/borges-15/models/1a.glb",
+  "modelOrbit": "30deg 52deg 90%",
+  "film": {
+   "src": "/projects/borges-15/media/1a/film-1080p.mp4",
+   "poster": "/projects/borges-15/media/1a/film-1080p-poster.webp"
+  },
+  "images": [
+   {
+    "src": "/projects/borges-15/media/1a/g-entry.webp",
+    "label": "From the hall to the street",
+    "labelHe": "מהמבואה אל הרחוב"
+   },
+   {
+    "src": "/projects/borges-15/media/1a/g-street.webp",
+    "label": "Living room and the street doors",
+    "labelHe": "הסלון ודלתות הרחוב"
+   },
+   {
+    "src": "/projects/borges-15/media/1a/g-living.webp",
+    "label": "Back toward the kitchen",
+    "labelHe": "חזרה לכיוון המטבח"
+   },
+   {
+    "src": "/projects/borges-15/media/1a/v-corridor.webp",
+    "label": "Up the lane to the bedroom",
+    "labelHe": "לאורך המסדרון אל חדר השינה"
+   },
+   {
+    "src": "/projects/borges-15/media/1a/v-bath.webp",
+    "label": "Shower room",
+    "labelHe": "חדר רחצה"
+   },
+   {
+    "src": "/projects/borges-15/media/1a/g-bed.webp",
+    "label": "Bedroom and the garden door",
+    "labelHe": "חדר השינה והדלת לגן"
+   },
+   {
+    "src": "/projects/borges-15/media/1a/g-detail.webp",
+    "label": "Bedside",
+    "labelHe": "ליד המיטה"
+   },
+   {
+    "src": "/projects/borges-15/media/1a/top-h.webp",
+    "label": "From above",
+    "labelHe": "ממבט על"
+   }
+  ]
  }
 }

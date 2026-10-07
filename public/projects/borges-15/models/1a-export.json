@@ -1,0 +1,579 @@
+{
+  "source": "/Users/vladiyudi/Reposatories/Apartment's 3D/projects/Borges-15-Lisbon/1a/model/model_present.blend",
+  "objects": 147,
+  "floors": [
+    147
+  ],
+  "bytes": {
+    "1a.glb": 194316
+  },
+  "web_palette": {
+    "floors": {
+      "porcelain": "#B5A48C",
+      "bath_tile": "#A8A094",
+      "concrete": "#9C958B"
+    },
+    "walls": "#F6F3EE",
+    "wall_tops": "#C2BDB6"
+  },
+  "zfight_fixes": [
+    {
+      "moved": "living rug 14 | rug",
+      "against": "Floor | living",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall N-bay",
+      "against": "Wall bay-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bay-W",
+      "against": "Wall N-bed",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall N-bed",
+      "against": "Wall W-ext",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed-S",
+      "against": "Wall W-ext",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bath-S",
+      "against": "Wall W-ext",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-S slider 0 | pocket jamb.001",
+      "against": "Wall bed-S.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | pocket jamb",
+      "against": "Wall bath-E",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | pocket jamb.001",
+      "against": "Wall bath-E.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-bay window 0 | jamb",
+      "against": "N-bay window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-bay window 0 | jamb.001",
+      "against": "N-bay window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-S slider 0 | jamb",
+      "against": "bed-S slider 0 | pocket jamb",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-S slider 0 | jamb.001",
+      "against": "bed-S slider 0 | head",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-S slider 0 | pocket jamb",
+      "against": "bed-S slider 0 | head",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | jamb",
+      "against": "bath-E slider 0 | head",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | jamb.001",
+      "against": "bath-E slider 0 | head",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed1 wardrobe 1 | seam",
+      "against": "bed1 wardrobe 1 | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed1 wardrobe 1 | seam.001",
+      "against": "bed1 wardrobe 1 | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed1 wardrobe 2 | seam",
+      "against": "bed1 wardrobe 2 | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed1 wardrobe 2 | seam.001",
+      "against": "bed1 wardrobe 2 | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed1 wardrobe 2 | seam.002",
+      "against": "bed1 wardrobe 2 | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Hall cupboard | seam",
+      "against": "Hall cupboard | body",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen tall units | body",
+      "against": "Wall W-ext",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "S-facade window 1 | sill",
+      "against": "S-facade window 1 | jamb.001",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bed-SE",
+      "against": "Wall E-party-bed",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall hall-E.001",
+      "against": "Wall stairwell-1",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall stairwell-2",
+      "against": "Wall stairwell-1",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall stairwell-10",
+      "against": "Wall stairwell-mid",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall stairwell-12",
+      "against": "Wall stairwell-11",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall S-facade.002",
+      "against": "Wall E-party-sala",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "S-facade window 0 | jamb",
+      "against": "S-facade window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "S-facade window 0 | jamb.001",
+      "against": "S-facade window 0 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "S-facade window 1 | jamb",
+      "against": "S-facade window 1 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "S-facade window 1 | jamb.001",
+      "against": "S-facade window 1 | glazing",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath1 shower 4 | tray",
+      "against": "bath1 shower 4 | glass",
+      "axis": "y",
+      "by_mm": -13.0
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen run | bases",
+      "axis": "y",
+      "by_mm": 4.7
+    },
+    {
+      "moved": "Kitchen run | plinth",
+      "against": "Kitchen run | bases",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen run | worktop",
+      "against": "Kitchen run | bases",
+      "axis": "x",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "living chair 11 | seat",
+      "against": "living chair 11 | back",
+      "axis": "y",
+      "by_mm": 3.0
+    },
+    {
+      "moved": "living chair 12 | seat",
+      "against": "living chair 12 | back",
+      "axis": "y",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "living chair 13 | seat",
+      "against": "living chair 13 | back",
+      "axis": "y",
+      "by_mm": -3.0
+    },
+    {
+      "moved": "Sofa | back",
+      "against": "Sofa | base",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Sofa | base",
+      "against": "Sofa | arm",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Armchair | back",
+      "against": "Armchair | seat",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall N-bay",
+      "against": "Wall bay-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall bay-W",
+      "against": "Wall N-bed",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-S slider 0 | pocket jamb",
+      "against": "Wall bed-S",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-S slider 0 | jamb.001",
+      "against": "bed-S slider 0 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | jamb",
+      "against": "bath-E slider 0 | pocket jamb",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | jamb.001",
+      "against": "bath-E slider 0 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "N-bay window 0 | sill",
+      "against": "N-bay window 0 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bath1 toilet 7 | cistern",
+      "against": "Wall bath-S",
+      "axis": "y",
+      "by_mm": 11.9
+    },
+    {
+      "moved": "S-facade window 0 | sill",
+      "against": "S-facade window 0 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bed-S slider 0 | sill",
+      "against": "bed-S slider 0 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bed-S slider 0 | head",
+      "against": "bed-S slider 0 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bed1 wardrobe 1 | seam",
+      "against": "bed1 wardrobe 1 | body",
+      "axis": "x",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "bed1 wardrobe 1 | seam.001",
+      "against": "bed1 wardrobe 1 | body",
+      "axis": "x",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "bed1 wardrobe 2 | seam",
+      "against": "bed1 wardrobe 2 | body",
+      "axis": "x",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "bed1 wardrobe 2 | seam.001",
+      "against": "bed1 wardrobe 2 | body",
+      "axis": "x",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "bed1 wardrobe 2 | seam.002",
+      "against": "bed1 wardrobe 2 | body",
+      "axis": "x",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "Hall cupboard | seam",
+      "against": "Hall cupboard | body",
+      "axis": "x",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "Kitchen run | worktop",
+      "against": "Kitchen tall units | body",
+      "axis": "x",
+      "by_mm": -6.3
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen tall units | body",
+      "axis": "y",
+      "by_mm": -9.7
+    },
+    {
+      "moved": "Kitchen tall units | seam.001",
+      "against": "Kitchen tall units | body",
+      "axis": "y",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "Kitchen tall units | seam.002",
+      "against": "Kitchen tall units | body",
+      "axis": "y",
+      "by_mm": -5.0
+    },
+    {
+      "moved": "Sofa | back",
+      "against": "Sofa | base",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Sofa | arm",
+      "against": "Sofa | base",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Sofa | arm.001",
+      "against": "Sofa | base",
+      "axis": "x",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Wall N-bay",
+      "against": "Wall bay-W",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-S slider 0 | head",
+      "against": "bed-S slider 0 | jamb",
+      "axis": "y",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bed-S slider 0 | sill",
+      "against": "bed-S slider 0 | pocket jamb",
+      "axis": "x",
+      "by_mm": -10.0
+    },
+    {
+      "moved": "bath-E slider 0 | sill",
+      "against": "bath-E slider 0 | jamb",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | head",
+      "against": "bath-E slider 0 | jamb",
+      "axis": "y",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen run | bases",
+      "axis": "y",
+      "by_mm": 9.7
+    },
+    {
+      "moved": "Sofa | base",
+      "against": "Sofa | back",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "bath-E slider 0 | head",
+      "against": "Wall bath-E",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bed-S slider 0 | head",
+      "against": "bed-S slider 0 | pocket jamb",
+      "axis": "x",
+      "by_mm": -10.0
+    },
+    {
+      "moved": "bath-E slider 0 | sill",
+      "against": "bath-E slider 0 | pocket jamb",
+      "axis": "y",
+      "by_mm": 10.0
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen tall units | body",
+      "axis": "y",
+      "by_mm": -9.7
+    },
+    {
+      "moved": "bath-E slider 0 | pocket jamb",
+      "against": "bath-E slider 0 | head",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | pocket jamb.001",
+      "against": "bath-E slider 0 | head",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | head",
+      "against": "bath-E slider 0 | jamb",
+      "axis": "x",
+      "by_mm": -8.0
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen run | bases",
+      "axis": "y",
+      "by_mm": 9.7
+    },
+    {
+      "moved": "bath-E slider 0 | jamb",
+      "against": "bath-E slider 0 | pocket jamb",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | jamb.001",
+      "against": "bath-E slider 0 | pocket jamb.001",
+      "axis": "z",
+      "by_mm": 8.0
+    },
+    {
+      "moved": "bath-E slider 0 | head",
+      "against": "bath-E slider 0 | pocket jamb",
+      "axis": "y",
+      "by_mm": 10.0
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen tall units | body",
+      "axis": "y",
+      "by_mm": -9.7
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen run | bases",
+      "axis": "y",
+      "by_mm": 9.7
+    },
+    {
+      "moved": "Kitchen tall units | seam",
+      "against": "Kitchen tall units | body",
+      "axis": "y",
+      "by_mm": -9.7
+    }
+  ],
+  "opened": {
+    "open_deg": 30.0,
+    "stub_m": 0.12,
+    "walls": [
+      "Wall E-party-bed",
+      "Wall bed-SE",
+      "Wall hall-E",
+      "Wall stairwell-1",
+      "Wall stairwell-2",
+      "Wall stairwell-mid",
+      "Wall stairwell-10",
+      "Wall stairwell-11",
+      "Wall E-party-sala",
+      "Wall S-facade",
+      "S-facade window 0 | sill wall",
+      "Wall S-facade.001",
+      "S-facade window 1 | sill wall",
+      "Wall S-facade.002"
+    ],
+    "objects_cut": 34
+  },
+  "left_out": "cameras, lights (present.py already removed ceilings, cameras and context)",
+  "materials": "principled values; procedural textures not baked",
+  "compression": "Draco"
+}

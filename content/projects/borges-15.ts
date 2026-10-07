@@ -65,15 +65,16 @@ export const borges15: Development = {
      'השטח והמחיר לפי borges15.com (126 מ״ר, 1,395,000 אירו). הסרטון, התמונות והמודל התלת־ממדי של הדירה בהכנה; את התאומה שלה, 3B, אפשר לסייר כבר עכשיו.'] } },
   ...(['2a', '2b', '1a', '1b'] as const).map(id => {
    const floor = id[0], side = id[1] === 'a' ? 'left' : 'right', U = id.toUpperCase();
-   return { id, title: `T1 · ${U}`, shortTitle: `T1 ${U}`, tagline: `A one-bedroom home on floor ${floor}, from the tiled street front to the garden side.`, rooms: 2, outdoor: 'Balcony',
-    area: 68, outdoorArea: 0, exposure: 'Street & garden', label: 'T1', plan: `${base}/plans/t1.webp`, sourceUnits: `Unit ${U} — T1 — 68 m²`,
+   const made = id === '1a';   // 1A is produced (projects/Borges-15-Lisbon/1a): its own top-down plan, film, images and 3D
+   return { id, title: `T1 · ${U}`, shortTitle: `T1 ${U}`, tagline: `A one-bedroom home on floor ${floor}, from the tiled street front to the garden side.`, rooms: 2, outdoor: made ? 'Juliet balconies' : 'Balcony',
+    area: 68, outdoorArea: 0, exposure: 'Street & garden', label: 'T1', plan: made ? `${base}/plans/1a.webp` : `${base}/plans/t1.webp`, sourceUnits: `Unit ${U} — T1 — 68 m²`,
     description: `The ${side} half of floor ${floor}: a living room and kitchen, a bedroom and a bathroom, with premium finishes.`,
     about: [`Floor ${floor}, the ${side} half of the building as seen from the street. One bedroom and one bathroom in 68 m², bright and fully finished: a home for one or two, or a rental investment.`,
-     `Area and price as borges15.com lists them (68 m², €${floor === '1' ? '649,900' : '694,000'}). The plan shown is the developer's T1 plan (unit 1A). The film, images and 3D model of this home are in preparation.`],
-    he: { title: `T1 · ${U}`, shortTitle: `T1 ${U}`, tagline: `דירת חדר שינה אחד בקומה ${floor}, מחזית האריחים אל צד הגן.`, outdoor: 'מרפסת', exposure: 'רחוב וגן', label: 'T1',
+     `Area and price as borges15.com lists them (68 m², €${floor === '1' ? '649,900' : '694,000'}). ${made ? 'The plan, film, images and 3D model show this home furnished in the Prime LUX style; the furniture is illustrative.' : 'The plan shown is the developer\'s T1 plan (unit 1A). The film, images and 3D model of this home are in preparation.'}`],
+    he: { title: `T1 · ${U}`, shortTitle: `T1 ${U}`, tagline: `דירת חדר שינה אחד בקומה ${floor}, מחזית האריחים אל צד הגן.`, outdoor: made ? 'מרפסות צרפתיות' : 'מרפסת', exposure: 'רחוב וגן', label: 'T1',
      description: `החצי ה${side === 'left' ? 'שמאלי' : 'ימני'} של קומה ${floor}: סלון ומטבח, חדר שינה וחדר רחצה, בגימור פרימיום.`,
      about: [`קומה ${floor}, החצי ה${side === 'left' ? 'שמאלי' : 'ימני'} של הבניין במבט מהרחוב. חדר שינה וחדר רחצה ב־68 מ״ר, מוארת ומוגמרת: בית לאחד או לשניים, או השקעה להשכרה.`,
-      `השטח והמחיר לפי borges15.com (68 מ״ר, ${floor === '1' ? '649,900' : '694,000'} אירו). התוכנית המוצגת היא תוכנית ה־T1 של היזם (דירה 1A). הסרטון, התמונות והמודל התלת־ממדי של הדירה בהכנה.`] } };
+      `השטח והמחיר לפי borges15.com (68 מ״ר, ${floor === '1' ? '649,900' : '694,000'} אירו). ${made ? 'התוכנית, הסרטון, התמונות והמודל התלת־ממדי מציגים את הדירה מרוהטת בסגנון Prime LUX; הריהוט להמחשה בלבד.' : 'התוכנית המוצגת היא תוכנית ה־T1 של היזם (דירה 1A). הסרטון, התמונות והמודל התלת־ממדי של הדירה בהכנה.'}`] } };
   }),
   { id: '0a', title: 'Studio · RC-A', shortTitle: 'Studio RC-A', tagline: 'The only studio with its own outdoor space: a 22 m² patio onto the garden.', rooms: 1, outdoor: 'Patio',
    area: 48, outdoorArea: 22, exposure: 'Garden side', label: 'T0 + patio', plan: `${base}/plans/rc-a.webp`, sourceUnits: 'Unit RC-A — T0 + Patio — 48 m²',
