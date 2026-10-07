@@ -1077,8 +1077,8 @@
   .shell[data-theme='borges'] .headAside .focusToggle { width: 42px; padding: 0; gap: 0; }
 }
 /* Borges 15 is a five-storey house in a street, not a tower: frame the whole roof and its neighbours. */
-.shell[data-theme='borges'] .orbitZoom { transform: translateY(3%) scale(1.12); }
-@media (max-width: 760px) { .shell[data-theme='borges'] .orbitZoom { transform: translateY(9%) scale(1.15); } }
+.shell[data-theme='borges'] .orbitZoom { transform: translateY(-4%) scale(1.08); }
+@media (max-width: 760px) { .shell[data-theme='borges'] .orbitZoom { transform: translateY(-6%) scale(1.04); } }
 /* Borges 15: the For sale / Sold key as a small printed card — cream paper, a gold hairline, charcoal
    tracked capitals and the counts in Playfair; a switched-on row lights a gold (for sale) or stone (sold) tile. */
 .shell[data-theme='borges'] .legend {
