@@ -1106,3 +1106,12 @@
 }
 .shell[data-theme='borges'] .facadeLabel[data-status='for-sale'] { color: #ffc531; font-weight: 600; }
 .shell[data-theme='borges'] .facadeLabel[data-idle] { opacity: 0.88; }
+/* Phones: the key folds small so it doesn't cover the ground floor. */
+@media (max-width: 760px) {
+  .shell[data-theme='borges'] .legend { padding: 3px; border-radius: 12px; }
+  .shell[data-theme='borges'] .legendRow { min-width: 0; padding: 3px 9px 3px 3px; gap: 6px; border-radius: 9px; }
+  .shell[data-theme='borges'] .legendTile { width: 18px; height: 18px; }
+  .shell[data-theme='borges'] .legendTile svg { width: 11px; height: 11px; }
+  .shell[data-theme='borges'] .legendLabel { font-size: 8.5px; letter-spacing: 0.14em; }
+  .shell[data-theme='borges'] .legendCount { font-size: 14px; margin-inline-start: 6px; }
+}
