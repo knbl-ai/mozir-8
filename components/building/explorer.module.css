@@ -1115,3 +1115,11 @@
   .shell[data-theme='borges'] .legendLabel { font-size: 8.5px; letter-spacing: 0.14em; }
   .shell[data-theme='borges'] .legendCount { font-size: 14px; margin-inline-start: 6px; }
 }
+/* Desktop: the 360° / Architect's view / Project switch rides in the empty sky above the roof, and the
+   first-use hint drops in just under it. Phones keep it at the bottom (the home summary owns the top). */
+@media (min-width: 761px) {
+  .shell[data-theme='borges'] .stageBottom,
+  :global([dir='rtl']) .shell[data-theme='borges'] .stageBottom { top: 16px; bottom: auto; align-items: center; }
+  .shell[data-theme='borges'] .projectInner { padding-top: 76px; }
+  .shell[data-theme='borges'] .stageTop { top: 72px; }
+}
