@@ -2,17 +2,18 @@ import type { Development, ResidenceMedia } from './index';
 // Written by `cli promote` (website/scripts/prepare-apt-media.py): only approved media (R-PIPE-PROMOTE). Don't hand-edit.
 import promoted from './borges-15.media.json';
 
-// Borges 15, Lapa, Lisbon (LIVO): duplex T3 3B from projects/Borges-15-Lisbon (the apartment pipeline, runbook §11).
+// Borges 15, Lapa, Lisbon (LIVO): 3B and 1A from projects/Borges-15-Lisbon (the apartment pipeline, runbook §11).
 // The building and its unit outlines come from building/frames.json (P6, building/scripts/package_frames.py). Media arrive phase by phase
 // through `cli promote` (website/scripts/prepare-apt-media.py); an empty src shows "coming soon", never another home's media.
+// Languages: English and European Portuguese (`pt`), not Hebrew (lib/i18n LANG_PAGES).
 const base = '/projects/borges-15';
 
 export const borges15: Development = {
  id: 'borges-15', name: 'Borges 15', location: 'Lapa · Lisbon',
- description: 'Duplex T3 3B at Borges 15, Lapa: 126 m² over the top two floors, the Tagus to the northwest and the Basilica da Estrela to the southeast.',
+ description: 'Eight homes at Borges 15, Lapa: two duplex T3 penthouses over the top two floors, four T1s and two ground-floor studios, between the Tagus and the Basilica da Estrela.',
  source: 'https://borges15.com/apartment/3B',
- // P6: the building orbit (projects/Borges-15-Lisbon/building): 8 homes outlined, 3B the one listed.
- brand: { logo: `${base}/building/lapa-logo.png`, logoWidth: 95, logoHeight: 38, theme: 'borges', headerTone: 'light', directoryNote: 'Building explorer · Duplex T3 3B · Lapa, Lisbon' },
+ // P6: the building orbit (projects/Borges-15-Lisbon/building): 8 homes outlined.
+ brand: { logo: `${base}/building/lapa-logo.png`, logoWidth: 95, logoHeight: 38, theme: 'borges', headerTone: 'light', directoryNote: 'Building explorer · Eight homes · Lapa, Lisbon', directoryNotePt: 'Explorador do edifício · Oito casas · Lapa, Lisboa' },
  currency: '€',
  views: ['3b'],
  info: {
@@ -27,70 +28,77 @@ export const borges15: Development = {
  // Availability and prices as borges15.com lists them (its apartments table, read 2026-10-06): RC-B is sold, the rest
  // are available. Zones: 0a = RC-A (rear studio, patio), 0b = RC-B (front studio), a = left half from the street.
  listings: { '0a': { price: 549000 }, '1a': { price: 649900 }, '1b': { price: 649900 }, '2a': { price: 694000 }, '2b': { price: 694000 }, '3a': { price: 1395000 }, '3b': { price: 1395000 } },
- he: {
-  name: 'בורז׳ש 15', location: 'לאפה · ליסבון', description: 'דופלקס T3 3B בבורז׳ש 15, לאפה: 126 מ״ר בשתי הקומות העליונות, נהר הטז׳ו לצפון־מערב והבזיליקה דה אשטרלה לדרום־מזרח.',
+ pt: {
+  name: 'Borges 15', location: 'Lapa · Lisboa', description: 'Oito casas no Borges 15, na Lapa: duas penthouses duplex T3 nos dois últimos pisos, quatro T1 e dois estúdios no rés-do-chão, entre o Tejo e a Basílica da Estrela.',
   info: {
-   address: 'רואה בורז׳ש קרנרו 15, ליסבון', area: 'לאפה · אשטרלה', kicker: 'שמונה דירות בלב ליסבון', moveIn: 'אוגוסט 2027',
-   intro: 'בניין בוטיק של שמונה דירות מבית LIVO בשכונת לאפה, רובע השגרירויות של ליסבון, בין גדת הטז׳ו לבזיליקה דה אשטרלה. בשתי הקומות העליונות שני דופלקסים T3, הנמסרים במפרט Prime LUX המלא, כולל עיצוב פנים וריהוט.',
-   location: ['לאפה היא רובע השגרירויות: רחובות מוצלים, אחוזות מהמאה ה־18 והבזיליקה דה אשטרלה על הגבעה, חמש דקות הליכה. גן אשטרלה, המוזיאון הלאומי לאמנות עתיקה וסאו בנטו במרחק הליכה קצר.',
-    'שתי תחנות מטרו חדשות נפתחות במרחק 230 מ׳ ו־700 מ׳ (2027–2028). מרכז העיר ההיסטורי במרחק 8 דקות נסיעה, ושדה התעופה 12.'],
-   disclaimer: 'הדגמה בלבד ולא הצעה למכירה. העיצוב, הסרטונים והריהוט הם המחשות בסיוע בינה מלאכותית לפי תוכניות היזם והדמיות Prime LUX; השטחים לפי תוכניות היזם. יש לאמת כל פרט מול LIVO.',
+   address: 'Rua Borges Carneiro 15, Lisboa', area: 'Lapa · freguesia da Estrela', kicker: 'Oito apartamentos na alma de Lisboa', moveIn: 'Agosto de 2027',
+   intro: 'Um edifício boutique de oito casas da LIVO na Lapa, o bairro das embaixadas de Lisboa, entre a frente ribeirinha do Tejo e a Basílica da Estrela. Os dois últimos pisos acolhem dois duplex T3, entregues com a especificação Prime LUX completa, com design de interiores e mobiliário incluídos.',
+   location: ['A Lapa é o bairro das embaixadas: ruas arborizadas, palacetes do século XVIII e a Basílica da Estrela na colina, a cinco minutos a pé. O Jardim da Estrela, o Museu Nacional de Arte Antiga e São Bento ficam a uma curta caminhada.',
+    'Duas novas estações de metro abrem a 230 m e a 700 m (Infante Santo e Estrela, 2027–2028). A Baixa fica a 8 minutos de carro e o aeroporto a 12.'],
+   disclaimer: 'Uma demonstração, não uma proposta de venda. Interiores, filmes e mobiliário são ilustrações criadas com apoio de IA a partir das plantas do promotor e das imagens Prime LUX; as áreas seguem as plantas do promotor. Confirme todos os detalhes com a LIVO.',
   },
-  contact: { name: 'מכירות LIVO', agency: 'LIVO · בורז׳ש 15', role: 'מכירות הפרויקט' },
+  contact: { name: 'Vendas LIVO', agency: 'LIVO · Borges 15', role: 'Vendas do projeto' },
  },
  // The developer's façade render (borges15.com); there is no rear render, so the view has no Front/Rear switch.
  references: [`${base}/building/architect-front.jpg`],
  // Empty sources = not produced yet: the tab shows "coming soon" (R-PIPE-PLACEHOLDER).
  media: { film: { src: '', poster: '' }, images: [], model: '' },
- apartmentMedia: promoted as Record<string, ResidenceMedia>,
+ // The penthouse twins share 3B's media and the T1s share 1A's; plans and facts stay per home (residences below).
+ // The ground-floor studios are a different type and stay empty (coming soon).
+ apartmentMedia: (m => ({ ...m, '3a': m['3b'], '1b': m['1a'], '2a': m['1a'], '2b': m['1a'] }))(promoted as Record<string, ResidenceMedia>),
  residences: [
   { id: '3b', title: 'Duplex T3 · 3B', shortTitle: 'Duplex 3B', tagline: 'The top of Borges 15: three bedrooms over two floors, the river and the Basilica.', rooms: 4, outdoor: '2 balconies',
    area: 126, outdoorArea: 6.7, exposure: 'Northwest & southeast', label: 'Duplex T3 · Prime LUX', plan: `${base}/plans/3b.webp`, sourceUnits: 'Duplex T3 · 3B',
    description: 'An open living room and kitchen with a guest bedroom and shower room on the entry floor; upstairs, two bedrooms, each with its own shower room and balcony.',
    about: ['The entry floor (floor 3) is one long open room: a kitchen with a stone peninsula, a dining corner and the living room under the window, with an oak stair rising beside it. Off the hall, a bedroom with built-in wardrobes and a shower room. Upstairs (floor 4), two bedrooms at either end, each with a small en-suite shower room and its own balcony under the roof: one toward the Tagus, one over the street toward the Basilica.',
     'Areas follow the developer’s plans (126 m² gross; rooms of 30.6, 11.9, 15.1 and 12.8 m², balconies of 3.4 and 3.2 m²). Delivered as Prime LUX: the interior design and furniture are included. Worth checking: ceiling heights under the roof on floor 4 and the exact view from each balcony.'],
-   he: { title: 'דופלקס T3 · 3B', shortTitle: 'דופלקס 3B', tagline: 'הקומה העליונה של בורז׳ש 15: שלושה חדרי שינה בשתי קומות, הנהר והבזיליקה.', outdoor: '2 מרפסות', exposure: 'צפון־מערב ודרום־מזרח', label: 'דופלקס T3 · Prime LUX',
-    description: 'סלון ומטבח פתוחים, חדר שינה וחדר מקלחת בקומת הכניסה; למעלה שני חדרי שינה, לכל אחד חדר מקלחת ומרפסת משלו.',
-    about: ['קומת הכניסה (קומה 3) היא חלל ארוך ופתוח: מטבח עם אי מאבן, פינת אוכל והסלון מול החלון, ולצידו מדרגות עץ אלון שעולות למעלה. מהמבואה, חדר שינה עם ארונות מובנים וחדר מקלחת. למעלה (קומה 4) שני חדרי שינה בשני הקצוות, לכל אחד חדר מקלחת צמוד ומרפסת קטנה משלו מתחת לגג: אחת מול הטז׳ו ואחת מעל הרחוב לכיוון הבזיליקה.',
-     'השטחים לפי תוכניות היזם (126 מ״ר ברוטו; חדרים של 30.6, 11.9, 15.1 ו־12.8 מ״ר, מרפסות של 3.4 ו־3.2 מ״ר). נמסרת במפרט Prime LUX: עיצוב הפנים והריהוט כלולים. כדאי לבדוק: את גובה התקרה מתחת לגג בקומה 4 ואת הנוף המדויק מכל מרפסת.'] } },
-  // The other seven homes: facts and plans from borges15.com; their film, images and 3D are not produced (coming soon).
-  { id: '3a', title: 'Duplex T3 · 3A', shortTitle: 'Duplex 3A', tagline: 'The twin duplex under the roof: three bedrooms over two floors and the river view.', rooms: 4, outdoor: 'Balconies',
-   area: 126, outdoorArea: 0, exposure: 'Northwest & southeast', label: 'Duplex T3', plan: `${base}/plans/3a.webp`, sourceUnits: 'Unit 3A — T3 Duplex — 126 m²',
-   description: 'The left-hand duplex on floors 3 and 4, with balconies and views over the river.',
-   about: ['Floors 3 and 4 on the left of the façade: the open living room and kitchen on the entry floor, the bedrooms upstairs under the roof, with balconies and a view over the Tagus.',
-    'Area and price as borges15.com lists them (126 m², €1,395,000). The film, images and 3D model of this home are in preparation; its twin, 3B, can be explored now.'],
-   he: { title: 'דופלקס T3 · 3A', shortTitle: 'דופלקס 3A', tagline: 'הדופלקס התאום מתחת לגג: שלושה חדרי שינה בשתי קומות ונוף לנהר.', outdoor: 'מרפסות', exposure: 'צפון־מערב ודרום־מזרח', label: 'דופלקס T3',
-    description: 'הדופלקס השמאלי בקומות 3 ו־4, עם מרפסות ונוף לנהר.',
-    about: ['קומות 3 ו־4 בצד שמאל של החזית: סלון ומטבח פתוחים בקומת הכניסה, וחדרי השינה למעלה מתחת לגג, עם מרפסות ונוף לטז׳ו.',
-     'השטח והמחיר לפי borges15.com (126 מ״ר, 1,395,000 אירו). הסרטון, התמונות והמודל התלת־ממדי של הדירה בהכנה; את התאומה שלה, 3B, אפשר לסייר כבר עכשיו.'] } },
+   pt: { title: 'Duplex T3 · 3B', shortTitle: 'Duplex 3B', tagline: 'O topo do Borges 15: três quartos em dois pisos, o rio e a Basílica.', outdoor: '2 varandas', exposure: 'Noroeste e sudeste', label: 'Duplex T3 · Prime LUX',
+    description: 'Sala e cozinha em open space, com um quarto de hóspedes e uma casa de banho no piso de entrada; em cima, dois quartos, cada um com casa de banho e varanda próprias.',
+    about: ['O piso de entrada (piso 3) é uma sala longa e aberta: cozinha com península em pedra, zona de refeições e a sala de estar junto à janela, com uma escada em carvalho a subir ao lado. A partir do hall, um quarto com roupeiros embutidos e uma casa de banho. Em cima (piso 4), dois quartos nas extremidades, cada um com uma pequena casa de banho privativa e uma varanda própria sob o telhado: uma virada ao Tejo, outra sobre a rua, em direção à Basílica.',
+     'As áreas seguem as plantas do promotor (126 m² brutos; divisões de 30,6, 11,9, 15,1 e 12,8 m², varandas de 3,4 e 3,2 m²). Entregue em Prime LUX: o design de interiores e o mobiliário estão incluídos. A confirmar: o pé-direito sob o telhado no piso 4 e a vista exata de cada varanda.'] } },
+  // 3A shares 3B's film, images and 3D (apartmentMedia above); its plan and facts are its own (developer plans, borges15.com).
+  { id: '3a', title: 'Duplex T3 · 3A', shortTitle: 'Duplex 3A', tagline: 'The twin duplex under the roof: three bedrooms over two floors, the river and the Basilica.', rooms: 4, outdoor: '2 balconies',
+   area: 126, outdoorArea: 6.3, exposure: 'Northwest & southeast', label: 'Duplex T3 · Prime LUX', plan: `${base}/plans/3a.webp`, sourceUnits: 'Unit 3A — T3 Duplex — 126 m²',
+   description: 'An open living room and kitchen with a bedroom and shower room on the entry floor; upstairs, two bedrooms, each with its own shower room and balcony.',
+   about: ['The entry floor (floor 3) runs from the street to the garden side: the living room behind the street French door, with the stair rising beside it, then the kitchen and its peninsula. Off the hall, a bedroom with built-in wardrobes and a shower room. Upstairs (floor 4), two bedrooms at either end, each with a small en-suite shower room and its own balcony under the roof: one toward the Tagus, one over the street toward the Basilica.',
+    'Areas follow the developer’s plans (127.6 m² gross; rooms of 30.9, 14.0, 14.1 and 12.2 m², balconies of 3.1 and 3.2 m²). Delivered as Prime LUX: the interior design and furniture are included. The film, images and 3D model show its twin, 3B, in the same finish; the layout of 3A differs in detail.'],
+   pt: { title: 'Duplex T3 · 3A', shortTitle: 'Duplex 3A', tagline: 'O duplex gémeo sob o telhado: três quartos em dois pisos, o rio e a Basílica.', outdoor: '2 varandas', exposure: 'Noroeste e sudeste', label: 'Duplex T3 · Prime LUX',
+    description: 'Sala e cozinha em open space, com um quarto e uma casa de banho no piso de entrada; em cima, dois quartos, cada um com casa de banho e varanda próprias.',
+    about: ['O piso de entrada (piso 3) estende-se da rua até ao lado do jardim: a sala de estar atrás da porta envidraçada para a rua, com a escada a subir ao lado, e depois a cozinha com a sua península. A partir do hall, um quarto com roupeiros embutidos e uma casa de banho. Em cima (piso 4), dois quartos nas extremidades, cada um com uma pequena casa de banho privativa e uma varanda própria sob o telhado: uma virada ao Tejo, outra sobre a rua, em direção à Basílica.',
+     'As áreas seguem as plantas do promotor (127,6 m² brutos; divisões de 30,9, 14,0, 14,1 e 12,2 m², varandas de 3,1 e 3,2 m²). Entregue em Prime LUX: o design de interiores e o mobiliário estão incluídos. O filme, as imagens e o modelo 3D mostram o seu gémeo, o 3B, com o mesmo acabamento; a planta do 3A difere em pormenores.'] } },
+  // The four T1s share 1A's film, images and 3D (apartmentMedia above); each keeps its own plan and areas (developer plans).
+  // 1A's plan is its photoreal top-down; A units are 1A's layout, B units the mirror with an angled bedroom wall.
   ...(['2a', '2b', '1a', '1b'] as const).map(id => {
-   const floor = id[0], side = id[1] === 'a' ? 'left' : 'right', U = id.toUpperCase();
-   const made = id === '1a';   // 1A is produced (projects/Borges-15-Lisbon/1a): its own top-down plan, film, images and 3D
-   return { id, title: `T1 · ${U}`, shortTitle: `T1 ${U}`, tagline: `A one-bedroom home on floor ${floor}, from the tiled street front to the garden side.`, rooms: 2, outdoor: made ? 'Juliet balconies' : 'Balcony',
-    area: 68, outdoorArea: 0, exposure: 'Street & garden', label: 'T1', plan: made ? `${base}/plans/1a.webp` : `${base}/plans/t1.webp`, sourceUnits: `Unit ${U} — T1 — 68 m²`,
-    description: `The ${side} half of floor ${floor}: a living room and kitchen, a bedroom and a bathroom, with premium finishes.`,
-    about: [`Floor ${floor}, the ${side} half of the building as seen from the street. One bedroom and one bathroom in 68 m², bright and fully finished: a home for one or two, or a rental investment.`,
-     `Area and price as borges15.com lists them (68 m², €${floor === '1' ? '649,900' : '694,000'}). ${made ? 'The plan, film, images and 3D model show this home furnished in the Prime LUX style; the furniture is illustrative.' : 'The plan shown is the developer\'s T1 plan (unit 1A). The film, images and 3D model of this home are in preparation.'}`],
-    he: { title: `T1 · ${U}`, shortTitle: `T1 ${U}`, tagline: `דירת חדר שינה אחד בקומה ${floor}, מחזית האריחים אל צד הגן.`, outdoor: made ? 'מרפסות צרפתיות' : 'מרפסת', exposure: 'רחוב וגן', label: 'T1',
-     description: `החצי ה${side === 'left' ? 'שמאלי' : 'ימני'} של קומה ${floor}: סלון ומטבח, חדר שינה וחדר רחצה, בגימור פרימיום.`,
-     about: [`קומה ${floor}, החצי ה${side === 'left' ? 'שמאלי' : 'ימני'} של הבניין במבט מהרחוב. חדר שינה וחדר רחצה ב־68 מ״ר, מוארת ומוגמרת: בית לאחד או לשניים, או השקעה להשכרה.`,
-      `השטח והמחיר לפי borges15.com (68 מ״ר, ${floor === '1' ? '649,900' : '694,000'} אירו). ${made ? 'התוכנית, הסרטון, התמונות והמודל התלת־ממדי מציגים את הדירה מרוהטת בסגנון Prime LUX; הריהוט להמחשה בלבד.' : 'התוכנית המוצגת היא תוכנית ה־T1 של היזם (דירה 1A). הסרטון, התמונות והמודל התלת־ממדי של הדירה בהכנה.'}`] } };
+   const floor = id[0], b = id[1] === 'b', side = b ? 'right' : 'left', U = id.toUpperCase();
+   const [gross, sala, quarto, is] = b ? ['67.8', '27.7', '16.0', '4.9'] : ['68.6', '29.0', '14.2', '4.7'];
+   const pt = (n: string) => n.replace('.', ',');
+   const own = id === '1a', price = floor === '1' ? '649,900' : '694,000', pricePt = floor === '1' ? '649 900' : '694 000';
+   return { id, title: `T1 · ${U}`, shortTitle: `T1 ${U}`, tagline: `A one-bedroom home on floor ${floor}, from the street front to the garden side.`, rooms: 2, outdoor: 'Juliet balconies',
+    area: 68, outdoorArea: 0, exposure: 'Street & garden', label: 'T1 · Prime LUX', plan: `${base}/plans/${id}.webp`, sourceUnits: `Unit ${U} — T1 — 68 m²`,
+    description: `The ${side} half of floor ${floor}: a living room and kitchen, a bedroom and a shower room, with Juliet balconies front and back.`,
+    about: [`Floor ${floor}, the ${side} half of the building as seen from the street. One long home from front to back: the living room behind the street French doors, the kitchen with its peninsula beside the curved stair wall, a hall past the shower room, and the bedroom at the garden end${b ? ' under its angled rear wall' : ''}. A home for one or two, or a rental investment.`,
+     `Areas follow the developer’s plan (${gross} m² gross; living room and kitchen ${sala} m², bedroom ${quarto} m², shower room ${is} m²); price €${price}. ${own ? 'The film, images and 3D model show this home' : `The film, images and 3D model show 1A, ${b ? 'the mirrored twin of this layout' : 'the same layout one floor down'},`} furnished in the Prime LUX style; the furniture is illustrative.`],
+    pt: { title: `T1 · ${U}`, shortTitle: `T1 ${U}`, tagline: `Um T1 no piso ${floor}, da frente da rua até ao lado do jardim.`, outdoor: 'Varandas francesas', exposure: 'Rua e jardim', label: 'T1 · Prime LUX',
+     description: `A metade ${b ? 'direita' : 'esquerda'} do piso ${floor}: sala e cozinha, um quarto e uma casa de banho, com varandas francesas à frente e atrás.`,
+     about: [`Piso ${floor}, a metade ${b ? 'direita' : 'esquerda'} do edifício vista da rua. Uma casa longa, da frente às traseiras: a sala atrás das portas envidraçadas para a rua, a cozinha com península junto à parede curva da escada, um hall que passa pela casa de banho e o quarto do lado do jardim${b ? ', sob a sua parede traseira inclinada' : ''}. Uma casa para uma ou duas pessoas, ou um investimento para arrendamento.`,
+      `As áreas seguem a planta do promotor (${pt(gross)} m² brutos; sala e cozinha ${pt(sala)} m², quarto ${pt(quarto)} m², casa de banho ${pt(is)} m²); preço ${pricePt} €. ${own ? 'O filme, as imagens e o modelo 3D mostram esta casa' : `O filme, as imagens e o modelo 3D mostram o 1A, ${b ? 'o gémeo espelhado desta planta' : 'a mesma planta um piso abaixo'},`} mobilada no estilo Prime LUX; o mobiliário é ilustrativo.`] } };
   }),
+  // The ground floor (RC-A, RC-B) is a different type: facts and plans only, no film, images or 3D (coming soon).
   { id: '0a', title: 'Studio · RC-A', shortTitle: 'Studio RC-A', tagline: 'The only studio with its own outdoor space: a 22 m² patio onto the garden.', rooms: 1, outdoor: 'Patio',
    area: 48, outdoorArea: 22, exposure: 'Garden side', label: 'T0 + patio', plan: `${base}/plans/rc-a.webp`, sourceUnits: 'Unit RC-A — T0 + Patio — 48 m²',
    description: 'A ground-floor studio at the back of the building, opening onto its own patio, with a sleeping loft under a 3.65 m ceiling.',
    about: ['The only studio in Borges 15 with private outdoor space: a 22 m² patio at the back, onto the garden. A 3.65-metre ceiling carries a sleeping loft of 2.5 by 3.2 metres; 48 m² plus an 8 m² loft, with light from two sides.',
     'Area and price as borges15.com lists them (48 m² + 22 m² patio, €549,000). The film, images and 3D model of this home are in preparation.'],
-   he: { title: 'סטודיו · RC-A', shortTitle: 'סטודיו RC-A', tagline: 'הסטודיו היחיד עם שטח חוץ משלו: פטיו של 22 מ״ר אל הגן.', outdoor: 'פטיו', exposure: 'צד הגן', label: 'T0 + פטיו',
-    description: 'סטודיו בקומת הקרקע בעורף הבניין, שנפתח אל פטיו פרטי, עם גלריית שינה מתחת לתקרה בגובה 3.65 מ׳.',
-    about: ['הסטודיו היחיד בבורז׳ש 15 עם שטח חוץ פרטי: פטיו של 22 מ״ר בעורף, אל הגן. תקרה בגובה 3.65 מ׳ נושאת גלריית שינה של 2.5 על 3.2 מ׳; 48 מ״ר ועוד גלריה של 8 מ״ר, עם אור משני כיוונים.',
-     'השטח והמחיר לפי borges15.com (48 מ״ר ועוד פטיו של 22 מ״ר, 549,000 אירו). הסרטון, התמונות והמודל התלת־ממדי של הדירה בהכנה.'] } },
+   pt: { title: 'Estúdio · RC-A', shortTitle: 'Estúdio RC-A', tagline: 'O único estúdio com espaço exterior próprio: um pátio de 22 m² virado ao jardim.', outdoor: 'Pátio', exposure: 'Lado do jardim', label: 'T0 + pátio',
+    description: 'Um estúdio no rés-do-chão, nas traseiras do edifício, aberto para um pátio próprio, com um mezanino para dormir sob um pé-direito de 3,65 m.',
+    about: ['O único estúdio do Borges 15 com espaço exterior privativo: um pátio de 22 m² nas traseiras, virado ao jardim. O pé-direito de 3,65 metros acolhe um mezanino para dormir de 2,5 por 3,2 metros; 48 m² mais um mezanino de 8 m², com luz de dois lados.',
+     'Área e preço conforme o borges15.com (48 m² + pátio de 22 m², 549 000 €). O filme, as imagens e o modelo 3D desta casa estão em preparação.'] } },
   { id: '0b', title: 'Studio · RC-B', shortTitle: 'Studio RC-B', tagline: 'A ground-floor studio at the front entrance.', rooms: 1, outdoor: 'None',
    area: 48, outdoorArea: 0, exposure: 'Street front', label: 'T0', plan: `${base}/plans/rc-b.webp`, sourceUnits: 'Unit RC-B — T0 Front — 48 m²',
    description: 'A ground-floor studio by the front entrance. Sold.',
    about: ['A ground-floor studio by the front entrance, 48 m². borges15.com lists it as sold.'],
-   he: { title: 'סטודיו · RC-B', shortTitle: 'סטודיו RC-B', tagline: 'סטודיו בקומת הקרקע, ליד הכניסה הראשית.', outdoor: 'אין', exposure: 'חזית הרחוב', label: 'T0',
-    description: 'סטודיו בקומת הקרקע ליד הכניסה הראשית. נמכר.',
-    about: ['סטודיו בקומת הקרקע ליד הכניסה הראשית, 48 מ״ר. לפי borges15.com הדירה נמכרה.'] } },
+   pt: { title: 'Estúdio · RC-B', shortTitle: 'Estúdio RC-B', tagline: 'Um estúdio no rés-do-chão, junto à entrada principal.', outdoor: 'Nenhum', exposure: 'Frente da rua', label: 'T0',
+    description: 'Um estúdio no rés-do-chão junto à entrada principal. Vendido.',
+    about: ['Um estúdio no rés-do-chão junto à entrada principal, 48 m². O borges15.com indica-o como vendido.'] } },
  ],
 };

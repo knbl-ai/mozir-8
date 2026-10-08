@@ -10,7 +10,7 @@ apartment.yaml:
     apt: 3b                         # the apartment id on the page (?apt=3b) and the media folder
     plans: [source/plans/a.png, ...]   # relative to the project folder; side by side for a duplex
     model: {orbit: '30deg 42deg 95%', levels: [{id: both, label: Both floors, labelHe: ..., suffix: ''}, ...]}
-    gallery: [{id: v-living, label: Living room, labelHe: סלון}, ...]   # keyframe ids, in page order; 'top' = the photoreal top-down
+    gallery: [{id: v-living, label: Living room, labelHe: סלון | labelPt: Sala}, ...]   # keyframe ids, in page order; 'top' = the photoreal top-down
     poster_at: 3.0
 
 Writes website/public/projects/<site>/{plans,media/<apt>} and website/content/projects/<site>.media.json, and records
@@ -94,8 +94,9 @@ def main():
             m['model'] = f'{url}/models/{aid}.glb'
             if mw.get('orbit'):
                 m['modelOrbit'] = mw['orbit']
-            levels = [dict(id=l['id'], label=l['label'], labelHe=l.get('labelHe'), src=f"{url}/models/{aid}{l.get('suffix', '')}.glb")
+            levels = [dict(id=l['id'], label=l['label'], labelHe=l.get('labelHe'), labelPt=l.get('labelPt'), src=f"{url}/models/{aid}{l.get('suffix', '')}.glb")
                       for l in mw.get('levels', [])]
+            levels = [{k: v for k, v in l.items() if v is not None} for l in levels]   # only the languages given
             for l in levels:
                 if not (WEB / 'public' / l['src'].lstrip('/')).exists():
                     sys.exit(f"missing level model {l['src']}")
@@ -133,7 +134,7 @@ def main():
                 if not good:
                     skipped.append(gid); continue
                 webp(src, pub / 'media' / aid / f'{gid}.webp')
-                out.append({'src': f'{url}/media/{aid}/{gid}.webp', 'label': g['label'], **({'labelHe': g['labelHe']} if g.get('labelHe') else {})})
+                out.append({'src': f'{url}/media/{aid}/{gid}.webp', 'label': g['label'], **{k: g[k] for k in ('labelHe', 'labelPt') if g.get(k)}})
             if out:
                 m['images'] = out
             pages['images'] = {'count': len(out), 'skipped_not_approved': skipped, 'time': now}

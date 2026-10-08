@@ -46,4 +46,4 @@ const he: KleeText = {
  available: 'זמינה', priceOnRequest: 'לפי בקשה',
 };
 
-export const kleeText: Record<Lang, KleeText> = { en, he };
+export const kleeText: Record<Lang, KleeText> = { en, he, pt: en };  // these pages offer Hebrew, not Portuguese (lib/i18n LANG_PAGES)

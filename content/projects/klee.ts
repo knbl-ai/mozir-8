@@ -1,4 +1,4 @@
-import type { Contact, MediaImage, ModelLevel, Residence, ResolvedMedia } from './index';
+import type { Contact, MediaImage, ModelLevel, Residence, ResidenceText, ResolvedMedia } from './index';
 import type { Lang } from '@/lib/i18n';
 
 // N°8 KLEE, New North, Tel Aviv: three homes from projects/KLEE-8-Tel-Aviv (the apartment pipeline).
@@ -6,7 +6,7 @@ import type { Lang } from '@/lib/i18n';
 const base = '/projects/klee-8';
 const img = (apt: string, name: string, label: string, labelHe: string): MediaImage => ({ src: `${base}/media/${apt}/${name}.webp`, label, labelHe });
 
-export type KleeHome = Residence & {
+export type KleeHome = Residence & { he: ResidenceText;   // KLEE is always bilingual EN/HE
  number: string;          // 01, 02, 03 on the front page
  floorLabel: string; floorLabelHe: string;
  cover: string;           // the front page's card

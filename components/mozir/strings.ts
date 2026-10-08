@@ -103,4 +103,4 @@ const he: MozirText = {
  },
 };
 
-export const mozirText: Record<Lang, MozirText> = { en, he };
+export const mozirText: Record<Lang, MozirText> = { en, he, pt: en };  // these pages offer Hebrew, not Portuguese (lib/i18n LANG_PAGES)

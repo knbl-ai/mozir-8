@@ -138,4 +138,4 @@ const he: LandingCopy = {
  footer: 'זוהי הדגמה ולא הצעה למכירה. יש לאמת כל פרט על הנכס מול היזם.',
 };
 
-export const copy: Record<Lang, LandingCopy> = { en, he };
+export const copy: Record<Lang, LandingCopy> = { en, he, pt: en };  // these pages offer Hebrew, not Portuguese (lib/i18n LANG_PAGES)

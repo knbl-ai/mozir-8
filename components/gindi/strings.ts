@@ -128,4 +128,4 @@ const he: GindiText = {
  chooseHome: 'בחרו דירה', aboutTab: 'על הדירה', prevImage: 'התמונה הקודמת', nextImage: 'התמונה הבאה', floorsOfType: 'היכן נמצא הטיפוס',
 };
 
-export const gindiText: Record<Lang, GindiText> = { en, he };
+export const gindiText: Record<Lang, GindiText> = { en, he, pt: en };  // these pages offer Hebrew, not Portuguese (lib/i18n LANG_PAGES)

@@ -16,7 +16,7 @@ export default function ProjectInfo({ project, available, priceFrom }: { project
   { icon: Building2, label: t.buildingFacts, value: info.floors ? t.floorsN(info.floors) : '' },
   { icon: CalendarDays, label: t.moveIn, value: info.moveIn },
   { icon: KeyRound, label: t.availabilityNow, value: t.homesAvailable(available) },
-  { icon: Tag, label: t.prices, value: priceFrom ? t.priceFrom(`${project.currency ?? t.currency}${new Intl.NumberFormat('en-US').format(priceFrom)}`) : t.pricesOnRequest, brand: true },
+  { icon: Tag, label: t.prices, value: priceFrom ? t.priceFrom(`${project.currency ?? t.currency}${new Intl.NumberFormat(lang === 'pt' ? 'pt-PT' : 'en-US', { useGrouping: 'always' }).format(priceFrom)}`) : t.pricesOnRequest, brand: true },
   { icon: Car, label: t.parking, value: info.parking },
   { icon: Package, label: t.storage, value: info.storage },
  ].filter(fact => fact.value);

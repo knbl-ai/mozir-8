@@ -54,7 +54,7 @@ function FilmView({ film, placeholder }: { film: ResolvedMedia['film']; placehol
  const lang = useLang();
  const t = explorerText[lang];
  // A work-in-progress film (the P2 blockout, runbook §11) says so on the page.
- const note = lang === 'he' ? film.noteHe ?? film.note : film.note;
+ const note = (lang === 'he' ? film.noteHe : lang === 'pt' ? film.notePt : undefined) ?? film.note;
  const video = useRef<HTMLVideoElement>(null);
  const [playing, setPlaying] = useState(false);
  return <div className={s.filmView}>

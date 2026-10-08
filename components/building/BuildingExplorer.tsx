@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, MotionConfig } from 'motion/react';
 import { Box, Building2, ChevronRight, Download, Eye, Images, Info, LayoutPanelLeft, Mail, MapPin, MessageCircle, Phone, Play } from 'lucide-react';
-import { localizeDevelopment, localizeImages, localizeResidence, resolveMedia, type ApartmentZone, type BuildingFrame, type Development } from '@/content/projects';
+import { labelIn, localizeDevelopment, localizeImages, localizeResidence, resolveMedia, type ApartmentZone, type BuildingFrame, type Development } from '@/content/projects';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
 import ApartmentPicker from './ApartmentPicker';
@@ -26,7 +26,8 @@ const TABS: { value: MediaTab; icon: typeof Play }[] = [
  { value: 'plan', icon: LayoutPanelLeft }, { value: 'film', icon: Play }, { value: 'images', icon: Images }, { value: 'model', icon: Box }, { value: 'about', icon: Info },
 ];
 
-const formatPrice = (price: number) => new Intl.NumberFormat('en-US').format(price);
+// Portuguese groups thousands with a space (1 395 000); English and Hebrew with commas.
+const formatPrice = (price: number, lang: string) => new Intl.NumberFormat(lang === 'pt' ? 'pt-PT' : 'en-US', { useGrouping: 'always' }).format(price);
 const lowestPrice = (listings: Development['listings']) => {
  const prices = Object.values(listings).flatMap(l => l.price ?? []);
  return prices.length ? Math.min(...prices) : undefined;
@@ -60,7 +61,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  const residence = project.residences.find(r => r.id === selected?.unit) ?? project.residences[0];
  const media = useMemo(() => {
   const resolved = resolveMedia(project, residence, selected?.apartment);
-  return { ...resolved, images: localizeImages(resolved.images, lang), modelLevels: resolved.modelLevels?.map(l => ({ ...l, label: lang === 'he' ? l.labelHe ?? l.label : l.label })) };
+  return { ...resolved, images: localizeImages(resolved.images, lang), modelLevels: resolved.modelLevels?.map(l => ({ ...l, label: labelIn(l, lang) })) };
  }, [project, residence, selected?.apartment, lang]);
  const navIndex = available.findIndex(a => a.apartment === selectedId);
  const listing = selected ? project.listings[selected.apartment] : undefined;
@@ -156,7 +157,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
  const where = selected ? (selected.floorLabel ? `${t.floor} ${selected.floorLabel}` : selected.level === 0 ? t.groundFloor : t.floorN(selected.level)) : '';
  const currency = project.currency ?? t.currency;
  const { contact, info } = project;
- const priceText = listing?.price ? `${currency}${formatPrice(listing.price)}` : t.onRequest;
+ const priceText = listing?.price ? `${currency}${formatPrice(listing.price, lang)}` : t.onRequest;
  // Every way to reach the agent names the home, so the enquiry arrives already specific.
  const homeRef = t.homeRef(listing?.number, where, residence.shortTitle);
  const message = t.enquiryText(project.name, homeRef);
@@ -248,7 +249,7 @@ export default function BuildingExplorer({ project: source, frames }: { project:
        <div><dt>{t.outdoor}</dt><dd className={s.factWord}><SwapValue value={residence.outdoor} order={navIndex} />{residence.outdoorArea > 0 && <span className={s.factUnit}><SwapValue value={`${residence.outdoorArea} ${t.sqm}`} order={residence.outdoorArea} /></span>}</dd></div>
        <div className={s.factPrice}><dt>{t.price}</dt>{listing && !listing.price
         ? <dd className={s.factWord}><SwapValue value={t.onRequest} /></dd>
-        : <dd className={s.factNumber}><span className={s.factCurrency}>{currency}</span><SwapValue value={listing?.price ? formatPrice(listing.price) : '—'} order={listing?.price} /></dd>}</div>
+        : <dd className={s.factNumber}><span className={s.factCurrency}>{currency}</span><SwapValue value={listing?.price ? formatPrice(listing.price, lang) : '—'} order={listing?.price} /></dd>}</div>
       </motion.dl>
       {focus && !noBuilding && <div className={s.focusActions}>
        <button type="button" className={s.returnButton} onClick={() => setFocus(false)} title={t.backToBuildingTitle}>

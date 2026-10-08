@@ -2,16 +2,17 @@ import { frontViewMedia } from './front-view-media';
 import { rearViewMedia } from './rear-view-media';
 import { gardenMedia } from './garden-media';
 import type { Lang } from '@/lib/i18n';
-export type MediaImage = { src: string; label: string; labelHe?: string };
+export type MediaImage = { src: string; label: string; labelHe?: string; labelPt?: string };
 // Everything a buyer can look at for one home. Any field left out falls back a level:
 // apartment → residence type → the project's shared (placeholder) set.
 // A home over several floors: one model per view (both floors, then each floor), switched in the 3D tab.
-export type ModelLevel = { id: string; label: string; labelHe?: string; src: string };
-export type ResidenceMedia = { film?: { src: string; poster: string; note?: string; noteHe?: string }; images?: MediaImage[]; model?: string; modelOrbit?: string; modelLevels?: ModelLevel[] };
+export type ModelLevel = { id: string; label: string; labelHe?: string; labelPt?: string; src: string };
+export type ResidenceMedia = { film?: { src: string; poster: string; note?: string; noteHe?: string; notePt?: string }; images?: MediaImage[]; model?: string; modelOrbit?: string; modelLevels?: ModelLevel[] };
 export type Residence = { id: string; title: string; shortTitle: string; tagline: string; rooms: number; outdoor: string;
  // The developer's listed m² (the private storage room is included in it) and the listed garden or balcony.
  area: number; outdoorArea: number; exposure: string; label: string; plan: string; description: string; sourceUnits: string; about: string[]; media?: ResidenceMedia;
- he: ResidenceText };
+ // The second language's text: Hebrew on the Israeli projects, Portuguese on the Lisbon one (lib/i18n LANG_PAGES).
+ he?: ResidenceText; pt?: ResidenceText };
 // Every sentence a visitor reads about a residence, so a language swaps all of them at once.
 export type ResidenceText = Pick<Residence, 'title' | 'shortTitle' | 'tagline' | 'outdoor' | 'exposure' | 'label' | 'description' | 'about'>;
 // What the sales listing says about one home on the building. Homes the listing leaves out are not for sale.
@@ -23,10 +24,11 @@ export type Contact = { name: string; agency: string; phone: string; phoneIntl: 
 export type ProjectInfo = { address: string; area: string; kicker: string; floors?: number; moveIn?: string; parking?: string; storage?: string; intro: string; location: string[]; disclaimer: string; mapQuery: string };
 // Per-project look: the header logo and a colour theme (a [data-theme] block in explorer.module.css).
 // `wordmark`: the campaign lettering, shown in the header's centre when there are no apartment-type tabs.
-export type Brand = { logo: string; logoWidth: number; logoHeight: number; theme?: string; headerTone?: 'light' | 'dark'; wordmark?: { src: string; width: number; height: number; alt: string }; directoryNote?: string; directoryNoteHe?: string };
+export type Brand = { logo: string; logoWidth: number; logoHeight: number; theme?: string; headerTone?: 'light' | 'dark'; wordmark?: { src: string; width: number; height: number; alt: string }; directoryNote?: string; directoryNoteHe?: string; directoryNotePt?: string };
 // `floorLabel`: what the facts show for the floor when it isn't one number (a duplex: '3–4').
 export type ApartmentZone = { unit: string; apartment: string; status: 'for-sale' | 'sold'; floor: string; floorLabel?: string; labelPoints: [number, number][]; points: string };
 export type BuildingFrame = { src: string; hotspots: ApartmentZone[] };
+export type DevelopmentText = Pick<Development, 'name' | 'location' | 'description'> & { info: Omit<ProjectInfo, 'floors' | 'mapQuery'>; contact: Pick<Contact, 'name' | 'agency' | 'role'> };
 export type Development = { id: string; name: string; location: string; description: string; info: ProjectInfo; contact: Contact; source: string; brand?: Brand;
  // Apartment-type tabs in the header, by residence id; one type or fewer hides them. Defaults to the Sales Gallery's four.
  views?: string[];
@@ -41,7 +43,7 @@ export type Development = { id: string; name: string; location: string; descript
  currency?: string;
  // Keyed by the facade zone id (front-06, rear-04, …): the listing is the source of truth for availability.
  listings: Record<string, Listing>;
- he: Pick<Development, 'name' | 'location' | 'description'> & { info: Omit<ProjectInfo, 'floors' | 'mapQuery'>; contact: Pick<Contact, 'name' | 'agency' | 'role'> }; references: string[]; residences: Residence[]; media: Required<Pick<ResidenceMedia, 'film' | 'images' | 'model'>> & Pick<ResidenceMedia, 'modelOrbit'>; apartmentMedia?: Record<string, ResidenceMedia> };
+ he?: DevelopmentText; pt?: DevelopmentText; references: string[]; residences: Residence[]; media: Required<Pick<ResidenceMedia, 'film' | 'images' | 'model'>> & Pick<ResidenceMedia, 'modelOrbit'>; apartmentMedia?: Record<string, ResidenceMedia> };
 const base = '/projects/building-preview';
 const afk = '/projects/afk-urban-comfort';
 const placeholderImages: MediaImage[] = [
@@ -167,16 +169,20 @@ developments.push({
 });
 export const getDevelopment = (id:string) => developments.find(p=>p.id===id);
 
-export const localizeResidence = (residence: Residence, lang: Lang): Residence => lang === 'he' ? { ...residence, ...residence.he } : residence;
-export const localizeDevelopment = (project: Development, lang: Lang): Development => lang === 'he'
- ? { ...project, ...project.he, info: { ...project.info, ...project.he.info }, contact: { ...project.contact, ...project.he.contact } } : project;
+export const localizeResidence = (residence: Residence, lang: Lang): Residence => lang === 'en' ? residence : { ...residence, ...residence[lang] };
+export const localizeDevelopment = (project: Development, lang: Lang): Development => {
+ const text = lang === 'en' ? undefined : project[lang];
+ return text ? { ...project, ...text, info: { ...project.info, ...text.info }, contact: { ...project.contact, ...text.contact } } : project;
+};
 
 // The listing decides what is for sale; frames.json only carries the facade geometry.
 export const applyListings = (frames: BuildingFrame[], project: Development): BuildingFrame[] =>
  frames.map(f => ({ ...f, hotspots: f.hotspots.map(h => ({ ...h, status: project.listings[h.apartment] ? 'for-sale' : 'sold' })) }));
-export const localizeImages = (images: MediaImage[], lang: Lang): MediaImage[] => lang === 'he' ? images.map(i => ({ ...i, label: i.labelHe ?? i.label })) : images;
+// A label in the visitor's language, English when that language has none.
+export const labelIn = (item: { label: string; labelHe?: string; labelPt?: string }, lang: Lang) => (lang === 'he' ? item.labelHe : lang === 'pt' ? item.labelPt : undefined) ?? item.label;
+export const localizeImages = (images: MediaImage[], lang: Lang): MediaImage[] => lang === 'en' ? images : images.map(i => ({ ...i, label: labelIn(i, lang) }));
 
-export type ResolvedMedia = { film: { src: string; poster: string; note?: string; noteHe?: string }; images: MediaImage[]; model: string; modelOrbit?: string; modelLevels?: ModelLevel[]; placeholder: { film: boolean; images: boolean; model: boolean } };
+export type ResolvedMedia = { film: { src: string; poster: string; note?: string; noteHe?: string; notePt?: string }; images: MediaImage[]; model: string; modelOrbit?: string; modelLevels?: ModelLevel[]; placeholder: { film: boolean; images: boolean; model: boolean } };
 // The most specific media wins; `placeholder` marks what still comes from the shared set.
 export function resolveMedia(project: Development, residence: Residence, apartment?: string): ResolvedMedia {
  const own = apartment ? project.apartmentMedia?.[apartment] : undefined;

@@ -14,7 +14,8 @@ export default function ApartmentPicker({ inventory, residences, listings, selec
  inventory: Apartment[]; residences: Residence[]; listings: Record<string, Listing>; selected?: Apartment; onSelect: (apartment: Apartment) => void; currency?: string;
 }) {
  const [open, setOpen] = useState(false);
- const t = explorerText[useLang()];
+ const lang = useLang();
+ const t = explorerText[lang];
  const floorName = (a: Apartment) => a.floorLabel ? `${t.floor} ${a.floorLabel}` : a.level === 0 ? t.groundFloor : t.floorN(a.level);
  const available = inventory.filter(a => a.status === 'for-sale').length;
  const floors = [...new Set(inventory.map(a => a.level))].sort((a, b) => b - a);
@@ -45,7 +46,7 @@ export default function ApartmentPicker({ inventory, residences, listings, selec
       <div className={s.pickerRow}>
        {inventory.filter(a => a.level === level).map(a => {
         const sold = a.status === 'sold', isSelected = a.apartment === selected?.apartment, r = residence(a), l = listings[a.apartment];
-        const price = l && (l.price ? `${currency ?? t.currency}${new Intl.NumberFormat('en-US').format(l.price)}` : t.onRequest);
+        const price = l && (l.price ? `${currency ?? t.currency}${new Intl.NumberFormat(lang === 'pt' ? 'pt-PT' : 'en-US', { useGrouping: 'always' }).format(l.price)}` : t.onRequest);
         // Up to three homes share a floor, so each option is short: the type, then number and price (or Sold).
         const name = t.views[a.unit as keyof typeof t.views] ?? r?.shortTitle;
         return <button key={a.apartment} type="button" role="option" aria-selected={isSelected} disabled={sold} data-picker-selected={isSelected || undefined}

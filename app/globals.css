@@ -3,7 +3,7 @@
 @font-face{font-family:'Hebrew Display';src:url('/fonts/heebo-hebrew.woff2') format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
 @font-face{font-family:'Hebrew Sans';src:url('/fonts/heebo-hebrew.woff2') format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
 /* A Hebrew visit stays hidden until the page has swapped its words in (lib/i18n.tsx). */
-html[data-lang=he]:not([data-lang-ready]) body{visibility:hidden}
+html:is([data-lang=he],[data-lang=pt]):not([data-lang-ready]) body{visibility:hidden}
 html[lang=he] h1,html[lang=he] h2,html[lang=he] h3{font-weight:300;letter-spacing:0}
 @import 'tailwindcss';
 :root{--paper:#f6f4ee;--ink:#292d25;--olive:#343d30;--muted:#727467;--line:#d8d8ce;--serif:Georgia,'Hebrew Display','Times New Roman',serif}

@@ -6,20 +6,20 @@
    {
     "id": "both",
     "label": "Both floors",
-    "labelHe": "שתי הקומות",
-    "src": "/projects/borges-15/models/3b.glb"
+    "src": "/projects/borges-15/models/3b.glb",
+    "labelPt": "Os dois pisos"
    },
    {
     "id": "upper",
     "label": "Upper floor",
-    "labelHe": "הקומה העליונה",
-    "src": "/projects/borges-15/models/3b-1.glb"
+    "src": "/projects/borges-15/models/3b-1.glb",
+    "labelPt": "Piso superior"
    },
    {
     "id": "entry",
     "label": "Entry floor",
-    "labelHe": "קומת הכניסה",
-    "src": "/projects/borges-15/models/3b-2.glb"
+    "src": "/projects/borges-15/models/3b-2.glb",
+    "labelPt": "Piso de entrada"
    }
   ],
   "film": {
@@ -30,62 +30,62 @@
    {
     "src": "/projects/borges-15/media/3b/g-entry.webp",
     "label": "From the entrance to the river",
-    "labelHe": "מהכניסה אל הנהר"
+    "labelPt": "Da entrada até ao rio"
    },
    {
     "src": "/projects/borges-15/media/3b/g-media.webp",
     "label": "Living room",
-    "labelHe": "סלון"
+    "labelPt": "Sala"
    },
    {
     "src": "/projects/borges-15/media/3b/g-living.webp",
     "label": "Back toward the kitchen",
-    "labelHe": "חזרה לכיוון המטבח"
+    "labelPt": "De volta à cozinha"
    },
    {
     "src": "/projects/borges-15/media/3b/g-stair.webp",
     "label": "Kitchen and oak stair",
-    "labelHe": "מטבח ומדרגות עץ אלון"
+    "labelPt": "Cozinha e escada em carvalho"
    },
    {
     "src": "/projects/borges-15/media/3b/v-bath1.webp",
     "label": "Shower room",
-    "labelHe": "חדר רחצה"
+    "labelPt": "Casa de banho"
    },
    {
     "src": "/projects/borges-15/media/3b/v-bed1.webp",
     "label": "Guest bedroom",
-    "labelHe": "חדר אורחים"
+    "labelPt": "Quarto de hóspedes"
    },
    {
     "src": "/projects/borges-15/media/3b/v-stair.webp",
     "label": "Up the oak stair",
-    "labelHe": "במעלה מדרגות העץ"
+    "labelPt": "Subindo a escada em carvalho"
    },
    {
     "src": "/projects/borges-15/media/3b/g-bed3.webp",
     "label": "River-side suite",
-    "labelHe": "הסוויטה מול הנהר"
+    "labelPt": "Suite virada ao rio"
    },
    {
     "src": "/projects/borges-15/media/3b/v-varanda-s.webp",
     "label": "Balcony over the river",
-    "labelHe": "מרפסת מעל הנהר"
+    "labelPt": "Varanda sobre o rio"
    },
    {
     "src": "/projects/borges-15/media/3b/g-bed2.webp",
     "label": "Primary suite",
-    "labelHe": "סוויטת ההורים"
+    "labelPt": "Suite principal"
    },
    {
     "src": "/projects/borges-15/media/3b/v-varanda-n.webp",
     "label": "Balcony toward the Basilica",
-    "labelHe": "מרפסת מול הבזיליקה"
+    "labelPt": "Varanda virada à Basílica"
    },
    {
     "src": "/projects/borges-15/media/3b/top.webp",
     "label": "Both floors from above",
-    "labelHe": "שתי הקומות ממבט על"
+    "labelPt": "Os dois pisos vistos de cima"
    }
   ]
  },
@@ -100,42 +100,42 @@
    {
     "src": "/projects/borges-15/media/1a/g-entry.webp",
     "label": "From the hall to the street",
-    "labelHe": "מהמבואה אל הרחוב"
+    "labelPt": "Do hall até à rua"
    },
    {
     "src": "/projects/borges-15/media/1a/g-street.webp",
     "label": "Living room and the street doors",
-    "labelHe": "הסלון ודלתות הרחוב"
+    "labelPt": "A sala e as portas para a rua"
    },
    {
     "src": "/projects/borges-15/media/1a/g-living.webp",
     "label": "Back toward the kitchen",
-    "labelHe": "חזרה לכיוון המטבח"
+    "labelPt": "De volta à cozinha"
    },
    {
     "src": "/projects/borges-15/media/1a/v-corridor.webp",
     "label": "Up the lane to the bedroom",
-    "labelHe": "לאורך המסדרון אל חדר השינה"
+    "labelPt": "Pelo corredor até ao quarto"
    },
    {
     "src": "/projects/borges-15/media/1a/v-bath.webp",
     "label": "Shower room",
-    "labelHe": "חדר רחצה"
+    "labelPt": "Casa de banho"
    },
    {
     "src": "/projects/borges-15/media/1a/g-bed.webp",
     "label": "Bedroom and the garden door",
-    "labelHe": "חדר השינה והדלת לגן"
+    "labelPt": "O quarto e a porta para o jardim"
    },
    {
     "src": "/projects/borges-15/media/1a/g-detail.webp",
     "label": "Bedside",
-    "labelHe": "ליד המיטה"
+    "labelPt": "Junto à cama"
    },
    {
     "src": "/projects/borges-15/media/1a/top-h.webp",
     "label": "From above",
-    "labelHe": "ממבט על"
+    "labelPt": "Vista de cima"
    }
   ]
  }

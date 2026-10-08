@@ -1,7 +1,8 @@
 // Apartment page check, run after every production phase (docs/APT_RUNBOOK.md §11, R-PIPE-PAGECHECK).
 // Needs the static build served: npm run build && npm start  (python http.server on :3088).
 //
-//   node tests/apt-page-check.mjs <site> <apt> <phase> [--expect=film,images,model] [--base=http://localhost:3088]
+//   node tests/apt-page-check.mjs <site> <apt> <phase> [--expect=film,images,model] [--langs=en,pt] [--base=http://localhost:3088]
+// --langs: the page's two languages (default en,he; Borges 15 is en,pt, lib/i18n LANG_PAGES).
 //   node tests/apt-page-check.mjs --shots <outDir> <path> [<path>...]     (plain screenshots, R-PIPE-UNTOUCHED)
 //
 // <phase> names the screenshot folder: review/<site>/<phase>/. --expect lists the tabs that must carry
@@ -38,7 +39,7 @@ const report = { site, apt, phase, time: new Date().toISOString(), checks: [], e
 const check = (ok, message) => { report.checks.push({ ok: Boolean(ok), message }); console.log(ok ? '✓' : '✗', message); };
 const TABS = ['plan', 'film', 'images', 'model', 'about'];
 
-for (const lang of ['en', 'he']) {
+for (const lang of opt('langs', 'en,he').split(',')) {
  for (const viewport of [{ name: 'desktop', width: 1440, height: 900 }, { name: 'mobile', width: 390, height: 844 }]) {
   const page = await browser.newPage({ viewport, deviceScaleFactor: viewport.name === 'mobile' ? 2 : 1 });
   const errors = [];
@@ -52,6 +53,8 @@ for (const lang of ['en', 'he']) {
   await page.goto(`${base}/projects/${site}.html?lang=${lang}&apt=${apt}#explore`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(800);
   const tag = `${lang}-${viewport.name}`;
+  const docLang = await page.evaluate(() => [document.documentElement.lang, document.documentElement.dir]);
+  check(docLang[0] === lang && docLang[1] === (lang === 'he' ? 'rtl' : 'ltr'), `${tag}: page shown in ${lang} (${docLang.join(' ')})`);
   await page.screenshot({ path: `${out}/${tag}-0-page.png` });
   if (viewport.name === 'desktop') {
    for (const [i, tab] of TABS.entries()) {
