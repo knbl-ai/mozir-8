@@ -53,7 +53,7 @@ export const kleeHomes: KleeHome[] = [
    'Areas follow the developer’s Type B plan (about 35 m² inside and 10.5 m² of balcony). Worth checking: the bedroom window faces a service yard, and the furniture shown is one way to live in it.'],
   media: {
    film: { src: `${base}/media/apt-1/film.mp4`, poster: `${base}/media/apt-1/poster.webp` }, model: `${base}/models/apt-1.glb`, modelOrbit: '30deg 42deg 140%',
-   images: [img('apt-1', 'v-living', 'Living room and kitchen', 'סלון ומטבח'), img('apt-1', 'g-passage', 'Storage wall by the bathroom', 'קיר אחסון ליד חדר הרחצה'),
+   images: [img('apt-1', 'v-living', 'Living room and kitchen', 'סלון ומטבח'), img('apt-1', 'g-passage', 'Passage to the bathroom', 'המעבר לחדר הרחצה'),
     img('apt-1', 'v-balcony', 'Balcony', 'מרפסת'),
     img('apt-1', 'v-living-back', 'Living room toward the entrance', 'הסלון לכיוון הכניסה'), img('apt-1', 'v-bedroom', 'Bedroom', 'חדר שינה'),
     img('apt-1', 'top', 'The whole apartment from above', 'כל הדירה ממבט על')],

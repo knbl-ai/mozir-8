@@ -11,7 +11,7 @@ SRC = ROOT / 'projects/KLEE-8-Tel-Aviv'
 OUT = ROOT / 'website/public/projects/klee-8'
 FORCE = '--force' in sys.argv
 
-FILMS = {'apt-1': 'apt_1/deliverables/video/klee8-apt1_1080p_map.mp4',   # 2026-10-06 white-kitchen film, native sound
+FILMS = {'apt-1': 'apt_1/deliverables/video/klee8-apt1_1080p_map.mp4',   # 2026-10-08 as-built kitchen + real street view, native sound
          'apt-2': 'apt_2/deliverables/video/klee8-apt2_1080p_map_sound.mp4',
          'apt-3': 'apt_3/deliverables/video/klee8-apt3_1080p_map.mp4'}
 POSTER_AT = {'apt-1': 0.5, 'apt-2': 3.0, 'apt-3': 3.0}
@@ -24,10 +24,10 @@ USED = {
  'apt-3': ['v-garden', 'v-living', 'v-balcony', 'v-dining', 'v-west', 'v-kids-t', 'v-corridor-s3', 'v-bath', 'v-mamad',
            'v-stair', 'v-master-walk', 'v-bed'],
 }
-# Client 2026-10-05/06: apt 1 re-shot at true scale, narrower, with the client's all-white kitchen (one region edit
-# each); these are the exact references of the 2026-10-06 film. g-passage = the tall unit at the bathroom (gallery only).
-REPLACE = {'apt-1': {'v-living': 'keyframes/final/v-living-kitchen.png', 'v-living-back': 'keyframes/final/v-living-back-kitchen.png',
-                   'g-passage': 'keyframes/final/g-passage-kitchen.png'}}
+# Client 2026-10-05..08: apt 1 at true scale, as-built kitchen + TV niche, white doors, no curtains, the real street
+# view from the balcony; these are the exact references of the 2026-10-08 film. g-passage = the passage ref, v-balcony = gallery only.
+REPLACE = {'apt-1': {'v-living': 'keyframes/final/v-living-view3.png', 'v-living-back': 'keyframes/final/v-living-back-final.png',
+                   'g-passage': 'keyframes/final/v-passage-view3.png', 'v-balcony': 'keyframes/final/g-balcony-final.png'}}
 STILLS = {apt: [(n, REPLACE.get(apt, {}).get(n, f'keyframes/generated/{n}.png')) for n in names] + [('top', 'keyframes/final/top.png')]
           for apt, names in USED.items()}
 PLANS = {'apt-1': ['source/apt_1/WhatsApp Image 2026-10-04 at 14.54.48.jpeg'],
