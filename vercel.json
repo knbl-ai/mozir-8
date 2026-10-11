@@ -2,5 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "npm ci",
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "rewrites": [
+    {
+      "source": "/:dir(projects|media|models|downloads)/:file(.*\\.(?:webp|mp4|glb|jpg|jpeg|png|zip|pdf|txt))",
+      "destination": "https://storage.googleapis.com/knbl-sma/apt3d/site/:dir/:file"
+    }
+  ]
 }

@@ -1,14 +1,15 @@
-"""KLEE 8 media for the website, from the pipeline's deliverables (projects/KLEE-8-Tel-Aviv/apt_*):
+"""KLEE 8 media for the website, from the pipeline's deliverables (data/projects/KLEE-8-Tel-Aviv/apt_*):
 films (1080p with the locator map and native sound, re-encoded for the web), posters, gallery stills
 (webp) and the developer's plans. The 3D models come from pipeline/aptlib/blender/export_web.py.
-  python3 website/scripts/prepare-klee-media.py [--force]"""
-import subprocess, sys
+  python3 apps/site/scripts/prepare-klee-media.py [--force]"""
+import os, subprocess, sys
 from pathlib import Path
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parents[2]
-SRC = ROOT / 'projects/KLEE-8-Tel-Aviv'
-OUT = ROOT / 'website/public/projects/klee-8'
+SITE = Path(__file__).resolve().parents[1]  # apps/site
+ROOT = SITE.parents[1]                       # repo root
+SRC = Path(os.environ.get('DATA_ROOT', ROOT / 'data')) / 'projects/KLEE-8-Tel-Aviv'
+OUT = SITE / 'public/projects/klee-8'
 FORCE = '--force' in sys.argv
 
 FILMS = {'apt-1': 'apt_1/deliverables/video/klee8-apt1_1080p_map.mp4',   # 2026-10-08 as-built kitchen + real street view, native sound

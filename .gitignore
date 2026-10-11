@@ -9,3 +9,16 @@ review/
 .DS_Store
 
 public/downloads/
+
+# binary media lives in GCS (gs://knbl-sma/apt3d/site), served via the vercel.json rewrite; upload: npm run assets:upload
+public/media/
+public/models/
+public/projects/**/*.webp
+public/projects/**/*.mp4
+public/projects/**/*.glb
+public/projects/**/*.jpg
+public/projects/**/*.jpeg
+public/projects/**/*.png
+public/projects/**/*.zip
+public/projects/**/*.pdf
+public/projects/**/*.txt

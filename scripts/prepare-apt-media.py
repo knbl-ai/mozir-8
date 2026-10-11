@@ -1,7 +1,7 @@
 """Promote an apartment's APPROVED media from the pipeline to the website (runbook §11, R-PIPE-PROMOTE / R-PIPE-SLOT).
 Generic: everything project-specific comes from <apt>/apartment.yaml -> web: and from <apt>/studio.json statuses.
 
-  python3 website/scripts/prepare-apt-media.py <apt_dir> --stage plan,model,blockout,keyframes,480p,1080p [--force]
+  python3 apps/site/scripts/prepare-apt-media.py <apt_dir> --stage plan,model,blockout,keyframes,480p,1080p [--force]
   (normally through: python3 -m pipeline.aptlib.cli promote <apt_dir> --stage=...)
 
 apartment.yaml:
@@ -13,7 +13,7 @@ apartment.yaml:
     gallery: [{id: v-living, label: Living room, labelHe: סלון | labelPt: Sala}, ...]   # keyframe ids, in page order; 'top' = the photoreal top-down
     poster_at: 3.0
 
-Writes website/public/projects/<site>/{plans,media/<apt>} and website/content/projects/<site>.media.json, and records
+Writes apps/site/public/projects/<site>/{plans,media/<apt>} and apps/site/content/projects/<site>.media.json, and records
 what's on the page in <apt>/studio.json -> pages. Only approved/locked items go up; --force overrides (log why).
 """
 import argparse, datetime, json, subprocess, sys
@@ -21,8 +21,8 @@ from pathlib import Path
 import yaml
 from PIL import Image, ImageChops
 
-ROOT = Path(__file__).resolve().parents[2]
-WEB = ROOT / 'website'
+WEB = Path(__file__).resolve().parents[1]   # apps/site
+ROOT = WEB.parents[1]                         # repo root
 
 
 def run(*cmd):
