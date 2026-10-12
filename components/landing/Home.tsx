@@ -18,7 +18,7 @@ import TrialForm from './TrialForm';
 import { film } from './media';
 import s from './landing.module.css';
 
-// The promo film, in the visitor's language. The still shows until play is pressed; phones get the 720p cut.
+// The promo film (English for every visitor). The still shows until play is pressed; phones get the 720p cut.
 function PromoFilm({ lang, play, label, playing, onPlay }: { lang: 'en' | 'he'; play: string; label: string; playing: boolean; onPlay: () => void }) {
  return <div id="film" className={s.film}>
   {['tl', 'tr', 'bl', 'br'].map(c => <i key={c} className={s.corner} data-c={c} aria-hidden />)}
@@ -96,7 +96,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       <Button variant="ghost" icon={Play} onClick={watch}>{t.hero.watch}</Button>
      </div>
     </div>
-    <PromoFilm lang={filmLang} play={t.hero.play} label={t.hero.filmLabel} playing={playing} onPlay={() => setPlaying(true)} />
+    <PromoFilm lang="en" play={t.hero.play} label={t.hero.filmLabel} playing={playing} onPlay={() => setPlaying(true)} />
    </section>
 
    <Process t={t.process} />
