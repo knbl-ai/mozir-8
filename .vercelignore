@@ -1,0 +1,19 @@
+# Media lives in gs://knbl-sma/apt3d/site and is served through the rewrite in vercel.json; never upload it.
+# Mirrors the media rules in .gitignore (the CLI doesn't read .gitignore).
+public/downloads/
+public/media/
+public/models/
+public/projects/**/*.webp
+public/projects/**/*.mp4
+public/projects/**/*.glb
+public/projects/**/*.jpg
+public/projects/**/*.jpeg
+public/projects/**/*.png
+public/projects/**/*.zip
+public/projects/**/*.pdf
+public/projects/**/*.txt
+public/landing/**/*.webp
+public/landing/**/*.mp4
+.env*
+node_modules/
+.next/
