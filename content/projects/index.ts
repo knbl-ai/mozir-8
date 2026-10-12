@@ -43,6 +43,8 @@ export type Development = { id: string; name: string; location: string; descript
  currency?: string;
  // Keyed by the facade zone id (front-06, rear-04, …): the listing is the source of truth for availability.
  listings: Record<string, Listing>;
+ // One ZIP per apartment (downloads/<id>/<apartment>.zip, scripts/build-downloads.cjs) instead of one per residence type.
+ apartmentDownloads?: boolean;
  he?: DevelopmentText; pt?: DevelopmentText; references: string[]; residences: Residence[]; media: Required<Pick<ResidenceMedia, 'film' | 'images' | 'model'>> & Pick<ResidenceMedia, 'modelOrbit'>; apartmentMedia?: Record<string, ResidenceMedia> };
 const base = '/projects/building-preview';
 const afk = '/projects/afk-urban-comfort';

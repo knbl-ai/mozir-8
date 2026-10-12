@@ -106,3 +106,35 @@ for (const home of kleeHomes) {
  fs.writeFileSync(path.join(dest, `${home.id}.zip`), zip);
  console.log(`Packaged klee-8/${home.id}: ${Object.keys(files).length} files, ${(zip.length / 1024 / 1024).toFixed(1)} MB`);
 }
+
+// Borges 15: one package per home. Each carries its own plan; the twins carry the media they share (3A = 3B's, the T1s = 1A's),
+// and the ground-floor studios, with no media yet, carry the plan alone. English and Portuguese, like the site.
+const { borges15 } = require('../content/projects/borges-15.ts');
+for (const home of borges15.residences) {
+ const m = borges15.apartmentMedia?.[home.id];
+ const files = {};
+ const list = ['- floor-plan: the developer\'s plan · a planta do promotor'];
+ files['floor-plan' + path.extname(home.plan)] = readAsset(home.plan);
+ if (m?.film?.src) { files['video/apartment-tour.mp4'] = readAsset(m.film.src); list.push('- video/: walkthrough film (MP4) · filme do percurso'); }
+ if (m?.images?.length) {
+  m.images.forEach((image, i) => { files[`images/${String(i + 1).padStart(2, '0')}-${slug(image.label)}${path.extname(image.src)}`] = readAsset(image.src); });
+  list.push('- images/: interiors in gallery order (WebP) · interiores');
+ }
+ if (m?.model) {
+  const models = m.modelLevels?.length ? m.modelLevels : [{ label: home.title, src: m.model }];
+  for (const level of models) {
+   const name = models.length > 1 ? slug(level.label) : 'apartment';
+   const model = readAsset(level.src);
+   files[`3D/${name}.glb`] = model;
+   files[`3D/Open ${name}.html`] = viewerHtml(`Borges 15 · ${home.title} · ${level.label}`, model, m.modelOrbit);
+   list.push(`- 3D/${name}.glb + Open ${name}.html: ${level.label}`);
+  }
+ }
+ const shared = home.id === '3a' ? '3B' : ['1b', '2a', '2b'].includes(home.id) ? '1A' : null;
+ files['README.txt'] = strToU8(`Borges 15 · ${home.title}\nRua Borges Carneiro 15, Lapa, Lisbon\n${home.area} m²${home.outdoorArea ? ` · ${home.outdoor} ${home.outdoorArea} m²` : ''}\n\nContents · Conteúdo\n${list.join('\n')}\n${m?.model ? '\nExtract the ZIP first, then double-click an .html file in Chrome, Edge or Safari (internet is needed to load the viewer; the model is embedded). Offline: Blender > File > Import > glTF 2.0.\nExtraia o ZIP e abra um ficheiro .html no Chrome, Edge ou Safari (é necessária ligação à internet).\n' : '\nThe film, images and 3D model of this home are in preparation.\nO filme, as imagens e o modelo 3D desta casa estão em preparação.\n'}${shared ? `\nThe film, images and 3D show ${shared}, which shares this layout; the plan is this home's own.\nO filme, as imagens e o 3D mostram o ${shared}, com a mesma tipologia; a planta é a desta casa.\n` : ''}\nInteriors, film and 3D are AI-assisted illustrations; areas follow the developer's plans. Confirm every detail with LIVO.\nInteriores, filme e 3D são ilustrações criadas com apoio de IA; as áreas seguem as plantas do promotor. Confirme todos os detalhes com a LIVO.\n`);
+ const dest = path.join(publicRoot, 'downloads', 'borges-15');
+ fs.mkdirSync(dest, { recursive: true });
+ const zip = zipSync(files, { level: 0 });
+ fs.writeFileSync(path.join(dest, `${home.id}.zip`), zip);
+ console.log(`Packaged borges-15/${home.id}: ${Object.keys(files).length} files, ${(zip.length / 1024 / 1024).toFixed(1)} MB`);
+}

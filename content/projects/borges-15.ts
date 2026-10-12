@@ -45,6 +45,8 @@ export const borges15: Development = {
  media: { film: { src: '', poster: '' }, images: [], model: '' },
  // The penthouse twins share 3B's media and the T1s share 1A's; plans and facts stay per home (residences below).
  // The ground-floor studios are a different type and stay empty (coming soon).
+ // Every home has its own download: its own plan, with the media it shares (scripts/build-downloads.cjs).
+ apartmentDownloads: true,
  apartmentMedia: (m => ({ ...m, '3a': m['3b'], '1b': m['1a'], '2a': m['1a'], '2b': m['1a'] }))(promoted as Record<string, ResidenceMedia>),
  residences: [
   { id: '3b', title: 'Duplex T3 · 3B', shortTitle: 'Duplex 3B', tagline: 'The top of Borges 15: three bedrooms over two floors, the river and the Basilica.', rooms: 4, outdoor: '2 balconies',

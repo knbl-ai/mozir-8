@@ -178,7 +178,8 @@ export default function BuildingExplorer({ project: source, frames }: { project:
    </a>}
   </div>
  </motion.div>;
- const download = residence.media && <a className={s.downloadAssets} href={`/downloads/${project.id}/${residence.id}.zip`} download={`${residence.id}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
+ const zip = project.apartmentDownloads ? selected?.apartment : residence.media ? residence.id : undefined;
+ const download = zip && <a className={s.downloadAssets} href={`/downloads/${project.id}/${zip}.zip`} download={project.apartmentDownloads ? `${project.id}-${zip}.zip` : `${zip}-assets.zip`} aria-label={t.downloadAssets} title={t.downloadAssets}>
   <Download size={18} strokeWidth={1.7} aria-hidden />
  </a>;
  // Only what the facts row above the tabs doesn't already show (rooms, floor, area, outdoor, price, number).
