@@ -5,7 +5,7 @@
   "buildCommand": "npm run build",
   "rewrites": [
     {
-      "source": "/:dir(projects|media|models|downloads)/:file(.*\\.(?:webp|mp4|glb|jpg|jpeg|png|zip|pdf|txt))",
+      "source": "/:dir(projects|media|models|downloads|landing)/:file(.*\\.(?:webp|mp4|glb|jpg|jpeg|png|zip|pdf|txt))",
       "destination": "https://storage.googleapis.com/knbl-sma/apt3d/site/:dir/:file"
     }
   ]

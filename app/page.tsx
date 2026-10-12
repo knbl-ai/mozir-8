@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type { BuildingFrame } from '@/content/projects';
-import DemoHome from '@/components/landing/DemoHome';
+import { preload } from 'react-dom';
+import Home from '@/components/landing/Home';
 
 // Every second frame of the Sales Gallery's building is enough for the preview's turn.
 const readFrames = (project: string): BuildingFrame[] => {
@@ -14,6 +15,13 @@ const readComplex = (): string[] => {
  const manifest = path.join(process.cwd(), 'public/projects/gindi-colors/orbit/complex.json');
  return fs.existsSync(manifest) ? (JSON.parse(fs.readFileSync(manifest, 'utf8')).frames as { src: string }[]).filter((_, i) => i % 2 === 0).map(f => f.src) : [];
 };
-export default function Home() {
- return <DemoHome buildingFrames={everySecond(readFrames('building-preview'))} penthouseFrames={everySecond(readFrames('afk-urban-comfort'))} complexFrames={readComplex()} heritageFrames={everySecond(readFrames('borges-15'))} />;
+// The apartment turntable (KLEE apt 1, pipeline/aptlib/blender/turntable.py): 72 frames, 5° apart.
+const readSpin = (): string[] => {
+ const manifest = path.join(process.cwd(), 'public/landing/spin/spin.json');
+ return fs.existsSync(manifest) ? (JSON.parse(fs.readFileSync(manifest, 'utf8')) as { src: string }[]).map(f => f.src) : [];
+};
+export default function Page() {
+ // The display face sets the first screen: fetch it with the HTML, not after the CSS.
+ preload('/fonts/archivo-var-latin.woff2', { as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' });
+ return <Home buildingFrames={everySecond(readFrames('building-preview'))} penthouseFrames={everySecond(readFrames('afk-urban-comfort'))} complexFrames={readComplex()} heritageFrames={everySecond(readFrames('borges-15'))} spinFrames={readSpin()} />;
 }

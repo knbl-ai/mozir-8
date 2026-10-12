@@ -1,0 +1,105 @@
+/* Shared landing UI: the button, the dimension line and the icons. Colours come from the page's tokens. */
+
+/* Button: a solid block with a top highlight and a two-step shade under it. */
+.btn {
+  --b-bg: var(--forest); --b-fg: #fff; --b-chip: var(--orange); --b-chip-fg: #fff; --b-shade: var(--forest-deep);
+  position: relative; display: inline-flex; align-items: center; gap: 14px;
+  min-height: 54px; padding-block: 6px; padding-inline: 26px 7px; border-radius: 999px;
+  background: var(--b-bg); color: var(--b-fg);
+  font: 500 16px/1 var(--sans); letter-spacing: -0.005em; white-space: nowrap; cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    inset 0 -2px 0 rgb(0 0 0 / 0.18),
+    0 1px 1px rgb(14 42 33 / 0.18),
+    0 6px 14px -4px rgb(14 42 33 / 0.35),
+    0 18px 32px -16px rgb(14 42 33 / 0.45);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn[data-size='sm'] { min-height: 42px; gap: 10px; padding-inline: 18px 5px; font-size: 15px; }
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    inset 0 -2px 0 rgb(0 0 0 / 0.18),
+    0 2px 2px rgb(14 42 33 / 0.16),
+    0 12px 22px -6px rgb(14 42 33 / 0.38),
+    0 28px 44px -18px rgb(14 42 33 / 0.5);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px); transition-duration: 0.08s;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1), inset 0 2px 6px rgb(0 0 0 / 0.25), 0 1px 1px rgb(14 42 33 / 0.2);
+}
+.btn:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.btn:disabled { opacity: 0.75; cursor: progress; }
+.btnLabel { position: relative; z-index: 1; }
+.btnChip {
+  position: relative; z-index: 1; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--b-chip); color: var(--b-chip-fg);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), inset 0 -2px 0 rgb(0 0 0 / 0.14);
+  transition: transform 0.45s var(--ease), background 0.25s;
+}
+.btn[data-size='sm'] .btnChip { width: 32px; height: 32px; }
+.btn:hover:not(:disabled) .btnChip { transform: translateX(3px) rotate(45deg); background: var(--orange-hover); }
+:global([dir=rtl]) .btnChip svg { transform: scaleX(-1); }
+:global([dir=rtl]) .btn:hover:not(:disabled) .btnChip { transform: translateX(-3px) rotate(-45deg); }
+
+/* On the dark form section the block turns orange and the chip goes forest. */
+.btn[data-tone='dark'] { --b-bg: var(--orange); --b-fg: #fff; --b-chip: var(--forest-deep); --b-shade: #8f3410; }
+.btn[data-tone='dark']:hover:not(:disabled) { background: var(--orange-hover); }
+.btn[data-tone='dark']:hover:not(:disabled) .btnChip { background: var(--forest); }
+.btn[data-tone='dark']:focus-visible { outline-color: #fff; }
+
+/* Ghost: a hairline pill; the fill sweeps in from the reading side. */
+.btn[data-variant='ghost'] {
+  --b-bg: transparent; --b-fg: var(--forest); --b-chip: transparent; --b-chip-fg: var(--orange);
+  overflow: hidden; padding-inline: 24px 10px; box-shadow: inset 0 0 0 1.5px rgb(23 63 50 / 0.28);
+}
+.btn[data-variant='ghost']::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--forest);
+  transform: scaleX(0); transform-origin: left center; transition: transform 0.45s var(--ease);
+}
+:global([dir=rtl]) .btn[data-variant='ghost']::before { transform-origin: right center; }
+.btn[data-variant='ghost']:hover:not(:disabled) { color: #fff; box-shadow: inset 0 0 0 1.5px var(--forest), 0 10px 22px -10px rgb(14 42 33 / 0.45); }
+.btn[data-variant='ghost']:hover:not(:disabled)::before { transform: scaleX(1); }
+.btn[data-variant='ghost'] .btnChip { box-shadow: none; width: 32px; height: 32px; }
+.btn[data-variant='ghost']:hover:not(:disabled) .btnChip,
+:global([dir=rtl]) .btn[data-variant='ghost']:hover:not(:disabled) .btnChip { background: var(--orange); color: #fff; transform: scale(1.08); }
+
+/* Measured span: start pill ── 1 day ── end pill. No end markers: the pills are the ends. */
+.dim { --dim-c: var(--orange); --dim-note: var(--ink); display: flex; align-items: center; font: 500 14px/1 var(--mono); color: var(--dim-note); }
+.dim[data-tone='dark'] { --dim-note: rgb(255 255 255 / 0.8); }
+/* Plex Mono has no Hebrew, and its wide space spreads Hebrew words apart: Hebrew pills use the sans. */
+:global(html[lang=he]) .dim { font-family: var(--sans); font-size: 15px; }
+.dimNote {
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; height: 38px; padding-inline: 12px 16px; border-radius: 999px;
+  border: 1.5px solid var(--line); background: var(--white); color: var(--ink);
+}
+.dimNote svg { color: var(--forest); flex: none; }
+.dimNote[data-end='end'] {
+  border-color: var(--orange); background: var(--orange); color: #fff;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), inset 0 -2px 0 rgb(0 0 0 / 0.12), 0 8px 18px -8px rgb(238 106 43 / 0.6);
+}
+.dimNote[data-end='end'] svg { color: #fff; }
+.dimSpan { flex: 1; display: flex; align-items: center; min-width: 40px; }
+.dimLine { flex: 1; height: 1.5px; background: var(--dim-c); transform-origin: left center; }
+:global([dir=rtl]) .dimLine { transform-origin: right center; }
+.dimLabel { flex: none; padding: 6px 12px; border-radius: 999px; border: 1.5px dashed var(--dim-c); background: var(--paper); color: var(--dim-c); font-weight: 500; letter-spacing: 0.01em; }
+/* The ends and the measure land together, then the line draws between them. */
+.dim[data-draw] .dimNote { animation: dimPop 0.45s var(--ease) both; animation-delay: var(--dim-delay); }
+.dim[data-draw] .dimNote[data-end='end'] { animation-delay: calc(var(--dim-delay) + 0.08s); }
+.dim[data-draw] .dimLine { animation: dimDraw 0.9s var(--ease) both; animation-delay: calc(var(--dim-delay) + 0.15s); }
+.dim[data-draw] .dimLabel { animation: dimPop 0.45s var(--ease) both; animation-delay: calc(var(--dim-delay) + 0.04s); }
+@keyframes dimPop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes dimDraw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes dimFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Icons */
+.icon { display: block; flex: none; }
+.iconAccent { stroke: var(--orange); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btnChip, .btn[data-variant='ghost']::before { transition: none; }
+  .btn:hover:not(:disabled) { transform: none; }
+  .dim[data-draw] .dimLine, .dim[data-draw] .dimLabel, .dim[data-draw] .dimNote { animation: none; }
+}

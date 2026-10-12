@@ -22,3 +22,5 @@ public/projects/**/*.png
 public/projects/**/*.zip
 public/projects/**/*.pdf
 public/projects/**/*.txt
+public/landing/**/*.webp
+public/landing/**/*.mp4

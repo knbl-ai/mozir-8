@@ -5,20 +5,24 @@
   "scripts": {
     "dev": "next dev --webpack --hostname 0.0.0.0",
     "build": "next build --webpack",
-    "start": "python3 -m http.server 3088 --directory out",
+    "start": "next start --port 3088",
     "typecheck": "tsc --noEmit",
     "assets:downloads": "node --import tsx scripts/build-downloads.cjs",
     "assets:upload": "node --import tsx scripts/build-downloads.cjs && CLOUDSDK_CONFIG=${CLOUDSDK_CONFIG:-$HOME/.config/apt-builder/gcloud} gcloud storage rsync -r public gs://knbl-sma/apt3d/site --cache-control='public, max-age=86400' -x '.*\\.(json|svg|ttf|woff2|DS_Store)$|^fonts/|^[^/]+$'"
   },
   "dependencies": {
+    "@google-cloud/storage": "^8.4.0",
     "@google/model-viewer": "4.3.1",
     "@radix-ui/react-dialog": "1.1.23",
     "@radix-ui/react-popover": "1.1.23",
+    "google-auth-library": "^11.2.0",
     "lucide-react": "1.48.0",
+    "mongodb": "^7.7.0",
     "motion": "13.4.4",
     "next": "16.3.6",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

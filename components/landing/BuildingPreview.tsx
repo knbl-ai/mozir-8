@@ -8,7 +8,8 @@ const BUILDING_SPAN = 0.72, BUILDING_CENTRE = 0.53; // of the frame's height
 // The Sales Gallery's own building, turning. It turns while the card is hovered or focused, and on
 // touch screens while it is on screen — the preview shows what the product does, not a picture of it.
 // span/centre: where the building sits in its frames (share of the frame's height), so it stays in view.
-export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, centre = BUILDING_CENTRE }: { frames: string[]; active: boolean; span?: number; centre?: number }) {
+// fit='contain': the whole frame in view, centred (the apartment turntable, on a transparent background).
+export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, centre = BUILDING_CENTRE, fit = 'cover', fps = FPS }: { frames: string[]; active: boolean; span?: number; centre?: number; fit?: 'cover' | 'contain'; fps?: number }) {
  const canvas = useRef<HTMLCanvasElement>(null);
  const images = useRef<HTMLImageElement[]>([]);
  const ready = useRef<boolean[]>([]);
@@ -23,9 +24,10 @@ export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, 
   if (!ctx) return;
   // Cover the card, but keep the building itself (roof to street, the middle ~72% of the frame's
   // height) in view whatever the card's shape: a wide card trims sky and ground, never the roof.
-  const scale = Math.max(c.width / img.naturalWidth, Math.min(c.height / img.naturalHeight, c.height / (img.naturalHeight * span)));
+  const scale = fit === 'contain' ? Math.min(c.width / img.naturalWidth, c.height / img.naturalHeight)
+   : Math.max(c.width / img.naturalWidth, Math.min(c.height / img.naturalHeight, c.height / (img.naturalHeight * span)));
   const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
-  const y = Math.min(0, Math.max(c.height - h, c.height / 2 - h * centre));
+  const y = fit === 'contain' ? (c.height - h) / 2 : Math.min(0, Math.max(c.height - h, c.height / 2 - h * centre));
   // Frames with a transparent sky (the complex) would pile up on the last one: start each from a clean canvas.
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.drawImage(img, (c.width - w) / 2, y, w, h);
@@ -68,7 +70,7 @@ export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, 
   let last = 0, id = 0;
   const tick = (now: number) => {
    if (!running.current) return;
-   if (now - last >= 1000 / FPS && visible.current) {
+   if (now - last >= 1000 / fps && visible.current) {
     const next = (at.current + 1) % frames.length;
     if (ready.current[next]) { at.current = next; draw(); last = now; }
    }
