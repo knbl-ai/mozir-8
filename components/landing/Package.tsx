@@ -4,6 +4,7 @@ import BuildingPreview from './BuildingPreview';
 import FilmPreview from './FilmPreview';
 import { FilmIcon, ImagesIcon, BuildingIcon, LanguagesIcon, ModelIcon, SiteIcon } from './icons';
 import type { DeliverableKey, LandingCopy } from './copy';
+import { film } from './media';
 import s from './landing.module.css';
 
 const STILLS = ['/projects/klee-8/media/apt-1/v-living.webp', '/projects/klee-8/media/apt-1/v-bedroom.webp', '/projects/klee-8/media/apt-1/v-balcony.webp', '/projects/klee-8/media/apt-1/top.webp'];
@@ -82,7 +83,7 @@ export default function Package({ t, spinFrames, buildingFrames }: { t: LandingC
   </div>
   <div className={s.cards}>
    <Card id="film" item={it.film} Icon={FilmIcon} wide>
-    {a => <FilmPreview poster="/projects/klee-8/media/apt-1/poster.webp" film="/projects/klee-8/media/apt-1/film.mp4" active={a} />}
+    {a => <FilmPreview poster="/projects/klee-8/media/apt-1/poster.webp" film={film("/projects/klee-8/media/apt-1/film.mp4")} active={a} />}
    </Card>
    <Card id="model" item={it.model} Icon={ModelIcon}>
     {a => <><BuildingPreview frames={spinFrames} active={a} fit="contain" fps={24} /><span className={s.mediaNote}>{t.spinNote}</span></>}

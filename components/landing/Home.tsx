@@ -15,6 +15,7 @@ import Process from './Process';
 import Package from './Package';
 import Rotator from './Rotator';
 import TrialForm from './TrialForm';
+import { film } from './media';
 import s from './landing.module.css';
 
 // The promo film, in the visitor's language. The still shows until play is pressed; phones get the 720p cut.
@@ -24,8 +25,8 @@ function PromoFilm({ lang, play, label, playing, onPlay }: { lang: 'en' | 'he'; 
   <div className={s.filmFrame}>
    {playing
     ? <video key={lang} className={s.filmMedia} controls autoPlay playsInline poster={`/landing/poster-${lang}.webp`} aria-label={label}>
-      <source src={`/landing/promo-${lang}-720.mp4`} type="video/mp4" media="(max-width: 800px)" />
-      <source src={`/landing/promo-${lang}.mp4`} type="video/mp4" />
+      <source src={film(`/landing/promo-${lang}-720.mp4`)} type="video/mp4" media="(max-width: 800px)" />
+      <source src={film(`/landing/promo-${lang}.mp4`)} type="video/mp4" />
      </video>
     : <button type="button" className={s.filmStart} onClick={onPlay} aria-label={`${play}: ${label}`}>
       <img src={`/landing/poster-${lang}.webp`} alt="" className={s.filmMedia} />
@@ -113,13 +114,13 @@ export default function Home({ buildingFrames, penthouseFrames, complexFrames, h
      <Project href={withLang('/projects/building-preview#explore', lang)} text={p.salesGallery} newTab={p.newTab}
       preview={a => <BuildingPreview frames={buildingFrames} active={a} />} />
      <Project href={withLang('/mozir-8', lang)} text={p.openHouse} newTab={p.newTab}
-      preview={a => <FilmPreview poster="/media/01_living.webp" film="/media/residence-film.mp4" active={a} />} />
+      preview={a => <FilmPreview poster="/media/01_living.webp" film={film("/media/residence-film.mp4")} active={a} />} />
      <Project href={withLang('/projects/afk-urban-comfort#explore', lang)} text={p.penthouse} newTab={p.newTab}
       preview={a => <BuildingPreview frames={penthouseFrames} active={a} span={0.6} centre={0.5} />} />
      <Project href={withLang('/gindi-colors', lang)} text={p.complex} newTab={p.newTab} tone="dark"
       preview={a => <BuildingPreview frames={complexFrames} active={a} span={0.7} centre={0.47} />} />
      <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}
-      preview={a => <FilmPreview poster="/projects/klee-8/media/apt-3/v-garden.webp" film="/projects/klee-8/media/apt-3/film.mp4" active={a} />} />
+      preview={a => <FilmPreview poster="/projects/klee-8/media/apt-3/v-garden.webp" film={film("/projects/klee-8/media/apt-3/film.mp4")} active={a} />} />
      <Project href={withLang('/projects/borges-15', lang)} text={p.heritage} newTab={p.newTab}
       preview={a => <BuildingPreview frames={heritageFrames} active={a} span={0.6} centre={0.5} />} />
     </div>
