@@ -85,8 +85,8 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
      <span className={s.titleLine} style={{ '--i': 0 } as React.CSSProperties} aria-hidden>{t.hero.lead}</span>
      <span className={s.titleLine} style={{ '--i': 1 } as React.CSSProperties} aria-hidden>{t.hero.to && <>{t.hero.to} </>}<Rotator words={t.hero.words} /></span>
     </h1>
-    <DimensionLine className={s.heroDim} start={t.hero.dim.start} label={t.hero.dim.label} end={t.hero.dim.end}
-     startIcon={<FileText size={17} strokeWidth={1.8} />} endIcon={<CircleCheck size={17} strokeWidth={1.8} />} draw delay={350} />
+    {t.hero.dim && <DimensionLine className={s.heroDim} start={t.hero.dim.start} label={t.hero.dim.label} end={t.hero.dim.end}
+     startIcon={<FileText size={17} strokeWidth={1.8} />} endIcon={<CircleCheck size={17} strokeWidth={1.8} />} draw delay={350} />}
     <div className={s.heroRow}>
      <div className={s.heroText}>
       <p className={s.lede}>{t.hero.lede}</p>

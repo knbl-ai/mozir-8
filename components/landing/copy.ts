@@ -5,7 +5,7 @@ export type Item = { title: string; body: string };
 export type DeliverableKey = 'film' | 'model' | 'images' | 'building' | 'site' | 'languages';
 export type LandingCopy = {
  nav: { how: string; package: string; projects: string; trial: string };
- hero: { lead: string; to: string; words: string[]; lede: string; cta: string; watch: string; play: string; filmLabel: string; dim: { start: string; label: string; end: string } };
+ hero: { lead: string; to: string; words: string[]; lede: string; cta: string; watch: string; play: string; filmLabel: string; dim?: { start: string; label: string; end: string } };
  process: {
   title: string; replay: string;
   step1: Item & { file: string; uploading: string; uploaded: string; planAlt: string };
@@ -116,36 +116,35 @@ const en: LandingCopy = {
 const he: LandingCopy = {
  nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'נסו בחינם' },
  hero: {
-  lead: 'מתוכנית אדריכל',
+  lead: 'מתוכנית אדריכלית',
   to: '',
-  words: ['לדירה שנמכרה.', 'לבית שנמכר.', 'לפנטהאוז שנמכר.', 'לווילה שנמכרה.'],
-  lede: 'מעלים תוכנית דירה. מקבלים חבילת מכירה מלאה בקישור אחד לשיתוף, מוכנה לשליחה לקונים.',
+  words: ['לנכס שנמכר.'],
+  lede: 'מעלים את תשריט הדירה ומקבלים תוך דקות עמוד נחיתה מרהיב, עשיר ואינטראקטיבי. העסקה שלכם הולכת להיסגר מהר יותר.',
   cta: 'נסו בחינם',
   watch: 'צפו בסרטון',
   play: 'צפו בסרטון',
   filmLabel: 'residence.tech ב־50 שניות',
-  dim: { start: 'תוכנית דירה', label: 'יום אחד', end: 'מוכן למכירה' },
  },
  process: {
-  title: 'איך זה עובד',
+  title: 'איך זה עובד?',
   replay: 'שוב',
-  step1: { title: 'מעלים תוכנית דירה', body: 'מספיק PDF או תמונה מהאדריכל.', file: 'apartment-1-plan.pdf', uploading: 'מעלים', uploaded: 'הועלה', planAlt: 'תוכנית האדריכל של דירת שני חדרים' },
+  step1: { title: 'מעלים את תשריט הדירה', body: 'אפשר להעלות בכל פורמט', file: 'apartment-1-plan.pdf', uploading: 'מעלים', uploaded: 'הועלה', planAlt: 'תוכנית האדריכל של דירת שני חדרים' },
   engine: { label: 'residence.tech', note: '≈ יום אחד' },
-  step2: { title: 'מקבלים חבילת מכירה', body: 'כל מה שצוות המכירות צריך, בקישור אחד.' },
-  icons: { film: 'סרטון', model: 'תלת־ממד', images: 'הדמיות', building: 'בניין', site: 'עמוד מכירה', languages: 'שפות' },
-  details: { film: 'סיור בדירה עם סאונד', model: 'מרוהט, מסתובב 360°', images: 'כל חדר, ומלמעלה', building: 'זמינות בזמן אמת', site: 'קישור אחד לקונים', languages: 'עב · EN · PT' },
+  step2: { title: 'ומקבלים עמוד נחיתה מושלם', body: 'עם הפיצ׳רים שיעזרו לכם למכור מהר' },
+  icons: { film: 'סרטון', model: 'הדמיית תלת־\u2060מימד', images: 'אימג׳ים באיכות גבוהה', building: 'תצוגת בניין בתלת־\u2060מימד', site: 'לינק ייעודי לרוכשים', languages: 'עמודים בכל שפה' },
+  details: { film: 'סיור בדירה עם סאונד', model: 'אינטראקטיבית וריאליסטית', images: 'לכל חדר בנפרד ולכל הדירה', building: 'עם דירות שנמכרו וכאלה שעוד לא', site: 'עם התאמה למובייל', languages: 'עבור כל קהל יעד' },
   link: 'residence.tech/klee-8/apt-1', share: 'שיתוף',
  },
  package: {
-  title: 'מה מקבלים',
-  lede: 'כל פרויקט מקבל את כל השישה. רחפו מעל כל אחד כדי לראות אותו בפעולה.',
+  title: 'מה מקבלים?',
+  lede: 'שישה פיצ׳רים ויזואליים ומרהיבים שיגרמו למכירה שלכם להיות קלה ומהירה\u00a0– בעמוד נחיתה אחד ונוח',
   example: 'בדוגמה: N°8 KLEE, דירה 1, תל אביב — מהתוכנית שלמעלה.',
   items: {
-   film: { title: 'סרטון סיור', body: 'סיור קולנועי בדירה, עם סאונד טבעי.' },
-   model: { title: 'תוכנית בתלת־ממד', body: 'מודל מרוהט שהקונים מסובבים ומגדילים.' },
-   images: { title: 'הדמיות פוטוריאליסטיות', body: 'כל חדר, ומבט מלמעלה.' },
-   building: { title: 'הבניין והזמינות', body: 'מסובבים את הבניין, רואים מה עוד למכירה.' },
-   site: { title: 'עמוד מכירה', body: 'סרטון, תוכנית, הדמיות ותלת־ממד בקישור אחד, בכל טלפון.' },
+   film: { title: 'סרטון סיור בדירה', body: 'כולל סאונד ומראה מקום של היכן נמצאים בדירה בכל רגע.' },
+   model: { title: 'תוכנית בתלת־\u2060מימד', body: 'מודל 3D שהרוכש יכול לסובב ולהגדיל כדי לקבל המחשה מדוייקת של החלל' },
+   images: { title: 'הדמיות פוטוריאליסטיות', body: 'כל חדר מקבל תמונה שתעזור לרוכש לדמיין את הבית הבא שלו.' },
+   building: { title: 'הבניין והזמינות', body: 'מסובבים את הבניין ורואים אילו דירות עוד זמינות לרכישה.' },
+   site: { title: 'עמוד מכירה', body: 'סרטון, תוכנית, הדמיות ותלת־\u2060מימד בקישור אחד, בכל טלפון.' },
    languages: { title: 'בכל שפה שמוכרים בה', body: 'עברית, אנגלית, פורטוגזית ועוד.' },
   },
   spinNote: '360°',
@@ -157,12 +156,12 @@ const he: LandingCopy = {
   ],
  },
  form: {
-  title: 'נסו על הפרויקט שלכם',
-  lede: 'שלחו לנו תוכנית אחת. נכין את החבילה ונשלח לכם את הקישור, בחינם.',
+  title: 'נסו בעצמכם והגדילו את המכירות שלכם עוד היום!',
+  lede: 'שלחו לנו תוכנית אחת, אנחנו נכין את עמוד הנחיתה ונשלח לכם את הלינק\u00a0– בחינם.',
   points: ['בלי פרטי תשלום', 'התוכנית נשארת אצל הצוות שלנו בלבד', 'נחזור אליכם תוך יום עבודה'],
   name: 'שם', email: 'אימייל', phone: 'טלפון', description: 'על הפרויקט', descriptionHint: 'כתובת, מספר דירות, כל מה שכדאי שנדע',
   plan: 'תוכנית דירה', planHint: 'PDF‏, JPG‏, PNG או WebP, עד 25MB', planChoose: 'גררו קובץ לכאן או בחרו קובץ', planReplace: 'החלפה', planRemove: 'הסרה',
-  submit: 'קבלו חבילת מכירה', sending: 'שולחים…', uploading: 'מעלים את התוכנית', required: 'שדה חובה',
+  submit: 'לחצו כאן לשליחה', sending: 'שולחים…', uploading: 'מעלים את התוכנית', required: 'שדה חובה',
   doneTitle: 'התוכנית אצלנו',
   done: email => `שלחנו אישור ל־${email}. נחזור אליכם בקרוב.`,
   again: 'שליחת תוכנית נוספת',
@@ -181,7 +180,7 @@ const he: LandingCopy = {
   lede: 'פרויקטים אמיתיים, כל אחד נבנה מהתוכניות שלו. הזמינות היא לדוגמה.',
   newTab: 'נפתח בכרטיסייה חדשה',
   salesGallery: { kind: 'פרויקט חדש', name: 'חורגין 29, רמת גן', body: 'מסובבים את הבניין, רואים מה למכירה, פותחים כל דירה.', cta: 'לחורגין 29' },
-  openHouse: { kind: 'דירה אחת', name: 'מוזיר 8', body: 'דירה אחת עם אתר משלה: סרטון, חדרים ותלת־ממד.', cta: 'למוזיר 8' },
+  openHouse: { kind: 'דירה אחת', name: 'מוזיר 8', body: 'דירה אחת עם אתר משלה: סרטון, חדרים ותלת־\u2060מימד.', cta: 'למוזיר 8' },
   penthouse: { kind: 'דירת יוקרה', name: 'הפנטהאוז ב־A.f.k', body: 'פנטהאוז שמוצאים על המגדל שלו, בעיצוב הפרויקט.', cta: 'לפנטהאוז' },
   boutique: { kind: 'בניין בוטיק', name: 'N°8 KLEE', body: 'שלוש דירות להיכנס אליהן, ודופלקס גן קומה אחר קומה.', cta: 'ל־N°8 KLEE' },
   heritage: { kind: 'בניין היסטורי, ליסבון', name: 'Borges 15', body: 'בית בלאפה שנבנה מחדש מהתוכניות, עם דופלקס לסיור.', cta: 'לבורז׳ש 15' },
