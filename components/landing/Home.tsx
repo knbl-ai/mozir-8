@@ -51,7 +51,7 @@ function Project({ href, text, newTab, tone, preview }: { href: string; text: Pr
  </Link>;
 }
 
-export default function Home({ buildingFrames, penthouseFrames, complexFrames, heritageFrames, spinFrames }: { buildingFrames: string[]; penthouseFrames: string[]; complexFrames: string[]; heritageFrames: string[]; spinFrames: string[] }) {
+export default function Home({ buildingFrames, penthouseFrames, heritageFrames, spinFrames }: { buildingFrames: string[]; penthouseFrames: string[]; heritageFrames: string[]; spinFrames: string[] }) {
  const lang = useLang();
  const t = copy[lang];
  const filmLang = lang === 'he' ? 'he' : 'en';
@@ -117,8 +117,6 @@ export default function Home({ buildingFrames, penthouseFrames, complexFrames, h
       preview={a => <FilmPreview poster="/media/01_living.webp" film={film("/media/residence-film.mp4")} active={a} />} />
      <Project href={withLang('/projects/afk-urban-comfort#explore', lang)} text={p.penthouse} newTab={p.newTab}
       preview={a => <BuildingPreview frames={penthouseFrames} active={a} span={0.6} centre={0.5} />} />
-     <Project href={withLang('/gindi-colors', lang)} text={p.complex} newTab={p.newTab} tone="dark"
-      preview={a => <BuildingPreview frames={complexFrames} active={a} span={0.7} centre={0.47} />} />
      <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}
       preview={a => <FilmPreview poster="/projects/klee-8/media/apt-3/v-garden.webp" film={film("/projects/klee-8/media/apt-3/film.mp4")} active={a} />} />
      <Project href={withLang('/projects/borges-15', lang)} text={p.heritage} newTab={p.newTab}
