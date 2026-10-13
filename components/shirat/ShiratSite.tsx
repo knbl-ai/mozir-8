@@ -60,7 +60,7 @@ export default function ShiratSite() {
   return m;
  }, [frames]);
 
- const [selected, setSelected] = useState<string>(SHOWCASE.apt01);
+ const [selected, setSelected] = useState<string>(SHOWCASE.ph02);
  const [hovered, setHovered] = useState<string | null>(null);
  const [tower, setTower] = useState<TowerFilter>('all');
  const [showAll, setShowAll] = useState(false);
@@ -143,8 +143,8 @@ export default function ShiratSite() {
   if (!frames.length) return;
   const id = readDeepLink();
   if (id && unitById(id)) { select(id); return; }
-  // no link: open on the typical residence that has a preview (it turns the towers to it)
-  select(SHOWCASE.apt01);
+  // no link: open on Penthouse 02, the sea-facing hero (it turns the towers to it)
+  select(SHOWCASE.ph02);
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [frames.length]);
  useEffect(() => {
