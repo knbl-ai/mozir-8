@@ -1065,3 +1065,18 @@
  .amenityGroup .amenityIcon svg { width: 13px; height: 13px; }
  .amenityGroup .amenityName { font-size: 14.5px; line-height: 1.2; }
 }
+/* image loading: a soft ivory shimmer under the picture, the picture fades in when ready */
+.fade { opacity: 0; transition: opacity 0.6s var(--ease); }
+.fade[data-loaded] { opacity: 1; }
+.imgLoading { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; border-radius: inherit;
+ background: linear-gradient(180deg, #f3eee6, #ebe4d9); display: grid; place-items: center; }
+.imgLoading::before { content: ''; position: absolute; inset: 0; translate: -100% 0; animation: shimmer 1.6s var(--ease) infinite;
+ background: linear-gradient(100deg, transparent 20%, rgb(255 255 255 / 0.65) 50%, transparent 80%); }
+.imgLoading i { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid rgb(155 127 94 / 0.25); border-top-color: #9b7f5e; animation: spin 0.9s linear infinite; }
+.thumbs .imgLoading i, .aboutFig .imgLoading i { display: none; }
+.lightbox .imgLoading { background: none; }
+.lightbox .imgLoading::before { content: none; }
+.lightbox .imgLoading i { border-color: rgb(255 255 255 / 0.2); border-top-color: #fff; }
+@keyframes shimmer { to { translate: 100% 0; } }
+.thumbs button, .lightbox { position: relative; }
+.lightbox img.fade { transition: opacity 0.4s var(--ease); }

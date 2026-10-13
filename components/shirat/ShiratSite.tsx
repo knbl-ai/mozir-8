@@ -8,6 +8,7 @@ import { useFrameSequence } from '@/components/building/useFrameSequence';
 import { ORBIT_URL, PLATES, SHOWCASE, UNITS, homeBase, mediaFor, plateKeyOf, project, unitById, type HomeMedia, type Orbit, type OrbitSpot, type ShiratUnit } from '@/content/projects/shirat-hayam';
 import { shiratText } from './strings';
 import ResidenceModel from '@/components/building/ResidenceModel';
+import { film } from '@/components/landing/media';   // films straight from the bucket (Vercel caches a partial Range answer)
 import s from './shirat.module.css';
 
 type Tab = 'plan' | 'film' | 'images' | 'model' | 'about';
@@ -413,7 +414,7 @@ export default function ShiratSite() {
      </motion.div>)}
    </div>
    <motion.figure className={s.wide} initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1.1, ease: EASE }}>
-    <img src={project.stills.street} alt="" loading="lazy" /><figcaption>{t.studyRender}</figcaption>
+    <FadeImg src={project.stills.street} alt="" loading="lazy" /><figcaption>{t.studyRender}</figcaption>
    </motion.figure>
   </section>
 
@@ -436,7 +437,7 @@ export default function ShiratSite() {
    </div>
    <div className={s.tiles}>
     {(['pool', 'lobby', 'tennis', 'terrace'] as const).map((k, i) => <motion.figure key={k} className={s.tile} data-k={k} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.9, ease: EASE, delay: i * 0.06 }}>
-     <img src={project.stills[k]} alt={t.story.tiles[k]} loading="lazy" />
+     <FadeImg src={project.stills[k]} alt={t.story.tiles[k]} loading="lazy" />
      <figcaption><span>{t.story.tiles[k]}</span><small>{t.studyRender}</small></figcaption>
     </motion.figure>)}
    </div>
@@ -451,7 +452,7 @@ export default function ShiratSite() {
       const src = { hall: project.stills.lobbyHall, salon: project.stills.lobbySalon, entry: project.stills.lobbyEntry }[k];
       const items = (['hall', 'salon', 'entry'] as const).map(x => ({ src: { hall: project.stills.lobbyHall, salon: project.stills.lobbySalon, entry: project.stills.lobbyEntry }[x], label: t.story.lobbyTiles[x] }));
       return <motion.figure key={k} className={s.tile} data-k={`lobby-${k}`} onClick={() => setLightbox({ items, i })} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.9, ease: EASE, delay: i * 0.08 }}>
-       <img src={src} alt={t.story.lobbyTiles[k]} loading="lazy" />
+       <FadeImg src={src} alt={t.story.lobbyTiles[k]} loading="lazy" />
        <figcaption><span>{t.story.lobbyTiles[k]}</span><small>{t.studyRender}</small></figcaption>
       </motion.figure>;
      })}
@@ -460,7 +461,7 @@ export default function ShiratSite() {
   </section>
 
   <section id="location" className={s.location}>
-   <img className={s.locationImg} src={project.stills.hero} alt="" loading="lazy" />
+   <FadeImg className={s.locationImg} src={project.stills.hero} alt="" loading="lazy" />
    <div className={s.locationShade} aria-hidden />
    <motion.div className={s.locationCopy} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.9, ease: EASE }}>
     <p className={s.kicker}>{t.story.locationKicker}</p>
@@ -564,6 +565,18 @@ function HomeCode({ unit }: { unit: ShiratUnit }) {
  </span>;
 }
 
+// ---- an image that shows a quiet shimmer while it loads, then fades in (stills are 1920 px WebP)
+function FadeImg({ className, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
+ const ref = useRef<HTMLImageElement>(null);
+ const [loaded, setLoaded] = useState(false);
+ useEffect(() => { setLoaded(!!ref.current?.complete && !!ref.current.naturalWidth); }, [props.src]);
+ return <>
+  <img ref={ref} {...props} className={`${className ?? ''} ${s.fade}`} data-loaded={loaded || undefined}
+   onLoad={e => { setLoaded(true); props.onLoad?.(e); }} onError={() => setLoaded(true)} />
+  {!loaded && <span className={s.imgLoading} aria-hidden><i /></span>}
+ </>;
+}
+
 // ---- About: every home. With media, its story and highlights beside an interior; without, its place in the tower beside the key plan.
 function AboutView({ unit, media }: { unit: ShiratUnit; media?: HomeMedia }) {
  const lang = useLang(); const t = shiratText[lang]; const L = (l: { en: string; he: string }) => lang === 'he' ? l.he : l.en;
@@ -578,7 +591,7 @@ function AboutView({ unit, media }: { unit: ShiratUnit; media?: HomeMedia }) {
    <ul className={s.aboutList}>{list.map(x => <li key={x}>{x}</li>)}</ul>
   </div>
   <figure className={s.aboutFig}>
-   {media ? <img src={`${homeBase(media.key)}/${media.images.find(i => i.id.startsWith('g-'))?.id ?? media.images[0].id}.webp`} alt="" />
+   {media ? <FadeImg src={`${homeBase(media.key)}/${media.images.find(i => i.id.startsWith('g-'))?.id ?? media.images[0].id}.webp`} alt="" />
     : <div className={s.aboutPlan}><KeyPlan unit={unit} hovered={null} onHover={() => {}} onPick={() => {}} /></div>}
   </figure>
  </div>;
@@ -597,17 +610,16 @@ function HomeView({ media, tab, onOpen }: { media: HomeMedia; tab: Tab; onOpen: 
  const n = items.length;
  if (tab === 'film') return <div className={s.film}>
   <div className={s.filmFrame}>
-   <video key={media.key} src={`${dir}/film.mp4`} poster={`${dir}/g-entry.webp`} controls playsInline preload="metadata" />
+   <video key={media.key} src={film(`${dir}/film.mp4`)} poster={`${dir}/g-entry.webp`} controls playsInline preload="metadata" />
    {!media.final && <span className={s.badge}>{t.draft}</span>}
   </div>
   {!media.final && <p className={s.filmNote}>{t.filmNote}</p>}
  </div>;
  if (tab === 'images') return <div className={s.gallery}>
   <div className={s.galleryMain}>
-   <AnimatePresence initial={false} mode="popLayout">
-    <motion.img key={items[i].src} src={items[i].src} alt={items[i].label} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35, ease: EASE }}
+   <FadeImg key={items[i].src} src={items[i].src} alt={items[i].label}
      onClick={() => onOpen(items, i)} draggable={false} />
-   </AnimatePresence>
+   
    <button type="button" className={s.navBtn} data-side="prev" aria-label={t.prev} onClick={() => setI((i - 1 + n) % n)}><ChevronLeft size={18} strokeWidth={1.8} aria-hidden /></button>
    <button type="button" className={s.navBtn} data-side="next" aria-label={t.next} onClick={() => setI((i + 1) % n)}><ChevronRight size={18} strokeWidth={1.8} aria-hidden /></button>
    <button type="button" className={s.expand} aria-label={t.expand} title={t.expand} onClick={() => onOpen(items, i)}><Expand size={15} strokeWidth={1.8} aria-hidden /></button>
@@ -615,7 +627,7 @@ function HomeView({ media, tab, onOpen }: { media: HomeMedia; tab: Tab; onOpen: 
   </div>
   <div ref={thumbs} className={s.thumbs}>
    {media.images.map((im, k) => <button key={im.id} type="button" data-on={k === i || undefined} aria-label={L(im.label)} onClick={() => setI(k)}>
-    <img src={`${dir}/${im.id}-t.webp`} alt="" loading="lazy" draggable={false} />
+    <FadeImg src={`${dir}/${im.id}-t.webp`} alt="" loading="lazy" draggable={false} />
    </button>)}
   </div>
  </div>;
@@ -623,7 +635,7 @@ function HomeView({ media, tab, onOpen }: { media: HomeMedia; tab: Tab; onOpen: 
   const src = `${dir}/${plan === 'photo' ? 'plan' : 'drawing'}.webp`;
   const label = plan === 'photo' ? t.planPhoto : t.planDrawing;
   return <div className={s.plan} data-kind={plan}>
-   <img src={src} alt={label} onClick={() => onOpen([{ src, label }], 0)} draggable={false} />
+   <FadeImg key={src} src={src} alt={label} onClick={() => onOpen([{ src, label }], 0)} draggable={false} />
    <div className={`${s.seg} ${s.planSeg}`} role="radiogroup" aria-label={t.tabs.plan}>
     {(['photo', 'drawing'] as const).map(v => <button key={v} type="button" role="radio" aria-checked={plan === v} className={s.segBtn} onClick={() => setPlan(v)}>
      <span>{v === 'photo' ? t.planPhoto : t.planDrawing}</span></button>)}
@@ -647,9 +659,8 @@ function Lightbox({ items, i: start, onClose }: { items: { src: string; label: s
   window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k);
  }, [n, onClose, lang]);
  return <motion.div className={s.lightbox} role="dialog" aria-modal="true" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} onClick={onClose}>
-  <AnimatePresence initial={false} mode="popLayout">
-   <motion.img key={items[i].src} src={items[i].src} alt={items[i].label} initial={{ opacity: 0, scale: 0.985 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35, ease: EASE }} onClick={e => e.stopPropagation()} />
-  </AnimatePresence>
+  <FadeImg key={items[i].src} src={items[i].src} alt={items[i].label} onClick={e => e.stopPropagation()} />
+  
   <p className={s.lbCaption} onClick={e => e.stopPropagation()}>{items[i].label}{n > 1 && <small>{t.ofN(i + 1, n)}</small>}</p>
   {n > 1 && <>
    <button type="button" className={s.lbNav} data-side="prev" aria-label={t.prev} onClick={e => { e.stopPropagation(); setI((i - 1 + n) % n); }}><ChevronLeft size={22} strokeWidth={1.6} aria-hidden /></button>
