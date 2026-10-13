@@ -1080,3 +1080,13 @@
 @keyframes shimmer { to { translate: 100% 0; } }
 .thumbs button, .lightbox { position: relative; }
 .lightbox img.fade { transition: opacity 0.4s var(--ease); }
+/* the film's own play button: a champagne disc over the poster */
+.filmPlay { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; border: 0; padding: 0; cursor: pointer; border-radius: inherit;
+ background: radial-gradient(60% 60% at 50% 50%, rgb(10 8 6 / 0.18), rgb(10 8 6 / 0.04)); }
+.filmPlay span { display: grid; place-items: center; width: 74px; height: 74px; border-radius: 50%; color: #2a2118; padding-inline-start: 4px;
+ background: var(--champagne) padding-box, var(--champagne-ring) border-box; border: 1px solid transparent;
+ box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7), 0 0 0 8px rgb(255 253 249 / 0.22), 0 18px 40px -12px rgb(0 0 0 / 0.5); transition: transform 0.3s var(--ease); }
+.filmPlay:hover span { transform: scale(1.06); }
+.filmSpin { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid rgb(42 33 24 / 0.25); border-top-color: #2a2118; animation: spin 0.9s linear infinite; }
+.filmFrame video { border-radius: 16px; }
+@media (max-width: 640px) { .filmPlay span { width: 58px; height: 58px; } }

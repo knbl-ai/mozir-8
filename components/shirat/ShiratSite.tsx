@@ -565,6 +565,21 @@ function HomeCode({ unit }: { unit: ShiratUnit }) {
  </span>;
 }
 
+// ---- the film: one big play button over the poster (a single tap starts it on phones, where a tap on a
+// native <video> only reveals its controls), then the native controls take over
+function FilmPlayer({ src, poster, label }: { src: string; poster: string; label: string }) {
+ const ref = useRef<HTMLVideoElement>(null);
+ const [started, setStarted] = useState(false);
+ const [busy, setBusy] = useState(false);
+ const start = () => { const v = ref.current; if (!v) return; setBusy(true); v.play().then(() => setStarted(true)).catch(() => { setStarted(true); }).finally(() => setBusy(false)); };
+ return <>
+  <video ref={ref} src={src} poster={poster} controls={started} playsInline preload="metadata" onPlay={() => setStarted(true)} />
+  {!started && <button type="button" className={s.filmPlay} onClick={start} aria-label={label} data-busy={busy || undefined}>
+   <span>{busy ? <i className={s.filmSpin} /> : <Play size={26} strokeWidth={1.6} fill="currentColor" aria-hidden />}</span>
+  </button>}
+ </>;
+}
+
 // ---- an image that shows a quiet shimmer while it loads, then fades in (stills are 1920 px WebP)
 function FadeImg({ className, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) {
  const ref = useRef<HTMLImageElement>(null);
@@ -610,7 +625,7 @@ function HomeView({ media, tab, onOpen }: { media: HomeMedia; tab: Tab; onOpen: 
  const n = items.length;
  if (tab === 'film') return <div className={s.film}>
   <div className={s.filmFrame}>
-   <video key={media.key} src={film(`${dir}/film.mp4`)} poster={`${dir}/g-entry.webp`} controls playsInline preload="metadata" />
+   <FilmPlayer key={media.key} src={film(`${dir}/film.mp4`)} poster={`${dir}/g-entry.webp`} label={t.tabs.film} />
    {!media.final && <span className={s.badge}>{t.draft}</span>}
   </div>
   {!media.final && <p className={s.filmNote}>{t.filmNote}</p>}
