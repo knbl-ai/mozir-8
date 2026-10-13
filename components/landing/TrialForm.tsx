@@ -27,7 +27,7 @@ function put(url: string, file: File, onProgress: (share: number) => void) {
  });
 }
 
-// The free trial: the plan goes straight from the browser to storage on a signed URL, then the lead is posted.
+// The demo request: the plan goes straight from the browser to storage on a signed URL, then the lead is posted.
 export default function TrialForm({ t, lang }: { t: LandingCopy['form']; lang: 'en' | 'he' }) {
  const [file, setFile] = useState<File | null>(null);
  const [state, setState] = useState<State>({ step: 'idle' });

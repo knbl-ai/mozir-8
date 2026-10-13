@@ -1,7 +1,7 @@
 import { bucket, PLAN_MAX_BYTES, PLAN_TYPES } from '@/lib/server/storage';
 import { env } from '@/lib/server/env';
 
-// Step 1 of the trial form: a short-lived signed PUT URL, so the plan goes from the browser straight to GCS
+// Step 1 of the demo form: a short-lived signed PUT URL, so the plan goes from the browser straight to GCS
 // (Vercel functions cap request bodies at ~4.5 MB).
 export async function POST(request: Request) {
  const body = await request.json().catch(() => null) as { filename?: unknown; contentType?: unknown; size?: unknown } | null;

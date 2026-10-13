@@ -17,13 +17,13 @@ const userCopy = {
  en: {
   subject: 'We got your floor plan — residence.tech',
   hello: (n: string) => `Hi ${n},`,
-  body: ['Thanks for trying residence.tech. Your request has reached our team.', 'We’ll review your plan and get back to you shortly with the next steps for your free presentation package.'],
+  body: ['Thanks for requesting a residence.tech demo. Your request has reached our team.', 'We’ll review your plan and get back to you shortly to set up your demo.'],
   sign: 'The residence.tech team',
  },
  he: {
   subject: 'קיבלנו את התוכנית שלך — residence.tech',
   hello: (n: string) => `שלום ${n},`,
-  body: ['תודה שבחרת לנסות את residence.tech. הבקשה שלך הגיעה לצוות שלנו.', 'נעבור על התוכנית ונחזור אליך בקרוב עם הצעדים הבאים לחבילת המצגת החינמית שלך.'],
+  body: ['תודה שביקשת הדגמה של residence.tech. הבקשה שלך הגיעה לצוות שלנו.', 'נעבור על התוכנית ונחזור אליך בקרוב כדי לתאם את ההדגמה.'],
   sign: 'צוות residence.tech',
  },
 };
@@ -54,9 +54,9 @@ export function teamMail(lead: Lead, to: string[], planUrl: string | null): Mail
   to,
   replyTo: lead.email,
   fromName: 'residence.tech leads',
-  subject: `New trial request: ${lead.name || lead.email}`,
+  subject: `New demo request: ${lead.name || lead.email}`,
   text: [...rows.map(([k, v]) => `${k}: ${v}`), planUrl ? `\nPlan (7 days): ${planUrl}` : ''].join('\n'),
-  html: frame(`<p style="margin:0 0 20px;font-size:18px;font-weight:600">New free-trial request</p>
+  html: frame(`<p style="margin:0 0 20px;font-size:18px;font-weight:600">New demo request</p>
 <table style="border-collapse:collapse;width:100%;font-size:15px">${rows.map(([k, v]) => `<tr><td style="padding:8px 16px 8px 0;color:#7a807c;vertical-align:top;white-space:nowrap">${k}</td><td style="padding:8px 0;white-space:pre-wrap">${esc(v)}</td></tr>`).join('')}</table>${link}`, 'ltr'),
  };
 }

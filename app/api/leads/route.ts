@@ -8,7 +8,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const str = (v: unknown, max: number) => typeof v === 'string' ? v.trim().slice(0, max) : '';
 const HOURLY_LIMIT = 5;
 
-// Step 2 of the trial form: store the lead, then mail the visitor and the team. A mail failure never loses the lead.
+// Step 2 of the demo form: store the lead, then mail the visitor and the team. A mail failure never loses the lead.
 export async function POST(request: Request) {
  const body = await request.json().catch(() => null) as Record<string, unknown> | null;
  if (!body) return Response.json({ error: 'body' }, { status: 400 });

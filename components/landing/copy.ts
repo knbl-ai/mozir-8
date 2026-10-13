@@ -81,9 +81,9 @@ const en: LandingCopy = {
   ],
  },
  form: {
-  title: 'Try it on your own project',
-  lede: 'Send us one floor plan. We’ll make the package and send you the link, free.',
-  points: ['No payment details', 'Your plan stays private to our team', 'We reply within one working day'],
+  title: 'See it on your own project',
+  lede: 'Send us one floor plan. We’ll prepare a demo of your package and get in touch.',
+  points: ['No commitment', 'Your plan stays private to our team', 'We reply within one working day'],
   name: 'Name', email: 'Email', phone: 'Phone', description: 'About the project', descriptionHint: 'Address, number of homes, anything we should know',
   plan: 'Floor plan', planHint: 'PDF, JPG, PNG or WebP, up to 25 MB', planChoose: 'Drop the file here or choose one', planReplace: 'Replace', planRemove: 'Remove',
   submit: 'Get sales package', sending: 'Sending…', uploading: 'Uploading the plan', required: 'required',
@@ -158,8 +158,8 @@ const he: LandingCopy = {
  },
  form: {
   title: 'נסו בעצמכם והגדילו את המכירות שלכם עוד היום!',
-  lede: 'שלחו לנו תוכנית אחת, אנחנו נכין את עמוד הנחיתה ונשלח לכם את הלינק\u00a0– בחינם.',
-  points: ['בלי פרטי תשלום', 'התוכנית נשארת אצל הצוות שלנו בלבד', 'נחזור אליכם תוך יום עבודה'],
+  lede: 'שלחו לנו תוכנית אחת, אנחנו נכין הדגמה של עמוד הנחיתה ונחזור אליכם.',
+  points: ['בלי התחייבות', 'התוכנית נשארת אצל הצוות שלנו בלבד', 'נחזור אליכם תוך יום עבודה'],
   name: 'שם', email: 'אימייל', phone: 'טלפון', description: 'על הפרויקט', descriptionHint: 'כתובת, מספר דירות, כל מה שכדאי שנדע',
   plan: 'תוכנית דירה', planHint: 'PDF‏, JPG‏, PNG או WebP, עד 25MB', planChoose: 'גררו קובץ לכאן או בחרו קובץ', planReplace: 'החלפה', planRemove: 'הסרה',
   submit: 'לחצו כאן לשליחה', sending: 'שולחים…', uploading: 'מעלים את התוכנית', required: 'שדה חובה',
