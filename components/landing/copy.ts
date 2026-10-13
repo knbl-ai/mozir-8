@@ -38,13 +38,13 @@ export type LandingCopy = {
 };
 
 const en: LandingCopy = {
- nav: { how: 'How it works', package: 'What you get', projects: 'Projects', trial: 'Try it free' },
+ nav: { how: 'How it works', package: 'What you get', projects: 'Projects', trial: 'Request a demo' },
  hero: {
   lead: 'From floor plan',
   to: 'to sold',
   words: ['apartment.', 'home.', 'penthouse.', 'villa.'],
   lede: 'Upload a floor plan. Get back a complete sales package on one shareable link, ready to send to buyers.',
-  cta: 'Try it free',
+  cta: 'Get started',
   watch: 'Watch the film',
   play: 'Play the film',
   filmLabel: 'residence.tech in 50 seconds',
@@ -114,13 +114,13 @@ const en: LandingCopy = {
 };
 
 const he: LandingCopy = {
- nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'נסו בחינם' },
+ nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'בקשו הדגמה' },
  hero: {
   lead: 'מתוכנית אדריכלית',
   to: '',
   words: ['לנכס שנמכר.'],
   lede: 'מעלים את תשריט הדירה ומקבלים תוך דקות עמוד נחיתה מרהיב, עשיר ואינטראקטיבי. העסקה שלכם הולכת להיסגר מהר יותר.',
-  cta: 'נסו בחינם',
+  cta: 'בואו נתחיל',
   watch: 'צפו בסרטון',
   play: 'צפו בסרטון',
   filmLabel: 'residence.tech ב־50 שניות',
