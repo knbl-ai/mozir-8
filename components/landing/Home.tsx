@@ -113,16 +113,16 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
     <div className={s.projectGrid}>
      <Project href={withLang('/shirat-hayam', lang)} text={p.towers} newTab={p.newTab}
       preview={a => <BuildingPreview frames={towersFrames} active={a} zoom={1.55} centre={0.47} />} />
+     <Project href={withLang('/projects/borges-15', lang)} text={p.heritage} newTab={p.newTab}
+      preview={a => <BuildingPreview frames={heritageFrames} active={a} span={0.6} centre={0.5} />} />
+     <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}
+      preview={a => <FilmPreview poster="/projects/klee-8/media/apt-3/v-garden.webp" film={film("/projects/klee-8/media/apt-3/film.mp4")} active={a} />} />
      <Project href={withLang('/projects/building-preview#explore', lang)} text={p.salesGallery} newTab={p.newTab}
       preview={a => <BuildingPreview frames={buildingFrames} active={a} />} />
      <Project href={withLang('/mozir-8', lang)} text={p.openHouse} newTab={p.newTab}
       preview={a => <FilmPreview poster="/media/01_living.webp" film={film("/media/residence-film.mp4")} active={a} />} />
      <Project href={withLang('/projects/afk-urban-comfort#explore', lang)} text={p.penthouse} newTab={p.newTab}
       preview={a => <BuildingPreview frames={penthouseFrames} active={a} span={0.6} centre={0.5} />} />
-     <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}
-      preview={a => <FilmPreview poster="/projects/klee-8/media/apt-3/v-garden.webp" film={film("/projects/klee-8/media/apt-3/film.mp4")} active={a} />} />
-     <Project href={withLang('/projects/borges-15', lang)} text={p.heritage} newTab={p.newTab}
-      preview={a => <BuildingPreview frames={heritageFrames} active={a} span={0.6} centre={0.5} />} />
     </div>
    </section>
   </main>
