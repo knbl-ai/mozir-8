@@ -2,6 +2,12 @@
    typefaces. Headings go light in Hebrew to sit beside the thin Latin display faces. */
 @font-face{font-family:'Hebrew Display';src:url('/fonts/heebo-hebrew.woff2') format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
 @font-face{font-family:'Hebrew Sans';src:url('/fonts/heebo-hebrew.woff2') format('woff2');font-weight:100 900;font-display:swap;unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+/* Shirat HaYam (BRIGA): Caslon for display (the BRIGA wordmark is a Caslon), Inter for the interface, Frank Ruhl for Hebrew display. OFL. */
+@font-face{font-family:'Caslon Display';src:url('/fonts/libre-caslon-display.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Caslon Text';src:url('/fonts/libre-caslon-text-var.woff2') format('woff2');font-weight:400 700;font-display:swap}
+@font-face{font-family:'Caslon Text';src:url('/fonts/libre-caslon-text-italic-var.woff2') format('woff2');font-weight:400 700;font-style:italic;font-display:swap}
+@font-face{font-family:'Inter Var';src:url('/fonts/inter-var-latin.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:'Hebrew Serif';src:url('/fonts/frank-ruhl-hebrew-var.woff2') format('woff2');font-weight:300 900;font-display:swap;unicode-range:U+0590-05FF,U+FB1D-FB4F,U+20AA}
 /* A Hebrew visit stays hidden until the page has swapped its words in (lib/i18n.tsx). */
 html:is([data-lang=he],[data-lang=pt]):not([data-lang-ready]) body{visibility:hidden}
 html[lang=he] h1,html[lang=he] h2,html[lang=he] h3{font-weight:300;letter-spacing:0}

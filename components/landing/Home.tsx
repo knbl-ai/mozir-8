@@ -51,7 +51,7 @@ function Project({ href, text, newTab, tone, preview }: { href: string; text: Pr
  </Link>;
 }
 
-export default function Home({ buildingFrames, penthouseFrames, heritageFrames, spinFrames }: { buildingFrames: string[]; penthouseFrames: string[]; heritageFrames: string[]; spinFrames: string[] }) {
+export default function Home({ buildingFrames, penthouseFrames, heritageFrames, spinFrames, towersFrames = [] }: { buildingFrames: string[]; penthouseFrames: string[]; heritageFrames: string[]; spinFrames: string[]; towersFrames?: string[] }) {
  const lang = useLang();
  const t = copy[lang];
  const filmLang = lang === 'he' ? 'he' : 'en';
@@ -111,6 +111,8 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
      </div>
     </div>
     <div className={s.projectGrid}>
+     <Project href={withLang('/shirat-hayam', lang)} text={p.towers} newTab={p.newTab}
+      preview={a => <BuildingPreview frames={towersFrames} active={a} zoom={1.55} centre={0.47} />} />
      <Project href={withLang('/projects/building-preview#explore', lang)} text={p.salesGallery} newTab={p.newTab}
       preview={a => <BuildingPreview frames={buildingFrames} active={a} />} />
      <Project href={withLang('/mozir-8', lang)} text={p.openHouse} newTab={p.newTab}

@@ -32,7 +32,7 @@ export type LandingCopy = {
  };
  projects: {
   title: string; lede: string; newTab: string;
-  salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy;
+  towers: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy;
  };
  footer: { line: string; contact: string };
 };
@@ -104,6 +104,7 @@ const en: LandingCopy = {
   title: 'Made with residence.tech',
   lede: 'Real projects, each made from its floor plans. Availability is sample data.',
   newTab: 'opens in a new tab',
+  towers: { kind: 'Twin towers, Netanya', name: 'Shirat HaYam · BRIGA', body: 'Two 32-storey towers in 360°: all 215 homes to choose, film, gallery and 3D.', cta: 'Open Shirat HaYam' },
   salesGallery: { kind: 'New development', name: 'Hurgin 29, Ramat Gan', body: 'Turn the building, see which homes are for sale, open any one.', cta: 'Open Hurgin 29' },
   openHouse: { kind: 'Single apartment', name: 'Mozir 8', body: 'One apartment with a website of its own: film, rooms and 3D.', cta: 'Visit Mozir 8' },
   penthouse: { kind: 'Luxury home', name: 'A.f.k Penthouse', body: 'A penthouse found on its tower, in the project’s own look.', cta: 'Open the penthouse' },
@@ -179,6 +180,7 @@ const he: LandingCopy = {
   title: 'נוצר עם residence.tech',
   lede: 'פרויקטים אמיתיים, כל אחד נבנה מהתוכניות שלו. הזמינות היא לדוגמה.',
   newTab: 'נפתח בכרטיסייה חדשה',
+  towers: { kind: 'מגדלי תאומים, נתניה', name: 'שירת הים · בריגה', body: 'שני מגדלים בני 32 קומות ב־360°: כל 215 הדירות לבחירה, סרט, גלריה ותלת־\u2060מימד.', cta: 'לשירת הים' },
   salesGallery: { kind: 'פרויקט חדש', name: 'חורגין 29, רמת גן', body: 'מסובבים את הבניין, רואים מה למכירה, פותחים כל דירה.', cta: 'לחורגין 29' },
   openHouse: { kind: 'דירה אחת', name: 'מוזיר 8', body: 'דירה אחת עם אתר משלה: סרטון, חדרים ותלת־\u2060מימד.', cta: 'למוזיר 8' },
   penthouse: { kind: 'דירת יוקרה', name: 'הפנטהאוז ב־A.f.k', body: 'פנטהאוז שמוצאים על המגדל שלו, בעיצוב הפרויקט.', cta: 'לפנטהאוז' },

@@ -9,7 +9,7 @@ const BUILDING_SPAN = 0.72, BUILDING_CENTRE = 0.53; // of the frame's height
 // touch screens while it is on screen — the preview shows what the product does, not a picture of it.
 // span/centre: where the building sits in its frames (share of the frame's height), so it stays in view.
 // fit='contain': the whole frame in view, centred (the apartment turntable, on a transparent background).
-export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, centre = BUILDING_CENTRE, fit = 'cover', fps = FPS }: { frames: string[]; active: boolean; span?: number; centre?: number; fit?: 'cover' | 'contain'; fps?: number }) {
+export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, centre = BUILDING_CENTRE, fit = 'cover', fps = FPS, zoom = 1 }: { frames: string[]; active: boolean; span?: number; centre?: number; fit?: 'cover' | 'contain'; fps?: number; zoom?: number }) {
  const canvas = useRef<HTMLCanvasElement>(null);
  const images = useRef<HTMLImageElement[]>([]);
  const ready = useRef<boolean[]>([]);
@@ -26,7 +26,8 @@ export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, 
   // height) in view whatever the card's shape: a wide card trims sky and ground, never the roof.
   const scale = fit === 'contain' ? Math.min(c.width / img.naturalWidth, c.height / img.naturalHeight)
    : Math.max(c.width / img.naturalWidth, Math.min(c.height / img.naturalHeight, c.height / (img.naturalHeight * span)));
-  const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
+  // zoom: a closer look than cover (Shirat's towers stand small in a wide orbit frame)
+  const w = img.naturalWidth * scale * zoom, h = img.naturalHeight * scale * zoom;
   const y = fit === 'contain' ? (c.height - h) / 2 : Math.min(0, Math.max(c.height - h, c.height / 2 - h * centre));
   // Frames with a transparent sky (the complex) would pile up on the last one: start each from a clean canvas.
   ctx.clearRect(0, 0, c.width, c.height);

@@ -138,3 +138,6 @@ for (const home of borges15.residences) {
  fs.writeFileSync(path.join(dest, `${home.id}.zip`), zip);
  console.log(`Packaged borges-15/${home.id}: ${Object.keys(files).length} files, ${(zip.length / 1024 / 1024).toFixed(1)} MB`);
 }
+
+// Shirat HaYam (BRIGA)
+require("./downloads/shirat.cjs");

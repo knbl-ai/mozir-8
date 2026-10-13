@@ -18,7 +18,8 @@ type Chase = { to: number; tau: number };
 
 const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export function useFrameSequence(sources: string[], initial: number, zoom: number) {
+// `aspect` (height / width) and `maxWidth` default to the 800 x 900 tower frames; a wide orbit passes its own.
+export function useFrameSequence(sources: string[], initial: number, zoom: number, { aspect = 9 / 8, maxWidth = 1600 }: { aspect?: number; maxWidth?: number } = {}) {
  const count = sources.length;
  const canvasRef = useRef<HTMLCanvasElement>(null);
  const zoomRef = useRef<HTMLDivElement>(null);
@@ -60,6 +61,8 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   ctx.drawImage(images.current[shown]!, 0, 0, canvas.width, canvas.height);
   if (shown !== drawnFrame.current) { drawnFrame.current = shown; setDisplayed(shown); }
  };
+ const drawRef = useRef(draw);
+ drawRef.current = draw;
 
  const setMovingState = (value: boolean) => {
   if (movingRef.current === value) return;
@@ -212,18 +215,20 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   if (!canvas) return;
   const resize = () => {
    const ratio = Math.min(window.devicePixelRatio || 1, 2) * zoom;
-   const width = Math.min(1600, Math.round(canvas.clientWidth * ratio));
+   const width = Math.min(maxWidth, Math.round(canvas.clientWidth * ratio));
    if (!width) return;
+   const height = Math.round(width * aspect);
+   if (canvas.width === width && canvas.height === height) return;    // assigning the size clears the canvas
    canvas.width = width;
-   canvas.height = Math.round(width * 9 / 8);
-   draw(true);
+   canvas.height = height;
+   drawRef.current(true);    // the latest draw: this effect's own closure can predate the loaded frames
   };
   resize();
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
   return () => observer.disconnect();
   // eslint-disable-next-line react-hooks/exhaustive-deps
- }, [zoom]);
+ }, [zoom, aspect, maxWidth]);
 
  // Reset the handle too: React's dev double-mount runs this cleanup and then mounts again, and a
  // stale id would make run() believe a loop is alive — the building would never move again.
