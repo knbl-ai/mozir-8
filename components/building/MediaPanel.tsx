@@ -115,7 +115,7 @@ export default function MediaPanel({ tab, residence, media, specs, onExpandPlan 
     {tab === 'film' && (media.film.src ? <FilmView film={media.film} placeholder={media.placeholder.film} /> : <ComingSoon kind="film" />)}
     {tab === 'images' && (media.images.length ? <GalleryView images={media.images} placeholder={media.placeholder.images} /> : <ComingSoon kind="images" />)}
     {tab === 'model' && !media.model && <ComingSoon kind="model" />}
-    {tab === 'model' && media.model && <div className={s.modelView}><ResidenceModel src={media.model} defaultOrbit={media.modelOrbit} levels={media.modelLevels} stage={media.modelStage} /><SampleTag show={media.placeholder.model}>{t.sampleModel}</SampleTag></div>}
+    {tab === 'model' && media.model && <div className={s.modelView}><ResidenceModel src={media.model} defaultOrbit={media.modelOrbit} levels={media.modelLevels} stage={media.modelStage} outdoorOrbit={media.modelOutdoorOrbit} /><SampleTag show={media.placeholder.model}>{t.sampleModel}</SampleTag></div>}
     {tab === 'about' && <article className={s.aboutView}>
      <AnimatePresence initial={false} mode="wait">
       <motion.div key={specs.map(x => x.value).join('|')} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: DUR.quick, ease: EASE }}>

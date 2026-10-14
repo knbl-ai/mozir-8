@@ -15,7 +15,7 @@ const ORBITS: Record<View, string> = { perspective: '25deg 45deg 80%', plan: '0d
 // One model-viewer for the explorer. Changing `src` (a different home's model) fades to a veil
 // and back in on load, instead of tearing down the viewer. `levels` (a duplex): a floors switch that
 // swaps between the floors side by side and each floor on its own, keeping the camera angle.
-export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = ORBITS.perspective, levels, stage }: { src: string; poster?: string; defaultOrbit?: string; levels?: ModelLevel[]; stage?: ModelStage }) {
+export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = ORBITS.perspective, levels, stage, outdoorOrbit }: { src: string; poster?: string; defaultOrbit?: string; levels?: ModelLevel[]; stage?: ModelStage; outdoorOrbit?: string }) {
  const paper = stage === 'paper';
  const t = explorerText[useLang()];
  const [levelState, setLevel] = useState({ id: levels?.[0]?.id, for: levels });
@@ -39,7 +39,7 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
  }, [ready]);
  const change = (next: View) => {
   const el = host.current?.querySelector('model-viewer') as Viewer | null;
-  if (el) el.cameraOrbit = next === 'perspective' ? defaultOrbit : ORBITS[next];
+  if (el) el.cameraOrbit = next === 'perspective' ? defaultOrbit : next === 'terrace' && outdoorOrbit ? outdoorOrbit : ORBITS[next];   // the model's own outdoor angle (its balcony / garden side) when it has one
   setView(next);
  };
  // Buttons for what the mouse or fingers do: turn the model and move closer or further away.
