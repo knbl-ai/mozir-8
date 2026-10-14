@@ -60,7 +60,25 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  const videoEl = useRef<HTMLVideoElement | null>(null);
  const videoReady = useRef(false);
  const seeking = useRef(false);
+ const seekAt = useRef(0);      // when the pending seek started
+ const seekId = useRef(0);
+ const stalls = useRef(0);      // seeks that never landed in a row
  const videoFrame = useRef(-1);
+ const failRef = useRef(onVideoFail);
+ failRef.current = onVideoFail;
+ // A parked or dropped video (idle tab, decoder reclaimed) can leave a seek that never lands: reload it from the
+ // blob and show the pictures meanwhile; after three stalls the page switches to the picture ring for good.
+ const recoverVideo = () => {
+  const v = videoEl.current;
+  seeking.current = false; seekId.current++;
+  if (!v) return;
+  stalls.current++;
+  videoReady.current = false; videoFrame.current = -1;
+  if (stalls.current >= 3) { failRef.current?.(); drawRef.current(true); return; }
+  v.addEventListener('loadeddata', () => { if (videoEl.current === v) { videoReady.current = true; drawRef.current(true); } }, { once: true });
+  v.load();
+  drawRef.current(true);
+ };
  const paint = (src: CanvasImageSource, frame: number) => {
   const canvas = canvasRef.current, ctx = canvas?.getContext('2d');
   if (!canvas || !ctx) return;
@@ -73,14 +91,23 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   const v = videoEl.current;
   if (v && videoReady.current) {
    // one seek at a time; when it lands, draw that view and catch up with wherever the position went
-   if (seeking.current || (!force && target === videoFrame.current && target === drawnFrame.current)) return;
-   seeking.current = true;
-   v.currentTime = (target + 0.5) / videoFps;
+   if (seeking.current) {
+    if (performance.now() - seekAt.current < 400) return;
+    recoverVideo(); return;
+   }
+   if (!force && target === videoFrame.current && target === drawnFrame.current) return;
+   seeking.current = true; seekAt.current = performance.now();
+   const id = ++seekId.current;
+   // never seek to the time it is already at (some browsers don't answer that): nudge within the same frame
+   const t = (target + (target === videoFrame.current ? 0.5 + (id % 2 ? 0.15 : -0.15) : 0.5)) / videoFps;
    v.addEventListener('seeked', () => {
-    seeking.current = false; videoFrame.current = target;
+    if (id !== seekId.current) return;
+    seeking.current = false; stalls.current = 0; videoFrame.current = target;
     paint(v, target);
     if (Math.round(wrap(position.current)) % count !== target) drawRef.current();
    }, { once: true });
+   v.currentTime = t;
+   setTimeout(() => { if (id === seekId.current && seeking.current) drawRef.current(); }, 450);   // the watchdog
    return;
   }
   const shown = nearestReady(target);
@@ -273,6 +300,19 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   return () => { cancelled = true; videoEl.current = null; videoReady.current = false; seeking.current = false; if (url) URL.revokeObjectURL(url); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [video, count]);
+
+ // Back on the tab: a seek left hanging while it was hidden is dropped, and the view is drawn again.
+ useEffect(() => {
+  const back = () => {
+   if (document.visibilityState !== 'visible') return;
+   if (seeking.current && performance.now() - seekAt.current > 400) recoverVideo();
+   else drawRef.current(true);
+  };
+  document.addEventListener('visibilitychange', back);
+  window.addEventListener('pageshow', back);
+  return () => { document.removeEventListener('visibilitychange', back); window.removeEventListener('pageshow', back); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, []);
 
  // Size the canvas backing store to what is actually shown, zoom included, up to the source size.
  useEffect(() => {
