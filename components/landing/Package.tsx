@@ -86,7 +86,7 @@ export default function Package({ t, spinFrames, buildingFrames }: { t: LandingC
     {a => <FilmPreview poster="/projects/klee-8/media/apt-2/poster.webp" film={film("/projects/klee-8/media/apt-2/film.mp4")} active={a} />}
    </Card>
    <Card id="model" item={it.model} Icon={ModelIcon}>
-    {a => <><BuildingPreview frames={spinFrames} active={a} fit="contain" fps={24} zoom={1.3} /><span className={s.mediaNote}>{t.spinNote}</span></>}
+    {a => <><BuildingPreview frames={spinFrames} active={a} fit="contain" fps={24} zoom={1.15} /><span className={s.mediaNote}>{t.spinNote}</span></>}
    </Card>
    <Card id="images" item={it.images} Icon={ImagesIcon}>{a => <Stills active={a} />}</Card>
    <Card id="building" item={it.building} Icon={BuildingIcon}>
