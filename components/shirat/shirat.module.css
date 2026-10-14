@@ -1016,6 +1016,7 @@
 .page .media:has(.model3d) { background: transparent; box-shadow: none; overflow: visible; }
 .page .media:has(.model3d)::after { content: none; }
 .page .model3d > div { background: transparent !important; border-radius: 0 !important; }
+.page .model3d > div:fullscreen, .page .model3d > div[data-full] { background: #fbf9f5 !important; }   /* full screen: no card behind it, the paper comes back */
 .page .model3d > div::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
  background-image: linear-gradient(rgb(60 52 44 / 0.075) 1px, transparent 1px), linear-gradient(90deg, rgb(60 52 44 / 0.075) 1px, transparent 1px);
  background-size: 20px 20px; background-position: center;

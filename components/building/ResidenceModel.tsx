@@ -1,13 +1,13 @@
 'use client';
 import { createElement, useEffect, useRef, useState } from 'react';
-import { Box, Focus, Layers, LayoutPanelLeft, Maximize2, Minimize2, Minus, Plus, RotateCcw, RotateCw, Trees } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Box, Focus, Layers, LayoutPanelLeft, Maximize2, Minimize2, Minus, Plus, RotateCcw, RotateCw, Trees } from 'lucide-react';
 import type { ModelLevel, ModelStage } from '@/content/projects';
 import SegmentedControl from './SegmentedControl';
 import { useLang } from '@/lib/i18n';
 import { explorerText } from './strings';
 import s from './explorer.module.css';
 
-type Viewer = HTMLElement & { cameraOrbit: string; getCameraOrbit?: () => { theta: number; phi: number; radius: number } };
+type Viewer = HTMLElement & { cameraOrbit: string; cameraTarget: string; getCameraOrbit?: () => { theta: number; phi: number; radius: number }; getCameraTarget?: () => { x: number; y: number; z: number } };
 const TURN = Math.PI / 6, ZOOM_STEP = 0.8; // 30° a press; each zoom press brings the camera 20% closer
 type View = 'perspective' | 'plan' | 'terrace';
 const ORBITS: Record<View, string> = { perspective: '25deg 45deg 80%', plan: '0deg 0deg 100%', terrace: '125deg 50deg 85%' };
@@ -54,6 +54,8 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
  }, [ready]);
  const change = (next: View) => {
   const el = host.current?.querySelector('model-viewer') as Viewer | null;
+  if (el) el.cameraTarget = 'auto auto auto';   // a view button also re-centres a panned model
+  target.current = null;
   if (el) el.cameraOrbit = next === 'perspective' ? defaultOrbit : next === 'terrace' && outdoorOrbit ? outdoorOrbit : ORBITS[next];   // the model's own outdoor angle (its balcony / garden side) when it has one
   setView(next);
  };
@@ -69,6 +71,20 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
   const next = { theta: from.theta + turn, phi: now.phi, radius: from.radius * zoom, at: performance.now() };
   goal.current = next;
   el.cameraOrbit = `${next.theta}rad ${next.phi}rad ${next.radius}m`;
+ };
+ // Arrows slide the view across the model (what a right-drag / two-finger drag does), in the direction they point
+ // on screen from the current angle; a step is 10% of the camera distance, so it stays useful zoomed in close.
+ const target = useRef<{ x: number; y: number; z: number; at: number } | null>(null);
+ const pan = (right: number, up: number) => {
+  const el = host.current?.querySelector('model-viewer') as Viewer | null;
+  const o = el?.getCameraOrbit?.(), now = el?.getCameraTarget?.();
+  if (!el || !o || !now) return;
+  const from = target.current && performance.now() - target.current.at < 900 ? target.current : now;
+  const step = o.radius * 0.1, th = o.theta;
+  // camera right on the ground = (cos θ, 0, −sin θ); away from the camera on the ground = (−sin θ, 0, −cos θ)
+  const next = { x: from.x + step * (right * Math.cos(th) - up * Math.sin(th)), y: from.y, z: from.z + step * (-right * Math.sin(th) - up * Math.cos(th)), at: performance.now() };
+  target.current = next;
+  el.cameraTarget = `${next.x}m ${next.y}m ${next.z}m`;
  };
  const loading = loadedSrc !== src && !error;
  return <div className={s.modelShell} data-stage={stage} style={paper ? undefined : { background: 'radial-gradient(ellipse at 48% 40%, #827c73 0%, #66615b 60%, #4c4945 100%)' }} ref={host}>
@@ -95,6 +111,12 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
    <button type="button" className={s.glassIcon} aria-label={t.resetView} title={t.resetView} onClick={() => change('perspective')}><Focus size={16} strokeWidth={1.6} aria-hidden /></button>
    <button type="button" className={s.glassIcon} aria-label={full ? t.exitFullscreen : t.fullscreen} title={full ? t.exitFullscreen : t.fullscreen} aria-pressed={full} onClick={toggleFull}>
     {full ? <Minimize2 size={16} strokeWidth={1.6} aria-hidden /> : <Maximize2 size={16} strokeWidth={1.6} aria-hidden />}</button>
+  </div>
+  <div className={s.modelPad} role="group" aria-label={t.panPad}>
+   <button type="button" className={s.glassIcon} data-dir="up" aria-label={t.panUp} title={t.panUp} onClick={() => pan(0, 1)}><ChevronUp size={16} strokeWidth={1.8} aria-hidden /></button>
+   <button type="button" className={s.glassIcon} data-dir="left" aria-label={t.panLeft} title={t.panLeft} onClick={() => pan(-1, 0)}><ChevronLeft size={16} strokeWidth={1.8} aria-hidden /></button>
+   <button type="button" className={s.glassIcon} data-dir="right" aria-label={t.panRight} title={t.panRight} onClick={() => pan(1, 0)}><ChevronRight size={16} strokeWidth={1.8} aria-hidden /></button>
+   <button type="button" className={s.glassIcon} data-dir="down" aria-label={t.panDown} title={t.panDown} onClick={() => pan(0, -1)}><ChevronDown size={16} strokeWidth={1.8} aria-hidden /></button>
   </div>
   <div className={s.modelNav} role="group" aria-label={t.modelView}>
    <button type="button" className={s.glassIcon} aria-label={t.modelLeft} title={t.modelLeft} onClick={() => nudge(TURN, 1)}><RotateCcw size={16} strokeWidth={1.6} aria-hidden /></button>

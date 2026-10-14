@@ -434,6 +434,19 @@
   background: rgb(255 255 255 / 0.35); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
 .modelNav .glassIcon { width: 36px; height: 36px; }
+/* the move pad: four arrows in a cross, bottom right of the 3D view (the turn / zoom bar stays centred) */
+.modelPad {
+  position: absolute; right: 12px; bottom: 12px; z-index: 2; display: grid; gap: 2px; padding: 4px; border-radius: 22px;
+  grid-template: 'a up b' 32px 'left c right' 32px 'd down e' 32px / 32px 32px 32px;
+  background: rgb(255 255 255 / 0.35); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.modelPad .glassIcon { width: 32px; height: 32px; }
+.modelPad [data-dir='up'] { grid-area: up; } .modelPad [data-dir='down'] { grid-area: down; }
+.modelPad [data-dir='left'] { grid-area: left; } .modelPad [data-dir='right'] { grid-area: right; }
+@media (max-width: 560px) {   /* a phone's small 3D box: two-finger drag moves the model; the pad comes with full screen */
+  .modelShell:not(:fullscreen):not([data-full]) .modelPad { display: none; }
+  .modelPad { bottom: 64px; }
+}
 .zoneGlowColor { flood-color: transparent; }
 .aboutView { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; padding: 28px 30px; background: #fbfbf9; }
 .aboutView h3 { margin: 8px 0 0; font: 400 clamp(28px, 2.4vw, 36px)/1.1 var(--display); }
