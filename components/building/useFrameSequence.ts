@@ -6,10 +6,15 @@ import { easeInOutCubic } from './motion';
 // ref and eased from a rAF loop; the canvas always shows one whole, sharp frame (the nearest), so
 // a turn reads as the building rotating, never two frames dissolving. `displayed` follows the drawn
 // frame so the apartment overlays turn with the building instead of disappearing.
+// A fine ring can come as one `video` (every view one video frame, at `videoFps`): it is downloaded
+// whole, then each draw seeks to the view under the position. Until it is in, the pictures with
+// index % `stride` === 0 stand in (a light preview ring); without a video, `stride` thins the ring.
 
-const INERTIA_TAU = 260; // ms — how long a flick keeps travelling
+const INERTIA_TAU = 260; // ms — the glide of a medium flick; a fast one glides up to 2x, a slow release none
+const GLIDE_FROM = 0.08;  // °/ms at release below which the ring just settles (80°/s)
+const GLIDE_FULL = 0.9;   // °/ms at release that gets the longest glide
 const WHEEL_TAU = 90;
-const KEY_TAU = 120;
+const STEP_MS = 560;      // one arrow press: a single eased move
 const SETTLE_TAU = 110;
 const CONCURRENT_LOADS = 4;
 
@@ -19,7 +24,7 @@ type Chase = { to: number; tau: number };
 const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // `aspect` (height / width) and `maxWidth` default to the 800 x 900 tower frames; a wide orbit passes its own.
-export function useFrameSequence(sources: string[], initial: number, zoom: number, { aspect = 9 / 8, maxWidth = 1600 }: { aspect?: number; maxWidth?: number } = {}) {
+export function useFrameSequence(sources: string[], initial: number, zoom: number, { aspect = 9 / 8, maxWidth = 1600, turnPerWidth, inertia = INERTIA_TAU, video, videoFps = 30, stride = 1, onVideoFail }: { aspect?: number; maxWidth?: number; turnPerWidth?: number; inertia?: number; video?: string; videoFps?: number; stride?: number; onVideoFail?: () => void } = {}) {
  const count = sources.length;
  const canvasRef = useRef<HTMLCanvasElement>(null);
  const zoomRef = useRef<HTMLDivElement>(null);
@@ -34,6 +39,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  const frameRequest = useRef(0);
  const lastTick = useRef(0);
  const drawnFrame = useRef(-1);
+ const firstSet = useRef(false);
  const movingRef = useRef(false);
  const [settled, setSettled] = useState(initial);
  const [displayed, setDisplayed] = useState(initial);
@@ -51,18 +57,41 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   return -1;
  };
 
+ const videoEl = useRef<HTMLVideoElement | null>(null);
+ const videoReady = useRef(false);
+ const seeking = useRef(false);
+ const videoFrame = useRef(-1);
+ const paint = (src: CanvasImageSource, frame: number) => {
+  const canvas = canvasRef.current, ctx = canvas?.getContext('2d');
+  if (!canvas || !ctx) return;
+  ctx.drawImage(src, 0, 0, canvas.width, canvas.height);
+  if (frame !== drawnFrame.current) { drawnFrame.current = frame; setDisplayed(frame); }
+ };
  const draw = (force = false) => {
-  const canvas = canvasRef.current;
-  if (!canvas || !count) return;
-  const shown = nearestReady(Math.round(wrap(position.current)) % count);
+  if (!canvasRef.current || !count) return;
+  const target = Math.round(wrap(position.current)) % count;
+  const v = videoEl.current;
+  if (v && videoReady.current) {
+   // one seek at a time; when it lands, draw that view and catch up with wherever the position went
+   if (seeking.current || (!force && target === videoFrame.current && target === drawnFrame.current)) return;
+   seeking.current = true;
+   v.currentTime = (target + 0.5) / videoFps;
+   v.addEventListener('seeked', () => {
+    seeking.current = false; videoFrame.current = target;
+    paint(v, target);
+    if (Math.round(wrap(position.current)) % count !== target) drawRef.current();
+   }, { once: true });
+   return;
+  }
+  const shown = nearestReady(target);
   if (shown < 0 || (!force && shown === drawnFrame.current)) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-  ctx.drawImage(images.current[shown]!, 0, 0, canvas.width, canvas.height);
-  if (shown !== drawnFrame.current) { drawnFrame.current = shown; setDisplayed(shown); }
+  paint(images.current[shown]!, shown);
  };
  const drawRef = useRef(draw);
  drawRef.current = draw;
+
+ // the nearest view that can be shown: any frame once the video is in, else a multiple of `stride`
+ const snap = (p: number) => videoReady.current || stride <= 1 ? Math.round(p) : Math.round(p / stride) * stride;
 
  const setMovingState = (value: boolean) => {
   if (movingRef.current === value) return;
@@ -71,7 +100,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  };
 
  const finish = () => {
-  position.current = wrap(Math.round(position.current));
+  position.current = wrap(snap(position.current)) % count;
   draw(true);
   setMovingState(false);
   setSettled(position.current);
@@ -91,9 +120,10 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
    // Exponential approach: it starts at the flick's speed and lands exactly on a frame.
    const c = chase.current;
    position.current += (c.to - position.current) * (1 - Math.exp(-dt / c.tau));
-   if (Math.abs(c.to - position.current) < 0.004) { position.current = c.to; chase.current = null; active = false; }
-  } else if (Math.abs(position.current - Math.round(position.current)) > 0.004) {
-   chase.current = { to: Math.round(position.current), tau: SETTLE_TAU };
+   // under half a frame away the nearest view is already the target: land, no invisible crawl
+   if (Math.abs(c.to - position.current) < 0.5) { position.current = c.to; chase.current = null; active = false; }
+  } else if (Math.abs(position.current - snap(position.current)) > 0.004) {
+   chase.current = { to: snap(position.current), tau: SETTLE_TAU };
   } else {
    active = false;
   }
@@ -109,7 +139,8 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
 
  const pixelsPerFrame = () => {
   const width = canvasRef.current?.parentElement?.parentElement?.clientWidth ?? 600;
-  return Math.max(5, width / 30); // one stage-width drag turns the building ~150°
+  // default: one stage-width drag turns a 72-view ring ~150°; `turnPerWidth` sets it in degrees for any ring size
+  return turnPerWidth ? Math.max(2, width / (turnPerWidth / 360 * count)) : Math.max(5, width / 30);
  };
 
  const beginDrag = (x: number) => {
@@ -133,8 +164,15 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   drag.current = null;
   const first = d.samples[0], last = d.samples[d.samples.length - 1];
   const velocity = last.t - first.t > 8 ? (last.p - first.p) / (last.t - first.t) : 0; // frames per ms
-  const travel = prefersReducedMotion() ? 0 : Math.max(-count / 2, Math.min(count / 2, velocity * INERTIA_TAU));
-  chase.current = { to: Math.round(position.current + travel), tau: Math.abs(travel) > 0.5 ? INERTIA_TAU : SETTLE_TAU };
+  // The glide follows the release speed: a slow release just lands, a fast flick glides long and soft.
+  const degPerMs = Math.abs(velocity) * 360 / count;
+  if (prefersReducedMotion() || degPerMs < GLIDE_FROM) chase.current = { to: snap(position.current), tau: SETTLE_TAU };
+  else {
+   const k = Math.min(1, (degPerMs - GLIDE_FROM) / (GLIDE_FULL - GLIDE_FROM));
+   let tau = inertia * (0.35 + 1.65 * k);
+   tau = Math.min(tau, count * 0.75 / Math.abs(velocity)); // at most ~270° of glide, speed kept continuous
+   chase.current = { to: snap(position.current + velocity * tau), tau };
+  }
   priority.current = [];
   run();
  };
@@ -148,9 +186,11 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  };
 
  const step = (frames: number) => {
-  tween.current = null;
-  const from = Math.round(chase.current?.to ?? position.current);
-  chase.current = { to: from + frames, tau: KEY_TAU };
+  // one eased move per press; presses during a move add to its end
+  const from = tween.current ? tween.current.to : chase.current ? chase.current.to : snap(position.current);
+  chase.current = null; drag.current = null;
+  if (prefersReducedMotion()) { position.current = wrap(from + frames); finish(); return; }
+  tween.current = { from: position.current, to: snap(from + frames), start: performance.now(), duration: STEP_MS };
   run();
  };
 
@@ -179,9 +219,13 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   ready.current = sources.map(() => false);
   let cancelled = false, inflight = 0;
   const origin = Math.round(wrap(position.current));
-  const outward = Array.from({ length: count }, (_, i) => wrap(origin + (i % 2 ? Math.ceil(i / 2) : -i / 2)));
+  const around = Array.from({ length: count }, (_, i) => wrap(origin + (i % 2 ? Math.ceil(i / 2) : -i / 2))).filter(i => i % stride === 0);
+  // A fine ring (120+ views) loads a coarse ring first — every 4th view, nearest first — so a whole
+  // turn works early; the views in between fill in after.
+  const coarse = (i: number) => (i / stride) % 4 === 0;
+  const outward = around.length >= 120 ? [...around.filter(coarse), ...around.filter(i => !coarse(i))] : around;
   const next = () => {
-   while (priority.current.length) { const i = priority.current.shift()!; if (!images.current[i]) return i; }
+   while (priority.current.length) { const i = priority.current.shift()!; if (!images.current[i] && i % stride === 0) return i; }
    while (outward.length) { const i = outward.shift()!; if (!images.current[i]) return i; }
    return -1;
   };
@@ -199,15 +243,36 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
      ready.current[i] = true;
      const p = wrap(position.current);
      if (i === Math.round(p) % count || drawnFrame.current < 0) draw(true);
-     if (i === origin) setFirstReady(true);
-    }).catch(() => { if (!cancelled && i === origin) setFailed(true); })
+     if (i === origin || !firstSet.current) { firstSet.current = true; setFirstReady(true); }
+    }).catch(() => { if (!cancelled && i === origin && !videoReady.current) setFailed(true); })
      .finally(() => { inflight--; pump.current(); });
    }
   };
   pump.current();
   return () => { cancelled = true; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
- }, [sources.join('|')]);
+ }, [sources.join('|'), stride]);
+
+ // The video ring: fetched whole (seeking a fully buffered blob is a few ms), then it takes over the drawing.
+ useEffect(() => {
+  if (!video || !count) return;
+  let cancelled = false, url = '';
+  const v = document.createElement('video');
+  v.muted = true; v.playsInline = true; v.preload = 'auto';
+  fetch(video).then(r => { if (!r.ok) throw new Error(String(r.status)); return r.blob(); }).then(blob => {
+   if (cancelled) return;
+   url = URL.createObjectURL(blob); v.src = url;
+   v.addEventListener('loadeddata', () => {
+    if (cancelled) return;
+    videoEl.current = v; videoReady.current = true; videoFrame.current = -1;
+    firstSet.current = true; setFirstReady(true);
+    draw(true);
+   }, { once: true });
+   v.addEventListener('error', () => { if (!cancelled && !videoReady.current) onVideoFail?.(); }, { once: true });
+  }).catch(() => { if (!cancelled) onVideoFail?.(); });   // the page falls back to the picture ring
+  return () => { cancelled = true; videoEl.current = null; videoReady.current = false; seeking.current = false; if (url) URL.revokeObjectURL(url); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, [video, count]);
 
  // Size the canvas backing store to what is actually shown, zoom included, up to the source size.
  useEffect(() => {

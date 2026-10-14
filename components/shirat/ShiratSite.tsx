@@ -5,7 +5,7 @@ import { ArrowUpRight, BookOpen, House, Layers, Box, Building2, Check, DoorOpen,
 import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
 import { useFrameSequence } from '@/components/building/useFrameSequence';
-import { ORBIT_URL, PLATES, SHOWCASE, UNITS, homeBase, mediaFor, plateKeyOf, project, unitById, type HomeMedia, type Orbit, type OrbitSpot, type ShiratUnit } from '@/content/projects/shirat-hayam';
+import { ORBIT_URL, ORBIT_VIDEO, PLATES, SHOWCASE, UNITS, homeBase, mediaFor, plateKeyOf, project, unitById, type HomeMedia, type Orbit, type OrbitSpot, type ShiratUnit } from '@/content/projects/shirat-hayam';
 import { shiratText } from './strings';
 import ResidenceModel from '@/components/building/ResidenceModel';
 import { film } from '@/components/landing/media';   // films straight from the bucket (Vercel caches a partial Range answer)
@@ -38,6 +38,16 @@ const bearingOf = (angle: number) => ((90 - angle) % 360 + 360) % 360;
 const DIRS = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'];
 const dirOf = (bearing: number) => DIRS[Math.round(bearing / 45) % 8];
 const pad = (n: number) => String(n).padStart(2, '0');
+const ringMode = (views: number): { video?: string; stride: number } => {
+ const ua = navigator.userAgent;
+ const ios = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+ const safari = /Safari/.test(ua) && !/Chrome|Chromium|CriOS|Edg|FxiOS|Android/.test(ua);
+ const force = new URLSearchParams(window.location.search).get('ring');     // ?ring=video | pictures, to compare on a device
+ const video = force ? force === 'video' : !(ios || safari);
+ // in production straight from the bucket (CORS allows the site), like the films; locally from public/
+ const src = window.location.hostname.endsWith('residence.tech') ? film(ORBIT_VIDEO) : ORBIT_VIDEO;
+ return video ? { video: src, stride: views >= 300 ? 12 : 4 } : { stride: views >= 300 ? 3 : 1 };
+};
 const readDeepLink = () => { try { return new URLSearchParams(window.location.search).get('home'); } catch { return null; } };
 
 export default function ShiratSite() {
@@ -47,8 +57,12 @@ export default function ShiratSite() {
  const [orbit, setOrbit] = useState<Orbit | null>(null);
  useEffect(() => { fetch(ORBIT_URL).then(r => r.json()).then(setOrbit).catch(() => setOrbit({ count: 0, width: 1000, height: 625, frames: [] })); }, []);
  const frames = orbit?.frames ?? [];
- const sources = useMemo(() => frames.map(f => f.src), [frames]);
- const engine = useFrameSequence(sources, 0, 1, { aspect: 625 / 1000, maxWidth: 2000 });
+ // Chrome, Edge, Firefox (desktop and Android) seek a buffered video in a few ms: they turn the ring as
+ // one video, with every 12th view as pictures until it is in. Safari / iOS seek slowly: a picture ring.
+ const [ring, setRing] = useState<{ video?: string; stride: number } | null>(null);
+ useEffect(() => { if (orbit?.count) setRing(ringMode(orbit.count)); }, [orbit?.count]);
+ const sources = useMemo(() => ring ? frames.map(f => f.src) : [], [frames, ring]);
+ const engine = useFrameSequence(sources, 0, 1, { aspect: 625 / 1000, maxWidth: 2000, turnPerWidth: 260, inertia: 480, video: ring?.video, stride: ring?.stride ?? 1, onVideoFail: () => setRing({ stride: (orbit?.count ?? 0) >= 300 ? 3 : 1 }) });
 
  // Where each home shows best (largest outline over the 72 views), so choosing it from a list turns to it.
  const best = useMemo(() => {
@@ -244,7 +258,7 @@ export default function ShiratSite() {
   {/* ---------------------------------------------------------------- explorer */}
   <section id="residences" className={s.explorer} aria-label={t.stage}>
    <div ref={stageRef} className={s.stage} data-moving={turning || undefined} tabIndex={0} role="group" aria-label={t.stage}
-    onKeyDown={e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); dismissHint(); engine.step(e.key === 'ArrowRight' ? -1 : 1); } }}
+    onKeyDown={e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); dismissHint(); engine.step((e.key === 'ArrowRight' ? -1 : 1) * Math.max(1, Math.round(frames.length / 72))); } }}
     onPointerDown={e => { if (e.button !== 0 || (e.target as HTMLElement).closest('[data-ui]')) return; press.current = { x: e.clientX, moved: false }; engine.beginDrag(e.clientX); e.currentTarget.setPointerCapture(e.pointerId); }}
     onPointerMove={e => {
      if (!press.current) { if (!turning && !(e.target as HTMLElement).closest('[data-ui]')) hover(zoneAt(e.clientX, e.clientY), e.clientX, e.clientY); return; }
@@ -316,11 +330,11 @@ export default function ShiratSite() {
 
     {/* bottom: turn, compass */}
     <div className={s.dock} data-ui>
-     <button type="button" className={s.dockIcon} aria-label={t.turnLeft} onClick={() => { dismissHint(); engine.step(4); }}><ChevronLeft size={18} strokeWidth={1.7} aria-hidden /></button>
+     <button type="button" className={s.dockIcon} aria-label={t.turnLeft} onClick={() => { dismissHint(); engine.step(Math.max(1, Math.round(frames.length / 24))); }}><ChevronLeft size={18} strokeWidth={1.7} aria-hidden /></button>
      <div className={s.compass} aria-live="polite">
       <span className={s.compassText}><small>{fromSea ? t.viewFromSea : t.viewFrom}</small><strong>{t.dirName[dirOf(bearing)]}</strong></span>
      </div>
-     <button type="button" className={s.dockIcon} aria-label={t.turnRight} onClick={() => { dismissHint(); engine.step(-4); }}><ChevronRight size={18} strokeWidth={1.7} aria-hidden /></button>
+     <button type="button" className={s.dockIcon} aria-label={t.turnRight} onClick={() => { dismissHint(); engine.step(-Math.max(1, Math.round(frames.length / 24))); }}><ChevronRight size={18} strokeWidth={1.7} aria-hidden /></button>
     </div>
 
     <AnimatePresence>
