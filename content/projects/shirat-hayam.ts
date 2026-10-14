@@ -46,7 +46,7 @@ const img = (id: string, en: string, he: string): HomeImage => ({ id, label: { e
 export const HOMES: Record<HomeMedia['key'], HomeMedia> = {
  apt01: {
   key: 'apt01', final: true, model: true, shownOn: { b: 'A', f: 25 },
-  hq: { glb: 'model-hq-1.glb', poster: 'model-hq-1-poster.webp', orbit: '4deg 52deg 100%', outdoorOrbit: '-21deg 58deg 72%' },   // 4.6 MB, viewer.json of the HQ run
+  hq: { glb: 'model-hq-2.glb', poster: 'model-hq-2-poster.webp', orbit: '4deg 52deg 100%', outdoorOrbit: '-21deg 58deg 72%' },   // 4.8 MB, viewer.json of the HQ run
   rooms: 5, interior: 147.3, outdoor: 22, outdoorKind: 'balcony', aspect: { en: 'North · East', he: 'צפון · מזרח' },
   about: {
    en: 'A five-room corner home on the north-east of the tower. The front door opens into the kitchen and dining room with a long island; the living room faces north and opens onto a 4.6 × 4.8 m balcony with the sea at an angle to the west. A corridor leads to the master suite with its en-suite, two bedrooms and the safe room, all facing east over the city.',
@@ -67,7 +67,9 @@ export const HOMES: Record<HomeMedia['key'], HomeMedia> = {
   ],
  },
  ph02: {
-  key: 'ph02', final: true, shownOn: { b: 'A', f: 32 }, rooms: 5, interior: 243, outdoor: 100, outdoorKind: 'terrace', aspect: { en: 'West · the sea', he: 'מערב · הים' },
+  key: 'ph02', final: true, model: true, shownOn: { b: 'A', f: 32 },
+  hq: { glb: 'model-hq-1.glb', poster: 'model-hq-1-poster.webp', orbit: '21deg 52deg 100%', outdoorOrbit: '-4deg 58deg 72%' },   // 4.7 MB, 1.27 M triangles
+  rooms: 5, interior: 243, outdoor: 100, outdoorKind: 'terrace', aspect: { en: 'West · the sea', he: 'מערב · הים' },
   about: {
    en: 'The penthouse on the 32nd floor. One open space runs the whole west façade — living room, dining for ten and a kitchen with a 5.8 m island and a separate back kitchen — and opens onto a 100 m² terrace above the sea. The master suite has a walk-in wardrobe and en-suite; bedrooms 1 and 2 each have their own shower room, bedroom 3 is the safe room, and a side balcony faces south.',
    he: 'הפנטהאוז בקומה 32. חלל פתוח אחד לאורך כל החזית המערבית — סלון, פינת אוכל לעשרה ומטבח עם אי של 5.8 מ׳ ומטבח בישול נפרד — נפתח למרפסת של 100 מ״ר מעל הים. ליחידת ההורים חדר ארונות וחדר רחצה צמוד; לחדרי שינה 1 ו־2 חדר מקלחת משלהם, חדר שינה 3 הוא הממ״ד, ומרפסת צד פונה דרומה.',
