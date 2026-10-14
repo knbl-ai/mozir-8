@@ -72,8 +72,8 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
   goal.current = next;
   el.cameraOrbit = `${next.theta}rad ${next.phi}rad ${next.radius}m`;
  };
- // Arrows slide the view across the model (what a right-drag / two-finger drag does), in the direction they point
- // on screen from the current angle; a step is 10% of the camera distance, so it stays useful zoomed in close.
+ // Arrows move the model the way they point on screen (like dragging it with a right-drag / two fingers), from the
+ // current angle; a step is 10% of the camera distance, so it stays useful zoomed in close.
  const target = useRef<{ x: number; y: number; z: number; at: number } | null>(null);
  const pan = (right: number, up: number) => {
   const el = host.current?.querySelector('model-viewer') as Viewer | null;
@@ -113,10 +113,10 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
     {full ? <Minimize2 size={16} strokeWidth={1.6} aria-hidden /> : <Maximize2 size={16} strokeWidth={1.6} aria-hidden />}</button>
   </div>
   <div className={s.modelPad} role="group" aria-label={t.panPad}>
-   <button type="button" className={s.glassIcon} data-dir="up" aria-label={t.panUp} title={t.panUp} onClick={() => pan(0, 1)}><ChevronUp size={16} strokeWidth={1.8} aria-hidden /></button>
-   <button type="button" className={s.glassIcon} data-dir="left" aria-label={t.panLeft} title={t.panLeft} onClick={() => pan(-1, 0)}><ChevronLeft size={16} strokeWidth={1.8} aria-hidden /></button>
-   <button type="button" className={s.glassIcon} data-dir="right" aria-label={t.panRight} title={t.panRight} onClick={() => pan(1, 0)}><ChevronRight size={16} strokeWidth={1.8} aria-hidden /></button>
-   <button type="button" className={s.glassIcon} data-dir="down" aria-label={t.panDown} title={t.panDown} onClick={() => pan(0, -1)}><ChevronDown size={16} strokeWidth={1.8} aria-hidden /></button>
+   <button type="button" className={s.glassIcon} data-dir="up" aria-label={t.panUp} title={t.panUp} onClick={() => pan(0, -1)}><ChevronUp size={16} strokeWidth={1.8} aria-hidden /></button>
+   <button type="button" className={s.glassIcon} data-dir="left" aria-label={t.panLeft} title={t.panLeft} onClick={() => pan(1, 0)}><ChevronLeft size={16} strokeWidth={1.8} aria-hidden /></button>
+   <button type="button" className={s.glassIcon} data-dir="right" aria-label={t.panRight} title={t.panRight} onClick={() => pan(-1, 0)}><ChevronRight size={16} strokeWidth={1.8} aria-hidden /></button>
+   <button type="button" className={s.glassIcon} data-dir="down" aria-label={t.panDown} title={t.panDown} onClick={() => pan(0, 1)}><ChevronDown size={16} strokeWidth={1.8} aria-hidden /></button>
   </div>
   <div className={s.modelNav} role="group" aria-label={t.modelView}>
    <button type="button" className={s.glassIcon} aria-label={t.modelLeft} title={t.modelLeft} onClick={() => nudge(TURN, 1)}><RotateCcw size={16} strokeWidth={1.6} aria-hidden /></button>
