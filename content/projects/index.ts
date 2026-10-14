@@ -184,7 +184,10 @@ export const applyListings = (frames: BuildingFrame[], project: Development): Bu
 export const labelIn = (item: { label: string; labelHe?: string; labelPt?: string }, lang: Lang) => (lang === 'he' ? item.labelHe : lang === 'pt' ? item.labelPt : undefined) ?? item.label;
 export const localizeImages = (images: MediaImage[], lang: Lang): MediaImage[] => lang === 'en' ? images : images.map(i => ({ ...i, label: labelIn(i, lang) }));
 
-export type ResolvedMedia = { film: { src: string; poster: string; note?: string; noteHe?: string; notePt?: string }; images: MediaImage[]; model: string; modelOrbit?: string; modelLevels?: ModelLevel[]; placeholder: { film: boolean; images: boolean; model: boolean } };
+// 'paper': the model floats on ivory paper with a fine grid and a soft contact shadow (Shirat's look); for baked,
+// unlit models (pipeline/hq) the tone mapping stays neutral so their baked colours read true.
+export type ModelStage = 'paper';
+export type ResolvedMedia = { film: { src: string; poster: string; note?: string; noteHe?: string; notePt?: string }; images: MediaImage[]; model: string; modelOrbit?: string; modelLevels?: ModelLevel[]; modelStage?: ModelStage; placeholder: { film: boolean; images: boolean; model: boolean } };
 // The most specific media wins; `placeholder` marks what still comes from the shared set.
 export function resolveMedia(project: Development, residence: Residence, apartment?: string): ResolvedMedia {
  const own = apartment ? project.apartmentMedia?.[apartment] : undefined;

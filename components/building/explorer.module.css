@@ -403,6 +403,14 @@
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .modelView { position: absolute; inset: 0; }
 .modelShell { position: absolute; inset: 0; background: linear-gradient(180deg, #bfc3c6, #a4aaaf); }
+/* stage="paper" (Shirat's look): ivory paper, one fine grid fading out toward the edges, the model floating on it with
+   model-viewer's soft contact shadow */
+.modelShell[data-stage='paper'] { background: #fbf9f5; }
+.modelShell[data-stage='paper']::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+ background-image: linear-gradient(rgb(60 52 44 / 0.075) 1px, transparent 1px), linear-gradient(90deg, rgb(60 52 44 / 0.075) 1px, transparent 1px);
+ background-size: 20px 20px; background-position: center;
+ -webkit-mask-image: radial-gradient(75% 70% at 50% 50%, #000 40%, transparent 100%); mask-image: radial-gradient(75% 70% at 50% 50%, #000 40%, transparent 100%); }
+.modelShell[data-stage='paper'] model-viewer { position: relative; z-index: 1; }
 .modelVeil {
   position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
   font-size: 13px; color: var(--ink-2); background: rgb(244 243 239 / 0.92);

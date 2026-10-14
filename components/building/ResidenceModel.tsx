@@ -1,7 +1,7 @@
 'use client';
 import { createElement, useEffect, useRef, useState } from 'react';
 import { Box, Focus, Layers, LayoutPanelLeft, Minus, Plus, RotateCcw, RotateCw, Trees } from 'lucide-react';
-import type { ModelLevel } from '@/content/projects';
+import type { ModelLevel, ModelStage } from '@/content/projects';
 import SegmentedControl from './SegmentedControl';
 import { useLang } from '@/lib/i18n';
 import { explorerText } from './strings';
@@ -15,7 +15,8 @@ const ORBITS: Record<View, string> = { perspective: '25deg 45deg 80%', plan: '0d
 // One model-viewer for the explorer. Changing `src` (a different home's model) fades to a veil
 // and back in on load, instead of tearing down the viewer. `levels` (a duplex): a floors switch that
 // swaps between the floors side by side and each floor on its own, keeping the camera angle.
-export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = ORBITS.perspective, levels }: { src: string; poster?: string; defaultOrbit?: string; levels?: ModelLevel[] }) {
+export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = ORBITS.perspective, levels, stage }: { src: string; poster?: string; defaultOrbit?: string; levels?: ModelLevel[]; stage?: ModelStage }) {
+ const paper = stage === 'paper';
  const t = explorerText[useLang()];
  const [levelState, setLevel] = useState({ id: levels?.[0]?.id, for: levels });
  if (levelState.for !== levels) setLevel({ id: levels?.[0]?.id, for: levels }); // another home starts on its first view
@@ -55,12 +56,14 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
   el.cameraOrbit = `${next.theta}rad ${next.phi}rad ${next.radius}m`;
  };
  const loading = loadedSrc !== src && !error;
- return <div className={s.modelShell} style={{ background: 'radial-gradient(ellipse at 48% 40%, #827c73 0%, #66615b 60%, #4c4945 100%)' }} ref={host}>
+ return <div className={s.modelShell} data-stage={stage} style={paper ? undefined : { background: 'radial-gradient(ellipse at 48% 40%, #827c73 0%, #66615b 60%, #4c4945 100%)' }} ref={host}>
   {ready && createElement('model-viewer', {
    src, poster, alt: t.modelAlt,
    'camera-controls': true, 'touch-action': 'pan-y', 'camera-orbit': defaultOrbit, 'interpolation-decay': '120',
    'min-camera-orbit': 'auto 0deg 9m', 'max-camera-orbit': 'auto 85deg 200%', 'field-of-view': '35deg',
-   exposure: '1.05', 'shadow-intensity': '1', 'shadow-softness': '1', 'environment-image': 'neutral', 'interaction-prompt': 'none', loading: 'eager',
+   exposure: paper ? '1' : '1.05', 'shadow-intensity': paper ? '0.55' : '1', 'shadow-softness': '1', 'environment-image': 'neutral',
+   ...(paper ? { 'tone-mapping': 'neutral' } : {}),   // baked, unlit surfaces: keep their colours as baked
+   'interaction-prompt': 'none', loading: 'eager',
    style: { width: '100%', height: '100%' },
   })}
   <div className={s.modelVeil} data-visible={loading || undefined} aria-hidden={!loading}>
