@@ -12,7 +12,7 @@ export type KleeHome = Residence & { he: ResidenceText;   // KLEE is always bili
  floorLabel: string; floorLabelHe: string;
  cover: string;           // the front page's card
  concept: string; conceptHe: string;
- media: Required<Pick<NonNullable<Residence['media']>, 'film' | 'images' | 'model'>> & { modelOrbit?: string; modelLevels?: ModelLevel[]; modelStage?: ModelStage; modelOutdoorOrbit?: string };
+ media: Required<Pick<NonNullable<Residence['media']>, 'film' | 'images' | 'model'>> & { modelOrbit?: string; modelLevels?: ModelLevel[]; modelStage?: ModelStage; modelOutdoorOrbit?: string; modelPoster?: string };
 };
 
 export const kleeContact: Contact = { name: 'Shirli', agency: 'RE/MAX Ocean', phone: '054-4711166', phoneIntl: '+972544711166', email: 'shirli@remax-ocean.com' };
@@ -74,7 +74,8 @@ export const kleeHomes: KleeHome[] = [
   about: ['Living, dining and kitchen share one long room along the west façade, opening onto a balcony 8.4 metres long, over the treetops of Klee Street and toward the Kikar HaMedina towers at sunset. The master bedroom has its own en-suite; the mamad (safe room) doubles as a study or guest room; a family bathroom sits off the corridor.',
    'Areas follow the developer’s Type C plan (about 68 m² inside and 12 m² of balcony). Worth checking: the mamad’s window and door rules, and the furniture clearances in the dining area.'],
   media: {
-   film: { src: `${base}/media/apt-2/film.mp4`, poster: `${base}/media/apt-2/poster.webp` }, model: `${base}/models/apt-2-hq.glb`, modelOrbit: '33deg 52deg 100%', modelStage: 'paper', modelOutdoorOrbit: '8deg 58deg 72%',   // HQ track: baked light, two façades opened toward this view
+   film: { src: `${base}/media/apt-2/film.mp4`, poster: `${base}/media/apt-2/poster.webp` }, model: `${base}/models/apt-2-hq-2.glb`, modelPoster: `${base}/models/apt-2-hq-poster.webp`,   // 3.8 MB (gltf-transform: simplify, WebP, Draco); the poster shows at once
+   modelOrbit: '33deg 52deg 100%', modelStage: 'paper', modelOutdoorOrbit: '8deg 58deg 72%',   // HQ track: baked light, two façades opened toward this view
    images: [img('apt-2', 'v-living', 'Living and dining', 'סלון ופינת אוכל'), img('apt-2', 'v-balcony', 'West balcony', 'המרפסת המערבית'),
     img('apt-2', 'v-mamad', 'Study (safe room)', 'חדר עבודה (ממ״ד)'), img('apt-2', 'v-master', 'Master bedroom', 'חדר השינה הראשי'),
     img('apt-2', 'v-ensuite', 'En-suite', 'חדר רחצה צמוד'), img('apt-2', 'top', 'The whole apartment from above', 'כל הדירה ממבט על')],
@@ -119,6 +120,6 @@ export const getKleeHome = (id: string) => kleeHomes.find(h => h.id === id);
 export const kleeMedia = (home: KleeHome, lang: Lang): ResolvedMedia => ({
  film: home.media.film, model: home.media.model, modelOrbit: home.media.modelOrbit,
  images: home.media.images.map(i => ({ ...i, label: lang === 'he' ? i.labelHe ?? i.label : i.label })),
- modelLevels: home.media.modelLevels?.map(l => ({ ...l, label: lang === 'he' ? l.labelHe ?? l.label : l.label })), modelStage: home.media.modelStage, modelOutdoorOrbit: home.media.modelOutdoorOrbit,
+ modelLevels: home.media.modelLevels?.map(l => ({ ...l, label: lang === 'he' ? l.labelHe ?? l.label : l.label })), modelStage: home.media.modelStage, modelOutdoorOrbit: home.media.modelOutdoorOrbit, modelPoster: home.media.modelPoster,
  placeholder: { film: false, images: false, model: false },
 });

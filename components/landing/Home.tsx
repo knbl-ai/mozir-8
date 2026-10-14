@@ -100,7 +100,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
    </section>
 
    <Process t={t.process} />
-   <Package t={t.package} spinFrames={spinFrames} buildingFrames={buildingFrames} />
+   <Package t={t.package} spinFrames={spinFrames} buildingFrames={towersFrames.length ? towersFrames : buildingFrames} />   {/* the building card: Shirat HaYam's 360° orbit */}
    <TrialForm t={t.form} lang={filmLang} />
 
    <section id="projects" className={s.projects} aria-labelledby="projects-title">

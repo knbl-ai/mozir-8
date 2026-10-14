@@ -10,9 +10,9 @@ const readFrames = (project: string): BuildingFrame[] => {
  return fs.existsSync(manifest) ? JSON.parse(fs.readFileSync(manifest, 'utf8')) : [];
 };
 const everySecond = (frames: BuildingFrame[]) => frames.filter((_, i) => i % 2 === 0).map(f => f.src);
-// The apartment turntable (KLEE apt 1, pipeline/aptlib/blender/turntable.py): 72 frames, 5° apart.
+// The apartment turntable (KLEE apt 2, the baked HQ dollhouse: pipeline/hq/blender/turntable_web.py): 72 frames, 5° apart.
 const readSpin = (): string[] => {
- const manifest = path.join(process.cwd(), 'public/landing/spin/spin.json');
+ const manifest = path.join(process.cwd(), 'public/landing/spin-apt2/spin.json');
  return fs.existsSync(manifest) ? (JSON.parse(fs.readFileSync(manifest, 'utf8')) as { src: string }[]).map(f => f.src) : [];
 };
 // Shirat HaYam's 360° orbit (72 views, 5° apart): every second view, as the other building previews.

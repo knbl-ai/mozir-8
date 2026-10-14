@@ -63,7 +63,7 @@ const en: LandingCopy = {
  package: {
   title: 'What you get',
   lede: 'Every project gets all six. Point at one to see it work.',
-  example: 'Shown with N°8 KLEE, apartment 1, Tel Aviv: made from the plan above.',
+  example: 'Shown with N°8 KLEE, apartment 2, Tel Aviv, and the Shirat HaYam towers, Netanya: made from the plans above.',
   items: {
    film: { title: 'Walkthrough film', body: 'A cinematic tour of the home, with natural sound.' },
    model: { title: '3D floor plan', body: 'A furnished model buyers turn and zoom.' },
@@ -75,9 +75,9 @@ const en: LandingCopy = {
   spinNote: '360°',
   forSale: 'For sale', sold: 'Sold',
   languages: [
-   { tag: 'EN', text: 'One bedroom, a balcony and a view of the city.' },
-   { tag: 'עב', text: 'דירת שני חדרים עם מרפסת ונוף לעיר.' },
-   { tag: 'PT', text: 'T1 com varanda e vista sobre a cidade.' },
+   { tag: 'EN', text: 'Three rooms, an en-suite and a west balcony for sunsets.' },
+   { tag: 'עב', text: 'שלושה חדרים, יחידת הורים ומרפסת מערבית לשקיעות.' },
+   { tag: 'PT', text: 'T2 com suite e varanda a poente, para o pôr do sol.' },
   ],
  },
  form: {
@@ -139,7 +139,7 @@ const he: LandingCopy = {
  package: {
   title: 'מה מקבלים?',
   lede: 'שישה פיצ׳רים ויזואליים ומרהיבים שיגרמו למכירה שלכם להיות קלה ומהירה\u00a0– בעמוד נחיתה אחד ונוח',
-  example: 'בדוגמה: N°8 KLEE, דירה 1, תל אביב — מהתוכנית שלמעלה.',
+  example: 'בדוגמה: N°8 KLEE, דירה 2, תל אביב, ומגדלי שירת הים, נתניה — מהתוכניות שלמעלה.',
   items: {
    film: { title: 'סרטון סיור בדירה', body: 'כולל סאונד ומראה מקום של היכן נמצאים בדירה בכל רגע.' },
    model: { title: 'תוכנית בתלת־\u2060מימד', body: 'מודל 3D שהרוכש יכול לסובב ולהגדיל כדי לקבל המחשה מדוייקת של החלל' },
@@ -151,9 +151,9 @@ const he: LandingCopy = {
   spinNote: '360°',
   forSale: 'למכירה', sold: 'נמכר',
   languages: [
-   { tag: 'עב', text: 'דירת שני חדרים עם מרפסת ונוף לעיר.' },
-   { tag: 'EN', text: 'One bedroom, a balcony and a view of the city.' },
-   { tag: 'PT', text: 'T1 com varanda e vista sobre a cidade.' },
+   { tag: 'עב', text: 'שלושה חדרים, יחידת הורים ומרפסת מערבית לשקיעות.' },
+   { tag: 'EN', text: 'Three rooms, an en-suite and a west balcony for sunsets.' },
+   { tag: 'PT', text: 'T2 com suite e varanda a poente, para o pôr do sol.' },
   ],
  },
  form: {

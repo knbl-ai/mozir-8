@@ -7,8 +7,8 @@ import type { DeliverableKey, LandingCopy } from './copy';
 import { film } from './media';
 import s from './landing.module.css';
 
-const STILLS = ['/projects/klee-8/media/apt-1/v-living.webp', '/projects/klee-8/media/apt-1/v-bedroom.webp', '/projects/klee-8/media/apt-1/v-balcony.webp', '/projects/klee-8/media/apt-1/top.webp'];
-const TABS = [0, 1, 2, 3].map(i => `/landing/phone/tab-${i}.webp`);
+const STILLS = ['/projects/klee-8/media/apt-2/v-living.webp', '/projects/klee-8/media/apt-2/v-master.webp', '/projects/klee-8/media/apt-2/v-balcony.webp', '/projects/klee-8/media/apt-2/top.webp'];
+const TABS = [0, 1, 2, 3].map(i => `/landing/phone/apt2-tab-${i}.webp`);   // the KLEE apt 2 page on a phone: film, plan, images, 3D
 
 // A card is "active" while pointed at or focused; on touch screens, while it is mostly on screen.
 function useActive<T extends HTMLElement>() {
@@ -83,14 +83,14 @@ export default function Package({ t, spinFrames, buildingFrames }: { t: LandingC
   </div>
   <div className={s.cards}>
    <Card id="film" item={it.film} Icon={FilmIcon} wide>
-    {a => <FilmPreview poster="/projects/klee-8/media/apt-1/poster.webp" film={film("/projects/klee-8/media/apt-1/film.mp4")} active={a} />}
+    {a => <FilmPreview poster="/projects/klee-8/media/apt-2/poster.webp" film={film("/projects/klee-8/media/apt-2/film.mp4")} active={a} />}
    </Card>
    <Card id="model" item={it.model} Icon={ModelIcon}>
-    {a => <><BuildingPreview frames={spinFrames} active={a} fit="contain" fps={24} /><span className={s.mediaNote}>{t.spinNote}</span></>}
+    {a => <><BuildingPreview frames={spinFrames} active={a} fit="contain" fps={24} zoom={1.3} /><span className={s.mediaNote}>{t.spinNote}</span></>}
    </Card>
    <Card id="images" item={it.images} Icon={ImagesIcon}>{a => <Stills active={a} />}</Card>
    <Card id="building" item={it.building} Icon={BuildingIcon}>
-    {a => <><BuildingPreview frames={buildingFrames} active={a} />
+    {a => <><BuildingPreview frames={buildingFrames} active={a} zoom={1.55} centre={0.47} />
      <span className={s.chips}><span data-status="sale">{t.forSale}</span><span data-status="sold">{t.sold}</span></span></>}
    </Card>
    <Card id="site" item={it.site} Icon={SiteIcon}>{a => <Phone active={a} />}</Card>

@@ -81,7 +81,7 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
    'interaction-prompt': 'none', loading: 'eager',
    style: { width: '100%', height: '100%' },
   })}
-  <div className={s.modelVeil} data-visible={loading || undefined} aria-hidden={!loading}>
+  <div className={s.modelVeil} data-visible={(loading && !poster) || undefined} aria-hidden={!loading || !!poster}>   {/* with a poster, the poster is the wait */}
    <span className={s.spinner} /><span>{t.preparingModel}</span>
   </div>
   {error && <div className={s.modelVeil} data-visible><span>{t.modelFailed}</span></div>}
