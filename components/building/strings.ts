@@ -60,7 +60,7 @@ const en = {
  lightboxHint: 'Scroll or pinch to zoom · drag to move · double-click for a closer look',
  // 3D model
  modelAlt: 'Rotatable furnished cutaway of the apartment', preparingModel: 'Preparing the 3D model', modelFailed: 'The 3D model can’t be shown on this device.',
- modelView: 'Model view', modelLeft: 'Turn the model left', modelRight: 'Turn the model right', model3d: '3D', modelTop: 'Top', modelOutdoor: 'Outdoor', resetView: 'Reset the view', modelFloors: 'Floors',
+ modelView: 'Model view', modelLeft: 'Turn the model left', modelRight: 'Turn the model right', model3d: '3D', modelTop: 'Top', modelOutdoor: 'Outdoor', resetView: 'Reset the view', fullscreen: 'Full screen', exitFullscreen: 'Exit full screen', modelFloors: 'Floors',
 };
 
 export type ExplorerText = typeof en;
@@ -118,7 +118,7 @@ const he: ExplorerText = {
  zoomOut: 'הקטנה', zoomIn: 'הגדלה', fit: 'התאמה למסך', close: 'סגירה',
  lightboxHint: 'גללו או צבטו כדי להגדיל · גררו כדי להזיז · לחיצה כפולה למבט מקרוב',
  modelAlt: 'מודל מרוהט של הדירה בחתך, לסיבוב', preparingModel: 'מודל התלת־ממד נטען', modelFailed: 'לא ניתן להציג את מודל התלת־ממד במכשיר הזה.',
- modelView: 'תצוגת המודל', modelLeft: 'סיבוב המודל שמאלה', modelRight: 'סיבוב המודל ימינה', model3d: 'תלת־ממד', modelTop: 'מלמעלה', modelOutdoor: 'חוץ', resetView: 'איפוס התצוגה', modelFloors: 'קומות',
+ modelView: 'תצוגת המודל', modelLeft: 'סיבוב המודל שמאלה', modelRight: 'סיבוב המודל ימינה', model3d: 'תלת־ממד', modelTop: 'מלמעלה', modelOutdoor: 'חוץ', resetView: 'איפוס התצוגה', fullscreen: 'מסך מלא', exitFullscreen: 'יציאה ממסך מלא', modelFloors: 'קומות',
 };
 
 // European Portuguese, for the Lisbon project (Borges 15).
@@ -175,7 +175,7 @@ const pt: ExplorerText = {
  zoomOut: 'Reduzir', zoomIn: 'Ampliar', fit: 'Ajustar ao ecrã', close: 'Fechar',
  lightboxHint: 'Deslize ou faça pinça para ampliar · arraste para mover · duplo clique para ver de perto',
  modelAlt: 'Corte mobilado do apartamento, para rodar', preparingModel: 'A preparar o modelo 3D', modelFailed: 'Não é possível mostrar o modelo 3D neste dispositivo.',
- modelView: 'Vista do modelo', modelLeft: 'Rodar o modelo para a esquerda', modelRight: 'Rodar o modelo para a direita', model3d: '3D', modelTop: 'Planta', modelOutdoor: 'Exterior', resetView: 'Repor a vista', modelFloors: 'Pisos',
+ modelView: 'Vista do modelo', modelLeft: 'Rodar o modelo para a esquerda', modelRight: 'Rodar o modelo para a direita', model3d: '3D', modelTop: 'Planta', modelOutdoor: 'Exterior', resetView: 'Repor a vista', fullscreen: 'Ecrã inteiro', exitFullscreen: 'Sair do ecrã inteiro', modelFloors: 'Pisos',
 };
 
 export const explorerText: Record<Lang, ExplorerText> = { en, he, pt };

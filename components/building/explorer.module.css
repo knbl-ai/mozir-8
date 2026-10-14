@@ -411,6 +411,10 @@
  background-size: 20px 20px; background-position: center;
  -webkit-mask-image: radial-gradient(75% 70% at 50% 50%, #000 40%, transparent 100%); mask-image: radial-gradient(75% 70% at 50% 50%, #000 40%, transparent 100%); }
 .modelShell[data-stage='paper'] model-viewer { position: relative; z-index: 1; }
+/* full screen: the browser's (:fullscreen) or, where elements can't go full screen, a window-covering fallback */
+.modelShell:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
+.modelShell[data-full] { position: fixed; inset: 0; z-index: 1000; border-radius: 0; }
+.modelShell:not([data-stage='paper']):fullscreen { background: radial-gradient(ellipse at 48% 40%, #827c73 0%, #66615b 60%, #4c4945 100%); }
 .modelVeil {
   position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
   font-size: 13px; color: var(--ink-2); background: rgb(244 243 239 / 0.92);

@@ -1,6 +1,6 @@
 'use client';
 import { createElement, useEffect, useRef, useState } from 'react';
-import { Box, Focus, Layers, LayoutPanelLeft, Minus, Plus, RotateCcw, RotateCw, Trees } from 'lucide-react';
+import { Box, Focus, Layers, LayoutPanelLeft, Maximize2, Minimize2, Minus, Plus, RotateCcw, RotateCw, Trees } from 'lucide-react';
 import type { ModelLevel, ModelStage } from '@/content/projects';
 import SegmentedControl from './SegmentedControl';
 import { useLang } from '@/lib/i18n';
@@ -26,6 +26,21 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
  const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
  const [error, setError] = useState(false);
  const [view, setView] = useState<View>('perspective');
+ // Full screen: the browser's own (the viewer fills the screen; Esc leaves). Where an element can't go full screen
+ // (iPhone Safari), the viewer covers the window instead (data-full), with the same button to leave.
+ const [full, setFull] = useState(false);
+ useEffect(() => {
+  const sync = () => setFull(document.fullscreenElement === host.current || (!!host.current?.dataset.full));
+  document.addEventListener('fullscreenchange', sync);
+  return () => document.removeEventListener('fullscreenchange', sync);
+ }, []);
+ const toggleFull = () => {
+  const el = host.current; if (!el) return;
+  if (document.fullscreenElement) { document.exitFullscreen(); return; }
+  if (el.dataset.full) { delete el.dataset.full; document.body.style.overflow = ''; setFull(false); return; }
+  if (document.fullscreenEnabled && el.requestFullscreen) { el.requestFullscreen().catch(() => {}); return; }
+  el.dataset.full = '1'; document.body.style.overflow = 'hidden'; setFull(true);
+ };
  useEffect(() => { import('@google/model-viewer').then(() => setReady(true)).catch(() => setError(true)); }, []);
  useEffect(() => {
   const el = host.current?.querySelector('model-viewer') as (HTMLElement & { src?: string; loaded?: boolean }) | null;
@@ -78,6 +93,8 @@ export default function ResidenceModel({ src: homeSrc, poster, defaultOrbit = OR
    <SegmentedControl id="model-view" label={t.modelView} variant="glass" value={view} onChange={change}
     options={[{ value: 'perspective', label: t.model3d, icon: Box }, { value: 'plan', label: t.modelTop, icon: LayoutPanelLeft }, { value: 'terrace', label: t.modelOutdoor, icon: Trees }]} />
    <button type="button" className={s.glassIcon} aria-label={t.resetView} title={t.resetView} onClick={() => change('perspective')}><Focus size={16} strokeWidth={1.6} aria-hidden /></button>
+   <button type="button" className={s.glassIcon} aria-label={full ? t.exitFullscreen : t.fullscreen} title={full ? t.exitFullscreen : t.fullscreen} aria-pressed={full} onClick={toggleFull}>
+    {full ? <Minimize2 size={16} strokeWidth={1.6} aria-hidden /> : <Maximize2 size={16} strokeWidth={1.6} aria-hidden />}</button>
   </div>
   <div className={s.modelNav} role="group" aria-label={t.modelView}>
    <button type="button" className={s.glassIcon} aria-label={t.modelLeft} title={t.modelLeft} onClick={() => nudge(TURN, 1)}><RotateCcw size={16} strokeWidth={1.6} aria-hidden /></button>
