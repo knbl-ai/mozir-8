@@ -154,8 +154,10 @@ export default function ShiratSite() {
  const step = (d: number) => { const u = ordered[(idx + d + ordered.length) % ordered.length]; select(u.id); };
 
  // ?home=a-f12-01 opens on that home
+ const linkRead = useRef(false);   // the URL keeps ?home= untouched until it has been read (the frames load later than the first select)
  useEffect(() => {
   if (!frames.length) return;
+  linkRead.current = true;
   const id = readDeepLink();
   if (id && unitById(id)) { select(id); return; }
   // no link: open on Penthouse 02, the sea-facing hero (it turns the towers to it)
@@ -163,6 +165,7 @@ export default function ShiratSite() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [frames.length]);
  useEffect(() => {
+  if (!linkRead.current) return;
   const timer = setTimeout(() => { try { const url = new URL(window.location.href); url.searchParams.set('home', selected); window.history.replaceState(window.history.state, '', url); } catch { /* sandboxed */ } }, 350);
   return () => clearTimeout(timer);
  }, [selected]);
@@ -394,7 +397,9 @@ export default function ShiratSite() {
      <div className={s.media} role="tabpanel" data-dark={media && tab === 'film' ? '' : undefined}>
       <AnimatePresence mode="wait" initial={false}>
        {tab === 'model' && media?.model
-        ? <motion.div key={`model-${media.key}`} className={s.mediaFill} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: EASE }}><div className={s.model3d}><ResidenceModel src={`${homeBase(media.key)}/model.glb`} /></div></motion.div>
+        ? <motion.div key={`model-${media.key}`} className={s.mediaFill} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: EASE }}><div className={s.model3d}>{media.hq
+          ? <ResidenceModel src={`${homeBase(media.key)}/${media.hq.glb}`} poster={`${homeBase(media.key)}/${media.hq.poster}`} defaultOrbit={media.hq.orbit} outdoorOrbit={media.hq.outdoorOrbit} stage="paper" />
+          : <ResidenceModel src={`${homeBase(media.key)}/model.glb`} />}</div></motion.div>
         : tab === 'about'
         ? <motion.div key={`about-${unit.id}`} className={s.mediaFill} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: EASE }}><AboutView unit={unit} media={media} /></motion.div>
         : media && tab !== 'model'

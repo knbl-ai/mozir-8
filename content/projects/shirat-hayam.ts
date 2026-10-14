@@ -36,13 +36,18 @@ type L = { en: string; he: string };
 export type HomeImage = { id: string; label: L };
 export type HomeMedia = {
  key: 'apt01' | 'ph02'; shownOn: { b: 'A' | 'B'; f: number };
- final?: boolean; model?: boolean; rooms: number; interior: number; outdoor: number; outdoorKind: 'balcony' | 'terrace'; aspect: L;
+ final?: boolean; model?: boolean;
+ /** the HQ web model (baked light dollhouse, pipeline/hq): file name in the home's folder, poster, default + Outdoor orbit */
+ hq?: { glb: string; poster: string; orbit: string; outdoorOrbit: string };
+ rooms: number; interior: number; outdoor: number; outdoorKind: 'balcony' | 'terrace'; aspect: L;
  about: L; highlights: L[]; images: HomeImage[];
 };
 const img = (id: string, en: string, he: string): HomeImage => ({ id, label: { en, he } });
 export const HOMES: Record<HomeMedia['key'], HomeMedia> = {
  apt01: {
-  key: 'apt01', final: true, model: true, shownOn: { b: 'A', f: 25 }, rooms: 5, interior: 147.3, outdoor: 22, outdoorKind: 'balcony', aspect: { en: 'North · East', he: 'צפון · מזרח' },
+  key: 'apt01', final: true, model: true, shownOn: { b: 'A', f: 25 },
+  hq: { glb: 'model-hq-1.glb', poster: 'model-hq-1-poster.webp', orbit: '4deg 52deg 100%', outdoorOrbit: '-21deg 58deg 72%' },   // 4.6 MB, viewer.json of the HQ run
+  rooms: 5, interior: 147.3, outdoor: 22, outdoorKind: 'balcony', aspect: { en: 'North · East', he: 'צפון · מזרח' },
   about: {
    en: 'A five-room corner home on the north-east of the tower. The front door opens into the kitchen and dining room with a long island; the living room faces north and opens onto a 4.6 × 4.8 m balcony with the sea at an angle to the west. A corridor leads to the master suite with its en-suite, two bedrooms and the safe room, all facing east over the city.',
    he: 'דירת פינה בת חמישה חדרים בצפון־מזרח המגדל. הכניסה אל המטבח ופינת האוכל עם אי ארוך; הסלון פונה צפונה ונפתח למרפסת של 4.6 × 4.8 מ׳ עם מבט אלכסוני לים במערב. מסדרון מוביל ליחידת ההורים עם חדר רחצה צמוד, לשני חדרי שינה ולממ״ד, כולם פונים מזרחה אל העיר.',
