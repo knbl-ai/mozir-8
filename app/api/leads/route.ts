@@ -1,4 +1,4 @@
-import { leads, type Lead } from '@/lib/server/mongo';
+import { leads, type Lead, type LeadTouch } from '@/lib/server/mongo';
 import { bucket, PLAN_MAX_BYTES } from '@/lib/server/storage';
 import { sendMail } from '@/lib/server/gmail';
 import { teamMail, userMail } from '@/lib/server/lead-emails';
@@ -7,6 +7,20 @@ import { env } from '@/lib/server/env';
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const str = (v: unknown, max: number) => typeof v === 'string' ? v.trim().slice(0, max) : '';
 const HOURLY_LIMIT = 5;
+const CAMPAIGN_KEYS = new Set(['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'utm_id', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid', 'li_fat_id']);
+// the campaign the browser remembered (lib/attribution.ts): only known keys, short strings
+const touch = (v: unknown): LeadTouch | null => {
+ if (!v || typeof v !== 'object') return null;
+ const t = v as Record<string, unknown>;
+ const params: Record<string, string> = {};
+ if (t.params && typeof t.params === 'object') for (const [k, val] of Object.entries(t.params as Record<string, unknown>)) if (CAMPAIGN_KEYS.has(k) && str(val, 300)) params[k] = str(val, 300);
+ return { params, landingPage: str(t.landingPage, 500), referrer: str(t.referrer, 500), at: str(t.at, 40) };
+};
+const attributionOf = (v: unknown): Lead['attribution'] => {
+ const a = v && typeof v === 'object' ? v as Record<string, unknown> : null;
+ const first = touch(a?.first), last = touch(a?.last);
+ return first && last ? { first, last } : null;
+};
 
 // Step 2 of the demo form: store the lead, then mail the visitor and the team. A mail failure never loses the lead.
 export async function POST(request: Request) {
@@ -47,6 +61,7 @@ export async function POST(request: Request) {
   status: 'new',
   ip,
   userAgent: str(request.headers.get('user-agent'), 300),
+  attribution: attributionOf(body.attribution),
   createdAt: new Date(),
  };
  const { insertedId } = await col.insertOne(lead);

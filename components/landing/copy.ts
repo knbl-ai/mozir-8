@@ -35,6 +35,7 @@ export type LandingCopy = {
   towers: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy;
  };
  footer: { line: string; contact: string };
+ thanks: { kicker: string; title: string; body: (email: string | null) => string; next: string; home: string; projects: string };
 };
 
 const en: LandingCopy = {
@@ -112,6 +113,14 @@ const en: LandingCopy = {
   heritage: { kind: 'Historic building, Lisbon', name: 'Borges 15', body: 'A Lapa house rebuilt from its plans, with a duplex to walk through.', cta: 'Open Borges 15' },
  },
  footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech' },
+ thanks: {
+  kicker: 'Request received',
+  title: 'Thank you. Your plan is with us.',
+  body: email => email ? `We’ve sent a confirmation to ${email}. Our team will prepare your demo and be in touch within one business day.` : 'Our team will prepare your demo and be in touch within one business day.',
+  next: 'Meanwhile, see what a finished project looks like.',
+  home: 'Back to residence.tech',
+  projects: 'See the projects',
+ },
 };
 
 const he: LandingCopy = {
@@ -188,6 +197,14 @@ const he: LandingCopy = {
   heritage: { kind: 'בניין היסטורי, ליסבון', name: 'Borges 15', body: 'בית בלאפה שנבנה מחדש מהתוכניות, עם דופלקס לסיור.', cta: 'לבורז׳ש 15' },
  },
  footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech' },
+ thanks: {
+  kicker: 'הבקשה התקבלה',
+  title: 'תודה! התוכנית שלכם אצלנו.',
+  body: email => email ? `שלחנו אישור ל־${email}. הצוות שלנו יכין לכם הדגמה ויחזור אליכם תוך יום עבודה.` : 'הצוות שלנו יכין לכם הדגמה ויחזור אליכם תוך יום עבודה.',
+  next: 'בינתיים, אפשר לראות איך נראה פרויקט מוכן.',
+  home: 'חזרה ל־residence.tech',
+  projects: 'לפרויקטים',
+ },
 };
 
 export const copy: Record<Lang, LandingCopy> = { en, he, pt: en };  // the landing offers Hebrew, not Portuguese (lib/i18n LANG_PAGES)

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { LANG_BOOT_SCRIPT } from '@/lib/i18n';
+import AttributionCapture from '@/components/AttributionCapture';
 import './globals.css';
 const deploymentHost = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
 export const metadata: Metadata = {
@@ -12,5 +13,5 @@ export const metadata: Metadata = {
 };
 // The boot script sets lang/dir before first paint, so the <html> attributes differ from the static HTML.
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
- return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: LANG_BOOT_SCRIPT }} /></head><body>{children}</body></html>;
+ return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: LANG_BOOT_SCRIPT }} /></head><body>{children}<AttributionCapture /></body></html>;
 }

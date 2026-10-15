@@ -1,8 +1,11 @@
 'use client';
 import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Check, FileUp, X } from 'lucide-react';
 import Button from './Button';
 import DimensionLine from './DimensionLine';
+import { campaignQuery, readAttribution } from '@/lib/attribution';
+import { withLang } from '@/lib/i18n';
 import type { LandingCopy } from './copy';
 import s from './landing.module.css';
 
@@ -31,6 +34,7 @@ function put(url: string, file: File, onProgress: (share: number) => void) {
 export default function TrialForm({ t, lang }: { t: LandingCopy['form']; lang: 'en' | 'he' }) {
  const [file, setFile] = useState<File | null>(null);
  const [state, setState] = useState<State>({ step: 'idle' });
+ const router = useRouter();
  const [error, setError] = useState<ErrorKey | null>(null);
  const [emailError, setEmailError] = useState(false);
  const [dragging, setDragging] = useState(false);
@@ -65,10 +69,14 @@ export default function TrialForm({ t, lang }: { t: LandingCopy['form']; lang: '
    setState({ step: 'sending' });
    const r = await fetch('/api/leads', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
     name: data.get('name'), email, phone: data.get('phone'), description: data.get('description'), website: data.get('website'),
-    planPath, planName: file?.name ?? '', lang,
+    planPath, planName: file?.name ?? '', lang, attribution: readAttribution(),
    }) });
    if (!r.ok) throw (await r.json().catch(() => ({}))).error ?? 'server';
    setState({ step: 'done', email });
+   // the thank-you page is its own address (an ad campaign's conversion page), with the campaign's tags on it
+   try { sessionStorage.setItem('rt-lead', JSON.stringify({ email, at: Date.now() })); } catch { /* storage blocked */ }
+   const q = campaignQuery();
+   router.push(withLang(`/thank-you${q ? `?${q}` : ''}`, lang));
   } catch (err) {
    setState({ step: 'idle' });
    setError(typeof err === 'string' && err in t.errors ? err as ErrorKey : err === 'email' ? 'email' : 'server');

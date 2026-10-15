@@ -34,4 +34,7 @@ export type Lead = {
  userAgent: string;
  createdAt: Date;
  emails?: { user: 'sent' | 'failed'; team: 'sent' | 'failed'; error?: string; at: Date };
+ /** the ad campaign the visitor came from (UTM tags, click ids), first and latest */
+ attribution?: { first: LeadTouch; last: LeadTouch } | null;
 };
+export type LeadTouch = { params: Record<string, string>; landingPage: string; referrer: string; at: string };

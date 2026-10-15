@@ -42,12 +42,26 @@ export function userMail(lead: Lead): Mail {
  };
 }
 
+// The ad campaign of the visit that sent the form, then where they first came from if that differs.
+const campaignLine = (lead: Lead) => {
+ const a = lead.attribution;
+ if (!a) return 'direct / unknown';
+ const one = (t: NonNullable<Lead['attribution']>['last']) => {
+  const p = t.params, ids = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid', 'li_fat_id'].filter(k => p[k]);
+  const tags = [p.utm_source, p.utm_medium, p.utm_campaign].filter(Boolean).join(' / ');
+  return [tags || (t.referrer ? `from ${t.referrer}` : 'direct'), ids.length ? `(${ids.join(', ')})` : '', p.utm_content ? `ad: ${p.utm_content}` : '', p.utm_term ? `term: ${p.utm_term}` : ''].filter(Boolean).join(' ');
+ };
+ const last = one(a.last), first = one(a.first);
+ return first === last ? last : `${last}\nfirst visit: ${first}`;
+};
+
 export function teamMail(lead: Lead, to: string[], planUrl: string | null): Mail {
  const rows: [string, string][] = [
   ['Name', lead.name || '—'], ['Email', lead.email], ['Phone', lead.phone || '—'], ['Language', lead.lang],
   ['Description', lead.description || '—'],
   ['Plan', lead.plan ? `${lead.plan.filename} (${(lead.plan.size / 1024 / 1024).toFixed(1)} MB)` : '—'],
   ['Received', lead.createdAt.toISOString()],
+  ['Campaign', campaignLine(lead)],
  ];
  const link = planUrl ? `<p style="margin:24px 0 0"><a href="${esc(planUrl)}" style="display:inline-block;background:${GREEN};color:#fff;text-decoration:none;padding:12px 20px;border-radius:999px;font-size:14px">Download the plan</a><br><span style="font-size:12px;color:#7a807c">Link valid for 7 days · gs://${esc(lead.plan!.path)}</span></p>` : '';
  return {
