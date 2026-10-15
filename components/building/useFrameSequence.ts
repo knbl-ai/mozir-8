@@ -38,6 +38,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  const pump = useRef<() => void>(() => {});
  const frameRequest = useRef(0);
  const lastTick = useRef(0);
+ const requestedAt = useRef(0);  // wall time the pending frame was asked for
  const drawnFrame = useRef(-1);
  const firstSet = useRef(false);
  const movingRef = useRef(false);
@@ -68,11 +69,11 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  failRef.current = onVideoFail;
  // A parked or dropped video (idle tab, decoder reclaimed) can leave a seek that never lands: reload it from the
  // blob and show the pictures meanwhile; after three stalls the page switches to the picture ring for good.
- const recoverVideo = () => {
+ const recoverVideo = (stalled = true) => {
   const v = videoEl.current;
   seeking.current = false; seekId.current++;
   if (!v) return;
-  stalls.current++;
+  if (stalled) stalls.current++;
   videoReady.current = false; videoFrame.current = -1;
   if (stalls.current >= 3) { failRef.current?.(); drawRef.current(true); return; }
   v.addEventListener('loadeddata', () => { if (videoEl.current === v) { videoReady.current = true; drawRef.current(true); } }, { once: true });
@@ -155,13 +156,15 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
    active = false;
   }
   draw();
-  if (active) frameRequest.current = requestAnimationFrame(tick);
+  if (active) { frameRequest.current = requestAnimationFrame(tick); requestedAt.current = performance.now(); }
   else { frameRequest.current = 0; lastTick.current = 0; finish(); }
  };
 
  const run = () => {
   setMovingState(true);
-  if (!frameRequest.current) frameRequest.current = requestAnimationFrame(tick);
+  // a frame asked for long ago never came (the browser dropped it while the tab was parked): ask again
+  if (frameRequest.current && performance.now() - requestedAt.current > 250) { cancelAnimationFrame(frameRequest.current); frameRequest.current = 0; lastTick.current = 0; }
+  if (!frameRequest.current) { frameRequest.current = requestAnimationFrame(tick); requestedAt.current = performance.now(); }
  };
 
  const pixelsPerFrame = () => {
@@ -301,16 +304,25 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [video, count]);
 
- // Back on the tab: a seek left hanging while it was hidden is dropped, and the view is drawn again.
+ // Back on the tab: a seek left hanging is dropped; after a longer absence (screen asleep, another app) the
+ // browser may have reclaimed the video decoder, so the video is reloaded from its blob. A lost canvas is redrawn.
  useEffect(() => {
+  let hiddenAt = 0;
   const back = () => {
-   if (document.visibilityState !== 'visible') return;
+   if (document.visibilityState !== 'visible') { hiddenAt = performance.now(); return; }
+   const away = hiddenAt ? performance.now() - hiddenAt : 0;
+   hiddenAt = 0;
    if (seeking.current && performance.now() - seekAt.current > 400) recoverVideo();
-   else drawRef.current(true);
+   else if (away > 30000 && videoEl.current) recoverVideo(false);
+   else { drawnFrame.current = -1; drawRef.current(true); }
   };
+  const canvas = canvasRef.current;
+  const restored = () => { drawnFrame.current = -1; if (videoEl.current) recoverVideo(false); else drawRef.current(true); };
   document.addEventListener('visibilitychange', back);
   window.addEventListener('pageshow', back);
-  return () => { document.removeEventListener('visibilitychange', back); window.removeEventListener('pageshow', back); };
+  window.addEventListener('focus', back);
+  canvas?.addEventListener('contextrestored', restored);
+  return () => { document.removeEventListener('visibilitychange', back); window.removeEventListener('pageshow', back); window.removeEventListener('focus', back); canvas?.removeEventListener('contextrestored', restored); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, []);
 
