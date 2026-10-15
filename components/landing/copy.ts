@@ -94,9 +94,9 @@ const en: LandingCopy = {
    email: 'Enter an email address, like name@company.com.',
    type: 'This file type isn’t supported. Use a PDF, JPG, PNG or WebP.',
    size: 'This file is over 25 MB. Send a smaller export of the plan.',
-   rate: 'Too many requests from this connection. Try again in an hour, or write to ai@kanibal.co.il.',
+   rate: 'Too many requests from this connection. Try again in an hour, or write to info@residence.tech.',
    upload: 'The plan didn’t upload. Check your connection and try again.',
-   server: 'Something went wrong on our side. Try again, or write to ai@kanibal.co.il.',
+   server: 'Something went wrong on our side. Try again, or write to info@residence.tech.',
   },
   privacy: 'We use your details only to reply to this request.',
  },
@@ -111,7 +111,7 @@ const en: LandingCopy = {
   boutique: { kind: 'Boutique building', name: 'N°8 KLEE', body: 'Three homes to step into, a garden duplex floor by floor.', cta: 'Open N°8 KLEE' },
   heritage: { kind: 'Historic building, Lisbon', name: 'Borges 15', body: 'A Lapa house rebuilt from its plans, with a duplex to walk through.', cta: 'Open Borges 15' },
  },
- footer: { line: 'residence.tech by KNBL', contact: 'ai@kanibal.co.il' },
+ footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech' },
 };
 
 const he: LandingCopy = {
@@ -170,9 +170,9 @@ const he: LandingCopy = {
    email: 'הזינו כתובת אימייל, למשל name@company.com.',
    type: 'סוג הקובץ לא נתמך. השתמשו ב־PDF‏, JPG‏, PNG או WebP.',
    size: 'הקובץ גדול מ־25MB. שלחו גרסה קטנה יותר של התוכנית.',
-   rate: 'יותר מדי בקשות מהחיבור הזה. נסו שוב בעוד שעה, או כתבו ל־ai@kanibal.co.il.',
+   rate: 'יותר מדי בקשות מהחיבור הזה. נסו שוב בעוד שעה, או כתבו ל־info@residence.tech.',
    upload: 'התוכנית לא עלתה. בדקו את החיבור ונסו שוב.',
-   server: 'משהו השתבש אצלנו. נסו שוב, או כתבו ל־ai@kanibal.co.il.',
+   server: 'משהו השתבש אצלנו. נסו שוב, או כתבו ל־info@residence.tech.',
   },
   privacy: 'נשתמש בפרטים רק כדי לענות לפנייה הזו.',
  },
@@ -187,7 +187,7 @@ const he: LandingCopy = {
   boutique: { kind: 'בניין בוטיק', name: 'N°8 KLEE', body: 'שלוש דירות להיכנס אליהן, ודופלקס גן קומה אחר קומה.', cta: 'ל־N°8 KLEE' },
   heritage: { kind: 'בניין היסטורי, ליסבון', name: 'Borges 15', body: 'בית בלאפה שנבנה מחדש מהתוכניות, עם דופלקס לסיור.', cta: 'לבורז׳ש 15' },
  },
- footer: { line: 'residence.tech by KNBL', contact: 'ai@kanibal.co.il' },
+ footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech' },
 };
 
 export const copy: Record<Lang, LandingCopy> = { en, he, pt: en };  // the landing offers Hebrew, not Portuguese (lib/i18n LANG_PAGES)
