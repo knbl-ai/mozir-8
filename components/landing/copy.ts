@@ -4,20 +4,20 @@ export type ProjectCopy = { kind: string; name: string; body: string; cta: strin
 export type Item = { title: string; body: string };
 export type DeliverableKey = 'film' | 'model' | 'images' | 'building' | 'site' | 'languages';
 export type LandingCopy = {
- nav: { how: string; package: string; projects: string; trial: string };
- hero: { lead: string; to: string; words: string[]; lede: string; cta: string; watch: string; play: string; filmLabel: string; dim?: { start: string; label: string; end: string } };
+ nav: { how: string; package: string; projects: string; trial: string; trialShort: string };
+ hero: { lead: string; to: string; words: string[]; lede: string; ledeLead?: [string, string, string]; cta: string; watch: string; play: string; filmLabel: string; dim?: { start: string; label: string; end: string } };
  process: {
   title: string; replay: string;
   step1: Item & { file: string; uploading: string; uploaded: string; planAlt: string };
   engine: { label: string; note: string };
-  step2: Item;
+  step2: Item & { note?: string };
   icons: Record<DeliverableKey, string>;
   details: Record<DeliverableKey, string>;
   link: string; share: string;
  };
  package: {
   title: string; lede: string; example: string;
-  items: Record<DeliverableKey, Item>;
+  items: Record<DeliverableKey | 'brand', Item>;
   spinNote: string; forSale: string; sold: string;
   languages: { tag: string; text: string }[];
  };
@@ -39,12 +39,12 @@ export type LandingCopy = {
 };
 
 const en: LandingCopy = {
- nav: { how: 'How it works', package: 'What you get', projects: 'Projects', trial: 'Request a demo' },
+ nav: { how: 'How it works', package: 'What you get', projects: 'Projects', trial: 'Let’s talk about your project', trialShort: 'Let’s talk' },
  hero: {
-  lead: 'From floor plan',
-  to: 'to sold',
-  words: ['apartment.', 'home.', 'penthouse.', 'villa.'],
-  lede: 'Upload a floor plan. Get back a complete sales package on one shareable link, ready to send to buyers.',
+  lead: 'From floor plans',
+  to: 'to buyer',
+  words: ['experience.'],
+  lede: 'Everything you need to market your project – unit walkthroughs, 3D visuals, social-ready assets and a project marketing film.',
   cta: 'Get started',
   watch: 'Watch the film',
   play: 'Play the film',
@@ -54,11 +54,11 @@ const en: LandingCopy = {
  process: {
   title: 'How it works',
   replay: 'Replay',
-  step1: { title: 'Upload a floor plan', body: 'A PDF or an image from the architect is enough.', file: 'apartment-1-plan.pdf', uploading: 'Uploading', uploaded: 'Uploaded', planAlt: 'The architect’s floor plan of a one-bedroom apartment' },
+  step1: { title: 'Tell us about your project and send plans', body: '', file: 'apartment-1-plan.pdf', uploading: 'Uploading', uploaded: 'Uploaded', planAlt: 'The architect’s floor plan of a one-bedroom apartment' },
   engine: { label: 'residence.tech', note: '≈ 1 day' },
-  step2: { title: 'Get the sales package', body: 'Everything the sales team needs, shared as one link.' },
-  icons: { film: 'Film', model: '3D plan', images: 'Images', building: 'Building', site: 'Sales page', languages: 'Languages' },
-  details: { film: 'A walkthrough with sound', model: 'Furnished, turns 360°', images: 'Every room and from above', building: 'Live availability', site: 'One link for buyers', languages: 'EN · עב · PT' },
+  step2: { title: 'Get a complete sales toolkit', body: '', note: 'All assets downloadable in full resolution.' },
+  icons: { film: 'Unit walkthroughs', model: '3D visuals', images: 'Social-ready assets', building: 'Building', site: 'Project brand film', languages: 'Languages' },
+  details: { film: 'Every home, with sound', model: 'Interactive and photoreal', images: 'Every room, full resolution', building: 'Live availability', site: 'The mood of the whole project', languages: 'EN · עב · PT' },
   link: 'residence.tech/klee-8/apt-1', share: 'Share',
  },
  package: {
@@ -72,6 +72,7 @@ const en: LandingCopy = {
    building: { title: 'Building and availability', body: 'Turn the building, see what’s still for sale.' },
    site: { title: 'Sales page', body: 'Film, plan, images and 3D on one link, on any phone.' },
    languages: { title: 'Every language you sell in', body: 'English, Hebrew, Portuguese and more.' },
+   brand: { title: 'Project brand film', body: 'With a sales closing and contact details.' },
   },
   spinNote: '360°',
   forSale: 'For sale', sold: 'Sold',
@@ -82,12 +83,12 @@ const en: LandingCopy = {
   ],
  },
  form: {
-  title: 'See it on your own project',
-  lede: 'Send us one floor plan. We’ll prepare a demo of your package and get in touch.',
-  points: ['No commitment', 'Your plan stays private to our team', 'We reply within one working day'],
+  title: 'Ready to turn floor plans into a project that sells?',
+  lede: 'Leave your details.\nWe’ll get back to you fast, review your needs, and show you how we can build the right sales experience for it.',
+  points: ['Fast response', 'Tailored to your project', 'Fair pricing'],
   name: 'Name', email: 'Email', phone: 'Phone', description: 'About the project', descriptionHint: 'Address, number of homes, anything we should know',
   plan: 'Floor plan', planHint: 'PDF, JPG, PNG or WebP, up to 25 MB', planChoose: 'Drop the file here or choose one', planReplace: 'Replace', planRemove: 'Remove',
-  submit: 'Get sales package', sending: 'Sending…', uploading: 'Uploading the plan', required: 'required',
+  submit: 'Let’s talk about your project', sending: 'Sending…', uploading: 'Uploading the plan', required: 'required',
   doneTitle: 'Your plan is with us',
   done: email => `We’ve sent a confirmation to ${email}. We’ll be in touch shortly.`,
   again: 'Send another plan',
@@ -124,12 +125,13 @@ const en: LandingCopy = {
 };
 
 const he: LandingCopy = {
- nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'בקשו הדגמה' },
+ nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'בואו נדבר על הפרויקט שלכם', trialShort: 'בואו נדבר' },
  hero: {
-  lead: 'מתוכנית אדריכלית',
+  lead: 'מתוכניות דירה',
   to: '',
-  words: ['לנכס שנמכר.'],
-  lede: 'מעלים את תשריט הדירה ומקבלים תוך דקות עמוד נחיתה מרהיב, עשיר ואינטראקטיבי. העסקה שלכם הולכת להיסגר מהר יותר.',
+  words: ['לחווייה שבאמת מוכרת'],
+  ledeLead: ['תנו למתעניינים ', 'להרגיש', ' את העתיד במקום סתם לדמיין אותו:'],
+  lede: 'אתר פרויקט עם סיורי דירות בווידאו, הדמיות 3D מעוצבות, חומרים לסושיאל וסרט שיווקי ממותג שמחבר הכל.',
   cta: 'בואו נתחיל',
   watch: 'צפו בסרטון',
   play: 'צפו בסרטון',
@@ -138,16 +140,16 @@ const he: LandingCopy = {
  process: {
   title: 'איך זה עובד?',
   replay: 'שוב',
-  step1: { title: 'מעלים את תשריט הדירה', body: 'אפשר להעלות בכל פורמט', file: 'apartment-1-plan.pdf', uploading: 'מעלים', uploaded: 'הועלה', planAlt: 'תוכנית האדריכל של דירת שני חדרים' },
-  engine: { label: 'residence.tech', note: '≈ יום אחד' },
-  step2: { title: 'ומקבלים עמוד נחיתה מושלם', body: 'עם הפיצ׳רים שיעזרו לכם למכור מהר' },
-  icons: { film: 'סרטון', model: 'הדמיית תלת־\u2060מימד', images: 'אימג׳ים באיכות גבוהה', building: 'תצוגת בניין בתלת־\u2060מימד', site: 'לינק ייעודי לרוכשים', languages: 'עמודים בכל שפה' },
-  details: { film: 'סיור בדירה עם סאונד', model: 'אינטראקטיבית וריאליסטית', images: 'לכל חדר בנפרד ולכל הדירה', building: 'עם דירות שנמכרו וכאלה שעוד לא', site: 'עם התאמה למובייל', languages: 'עבור כל קהל יעד' },
+  step1: { title: 'מספרים לנו על הפרויקט ושולחים תוכניות דירה', body: '', file: 'apartment-1-plan.pdf', uploading: 'מעלים', uploaded: 'הועלה', planAlt: 'תוכנית האדריכל של דירת שני חדרים' },
+  engine: { label: 'residence.tech', note: '' },
+  step2: { title: 'מקבלים אתר פרויקט מושלם עם כל מה שצריך כדי למכור', body: '' },
+  icons: { film: 'סיור וידאו לכל דירה', model: 'הדמיות 3D מעוצבות', images: 'תוצרים להורדה לסושיאל', building: 'תצוגת בניין בתלת־\u2060מימד', site: 'סרט ממותג לכל הפרויקט', languages: 'עמודים בכל שפה' },
+  details: { film: 'באיכות מטורפת ועם סאונד', model: 'אינטראקטיבית וריאליסטית', images: 'לכל חדר בנפרד ולכל הדירה', building: 'עם דירות שנמכרו וכאלה שעוד לא', site: 'להיכנס לאווירה ולדמיין את העתיד', languages: 'עבור כל קהל יעד' },
   link: 'residence.tech/klee-8/apt-1', share: 'שיתוף',
  },
  package: {
-  title: 'מה מקבלים?',
-  lede: 'שישה פיצ׳רים ויזואליים ומרהיבים שיגרמו למכירה שלכם להיות קלה ומהירה\u00a0– בעמוד נחיתה אחד ונוח',
+  title: 'טעימה מהתוצרים שתקבלו באתר הפרויקט',
+  lede: '',
   example: 'בדוגמה: N°8 KLEE, דירה 2, תל אביב, ומגדלי שירת הים, נתניה — מהתוכניות שלמעלה.',
   items: {
    film: { title: 'סרטון סיור בדירה', body: 'כולל סאונד ומראה מקום של היכן נמצאים בדירה בכל רגע.' },
@@ -156,6 +158,7 @@ const he: LandingCopy = {
    building: { title: 'הבניין והזמינות', body: 'מסובבים את הבניין ורואים אילו דירות עוד זמינות לרכישה.' },
    site: { title: 'עמוד מכירה', body: 'סרטון, תוכנית, הדמיות ותלת־\u2060מימד בקישור אחד, בכל טלפון.' },
    languages: { title: 'בכל שפה שמוכרים בה', body: 'עברית, אנגלית, פורטוגזית ועוד.' },
+   brand: { title: 'סרט ממותג לכל הפרויקט', body: 'כולל סגיר מכירתי ופרטי התקשרות.' },
   },
   spinNote: '360°',
   forSale: 'למכירה', sold: 'נמכר',
@@ -166,12 +169,12 @@ const he: LandingCopy = {
   ],
  },
  form: {
-  title: 'נסו בעצמכם והגדילו את המכירות שלכם עוד היום!',
-  lede: 'שלחו לנו תוכנית אחת, אנחנו נכין הדגמה של עמוד הנחיתה ונחזור אליכם.',
-  points: ['בלי התחייבות', 'התוכנית נשארת אצל הצוות שלנו בלבד', 'נחזור אליכם תוך יום עבודה'],
+  title: 'מוכנים להפוך את הפרויקט שלכם לחווייה שבאמת מוכרת?',
+  lede: 'השאירו פרטים.\nנחזור אליכם במהירות, נבין את הצרכים שלכם ונבנה לפרויקט שלכם חוויית מכירה מדויקת.',
+  points: ['מענה מהיר', 'מותאם לפרויקט שלכם', 'מחיר משתלם'],
   name: 'שם', email: 'אימייל', phone: 'טלפון', description: 'על הפרויקט', descriptionHint: 'כתובת, מספר דירות, כל מה שכדאי שנדע',
   plan: 'תוכנית דירה', planHint: 'PDF‏, JPG‏, PNG או WebP, עד 25MB', planChoose: 'גררו קובץ לכאן או בחרו קובץ', planReplace: 'החלפה', planRemove: 'הסרה',
-  submit: 'לחצו כאן לשליחה', sending: 'שולחים…', uploading: 'מעלים את התוכנית', required: 'שדה חובה',
+  submit: 'בואו נדבר על הפרויקט הקרוב שלכם', sending: 'שולחים…', uploading: 'מעלים את התוכנית', required: 'שדה חובה',
   doneTitle: 'התוכנית אצלנו',
   done: email => `שלחנו אישור ל־${email}. נחזור אליכם בקרוב.`,
   again: 'שליחת תוכנית נוספת',

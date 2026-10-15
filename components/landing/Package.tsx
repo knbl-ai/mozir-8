@@ -2,8 +2,9 @@
 import { useEffect, useRef, useState } from 'react';
 import BuildingPreview from './BuildingPreview';
 import FilmPreview from './FilmPreview';
-import { FilmIcon, ImagesIcon, BuildingIcon, LanguagesIcon, ModelIcon, SiteIcon } from './icons';
+import { FilmIcon, ImagesIcon, BuildingIcon, ModelIcon, SiteIcon } from './icons';
 import type { DeliverableKey, LandingCopy } from './copy';
+import { useLang } from '@/lib/i18n';
 import { film } from './media';
 import s from './landing.module.css';
 
@@ -41,7 +42,7 @@ function useCycle(active: boolean, count: number, ms: number) {
  return i;
 }
 
-function Card({ id, item, Icon, children, wide }: { id: DeliverableKey; item: { title: string; body: string }; Icon: (p: { size?: number }) => React.ReactNode; wide?: boolean; children: (active: boolean) => React.ReactNode }) {
+function Card({ id, item, Icon, children, wide }: { id: DeliverableKey | 'brand'; item: { title: string; body: string }; Icon: (p: { size?: number }) => React.ReactNode; wide?: boolean; children: (active: boolean) => React.ReactNode }) {
  const { ref, active, handlers } = useActive<HTMLElement>();
  return <article ref={ref} className={s.card} data-card={id} data-wide={wide || undefined} data-active={active || undefined} tabIndex={0} aria-labelledby={`pk-${id}`} {...handlers}>
   <div className={s.cardMedia}>{children(active)}<i className={s.cardTick} aria-hidden /></div>
@@ -64,21 +65,14 @@ function Phone({ active }: { active: boolean }) {
  </div>;
 }
 
-function Languages({ active, lines }: { active: boolean; lines: { tag: string; text: string }[] }) {
- const i = useCycle(active, lines.length, 1600);
- return <div className={s.langs}>
-  <div className={s.langTags}>{lines.map((l, k) => <span key={l.tag} data-on={k === i || undefined}>{l.tag}</span>)}</div>
-  <div className={s.langText}>{lines.map((l, k) => <p key={l.tag} data-on={k === i || undefined} dir={l.tag === 'עב' ? 'rtl' : 'ltr'} lang={l.tag === 'עב' ? 'he' : l.tag === 'PT' ? 'pt' : 'en'}>{l.text}</p>)}</div>
- </div>;
-}
-
 export default function Package({ t, spinFrames, buildingFrames }: { t: LandingCopy['package']; spinFrames: string[]; buildingFrames: string[] }) {
  const it = t.items;
+ const he = useLang() === 'he';
  return <section id="package" className={s.packageSection} aria-labelledby="package-title">
   <div className={s.sectionHead}>
    <div>
     <h2 id="package-title" className={s.sectionTitle}>{t.title}</h2>
-    <p className={s.sectionLede}>{t.lede}</p>
+    {t.lede && <p className={s.sectionLede}>{t.lede}</p>}
    </div>
   </div>
   <div className={s.cards}>
@@ -94,7 +88,10 @@ export default function Package({ t, spinFrames, buildingFrames }: { t: LandingC
      <span className={s.chips}><span data-status="sale">{t.forSale}</span><span data-status="sold">{t.sold}</span></span></>}
    </Card>
    <Card id="site" item={it.site} Icon={SiteIcon}>{a => <Phone active={a} />}</Card>
-   <Card id="languages" item={it.languages} Icon={LanguagesIcon}>{a => <Languages active={a} lines={t.languages} />}</Card>
+   {/* Shirat HaYam's presentation film, ending on its sales card */}
+   <Card id="brand" item={it.brand} Icon={FilmIcon}>
+    {a => <FilmPreview poster={`/projects/shirat-hayam/film/poster${he ? '-he' : ''}.webp`} film={film(`/projects/shirat-hayam/film/presentation${he ? '-he' : ''}.mp4`)} active={a} />}
+   </Card>
   </div>
   <p className={s.note}>{t.example}</p>
  </section>;

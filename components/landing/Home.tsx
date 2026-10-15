@@ -76,7 +76,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
     <a href="#projects">{t.nav.projects}</a>
    </nav>
    <LanguageSwitch id="home-lang" compact />
-   <Button href="#try" size="sm" className={s.headerCta}>{t.nav.trial}</Button>
+   <Button href="#try" size="sm" className={s.headerCta}><span className={s.ctaLong}>{t.nav.trial}</span><span className={s.ctaShort}>{t.nav.trialShort}</span></Button>
   </header>
 
   <main>
@@ -89,7 +89,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
      startIcon={<FileText size={17} strokeWidth={1.8} />} endIcon={<CircleCheck size={17} strokeWidth={1.8} />} draw delay={350} />}
     <div className={s.heroRow}>
      <div className={s.heroText}>
-      <p className={s.lede}>{t.hero.lede}</p>
+      <p className={s.lede}>{t.hero.ledeLead && <strong className={s.ledeLead}>{t.hero.ledeLead[0]}<u>{t.hero.ledeLead[1]}</u>{t.hero.ledeLead[2]}</strong>}{t.hero.lede}</p>
      </div>
      <div className={s.heroActions}>
       <Button href="#try">{t.hero.cta}</Button>

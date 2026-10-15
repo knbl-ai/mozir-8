@@ -35,7 +35,7 @@ function Flow({ t }: { t: LandingCopy['process'] }) {
   <div className={s.flowStep}>
    <span className={s.numeral} aria-hidden>1</span>
    <h3 className={s.stepTitle}>{t.step1.title}</h3>
-   <p className={s.stepBody}>{t.step1.body}</p>
+   {t.step1.body && <p className={s.stepBody}>{t.step1.body}</p>}
    <motion.figure className={s.doc} variants={rise} custom={at(T.doc)}>
     <figcaption className={s.docTab}><FileText size={15} strokeWidth={1.7} aria-hidden /><span dir="ltr">{t.step1.file}</span></figcaption>
     <img src="/landing/plan.webp" alt={t.step1.planAlt} className={s.docPlan} />
@@ -54,7 +54,7 @@ function Flow({ t }: { t: LandingCopy['process'] }) {
     <svg viewBox="-20 -20 208 225" className={s.nodeMark}>
      {BLOCKS.map((d, i) => <motion.path key={d} d={d} variants={pop} custom={at(T.blocks + i * 0.08)} style={{ transformBox: 'fill-box', transformOrigin: 'center' }} />)}
     </svg>
-    <motion.span className={s.nodeNote} variants={rise} custom={at(T.blocks + 0.25)}>{t.engine.note}</motion.span>
+    {t.engine.note && <motion.span className={s.nodeNote} variants={rise} custom={at(T.blocks + 0.25)}>{t.engine.note}</motion.span>}
    </motion.div>
    <span className={s.wire}><motion.i variants={grow} custom={at(T.wireOut)} /><motion.i className={s.wireY} variants={growY} custom={at(T.wireOut)} /></span>
   </div>
@@ -62,7 +62,7 @@ function Flow({ t }: { t: LandingCopy['process'] }) {
   <div className={s.flowStep}>
    <span className={s.numeral} aria-hidden>2</span>
    <h3 className={s.stepTitle}>{t.step2.title}</h3>
-   <p className={s.stepBody}>{t.step2.body}</p>
+   {t.step2.body && <p className={s.stepBody}>{t.step2.body}</p>}
    <motion.ul className={s.pkg} variants={rise} custom={at(T.pkg)}>
     {ICONS.map(([key, Icon], i) => <motion.li key={key} variants={pop} custom={at(T.icons + i * 0.06)}>
      <span className={s.pkgIcon}><Icon size={44} /></span><strong>{t.icons[key]}</strong><small>{t.details[key]}</small>
@@ -71,6 +71,7 @@ function Flow({ t }: { t: LandingCopy['process'] }) {
    <motion.div className={s.shareBar} variants={rise} custom={at(T.icons + 0.45)} aria-hidden>
     <Link2 size={16} strokeWidth={1.8} /><span dir="ltr">{t.link}</span><b>{t.share}</b>
    </motion.div>
+   {t.step2.note && <motion.p className={s.stepNote} variants={rise} custom={at(T.icons + 0.55)}>{t.step2.note}</motion.p>}
   </div>
  </motion.div>;
 }
