@@ -1091,3 +1091,6 @@
 .filmSpin { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid rgb(42 33 24 / 0.25); border-top-color: #2a2118; animation: spin 0.9s linear infinite; }
 .filmFrame video { border-radius: 16px; }
 @media (max-width: 640px) { .filmPlay span { width: 58px; height: 58px; } }
+
+/* the presentation film in the story, in place of the street still */
+.wideFilm video { width: 100%; height: 100%; object-fit: cover; display: block; background: #0d0c0b; }

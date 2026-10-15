@@ -432,8 +432,9 @@ export default function ShiratSite() {
       <strong>{v.toLocaleString('en-US')}</strong><span>{t.story.figures[i][0]}</span><small>{t.story.figures[i][1]}</small>
      </motion.div>)}
    </div>
-   <motion.figure className={s.wide} initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1.1, ease: EASE }}>
-    <FadeImg src={project.stills.street} alt="" loading="lazy" /><figcaption>{t.studyRender}</figcaption>
+   <motion.figure className={`${s.wide} ${s.wideFilm}`} initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1.1, ease: EASE }}>
+    {/* locally from public/ (not uploaded yet), in production straight from the bucket like the home films */}
+    <FilmPlayer src={process.env.NODE_ENV === 'development' ? project.film.src : film(project.film.src)} poster={project.film.poster} label={t.tabs.film} />
    </motion.figure>
   </section>
 

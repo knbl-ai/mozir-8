@@ -22,6 +22,8 @@ export const project = {
  developerUrl: 'https://briga.co.il/en/home-english/',
  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Gesher+HaShmurot+Netanya',
  // From the developer's sheets (floors, homes, plot) — facts about the building, not about any one home.
+ // the presentation film (data/projects/Shirat-HaYam-Netanya/presentation, final 1080p v1, re-encoded for the web)
+ film: { src: `${base}/film/presentation.mp4`, poster: `${base}/film/poster.webp` },
  figures: { towers: 2, floors: 32, homes: UNITS.length, plot: 6635 },
  stills: {
   hero: `${base}/stills/sea.webp`, street: `${base}/stills/street.webp`, pool: `${base}/stills/pool.webp`, lobby: `${base}/stills/lobby.webp`,
