@@ -434,7 +434,7 @@ export default function ShiratSite() {
    </div>
    <motion.figure className={`${s.wide} ${s.wideFilm}`} initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1.1, ease: EASE }}>
     {/* locally from public/ (not uploaded yet), in production straight from the bucket like the home films */}
-    <FilmPlayer src={process.env.NODE_ENV === 'development' ? project.film.src : film(project.film.src)} poster={project.film.poster} label={t.tabs.film} />
+    {(() => { const f = project.film[lang === 'he' ? 'he' : 'en']; return <FilmPlayer key={lang} src={process.env.NODE_ENV === 'development' ? f.src : film(f.src)} poster={f.poster} label={t.tabs.film} />; })()}
    </motion.figure>
   </section>
 
