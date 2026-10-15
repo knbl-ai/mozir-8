@@ -12,7 +12,7 @@ export const env = {
  mongoDb: () => process.env.MONGODB_DB || 'apt3d',
  bucket: () => process.env.GCS_BUCKET || 'knbl-sma',
  leadsPrefix: () => (process.env.LEADS_PREFIX || 'apt3d/leads').replace(/\/+$/, ''),
- leadsFrom: () => process.env.LEADS_FROM || 'info@residence.tech',
+ leadsFrom: () => process.env.LEADS_FROM || 'ai@kanibal.co.il',  // info@residence.tech once its mail authentication (DKIM) is set up
  leadsNotify: () => (process.env.LEADS_NOTIFY || 'ravit@kanibal.co.il,vladi@kanibal.co.il,raz@kanibal.co.il').split(',').map(s => s.trim()).filter(Boolean),
  google: () => ({
   projectId: need('GCLOUD_PROJECT_ID'),
