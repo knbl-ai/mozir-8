@@ -76,7 +76,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
     <a href="#projects">{t.nav.projects}</a>
    </nav>
    <LanguageSwitch id="home-lang" compact />
-   <Button href="#try" size="sm" className={s.headerCta}><span className={s.ctaLong}>{t.nav.trial}</span><span className={s.ctaShort}>{t.nav.trialShort}</span></Button>
+   <Button href="#try" size="sm" className={s.headerCta}>{t.nav.trial}</Button>
   </header>
 
   <main>

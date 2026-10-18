@@ -4,7 +4,7 @@ export type ProjectCopy = { kind: string; name: string; body: string; cta: strin
 export type Item = { title: string; body: string };
 export type DeliverableKey = 'film' | 'model' | 'images' | 'building' | 'site' | 'languages';
 export type LandingCopy = {
- nav: { how: string; package: string; projects: string; trial: string; trialShort: string };
+ nav: { how: string; package: string; projects: string; trial: string };
  hero: { lead: string; to: string; words: string[]; lede: string; ledeLead?: [string, string, string]; cta: string; watch: string; play: string; filmLabel: string; dim?: { start: string; label: string; end: string } };
  process: {
   title: string; replay: string;
@@ -39,7 +39,7 @@ export type LandingCopy = {
 };
 
 const en: LandingCopy = {
- nav: { how: 'How it works', package: 'What you get', projects: 'Projects', trial: 'Let’s talk about your project', trialShort: 'Let’s talk' },
+ nav: { how: 'How it works', package: 'What you get', projects: 'Projects', trial: 'Let’s talk' },
  hero: {
   lead: 'From floor plans',
   to: 'to buyer',
@@ -88,7 +88,7 @@ const en: LandingCopy = {
   points: ['Fast response', 'Tailored to your project', 'Fair pricing'],
   name: 'Name', email: 'Email', phone: 'Phone', description: 'About the project', descriptionHint: 'Address, number of homes, anything we should know',
   plan: 'Floor plan', planHint: 'PDF, JPG, PNG or WebP, up to 25 MB', planChoose: 'Drop the file here or choose one', planReplace: 'Replace', planRemove: 'Remove',
-  submit: 'Let’s talk about your project', sending: 'Sending…', uploading: 'Uploading the plan', required: 'required',
+  submit: 'Let’s talk', sending: 'Sending…', uploading: 'Uploading the plan', required: 'required',
   doneTitle: 'Your plan is with us',
   done: email => `We’ve sent a confirmation to ${email}. We’ll be in touch shortly.`,
   again: 'Send another plan',
@@ -125,7 +125,7 @@ const en: LandingCopy = {
 };
 
 const he: LandingCopy = {
- nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'בואו נדבר על הפרויקט שלכם', trialShort: 'בואו נדבר' },
+ nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'בואו נדבר' },
  hero: {
   lead: 'מתוכניות דירה',
   to: '',
@@ -174,7 +174,7 @@ const he: LandingCopy = {
   points: ['מענה מהיר', 'מותאם לפרויקט שלכם', 'מחיר משתלם'],
   name: 'שם', email: 'אימייל', phone: 'טלפון', description: 'על הפרויקט', descriptionHint: 'כתובת, מספר דירות, כל מה שכדאי שנדע',
   plan: 'תוכנית דירה', planHint: 'PDF‏, JPG‏, PNG או WebP, עד 25MB', planChoose: 'גררו קובץ לכאן או בחרו קובץ', planReplace: 'החלפה', planRemove: 'הסרה',
-  submit: 'בואו נדבר על הפרויקט הקרוב שלכם', sending: 'שולחים…', uploading: 'מעלים את התוכנית', required: 'שדה חובה',
+  submit: 'בואו נדבר', sending: 'שולחים…', uploading: 'מעלים את התוכנית', required: 'שדה חובה',
   doneTitle: 'התוכנית אצלנו',
   done: email => `שלחנו אישור ל־${email}. נחזור אליכם בקרוב.`,
   again: 'שליחת תוכנית נוספת',
