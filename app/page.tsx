@@ -15,13 +15,14 @@ const readSpin = (): string[] => {
  const manifest = path.join(process.cwd(), 'public/landing/spin-apt2/spin.json');
  return fs.existsSync(manifest) ? (JSON.parse(fs.readFileSync(manifest, 'utf8')) as { src: string }[]).map(f => f.src) : [];
 };
-// Shirat HaYam's 360° orbit (72 views, 5° apart): every second view, as the other building previews.
-const readShirat = (): string[] => {
- const manifest = path.join(process.cwd(), 'public/projects/shirat-hayam/orbit-s12/frames.json');
- return fs.existsSync(manifest) ? (JSON.parse(fs.readFileSync(manifest, 'utf8')) as { frames: { src: string }[] }).frames.filter((_, i) => i % 2 === 0).map(f => f.src) : [];
+// Shirat HaYam's 360° orbit (S13: 360 views, 1° apart): every tenth view, 36 views 10° apart like the other building previews.
+const readShirat = (): { src: string; sky: string }[] => {
+ const manifest = path.join(process.cwd(), 'public/projects/shirat-hayam/orbit-s13-360/frames.json');
+ return fs.existsSync(manifest) ? (JSON.parse(fs.readFileSync(manifest, 'utf8')) as { frames: { src: string; sky?: string }[] }).frames.filter((_, i) => i % 10 === 0).map(f => ({ src: f.src, sky: f.sky ?? '#eaebea' })) : [];
 };
 export default function Page() {
  // The display face sets the first screen: fetch it with the HTML, not after the CSS.
  preload('/fonts/archivo-var-latin.woff2', { as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' });
- return <Home buildingFrames={everySecond(readFrames('building-preview'))} penthouseFrames={everySecond(readFrames('afk-urban-comfort'))} heritageFrames={everySecond(readFrames('borges-15'))} spinFrames={readSpin()} towersFrames={readShirat()} />;
+ const towers = readShirat();
+ return <Home buildingFrames={everySecond(readFrames('building-preview'))} penthouseFrames={everySecond(readFrames('afk-urban-comfort'))} heritageFrames={everySecond(readFrames('borges-15'))} spinFrames={readSpin()} towersFrames={towers.map(f => f.src)} towersSky={towers.map(f => f.sky)} />;
 }

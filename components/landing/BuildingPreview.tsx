@@ -9,7 +9,9 @@ const BUILDING_SPAN = 0.72, BUILDING_CENTRE = 0.53; // of the frame's height
 // touch screens while it is on screen — the preview shows what the product does, not a picture of it.
 // span/centre: where the building sits in its frames (share of the frame's height), so it stays in view.
 // fit='contain': the whole frame in view, centred (the apartment turntable, on a transparent background).
-export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, centre = BUILDING_CENTRE, fit = 'cover', fps = FPS, zoom = 1 }: { frames: string[]; active: boolean; span?: number; centre?: number; fit?: 'cover' | 'contain'; fps?: number; zoom?: number }) {
+// skies: each frame's sky colour (a tight render that crops the crowns at some angles): the picture sits at the bottom,
+// a little smaller, and the band above it is that sky, blended over the seam.
+export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, centre = BUILDING_CENTRE, fit = 'cover', fps = FPS, zoom = 1, skies }: { frames: string[]; active: boolean; span?: number; centre?: number; fit?: 'cover' | 'contain'; fps?: number; zoom?: number; skies?: string[] }) {
  const canvas = useRef<HTMLCanvasElement>(null);
  const images = useRef<HTMLImageElement[]>([]);
  const ready = useRef<boolean[]>([]);
@@ -28,10 +30,17 @@ export default function BuildingPreview({ frames, active, span = BUILDING_SPAN, 
    : Math.max(c.width / img.naturalWidth, Math.min(c.height / img.naturalHeight, c.height / (img.naturalHeight * span)));
   // zoom: a closer look than cover (Shirat's towers stand small in a wide orbit frame)
   const w = img.naturalWidth * scale * zoom, h = img.naturalHeight * scale * zoom;
-  const y = fit === 'contain' ? (c.height - h) / 2 : Math.min(0, Math.max(c.height - h, c.height / 2 - h * centre));
+  const sky = skies?.[at.current];
+  const y = sky ? c.height - h : fit === 'contain' ? (c.height - h) / 2 : Math.min(0, Math.max(c.height - h, c.height / 2 - h * centre));
   // Frames with a transparent sky (the complex) would pile up on the last one: start each from a clean canvas.
   ctx.clearRect(0, 0, c.width, c.height);
+  if (sky) { ctx.fillStyle = sky; ctx.fillRect(0, 0, c.width, c.height); }
   ctx.drawImage(img, (c.width - w) / 2, y, w, h);
+  if (sky && y > 0) {
+   const fade = ctx.createLinearGradient(0, y, 0, y + h * 0.1);
+   fade.addColorStop(0, sky); fade.addColorStop(1, sky + '00');
+   ctx.fillStyle = fade; ctx.fillRect(0, y, c.width, h * 0.1);
+  }
  };
 
  // Load after the page settles, first frame first; the rest only once the card is near the screen.

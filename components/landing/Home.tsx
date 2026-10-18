@@ -51,7 +51,7 @@ function Project({ href, text, newTab, tone, preview }: { href: string; text: Pr
  </Link>;
 }
 
-export default function Home({ buildingFrames, penthouseFrames, heritageFrames, spinFrames, towersFrames = [] }: { buildingFrames: string[]; penthouseFrames: string[]; heritageFrames: string[]; spinFrames: string[]; towersFrames?: string[] }) {
+export default function Home({ buildingFrames, penthouseFrames, heritageFrames, spinFrames, towersFrames = [], towersSky }: { buildingFrames: string[]; penthouseFrames: string[]; heritageFrames: string[]; spinFrames: string[]; towersFrames?: string[]; towersSky?: string[] }) {
  const lang = useLang();
  const t = copy[lang];
  const filmLang = lang === 'he' ? 'he' : 'en';
@@ -100,7 +100,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
    </section>
 
    <Process t={t.process} />
-   <Package t={t.package} spinFrames={spinFrames} buildingFrames={towersFrames.length ? towersFrames : buildingFrames} />   {/* the building card: Shirat HaYam's 360° orbit */}
+   <Package t={t.package} spinFrames={spinFrames} buildingFrames={towersFrames.length ? towersFrames : buildingFrames} buildingSky={towersFrames.length ? towersSky : undefined} />   {/* the building card: Shirat HaYam's 360° orbit */}
    <TrialForm t={t.form} lang={filmLang} />
 
    <section id="projects" className={s.projects} aria-labelledby="projects-title">
@@ -112,7 +112,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
     </div>
     <div className={s.projectGrid}>
      <Project href={withLang('/shirat-hayam', lang)} text={p.towers} newTab={p.newTab}
-      preview={a => <BuildingPreview frames={towersFrames} active={a} zoom={1.55} centre={0.47} />} />
+      preview={a => <BuildingPreview frames={towersFrames} active={a} span={1} zoom={0.92} skies={towersSky} />} />
      <Project href={withLang('/projects/borges-15', lang)} text={p.heritage} newTab={p.newTab}
       preview={a => <BuildingPreview frames={heritageFrames} active={a} span={0.6} centre={0.5} />} />
      <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}

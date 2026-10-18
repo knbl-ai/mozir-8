@@ -65,7 +65,7 @@ function Phone({ active }: { active: boolean }) {
  </div>;
 }
 
-export default function Package({ t, spinFrames, buildingFrames }: { t: LandingCopy['package']; spinFrames: string[]; buildingFrames: string[] }) {
+export default function Package({ t, spinFrames, buildingFrames, buildingSky }: { t: LandingCopy['package']; spinFrames: string[]; buildingFrames: string[]; buildingSky?: string[] }) {
  const it = t.items;
  const he = useLang() === 'he';
  return <section id="package" className={s.packageSection} aria-labelledby="package-title">
@@ -84,7 +84,7 @@ export default function Package({ t, spinFrames, buildingFrames }: { t: LandingC
    </Card>
    <Card id="images" item={it.images} Icon={ImagesIcon}>{a => <Stills active={a} />}</Card>
    <Card id="building" item={it.building} Icon={BuildingIcon}>
-    {a => <><BuildingPreview frames={buildingFrames} active={a} zoom={1.55} centre={0.47} />
+    {a => <><BuildingPreview frames={buildingFrames} active={a} span={1} zoom={buildingSky ? 0.92 : 1} skies={buildingSky} />
      <span className={s.chips}><span data-status="sale">{t.forSale}</span><span data-status="sold">{t.sold}</span></span></>}
    </Card>
    <Card id="site" item={it.site} Icon={SiteIcon}>{a => <Phone active={a} />}</Card>
