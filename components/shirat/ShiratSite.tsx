@@ -282,6 +282,7 @@ export default function ShiratSite() {
     onPointerLeave={() => { if (!press.current) hover(null); }}>
 
     {frames[engine.settled] && <div className={s.backdrop} aria-hidden style={{ backgroundImage: `url(${frames[engine.settled].src})` }} />}
+    <div className={s.skyFade} aria-hidden />{/* the sky of the picture, over the stage top: the gap above the building reads as sky */}
     <div className={s.frameBox} style={{ width: box.w, height: box.h, left: box.left, top: box.top, transform: `translateY(50px) scale(${FRAME_SHARE})`, transformOrigin: '50% 50%', WebkitMaskImage: FRAME_MASK, maskImage: FRAME_MASK }}>
      <div className={s.zoomLayer} style={{ transform: `scale(${zoom})`, transformOrigin: origin }}>
       {frames[0] && !engine.firstReady && <img className={s.poster} src={frames[0].src} alt="" draggable={false} />}
