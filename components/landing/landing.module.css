@@ -90,8 +90,8 @@
 @keyframes rise { from { opacity: 0; transform: translateY(0.3em); } to { opacity: 1; transform: none; } }
 .heroDim { margin-top: clamp(28px, 3.8vw, 48px); }
 .heroRow { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px; margin-top: clamp(28px, 4vw, 48px); }
-.heroText { display: grid; gap: 20px; max-width: 760px; animation: rise 0.9s var(--ease) 0.35s both; }
-.lede { margin: 0; max-width: 46ch; font-size: clamp(19px, 1.7vw, 25px); line-height: 1.45; font-weight: 330; color: var(--ink-2); letter-spacing: -0.005em; }
+.heroText { display: grid; gap: 20px; flex: 1 1 520px; max-width: 900px; animation: rise 0.9s var(--ease) 0.35s both; }
+.lede { margin: 0; max-width: none; text-wrap: balance; font-size: clamp(19px, 1.7vw, 25px); line-height: 1.45; font-weight: 330; color: var(--ink-2); letter-spacing: -0.005em; }
 .ledeLead { display: block; margin-bottom: 6px; font-weight: 600; color: var(--forest); }
 .ledeLead u { text-decoration-thickness: 2px; text-underline-offset: 5px; text-decoration-color: var(--orange); }
 .heroActions { display: flex; flex-wrap: wrap; gap: 12px; animation: rise 0.9s var(--ease) 0.45s both; }
