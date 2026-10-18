@@ -24,6 +24,7 @@ const AMENITY_ICONS = [DoorOpen, WavesLadder, Flame, Dumbbell, Flower2, Sofa, Bo
 const ZOOM_IN = 1.9;
 // the frame box is drawn at this share of its fit (between the full fit and 0.8): the towers sit whole in the stage; the backdrop fills the rest
 const FRAME_SHARE = 0.765;
+const PHONE_SHIFT = 20;    // px the towers move down from their fit on a phone (desktop: 50)
 // the picture fades out at its edges, so no hard line shows where it meets the backdrop
 const FRAME_MASK = 'radial-gradient(ellipse 66% 70% at 50% 50%, #000 60%, transparent 100%)';
 const HOVER_MS = 70;
@@ -67,6 +68,8 @@ export default function ShiratSite() {
  useEffect(() => { if (orbit?.count) setRing(ringMode(orbit.count)); }, [orbit?.count]);
  const sources = useMemo(() => ring ? frames.map(f => f.src) : [], [frames, ring]);
  const engine = useFrameSequence(sources, 0, 1, { aspect: 625 / 1000, maxWidth: 2000, turnPerWidth: 260, inertia: 480, video: ring?.video, stride: ring?.stride ?? 1, onVideoFail: () => setRing({ stride: (orbit?.count ?? 0) >= 300 ? 3 : 1 }) });
+ const engineRef = useRef(engine);
+ engineRef.current = engine;
 
  // Where each home shows best (largest outline over the 72 views), so choosing it from a list turns to it.
  const best = useMemo(() => {
@@ -113,7 +116,7 @@ export default function ShiratSite() {
  // ---- stage geometry: the 16:10 frame covers the stage, its centre pulled right of the panel on wide screens
  const stageRef = useRef<HTMLDivElement>(null);
  const panelRef = useRef<HTMLElement>(null);
- const [box, setBox] = useState({ w: 1000, h: 625, left: 0, top: 0, scale: 1, rx0: 0, rx1: 100000 });
+ const [box, setBox] = useState({ w: 1000, h: 625, left: 0, top: 0, scale: 1, rx0: 0, rx1: 100000, shift: 50 });
  useLayoutEffect(() => {
   const el = stageRef.current;
   if (!el) return;
@@ -136,7 +139,7 @@ export default function ShiratSite() {
    const cx = rtl ? pw + region / 2 : region / 2, cy = top0 + availH / 2;
    const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
    const rx0 = rtl ? pw : 0, rx1 = rtl ? W : region;     // the free area must stay covered (the backdrop fills behind the card)
-   setBox({ w, h, left: clamp(cx - (TOWERS.x0 + TOWERS.x1) / 2 * sc, rx1 - w, rx0), top: clamp(cy - (TOWERS.y0 + TOWERS.y1) / 2 * sc, H - h, 0), scale: sc, rx0, rx1 });
+   setBox({ w, h, left: clamp(cx - (TOWERS.x0 + TOWERS.x1) / 2 * sc, rx1 - w, rx0), top: clamp(cy - (TOWERS.y0 + TOWERS.y1) / 2 * sc, H - h, 0), scale: sc, rx0, rx1, shift: W <= 640 ? PHONE_SHIFT : 50 });   // phones: the towers sit higher, clear of the dock
   };
   fit();
   const ro = new ResizeObserver(fit); ro.observe(el); if (panelRef.current) ro.observe(panelRef.current);
@@ -191,9 +194,10 @@ export default function ShiratSite() {
  useEffect(() => {
   const el = stageRef.current;
   if (!el || !frames.length) return;
+  // through the ref: this listener outlives renders, and an engine from before the ring was in has no views (a swipe broke it for good)
   const wheel = (e: WheelEvent) => {
-   if (e.ctrlKey || engine.isDragging() || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
-   e.preventDefault(); dismissHint(); engine.nudgePixels(e.deltaX);
+   if (e.ctrlKey || engineRef.current.isDragging() || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+   e.preventDefault(); dismissHint(); engineRef.current.nudgePixels(e.deltaX);
   };
   el.addEventListener('wheel', wheel, { passive: false });
   return () => el.removeEventListener('wheel', wheel);
@@ -283,7 +287,7 @@ export default function ShiratSite() {
 
     {frames[engine.settled] && <div className={s.backdrop} aria-hidden style={{ backgroundImage: `url(${frames[engine.settled].src})` }} />}
     <div className={s.skyFade} aria-hidden style={{ background: frames[engine.settled]?.sky ?? '#eaebea' }} />{/* the sky of the picture, over the stage top: the gap above the building reads as sky */}
-    <div className={s.frameBox} style={{ width: box.w, height: box.h, left: box.left, top: box.top, transform: `translateY(50px) scale(${FRAME_SHARE})`, transformOrigin: '50% 50%', WebkitMaskImage: FRAME_MASK, maskImage: FRAME_MASK, WebkitMaskComposite: 'source-in', maskComposite: 'intersect' }}>
+    <div className={s.frameBox} style={{ width: box.w, height: box.h, left: box.left, top: box.top, transform: `translateY(${box.shift}px) scale(${FRAME_SHARE})`, transformOrigin: '50% 50%', WebkitMaskImage: FRAME_MASK, maskImage: FRAME_MASK, WebkitMaskComposite: 'source-in', maskComposite: 'intersect' }}>
      <div className={s.zoomLayer} style={{ transform: `scale(${zoom})`, transformOrigin: origin }}>
       {frames[0] && !engine.firstReady && <img className={s.poster} src={frames[0].src} alt="" draggable={false} />}
       <canvas ref={engine.canvasRef} className={s.canvas} role="img" aria-label={t.stage} />

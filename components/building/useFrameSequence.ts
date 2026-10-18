@@ -89,6 +89,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  const draw = (force = false) => {
   if (!canvasRef.current || !count) return;
   const target = Math.round(wrap(position.current)) % count;
+  if (!Number.isFinite(target)) return;
   const v = videoEl.current;
   if (v && videoReady.current) {
    // one seek at a time; when it lands, draw that view and catch up with wherever the position went
@@ -128,6 +129,8 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  };
 
  const finish = () => {
+  if (!count) return;
+  if (!Number.isFinite(position.current)) position.current = Number.isFinite(drawnFrame.current) && drawnFrame.current >= 0 ? drawnFrame.current : 0;   // never let a bad number stick
   position.current = wrap(snap(position.current)) % count;
   draw(true);
   setMovingState(false);
@@ -135,6 +138,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  };
 
  const tick = (now: number) => {
+  if (!Number.isFinite(position.current)) { tween.current = null; chase.current = null; drag.current = null; }
   const dt = lastTick.current ? Math.min(48, now - lastTick.current) : 16;
   lastTick.current = now;
   let active = true;
@@ -174,6 +178,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  };
 
  const beginDrag = (x: number) => {
+  if (!count) return;
   tween.current = null; chase.current = null;
   drag.current = { x, from: position.current, samples: [{ t: performance.now(), p: position.current }] };
   run();
@@ -209,6 +214,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
 
  // Wheel and trackpad deltas, in pixels; accumulates so a long swipe keeps turning.
  const nudgePixels = (pixels: number) => {
+  if (!count || !Number.isFinite(pixels)) return;
   tween.current = null;
   const from = chase.current?.to ?? position.current;
   chase.current = { to: from + pixels / pixelsPerFrame(), tau: WHEEL_TAU };
@@ -216,6 +222,7 @@ export function useFrameSequence(sources: string[], initial: number, zoom: numbe
  };
 
  const step = (frames: number) => {
+  if (!count) return;
   // one eased move per press; presses during a move add to its end
   const from = tween.current ? tween.current.to : chase.current ? chase.current.to : snap(position.current);
   chase.current = null; drag.current = null;
