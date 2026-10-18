@@ -5,7 +5,7 @@ import unitsJson from './shirat-units.json';
 
 export type ShiratUnit = { id: string; b: 'A' | 'B'; f: number; u: string; ph: boolean };
 export type OrbitSpot = { id: string; points: string; c?: [number, number] };
-export type OrbitFrame = { src: string; angle: number; spots: OrbitSpot[] };
+export type OrbitFrame = { src: string; angle: number; spots: OrbitSpot[]; sky?: string };
 export type Orbit = { count: number; width: number; height: number; frames: OrbitFrame[] };
 
 export const UNITS = unitsJson as ShiratUnit[];
