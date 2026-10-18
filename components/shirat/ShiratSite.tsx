@@ -24,6 +24,8 @@ const AMENITY_ICONS = [DoorOpen, WavesLadder, Flame, Dumbbell, Flower2, Sofa, Bo
 const ZOOM_IN = 1.9;
 // the frame box is drawn at this share of its fit (between the full fit and 0.8): the towers sit whole in the stage; the backdrop fills the rest
 const FRAME_SHARE = 0.765;
+// the picture fades out at its edges, so no hard line shows where it meets the backdrop
+const FRAME_MASK = 'radial-gradient(ellipse 66% 70% at 50% 50%, #000 60%, transparent 100%)';
 const HOVER_MS = 70;
 // the towers' extent in the 1000×625 orbit frame, over all 72 views (homes span x 367–634, y 142–479; plus crowns + podium)
 const TOWERS = { x0: 345, x1: 655, y0: 112, y1: 535 };
@@ -280,7 +282,7 @@ export default function ShiratSite() {
     onPointerLeave={() => { if (!press.current) hover(null); }}>
 
     {frames[engine.settled] && <div className={s.backdrop} aria-hidden style={{ backgroundImage: `url(${frames[engine.settled].src})` }} />}
-    <div className={s.frameBox} style={{ width: box.w, height: box.h, left: box.left, top: box.top, transform: `translateY(50px) scale(${FRAME_SHARE})`, transformOrigin: '50% 50%' }}>
+    <div className={s.frameBox} style={{ width: box.w, height: box.h, left: box.left, top: box.top, transform: `translateY(50px) scale(${FRAME_SHARE})`, transformOrigin: '50% 50%', WebkitMaskImage: FRAME_MASK, maskImage: FRAME_MASK }}>
      <div className={s.zoomLayer} style={{ transform: `scale(${zoom})`, transformOrigin: origin }}>
       {frames[0] && !engine.firstReady && <img className={s.poster} src={frames[0].src} alt="" draggable={false} />}
       <canvas ref={engine.canvasRef} className={s.canvas} role="img" aria-label={t.stage} />
