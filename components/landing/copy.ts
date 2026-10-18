@@ -63,7 +63,7 @@ const en: LandingCopy = {
  },
  package: {
   title: 'What you get',
-  lede: 'Every project gets all six. Point at one to see it work.',
+  lede: '',
   example: 'Shown with N°8 KLEE, apartment 2, Tel Aviv, and the Shirat HaYam towers, Netanya: made from the plans above.',
   items: {
    film: { title: 'Walkthrough film', body: 'A cinematic tour of the home, with natural sound.' },
