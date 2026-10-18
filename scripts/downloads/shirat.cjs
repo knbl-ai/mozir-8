@@ -16,7 +16,7 @@ for (const home of Object.values(HOMES)) {
  const title = home.key === 'ph02' ? 'Penthouse 02 · floor 32' : 'Residence 01 · typical floor';
  const files = {};
  files[home.final ? 'video/walkthrough-1080p.mp4' : 'video/walkthrough-draft-480p.mp4'] = read(`${dir}/film.mp4`);
- if (home.model) files['3D/apartment.glb'] = read(`${dir}/model.glb`);
+ if (home.model) files['3D/apartment.glb'] = read(`${dir}/${home.hq.glb}`);
  home.images.forEach((im, i) => { files[`images/${String(i + 1).padStart(2, '0')}-${slug(im.label.en)}.webp`] = read(`${dir}/${im.id}.webp`); });
  files['plans/furnished-plan.webp'] = read(`${dir}/plan.webp`);
  files['plans/architect-plan.webp'] = read(`${dir}/drawing.webp`);
