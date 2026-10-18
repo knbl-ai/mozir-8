@@ -22,6 +22,8 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const AMENITY_GROUPS = [[1, 2, 3, 4], [5, 7, 8, 9], [0, 6]];
 const AMENITY_ICONS = [DoorOpen, WavesLadder, Flame, Dumbbell, Flower2, Sofa, BookOpen, Gamepad2, Wine, Volleyball];
 const ZOOM_IN = 1.9;
+// the frame box is drawn at this share of its fit (between the full fit and 0.8): the towers sit whole in the stage; the backdrop fills the rest
+const FRAME_SHARE = 0.9;
 const HOVER_MS = 70;
 // the towers' extent in the 1000×625 orbit frame, over all 72 views (homes span x 367–634, y 142–479; plus crowns + podium)
 const TOWERS = { x0: 345, x1: 655, y0: 112, y1: 535 };
@@ -125,7 +127,7 @@ export default function ShiratSite() {
    // (the lowest homes end just above the dock, so every home stays clickable)
    const top0 = W > 1100 ? 150 : 64, dockTop = W > 1100 ? 80 : 110;
    const cover = Math.max(region / 1000, H / 625);
-   const sc = Math.max(cover, Math.min(region * 0.98 / (HOMES_X.x1 - HOMES_X.x0), (H - dockTop - top0) / (HOMES_Y1 - TOWERS.y0)));
+   const sc = Math.max(cover, Math.min(region * 0.9 / (TOWERS.x1 - TOWERS.x0), (H - dockTop - top0) / (TOWERS.y1 - TOWERS.y0)));
    const availH = (TOWERS.y1 - TOWERS.y0) * sc;
    const w = 1000 * sc, h = 625 * sc;
    const rtl = document.documentElement.dir === 'rtl';     // the card sits at the end side (right in English)
@@ -278,7 +280,7 @@ export default function ShiratSite() {
     onPointerLeave={() => { if (!press.current) hover(null); }}>
 
     {frames[engine.settled] && <div className={s.backdrop} aria-hidden style={{ backgroundImage: `url(${frames[engine.settled].src})` }} />}
-    <div className={s.frameBox} style={{ width: box.w, height: box.h, left: box.left, top: box.top }}>
+    <div className={s.frameBox} style={{ width: box.w, height: box.h, left: box.left, top: box.top, transform: `translateY(50px) scale(${FRAME_SHARE})`, transformOrigin: '50% 50%' }}>
      <div className={s.zoomLayer} style={{ transform: `scale(${zoom})`, transformOrigin: origin }}>
       {frames[0] && !engine.firstReady && <img className={s.poster} src={frames[0].src} alt="" draggable={false} />}
       <canvas ref={engine.canvasRef} className={s.canvas} role="img" aria-label={t.stage} />
