@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { MotionConfig } from 'motion/react';
-import { ArrowUpRight, CircleCheck, FileText, Play } from 'lucide-react';
+import { ArrowUpRight, Play } from 'lucide-react';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import Logo from '@/components/brand/Logo';
 import { useLang, withLang } from '@/lib/i18n';
@@ -85,8 +85,6 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
      <span className={s.titleLine} style={{ '--i': 0 } as React.CSSProperties} aria-hidden>{t.hero.lead}</span>
      <span className={s.titleLine} style={{ '--i': 1 } as React.CSSProperties} aria-hidden>{t.hero.to && <>{t.hero.to} </>}<Rotator words={t.hero.words} /></span>
     </h1>
-    {t.hero.dim && <DimensionLine className={s.heroDim} start={t.hero.dim.start} label={t.hero.dim.label} end={t.hero.dim.end}
-     startIcon={<FileText size={17} strokeWidth={1.8} />} endIcon={<CircleCheck size={17} strokeWidth={1.8} />} draw delay={350} />}
     <div className={s.heroRow}>
      <div className={s.heroText}>
       <p className={s.lede}>{t.hero.ledeLead && <strong className={s.ledeLead}>{t.hero.ledeLead[0]}<u>{t.hero.ledeLead[1]}</u>{t.hero.ledeLead[2]}</strong>}{t.hero.lede}</p>

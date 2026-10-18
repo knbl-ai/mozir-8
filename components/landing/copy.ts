@@ -5,7 +5,7 @@ export type Item = { title: string; body: string };
 export type DeliverableKey = 'film' | 'model' | 'images' | 'building' | 'site' | 'languages';
 export type LandingCopy = {
  nav: { how: string; package: string; projects: string; trial: string };
- hero: { lead: string; to: string; words: string[]; lede: string; ledeLead?: [string, string, string]; cta: string; watch: string; play: string; filmLabel: string; dim?: { start: string; label: string; end: string } };
+ hero: { lead: string; to: string; words: string[]; lede: string; ledeLead?: [string, string, string]; cta: string; watch: string; play: string; filmLabel: string };
  process: {
   title: string; replay: string;
   step1: Item & { file: string; uploading: string; uploaded: string; planAlt: string };
@@ -49,7 +49,6 @@ const en: LandingCopy = {
   watch: 'Watch the film',
   play: 'Play the film',
   filmLabel: 'residence.tech in 50 seconds',
-  dim: { start: 'Floor plan', label: '1 day', end: 'Ready to sell' },
  },
  process: {
   title: 'How it works',
