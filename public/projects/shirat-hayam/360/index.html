@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>360° view</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+html,body{margin:0;height:100%;background:#0e1411;overflow:hidden;font:14px/1.4 system-ui,-apple-system,Segoe UI,sans-serif;-webkit-user-select:none;user-select:none}
+canvas{display:block;touch-action:none;cursor:grab}canvas.drag{cursor:grabbing}canvas.over{cursor:pointer}
+#tip{position:fixed;pointer-events:none;background:#fff;color:#111;padding:6px 10px;border-radius:6px;box-shadow:0 2px 10px #0006;display:none;font-weight:600;white-space:nowrap}
+#card{position:fixed;left:16px;bottom:16px;max-width:min(300px,calc(100vw - 32px));background:#fff;color:#111;padding:14px 16px;border-radius:12px;box-shadow:0 4px 20px #0006;display:none}
+#card b{font-size:16px}#card small{color:#666;display:block;margin-top:4px}
+#back{position:fixed;left:16px;top:16px;background:#fffd;color:#111;text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:600;font-size:13px;box-shadow:0 2px 10px #0004;backdrop-filter:blur(6px)}
+#load{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#cfd8d2;background:#0e1411;transition:opacity .5s}
+#hint{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#0009;color:#fff;padding:7px 14px;border-radius:999px;font-size:13px;pointer-events:none;transition:opacity .8s}
+</style></head><body>
+<a id="back" href="/">← residence.tech</a>
+<div id="load">Loading 360° view…</div><div id="hint">Drag to look around · scroll to zoom · point at a tower</div>
+<div id="tip"></div><div id="card"></div>
+<script src="three.min.js"></script>
+<script>
+// ---- configuration (every value can be overridden in the URL: ?lon=-171&lat=-5&fov=42)
+var Q = new URLSearchParams(location.search), num = function (k, d) { return Q.has(k) ? parseFloat(Q.get(k)) : d; };
+var CFG = {
+  pano: 'pano.jpg', mask: 'mask.png',                // equirect picture + hover mask (same orientation; mask colours: red = A, green = B, blue = site)
+  lon: num('lon', -171), lat: num('lat', -5), fov: num('fov', 40),   // opening view: towards the towers, zoomed in
+  minFov: 18, maxFov: 95,
+  builds: {
+    A: { name: 'Tower A', info: '107 homes' },
+    B: { name: 'Tower B', info: '108 homes' },
+    S: { name: 'Podium & amenities', info: 'Pool, lobby and gardens' }
+  }
+};
+var rad = Math.PI / 180, W = innerWidth, H = innerHeight;
+var renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.setSize(W, H); renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); document.body.appendChild(renderer.domElement);
+var scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(CFG.fov, W / H, 0.1, 10);
+var geo = new THREE.SphereGeometry(1, 160, 80, -1.5 * Math.PI, 2 * Math.PI, 0, Math.PI); geo.scale(-1, 1, 1);   // forward (lon 0) = picture centre
+var mesh, hlMesh, mask = document.createElement('canvas'), mctx, MW, MH, hlCanvas = document.createElement('canvas'), hlTex, current = null, cache = {};
+var maxTex = renderer.capabilities.maxTextureSize;
+new THREE.TextureLoader().load(CFG.pano, function (t) {
+  t.encoding = THREE.sRGBEncoding; t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: t })); scene.add(mesh); loadMask();
+  var l = document.getElementById('load'); l.style.opacity = 0; setTimeout(function () { l.style.display = 'none'; }, 600);
+  setTimeout(function () { document.getElementById('hint').style.opacity = 0; }, 6000);
+}, undefined, function () { document.getElementById('load').textContent = '360° view could not be loaded'; });
+function loadMask() {
+  var im = new Image(); im.onload = function () {
+    MW = im.width; MH = im.height; mask.width = MW; mask.height = MH; mctx = mask.getContext('2d', { willReadFrequently: true }); mctx.drawImage(im, 0, 0);
+    hlCanvas.width = MW; hlCanvas.height = MH; hlTex = new THREE.CanvasTexture(hlCanvas);
+    hlMesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: hlTex, transparent: true, depthTest: false })); hlMesh.scale.setScalar(0.995); hlMesh.renderOrder = 2; scene.add(hlMesh);
+    var q = Q.get('hover'); if (q) highlight(q);
+  }; im.src = CFG.mask;
+}
+function idAt(u, v) {
+  if (!mctx) return null;
+  var x = Math.min(MW - 1, Math.max(0, Math.floor(u * MW))), y = Math.min(MH - 1, Math.max(0, Math.floor((1 - v) * MH))), d = mctx.getImageData(x, y, 1, 1).data;
+  if (d[3] < 128) return null; if (d[0] > 150 && d[1] < 120) return 'A'; if (d[1] > 150 && d[0] < 120) return 'B'; if (d[2] > 150) return 'S'; return null;
+}
+function highlight(id) {
+  if (id === current || !hlTex) return; current = id; var c = hlCanvas.getContext('2d'); c.clearRect(0, 0, MW, MH);
+  if (id) {
+    if (!cache[id]) {
+      var d = mctx.getImageData(0, 0, MW, MH).data, out = new ImageData(MW, MH), o = out.data;
+      for (var i = 0; i < d.length; i += 4) {
+        var on = d[i + 3] > 128 && ((id === 'A' && d[i] > 150 && d[i + 1] < 120) || (id === 'B' && d[i + 1] > 150 && d[i] < 120) || (id === 'S' && d[i + 2] > 150));
+        if (on) { o[i] = o[i + 1] = o[i + 2] = 255; o[i + 3] = 120; }
+      }
+      cache[id] = out;
+    }
+    c.putImageData(cache[id], 0, 0);
+  }
+  hlTex.needsUpdate = true;
+}
+// ---- view control: drag to look, wheel / pinch to zoom
+var lon = CFG.lon, lat = CFG.lat, fov = CFG.fov, drag = false, moved = 0, sx, sy, pointers = {}, pinch0 = 0, fov0 = fov;
+function update() {
+  lat = Math.max(-85, Math.min(85, lat)); fov = Math.max(CFG.minFov, Math.min(CFG.maxFov, fov));
+  cam.fov = fov; cam.aspect = W / H; cam.updateProjectionMatrix();
+  var p = (90 - lat) * rad, t = lon * rad; cam.lookAt(Math.sin(p) * Math.sin(t), Math.cos(p), -Math.sin(p) * Math.cos(t));
+}
+var el = renderer.domElement, ray = new THREE.Raycaster(), tip = document.getElementById('tip'), card = document.getElementById('card');
+function pick(e) { if (!mesh) return null; ray.setFromCamera(new THREE.Vector2(e.clientX / W * 2 - 1, -(e.clientY / H) * 2 + 1), cam); var h = ray.intersectObject(mesh)[0]; return h && h.uv ? idAt(h.uv.x, h.uv.y) : null; }
+function ids() { return Object.keys(pointers); }
+el.addEventListener('pointerdown', function (e) {
+  pointers[e.pointerId] = e; el.setPointerCapture(e.pointerId); drag = true; moved = 0; sx = e.clientX; sy = e.clientY; el.classList.add('drag');
+  if (ids().length === 2) { var a = pointers[ids()[0]], b = pointers[ids()[1]]; pinch0 = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY); fov0 = fov; }
+});
+el.addEventListener('pointermove', function (e) {
+  if (pointers[e.pointerId]) pointers[e.pointerId] = e;
+  if (ids().length === 2) { var a = pointers[ids()[0]], b = pointers[ids()[1]]; fov = fov0 * pinch0 / Math.max(1, Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY)); moved = 99; return; }
+  if (drag) { var k = fov / H; lon -= (e.clientX - sx) * k; lat += (e.clientY - sy) * k; moved += Math.abs(e.clientX - sx) + Math.abs(e.clientY - sy); sx = e.clientX; sy = e.clientY; tip.style.display = 'none'; return; }
+  var id = pick(e); highlight(id); el.classList.toggle('over', !!id);
+  if (id) { tip.textContent = CFG.builds[id].name; tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY + 14) + 'px'; tip.style.display = 'block'; } else tip.style.display = 'none';
+});
+function up(e) {
+  var wasTap = moved < 5 && ids().length === 1; delete pointers[e.pointerId]; if (!ids().length) { drag = false; el.classList.remove('drag'); }
+  if (wasTap) { var id = pick(e); highlight(id); if (id) { var b = CFG.builds[id]; card.innerHTML = '<b>' + b.name + '</b><small>' + b.info + '</small>'; card.style.display = 'block'; } else card.style.display = 'none'; }
+}
+el.addEventListener('pointerup', up); el.addEventListener('pointercancel', function (e) { delete pointers[e.pointerId]; drag = false; });
+el.addEventListener('wheel', function (e) { e.preventDefault(); fov += e.deltaY * 0.04; }, { passive: false });
+addEventListener('resize', function () { W = innerWidth; H = innerHeight; renderer.setSize(W, H); });
+(function loop() { requestAnimationFrame(loop); update(); renderer.render(scene, cam); })();
+</script></body></html>

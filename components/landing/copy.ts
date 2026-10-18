@@ -16,7 +16,7 @@ export type LandingCopy = {
   link: string; share: string;
  };
  package: {
-  title: string; lede: string; example: string;
+  title: string; lede: string; example: string; view360: string; view360Label: string;
   items: Record<DeliverableKey | 'brand', Item>;
   spinNote: string; forSale: string; sold: string;
   languages: { tag: string; text: string }[];
@@ -64,6 +64,7 @@ const en: LandingCopy = {
   title: 'What you get',
   lede: '',
   example: 'Shown with N°8 KLEE, apartment 2, Tel Aviv, and the Shirat HaYam towers, Netanya: made from the plans above.',
+  view360: '360° view', view360Label: 'The Shirat HaYam towers in a 360° view of the site (opens in a new tab)',
   items: {
    film: { title: 'Walkthrough film', body: 'A cinematic tour of the home, with natural sound.' },
    model: { title: '3D floor plan', body: 'A furnished model buyers turn and zoom.' },
@@ -150,6 +151,7 @@ const he: LandingCopy = {
   title: 'טעימה מהתוצרים שתקבלו באתר הפרויקט',
   lede: '',
   example: 'בדוגמה: N°8 KLEE, דירה 2, תל אביב, ומגדלי שירת הים, נתניה — מהתוכניות שלמעלה.',
+  view360: 'מבט 360°', view360Label: 'מגדלי שירת הים במבט 360° על האתר (נפתח בלשונית חדשה)',
   items: {
    film: { title: 'סרטון סיור בדירה', body: 'כולל סאונד ומראה מקום של היכן נמצאים בדירה בכל רגע.' },
    model: { title: 'תוכנית בתלת־\u2060מימד', body: 'מודל 3D שהרוכש יכול לסובב ולהגדיל כדי לקבל המחשה מדוייקת של החלל' },

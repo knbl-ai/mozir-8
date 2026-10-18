@@ -93,6 +93,6 @@ export default function Package({ t, spinFrames, buildingFrames, buildingSky }: 
     {a => <FilmPreview poster={`/projects/shirat-hayam/film/poster${he ? '-he' : ''}.webp`} film={film(`/projects/shirat-hayam/film/presentation${he ? '-he' : ''}.mp4`)} active={a} />}
    </Card>
   </div>
-  <p className={s.note}>{t.example}</p>
+  <p className={s.note}>{t.example} <a className={s.view360} href="/projects/shirat-hayam/360/index.html" target="_blank" rel="noopener" aria-label={t.view360Label}>{t.view360}</a></p>
  </section>;
 }

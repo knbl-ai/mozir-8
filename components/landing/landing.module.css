@@ -127,6 +127,12 @@ img.filmMedia { background: var(--sage); transition: transform 1.4s var(--ease),
 .stepBody { margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: var(--ink-2); max-width: 44ch; }
 .stepNote { margin: 14px 0 0; font-size: 14px; font-weight: 500; color: var(--ink-2); text-align: center; }
 .note { margin: 28px 0 0; font-size: 14px; color: var(--ink-3); }
+.view360 {
+  display: inline-block; margin-inline-start: 10px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; vertical-align: 1px;
+  font: 500 12px/1.3 var(--mono); letter-spacing: 0.02em; color: var(--ink-2); background: var(--white); text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.view360:hover { color: var(--ink); border-color: var(--orange); }
 
 /* How it works: the process diagram */
 .process { padding-top: clamp(72px, 11vh, 140px); padding-bottom: clamp(48px, 7vh, 96px); }
