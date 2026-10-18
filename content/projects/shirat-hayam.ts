@@ -10,7 +10,7 @@ export type Orbit = { count: number; width: number; height: number; frames: Orbi
 
 export const UNITS = unitsJson as ShiratUnit[];
 export const unitById = (id: string) => UNITS.find(u => u.id === id);
-const ORBIT_DIR = '/projects/shirat-hayam/orbit-s12-360';
+const ORBIT_DIR = '/projects/shirat-hayam/orbit-s13-360';
 export const ORBIT_URL = `${ORBIT_DIR}/frames.json`;
 // the same ring as one video (one view per frame, 30 fps), for browsers that seek fast; see ShiratSite ringMode
 export const ORBIT_VIDEO = `${ORBIT_DIR}/ring.mp4`;
