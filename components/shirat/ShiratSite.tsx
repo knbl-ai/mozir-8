@@ -29,8 +29,8 @@ const PHONE_SHIFT = 20;    // px the towers move down from their fit on a phone 
 const FRAME_MASK = 'radial-gradient(ellipse 66% 70% at 50% 50%, #000 60%, transparent 100%)';
 const HOVER_MS = 70;
 // the towers' extent in the 1000×625 orbit frame, over all 72 views (homes span x 367–634, y 142–479; plus crowns + podium)
-const TOWERS = { x0: 345, x1: 655, y0: 112, y1: 535 };
-const HOMES_X = { x0: 362, x1: 640 }, HOMES_Y1 = 482;
+const TOWERS = { x0: 318, x1: 682, y0: 110, y1: 575 };
+const HOMES_X = { x0: 322, x1: 678 }, HOMES_Y1 = 611;
 
 const polyArea = (pts: string) => {
  const p = pts.split(' ').map(q => q.split(',').map(Number));
