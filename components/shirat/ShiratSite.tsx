@@ -24,7 +24,7 @@ const AMENITY_ICONS = [DoorOpen, WavesLadder, Flame, Dumbbell, Flower2, Sofa, Bo
 const ZOOM_IN = 1.9;
 // the frame box is drawn at this share of its fit (between the full fit and 0.8): the towers sit whole in the stage; the backdrop fills the rest
 const FRAME_SHARE = 1;
-const PHONE_SHIFT = 20;    // px the towers move down from their fit on a phone (desktop: 50)
+const PHONE_SHIFT = -30;   // px the towers move on a phone (negative = up, clear of the view pills and the bar; desktop: 0)
 // the picture fades out at its edges, so no hard line shows where it meets the backdrop
 const FRAME_MASK = 'radial-gradient(ellipse 66% 70% at 50% 50%, #000 60%, transparent 100%)';
 const HOVER_MS = 70;
@@ -131,7 +131,9 @@ export default function ShiratSite() {
    // crowns sit clear below the top controls; the podium may run behind the dock; width = the homes' span, edge to edge
    // (the lowest homes end just above the dock, so every home stays clickable)
    const top0 = W > 1100 ? 150 : 64, dockTop = W > 1100 ? 80 : 110;
-   const cover = Math.max(region / 1000, H / 625);
+   const shift = W <= 640 ? PHONE_SHIFT : 0;
+   // a lift (negative shift) leaves the frame's bottom above the stage, so the frame must be taller by that much
+   const cover = Math.max(region / 1000, (H + Math.max(0, -shift)) / 625);
    const sc = Math.max(cover, Math.min(region * 0.9 / (TOWERS.x1 - TOWERS.x0), (H - dockTop - top0) / (TOWERS.y1 - TOWERS.y0)));
    const availH = (TOWERS.y1 - TOWERS.y0) * sc;
    const w = 1000 * sc, h = 625 * sc;
@@ -139,7 +141,7 @@ export default function ShiratSite() {
    const cx = rtl ? pw + region / 2 : region / 2, cy = top0 + availH / 2;
    const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
    const rx0 = rtl ? pw : 0, rx1 = rtl ? W : region;     // the free area must stay covered (the backdrop fills behind the card)
-   setBox({ w, h, left: clamp(cx - (TOWERS.x0 + TOWERS.x1) / 2 * sc, rx1 - w, rx0), top: clamp(cy - (TOWERS.y0 + TOWERS.y1) / 2 * sc, H - h, 0), scale: sc, rx0, rx1, shift: W <= 640 ? PHONE_SHIFT : 0 });   // phones: the towers sit higher, clear of the dock
+   setBox({ w, h, left: clamp(cx - (TOWERS.x0 + TOWERS.x1) / 2 * sc, rx1 - w, rx0), top: clamp(cy - (TOWERS.y0 + TOWERS.y1) / 2 * sc, H - h - shift, 0), scale: sc, rx0, rx1, shift });   // phones: the towers sit higher, clear of the dock
   };
   fit();
   const ro = new ResizeObserver(fit); ro.observe(el); if (panelRef.current) ro.observe(panelRef.current);
