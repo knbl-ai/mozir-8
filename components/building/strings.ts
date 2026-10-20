@@ -52,7 +52,7 @@ const en = {
  openPlan: (home: string) => `Open the ${home} floor plan full screen`,
  comingSoon: { film: 'The walkthrough film is in production', images: 'Interior images are in production', model: 'The 3D model is in production' }, comingSoonTag: 'Coming soon',
  sampleFilm: 'Sample film from another home', sampleImages: 'Sample imagery from another home', sampleModel: 'Sample model from another home',
- playFilm: 'Play the film', previousImage: 'Previous image', nextImage: 'Next image', images: 'Images',
+ playFilm: 'Play video', previousImage: 'Previous image', nextImage: 'Next image', images: 'Images',
  imageOf: (n: number, total: number) => `${n} of ${total}`, showImage: (label: string) => `Show ${label}`,
  aboutHome: (home: string) => `About the ${home.toLowerCase()}`,
  // lightbox

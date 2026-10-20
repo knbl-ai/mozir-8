@@ -396,7 +396,8 @@ video.previewMedia[data-playing] { opacity: 1; }
 @media (max-width: 640px) {
   .title { font-size: 10.4vw; font-stretch: 108%; letter-spacing: -0.04em; }
   .rotator { display: grid; justify-content: start; }
-  :global(html[lang=he]) .title { font-size: 11vw; }
+  :global(html[lang=he]) .title { font-size: 10vw; }
+  :global(html[lang=he]) .rotator > span { white-space: normal; }
   .brand { font-size: 19px; }
   .header { gap: 10px; }
   .heroActions { width: 100%; }

@@ -47,7 +47,7 @@ const en: LandingCopy = {
   lede: 'Everything you need to market your project – unit walkthroughs, 3D visuals, social-ready assets and a project marketing film.',
   cta: 'Get started',
   watch: 'Watch the film',
-  play: 'Play the film',
+  play: 'Play video',
   filmLabel: 'residence.tech in 50 seconds',
  },
  process: {
