@@ -121,6 +121,8 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       preview={a => <FilmPreview poster="/media/01_living.webp" film={film("/media/residence-film.mp4")} active={a} />} />
      <Project href={withLang('/projects/afk-urban-comfort#explore', lang)} text={p.penthouse} newTab={p.newTab}
       preview={a => <BuildingPreview frames={penthouseFrames} active={a} span={0.6} centre={0.5} />} />
+     <Project href={withLang('/studio-oryx', lang)} text={p.furniture} newTab={p.newTab}
+      preview={a => <FilmPreview poster="/projects/studio-oryx/v1-hero-sm.jpg" film={film("/projects/studio-oryx/film-480p.mp4")} active={a} />} />
     </div>
    </section>
   </main>

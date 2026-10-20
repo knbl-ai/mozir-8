@@ -32,7 +32,7 @@ export type LandingCopy = {
  };
  projects: {
   title: string; lede: string; newTab: string;
-  towers: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy;
+  towers: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy; furniture: ProjectCopy;
  };
  footer: { line: string; contact: string };
  thanks: { kicker: string; title: string; body: (email: string | null) => string; next: string; home: string; projects: string };
@@ -112,6 +112,7 @@ const en: LandingCopy = {
   penthouse: { kind: 'Luxury home', name: 'A.f.k Penthouse', body: 'A penthouse found on its tower, in the project’s own look.', cta: 'Open the penthouse' },
   boutique: { kind: 'Boutique building', name: 'N°8 KLEE', body: 'Three homes to step into, a garden duplex floor by floor.', cta: 'Open N°8 KLEE' },
   heritage: { kind: 'Historic building, Lisbon', name: 'Borges 15', body: 'A Lapa house rebuilt from its plans, with a duplex to walk through.', cta: 'Open Borges 15' },
+  furniture: { kind: 'Furniture maker, Cancún', name: 'Studio ORYX', body: 'Ten hand-made pieces placed in one bedroom from its plan, with a film of the room.', cta: 'Open Studio ORYX' },
  },
  footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech' },
  thanks: {
@@ -199,6 +200,7 @@ const he: LandingCopy = {
   penthouse: { kind: 'דירת יוקרה', name: 'הפנטהאוז ב־A.f.k', body: 'פנטהאוז שמוצאים על המגדל שלו, בעיצוב הפרויקט.', cta: 'לפנטהאוז' },
   boutique: { kind: 'בניין בוטיק', name: 'N°8 KLEE', body: 'שלוש דירות להיכנס אליהן, ודופלקס גן קומה אחר קומה.', cta: 'ל־N°8 KLEE' },
   heritage: { kind: 'בניין היסטורי, ליסבון', name: 'Borges 15', body: 'בית בלאפה שנבנה מחדש מהתוכניות, עם דופלקס לסיור.', cta: 'לבורז׳ש 15' },
+  furniture: { kind: 'יצרן רהיטים, קנקון', name: 'Studio ORYX', body: 'עשרה רהיטים בעבודת יד, מוצבים בחדר שינה אחד לפי התוכנית, עם סרטון של החדר.', cta: 'ל־Studio ORYX' },
  },
  footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech' },
  thanks: {
