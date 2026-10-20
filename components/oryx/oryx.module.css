@@ -5,7 +5,7 @@
 .page {
  --chukum: #E2D3BF; --chukum-deep: #D3C0A6; --rosa: #3E2219; --carbon: #1C1714; --henequen: #B8924F; --selva: #3F5A3C;
  --line: #1c171426; --gut: max(3vw, 16px);
- --stamp: 'Oryx Archivo', 'Inter Var', Arial, sans-serif; --text: 'Caslon Text', Georgia, serif;
+ --stamp: 'Oryx Archivo', 'Hebrew Display', 'Inter Var', Arial, sans-serif; --text: 'Caslon Text', 'Hebrew Serif', Georgia, serif;
  background: var(--chukum); color: var(--carbon); font-family: var(--text); min-height: 100svh;
 }
 .page h1, .page h2, .page h3 { font-family: var(--stamp); font-weight: 800; letter-spacing: -.03em; line-height: 1 }
@@ -17,6 +17,7 @@
 .header { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: 22px var(--gut); color: #f4ece0 }
 .mark { display: inline-flex; align-items: center; gap: 10px; font-family: var(--stamp); font-weight: 800; font-size: 19px; letter-spacing: -.02em }
 .markX { width: 22px; height: 22px; stroke: currentColor; fill: none }
+.headerEnd { display: flex; align-items: center; gap: 18px }
 .headerLink { font-size: 16px; border-bottom: 1px solid #f4ece080; padding-bottom: 2px }
 
 /* ---- hero: the room, full screen, one slow settle-in */
@@ -37,14 +38,14 @@
 .shot:hover img { transform: scale(1.025) }
 .full img { max-height: 96svh }
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1vw }
-.shotCap { position: absolute; left: 18px; bottom: 14px; color: #f6efe4; font-size: 16px; font-style: italic; text-shadow: 0 1px 12px #000a }
+.shotCap { position: absolute; inset-inline-start: 18px; bottom: 14px; color: #f6efe4; font-size: 16px; font-style: italic; text-shadow: 0 1px 12px #000a }
 
 /* ---- the film, wide on walnut, plays when it comes into view */
 .film { margin-top: 1vw; background: var(--rosa); padding: 70px 1vw 26px; color: var(--chukum) }
 .filmTitle { font-size: clamp(36px, 4.4vw, 68px); padding: 0 var(--gut) 36px }
 .filmBox { position: relative }
 .filmBox video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #000; cursor: pointer }
-.filmControls { position: absolute; right: 16px; bottom: 16px; display: flex; gap: 8px }
+.filmControls { position: absolute; inset-inline-end: 16px; bottom: 16px; display: flex; gap: 8px }
 .filmControls button { background: #1c1714b8; color: var(--chukum); border: 0; padding: 10px 16px; font-size: 15px; backdrop-filter: blur(6px) }
 .filmControls button:hover { background: var(--carbon) }
 .filmNote { padding: 14px var(--gut) 0; font-style: italic; font-size: 15px !important; color: var(--henequen) }
@@ -70,7 +71,7 @@
 /* ---- dialog */
 .dialog { margin: auto; border: 0; padding: 0; background: var(--chukum); color: var(--carbon); width: min(1500px, 96vw); max-height: 96svh; overflow: auto; font-family: var(--text) }
 .dialog::backdrop { background: #1c1714f0 }
-.close { position: absolute; top: 12px; right: 12px; z-index: 2; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--chukum); font-size: 16px; box-shadow: 0 2px 14px #0003 }
+.close { position: absolute; top: 12px; inset-inline-end: 12px; z-index: 2; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--chukum); font-size: 16px; box-shadow: 0 2px 14px #0003 }
 .big { display: block; width: 100%; max-height: 84svh; object-fit: contain; background: #000 }
 .caption { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 16px 22px }
 .caption h3, .pieceDialog h3 { font-size: 24px }
@@ -96,4 +97,9 @@
  .filmTitle { padding-bottom: 24px }
  .caption { flex-direction: column; align-items: start }
 }
+/* Hebrew: Heebo / Frank Ruhl carry the letters; no negative tracking, no italic captions */
+:global(html[lang=he]) .page h1, :global(html[lang=he]) .page h2, :global(html[lang=he]) .page h3, :global(html[lang=he]) .mark { letter-spacing: 0; font-weight: 800 }  /* the site's Hebrew headings are 300 */
+:global(html[lang=he]) .page h1, :global(html[lang=he]) .page h2 { line-height: 1.12 }
+:global(html[lang=he]) .shotCap, :global(html[lang=he]) .filmNote, :global(html[lang=he]) .note, :global(html[lang=he]) .seen > span { font-style: normal }
+@media (max-width: 760px) { .headerLink { display: none } }
 @media (prefers-reduced-motion: reduce) { .heroImg, .hero h1 { animation: none } .page * { transition: none !important } }

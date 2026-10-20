@@ -1,7 +1,9 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import LanguageSwitch from '@/components/LanguageSwitch';
+import { useLang } from '@/lib/i18n';
 import { film } from '@/components/landing/media';
-import { M, views, pieces, type ViewId } from './content';
+import { M, viewIds, pieces, oryxText, type OryxText, type ViewId } from './content';
 import s from './oryx.module.css';
 
 const X = ({ className }: { className?: string }) => <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
@@ -9,10 +11,10 @@ const X = ({ className }: { className?: string }) => <svg viewBox="0 0 24 24" cl
 </svg>;
 
 type Open = { kind: 'view'; i: number } | { kind: 'piece'; code: string } | null;
-const vi = (id: ViewId) => views.findIndex(v => v.id === id);
+const vi = (id: ViewId) => viewIds.indexOf(id);
 
 // The film plays muted while it is on screen and pauses when it leaves (never with reduced motion).
-function RoomFilm() {
+function RoomFilm({ t }: { t: OryxText }) {
  const box = useRef<HTMLDivElement>(null);
  const video = useRef<HTMLVideoElement>(null);
  const [muted, setMuted] = useState(true);
@@ -29,21 +31,22 @@ function RoomFilm() {
   <video ref={video} src={film(M + 'film-480p.mp4')} poster={M + 'film-poster.jpg'} muted={muted} loop playsInline preload="metadata"
    onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onClick={toggle} />
   <div className={s.filmControls}>
-   <button onClick={toggle}>{playing ? 'Pause' : 'Play'}</button>
-   <button onClick={() => setMuted(m => !m)} aria-pressed={!muted}>{muted ? 'Sound on' : 'Sound off'}</button>
+   <button onClick={toggle}>{playing ? t.pause : t.play}</button>
+   <button onClick={() => setMuted(m => !m)} aria-pressed={!muted}>{muted ? t.soundOn : t.soundOff}</button>
   </div>
  </div>;
 }
 
-function Shot({ id, onOpen, className }: { id: ViewId; onOpen: (i: number) => void; className?: string }) {
- const v = views[vi(id)];
- return <button className={`${s.shot} ${className ?? ''}`} onClick={() => onOpen(vi(id))} aria-label={`${v.title}: view full screen`}>
+function Shot({ id, t, onOpen, className }: { id: ViewId; t: OryxText; onOpen: (i: number) => void; className?: string }) {
+ const v = t.views[id];
+ return <button className={`${s.shot} ${className ?? ''}`} onClick={() => onOpen(vi(id))} aria-label={t.fullScreen(v.title)}>
   <img src={M + id + '.jpg'} alt={v.text} loading="lazy" />
   <span className={s.shotCap}>{v.title}</span>
  </button>;
 }
 
 export default function OryxSite() {
+ const lang = useLang(); const t = oryxText[lang]; const rtl = lang === 'he';
  const [open, setOpen] = useState<Open>(null);
  const dialog = useRef<HTMLDialogElement>(null);
  const last = useRef<HTMLElement | null>(null);
@@ -56,90 +59,96 @@ export default function OryxSite() {
 
  const close = () => setOpen(null);
  const showView = (i: number) => setOpen({ kind: 'view', i });
- const move = (d: number) => setOpen(o => o?.kind === 'view' ? { kind: 'view', i: (o.i + d + views.length) % views.length } : o);
+ const move = (d: number) => setOpen(o => o?.kind === 'view' ? { kind: 'view', i: (o.i + d + viewIds.length) % viewIds.length } : o);
  const piece = open?.kind === 'piece' ? pieces.find(p => p.code === open.code) : undefined;
+ const name = (code: string) => t.pieces[code].title;
+ // straight to the video's top edge (the site's global scroll-padding-top would leave the heading in view)
+ const toFilm = (e: React.MouseEvent) => { e.preventDefault(); const f = document.getElementById('room-film'); if (f) window.scrollTo({ top: f.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' }); };
 
  return <div className={s.page}>
   <header className={s.header}>
    <a href="#" className={s.mark}><X className={s.markX} />Studio ORYX</a>
-   <a href="#room-film" className={s.headerLink} onClick={e => { e.preventDefault(); const f = document.getElementById('room-film'); if (f) window.scrollTo({ top: f.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' }); }}>Watch the room</a>
+   <div className={s.headerEnd}>
+    <LanguageSwitch id="oryx-lang" compact tone="glass" />
+    <a href="#room-film" className={s.headerLink} onClick={toFilm}>{t.watch}</a>
+   </div>
   </header>
 
   <main>
    <section className={s.hero} aria-labelledby="oryx-title">
-    <img className={s.heroImg} src={M + 'v1-hero.jpg'} alt="A calm Cancún bedroom furnished with Studio ORYX pieces, seen from the door" fetchPriority="high" />
+    <img className={s.heroImg} src={M + 'v1-hero.jpg'} alt={t.heroAlt} fetchPriority="high" />
     <div className={s.heroShade} />
     <div className={s.heroCopy}>
-     <h1 id="oryx-title">A bedroom in Cancún,<br />furnished by Studio ORYX</h1>
-     <a href="#room" className={s.down} aria-label="Step into the room">↓</a>
+     <h1 id="oryx-title">{t.heroTitle[0]}<br />{t.heroTitle[1]}</h1>
+     <a href="#room" className={s.down} aria-label={t.down}>↓</a>
     </div>
    </section>
 
-   <section id="room" className={s.walk} aria-label="The room">
-    <Shot id="v2-bed" onOpen={showView} className={s.full} />
+   <section id="room" className={s.walk} aria-label={t.room}>
+    <Shot id="v2-bed" t={t} onOpen={showView} className={s.full} />
     <div className={s.pair}>
-     <Shot id="c1-headboard" onOpen={showView} />
-     <Shot id="c2-chair" onOpen={showView} />
+     <Shot id="c1-headboard" t={t} onOpen={showView} />
+     <Shot id="c2-chair" t={t} onOpen={showView} />
     </div>
-    <Shot id="v3-nook" onOpen={showView} className={s.full} />
+    <Shot id="v3-nook" t={t} onOpen={showView} className={s.full} />
    </section>
 
    <section id="film" className={s.film} aria-labelledby="film-title">
-    <h2 id="film-title" className={s.filmTitle}>Walk through the room</h2>
-    <RoomFilm />
-    <p className={s.filmNote}>Review draft · 480p</p>
+    <h2 id="film-title" className={s.filmTitle}>{t.filmTitle}</h2>
+    <RoomFilm t={t} />
+    <p className={s.filmNote}>{t.filmNote}</p>
    </section>
 
-   <section className={s.walk} aria-label="More of the room">
+   <section className={s.walk} aria-label={t.moreRoom}>
     <div className={s.pair}>
-     <Shot id="v5-mirror" onOpen={showView} />
-     <Shot id="v4-tv" onOpen={showView} />
+     <Shot id="v5-mirror" t={t} onOpen={showView} />
+     <Shot id="v4-tv" t={t} onOpen={showView} />
     </div>
    </section>
 
    <section id="pieces" className={s.pieces} aria-labelledby="pieces-title">
     <div className={s.piecesHead}>
-     <h2 id="pieces-title">The pieces</h2>
-     <p>Hand-made in Cancún. Each piece as Studio ORYX photographed it, with its catalogue code.</p>
+     <h2 id="pieces-title">{t.piecesTitle}</h2>
+     <p>{t.piecesText}</p>
     </div>
     <ol className={s.pieceList}>
      {pieces.map(p => <li key={p.code} className={s.piece}>
-      <button className={s.pieceImg} onClick={() => setOpen({ kind: 'piece', code: p.code })} aria-label={`${p.name}: enlarge the ORYX photo`}>
-       <img src={M + p.photo + '.jpg'} alt={`${p.name}, ORYX studio photo`} loading="lazy" />
+      <button className={s.pieceImg} onClick={() => setOpen({ kind: 'piece', code: p.code })} aria-label={t.enlarge(name(p.code))}>
+       <img src={M + p.photo + '.jpg'} alt={t.photoAlt(name(p.code))} loading="lazy" />
       </button>
       <span className={s.code}>{p.code}</span>
-      <h3>{p.name}{p.count ? <span className={s.count}> ×{p.count}</span> : null}</h3>
+      <h3>{name(p.code)}{p.count ? <span className={s.count}> ×{p.count}</span> : null}</h3>
      </li>)}
     </ol>
    </section>
 
-   <p className={s.note}>The room, its light and styling are a proposal, shown in AI-generated images and film made from the floor plan and ORYX product photos. The ORYX photos are the reference for every piece.</p>
+   <p className={s.note}>{t.note}</p>
   </main>
 
   <footer className={s.footer}>
    <a href="#" className={s.mark}><X className={s.markX} />Studio ORYX</a>
    <a href="https://www.studioryx.com" target="_blank" rel="noreferrer">studioryx.com</a>
-   <span>Visualised by <a href="/">residence.tech</a></span>
+   <span>{t.visualised} <a href="/">residence.tech</a></span>
   </footer>
 
   <dialog ref={dialog} className={s.dialog} onCancel={e => { e.preventDefault(); close(); }} onClick={e => { if (e.target === dialog.current) close(); }}
-   onKeyDown={e => { if (open?.kind === 'view' && e.key === 'ArrowRight') move(1); if (open?.kind === 'view' && e.key === 'ArrowLeft') move(-1); }}
-   aria-label={open?.kind === 'piece' ? 'ORYX piece' : 'Room view'}>
-   <button className={s.close} autoFocus onClick={close} aria-label="Close">✕</button>
+   onKeyDown={e => { if (open?.kind !== 'view') return; if (e.key === 'ArrowRight') move(rtl ? -1 : 1); if (e.key === 'ArrowLeft') move(rtl ? 1 : -1); }}
+   aria-label={open?.kind === 'piece' ? t.pieceDialog : t.viewDialog}>
+   <button className={s.close} autoFocus onClick={close} aria-label={t.close}>✕</button>
    {open?.kind === 'view' && <>
-    <img className={s.big} src={M + views[open.i].id + '.jpg'} alt={views[open.i].text} />
+    <img className={s.big} src={M + viewIds[open.i] + '.jpg'} alt={t.views[viewIds[open.i]].text} />
     <div className={s.caption}>
-     <h3>{views[open.i].title}</h3>
-     <div className={s.arrows}><button onClick={() => move(-1)} aria-label="Previous view">←</button><span>{open.i + 1} of {views.length}</span><button onClick={() => move(1)} aria-label="Next view">→</button></div>
+     <h3>{t.views[viewIds[open.i]].title}</h3>
+     <div className={s.arrows}><button onClick={() => move(-1)} aria-label={t.prev}>{rtl ? '→' : '←'}</button><span>{open.i + 1} {t.of} {viewIds.length}</span><button onClick={() => move(1)} aria-label={t.next}>{rtl ? '←' : '→'}</button></div>
     </div>
    </>}
    {piece && <div className={s.pieceDialog}>
-    <img src={M + piece.photo + '.jpg'} alt={`${piece.name}, ORYX studio photo`} />
+    <img src={M + piece.photo + '.jpg'} alt={t.photoAlt(name(piece.code))} />
     <div>
      <span className={s.code}>{piece.code}</span>
-     <h3>{piece.name}{piece.count ? <span className={s.count}> ×{piece.count}</span> : null}</h3>
-     <p>{piece.text}</p>
-     <div className={s.seen}><span>In the room:</span>{piece.seenIn.map(id => <button key={id} onClick={() => showView(vi(id))}>{views[vi(id)].title}</button>)}</div>
+     <h3>{name(piece.code)}{piece.count ? <span className={s.count}> ×{piece.count}</span> : null}</h3>
+     <p>{t.pieces[piece.code].text}</p>
+     <div className={s.seen}><span>{t.inRoom}</span>{piece.seenIn.map(id => <button key={id} onClick={() => showView(vi(id))}>{t.views[id].title}</button>)}</div>
     </div>
    </div>}
   </dialog>
