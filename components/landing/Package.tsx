@@ -42,9 +42,9 @@ function useCycle(active: boolean, count: number, ms: number) {
  return i;
 }
 
-function Card({ id, item, Icon, children, wide, span }: { id: DeliverableKey; item: { title: string; body: string }; Icon: (p: { size?: number }) => React.ReactNode; wide?: boolean; span?: boolean; children: (active: boolean) => React.ReactNode }) {
+function Card({ id, item, Icon, children, wide, tall }: { id: DeliverableKey; item: { title: string; body: string }; Icon: (p: { size?: number }) => React.ReactNode; wide?: boolean; tall?: boolean; children: (active: boolean) => React.ReactNode }) {
  const { ref, active, handlers } = useActive<HTMLElement>();
- return <article ref={ref} className={s.card} data-card={id} data-wide={wide || undefined} data-span={span || undefined} data-active={active || undefined} tabIndex={0} aria-labelledby={`pk-${id}`} {...handlers}>
+ return <article ref={ref} className={s.card} data-card={id} data-wide={wide || undefined} data-tall={tall || undefined} data-active={active || undefined} tabIndex={0} aria-labelledby={`pk-${id}`} {...handlers}>
   <div className={s.cardMedia}>{children(active)}<i className={s.cardTick} aria-hidden /></div>
   <div className={s.cardText}>
    <span className={s.cardIcon}><Icon size={26} /></span>
@@ -78,6 +78,7 @@ export default function Package({ t, spinFrames, buildingFrames, buildingSky }: 
    <Card id="film" item={it.film} Icon={FilmIcon} wide>
     {a => <FilmPreview poster="/projects/klee-8/media/apt-2/poster.webp" film={film("/projects/klee-8/media/apt-2/film.mp4")} active={a} />}
    </Card>
+   <Card id="site" item={it.site} Icon={SiteIcon} tall>{a => <Phone active={a} />}</Card>
    <Card id="model" item={it.model} Icon={ModelIcon}>
     {a => <><BuildingPreview frames={spinFrames} active={a} fit="contain" fps={24} zoom={1.15} /><span className={s.mediaNote}>{t.spinNote}</span></>}
    </Card>
@@ -86,7 +87,6 @@ export default function Package({ t, spinFrames, buildingFrames, buildingSky }: 
     {a => <><BuildingPreview frames={buildingFrames} active={a} span={1} zoom={buildingSky ? 0.92 : 1} skies={buildingSky} />
      <span className={s.chips}><span data-status="sale">{t.forSale}</span><span data-status="sold">{t.sold}</span></span></>}
    </Card>
-   <Card id="site" item={it.site} Icon={SiteIcon} span>{a => <Phone active={a} />}</Card>
   </div>
   <p className={s.note}>{t.example}</p>
  </section>;

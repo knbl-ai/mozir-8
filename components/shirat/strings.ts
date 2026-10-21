@@ -1,7 +1,7 @@
 import type { Lang } from '@/lib/i18n';
 
 const en = {
- name: 'Alma Bay', place: 'Netanya', by: 'by Orelia',
+ name: 'Alma Bay', place: '', by: 'by Orelia',
  nav: { residences: 'Residences', project: 'The project', amenities: 'Amenities', location: 'Location' },
  register: 'Inquire',
  tower: 'Tower', towerN: (b: string) => `Tower ${b}`, both: 'Both towers', floor: 'Floor', floorN: (f: number) => `Floor ${f}`,
@@ -31,8 +31,8 @@ const en = {
  fromSea: 'from the sea',
  stage: 'The towers in 360°. Drag to turn; every residence can be chosen.',
  story: {
-  kicker: 'Orelia · Netanya', title: ['Life above', 'the sea.'],
-  lead: 'Two 32-storey towers on the cliff above Netanya’s southern beaches. Homes that open to the Mediterranean, a resort-like podium between them, and the city at your door.',
+  kicker: 'Orelia', title: ['Life above', 'the sea.'],
+  lead: 'Two 32-storey towers on the cliff above the southern beaches. Homes that open to the Mediterranean, a resort-like podium between them, and the city at your door.',
   figures: [['Towers', 'A and B, side by side'], ['Floors', 'above a shared podium'], ['Residences', 'from apartments to penthouses'], ['m² plot', 'on the coastal cliff']],
   amenityGroups: ['Wellness', 'Leisure', 'Arrival & community'],
   amenitiesKicker: 'Amenities', amenitiesTitle: 'A resort at home.',
@@ -42,7 +42,7 @@ const en = {
   lobbyKicker: 'The entrance lobby', lobbyTitle: 'Arrive like a guest.', lobbyLead: 'A double-height hall between the towers: honed travertine, champagne bronze and a sculpted light over the concierge, with the pool and the sea beyond the glass.',
   lobbyTiles: { hall: 'The concierge, facing the pool', salon: 'The residents’ salon', entry: 'Arrival, through the revolving door' },
   locationKicker: 'Location', locationTitle: 'Where the city meets the coast.',
-  locationLead: 'On Netanya’s southern coast, by Ben Gurion Boulevard and the Gesher HaShmurot footbridge: the beach below, parks and the city inland.',
+  locationLead: 'On the southern coast: the beach below, parks and the city inland.',
   openMaps: 'Open in Maps', developer: 'About Orelia',
   brandLine: 'Building at a different level. Since 1979.',
   disclaimer: 'Illustrative only; not a representation or commitment. The 3D towers are a study model built from the developer’s floor plans; facade materials, landscaping, the surrounding city and heights not given in the plans are illustrative. Residence details will be published by the developer. E&OE.',
@@ -72,7 +72,7 @@ const en = {
 
 type Strings = typeof en;
 const he: Strings = {
- name: 'אלמה ביי', place: 'נתניה', by: 'של אורליה',
+ name: 'אלמה ביי', place: '', by: 'של אורליה',
  nav: { residences: 'הדירות', project: 'הפרויקט', amenities: 'מתקנים', location: 'מיקום' },
  register: 'לבירורים',
  tower: 'מגדל', towerN: b => `מגדל ${b}`, both: 'שני המגדלים', floor: 'קומה', floorN: f => `קומה ${f}`,
@@ -102,8 +102,8 @@ const he: Strings = {
  fromSea: 'מהים',
  stage: 'המגדלים ב־360°. גררו לסיבוב; כל דירה ניתנת לבחירה.',
  story: {
-  kicker: 'אורליה · נתניה', title: ['החיים', 'מעל הים.'],
-  lead: 'שני מגדלים בני 32 קומות על המצוק מעל חופי דרום נתניה. בתים שנפתחים אל הים התיכון, פודיום בסגנון ריזורט ביניהם, והעיר בפתח.',
+  kicker: 'אורליה', title: ['החיים', 'מעל הים.'],
+  lead: 'שני מגדלים בני 32 קומות על המצוק מעל חופי הדרום. בתים שנפתחים אל הים התיכון, פודיום בסגנון ריזורט ביניהם, והעיר בפתח.',
   figures: [['מגדלים', 'A ו־B, זה לצד זה'], ['קומות', 'מעל פודיום משותף'], ['דירות', 'מדירות ועד פנטהאוזים'], ['מ״ר מגרש', 'על מצוק החוף']],
   amenityGroups: ['בריאות ורוגע', 'פנאי', 'הגעה וקהילה'],
   amenitiesKicker: 'מתקנים', amenitiesTitle: 'ריזורט בבית.',
@@ -113,7 +113,7 @@ const he: Strings = {
   lobbyKicker: 'לובי הכניסה', lobbyTitle: 'להגיע כמו אורח.', lobbyLead: 'אולם בגובה כפול בין המגדלים: טרוורטין מושחז, ברונזה בגוון שמפניה וגוף תאורה מפוסל מעל דלפק הקונסיירז׳, והבריכה והים מעבר לזכוכית.',
   lobbyTiles: { hall: 'הקונסיירז׳, מול הבריכה', salon: 'טרקלין הדיירים', entry: 'הגעה, דרך הדלת המסתובבת' },
   locationKicker: 'מיקום', locationTitle: 'במקום שבו העיר פוגשת את החוף.',
-  locationLead: 'בחוף הדרומי של נתניה, ליד שדרות בן גוריון וגשר השומרות: החוף למטה, פארקים והעיר מזרחה.',
+  locationLead: 'בחוף הדרומי: החוף למטה, פארקים והעיר מזרחה.',
   openMaps: 'פתיחה במפות', developer: 'על אורליה',
   brandLine: 'בונים ברמה אחרת. מאז 1979.',
   disclaimer: 'להמחשה בלבד; אינו מהווה מצג או התחייבות. המגדלים בתלת־ממד הם מודל עבודה שנבנה מתוכניות היזם; חומרי החזית, הפיתוח, העיר שמסביב והגבהים שאינם מופיעים בתוכניות הם להמחשה. פרטי הדירות יפורסמו על ידי היזם. ט.ל.ח.',

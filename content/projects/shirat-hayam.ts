@@ -1,4 +1,4 @@
-// Alma Bay · Netanya, by Orelia (the former Shirat HaYam / BRIGA page, renamed to a fictional project; asset folders keep the old name): towers A and B (32 floors each) on a shared podium above the southern beaches.
+// Alma Bay, by Orelia (the former Shirat HaYam / BRIGA page, renamed to a fictional project; asset folders keep the old name): towers A and B (32 floors each) on a shared podium above the southern beaches.
 // The building is the measured model (data/projects/Shirat-HaYam-Netanya/building, S11); every home is selectable.
 // Homes carry only their place (tower, floor, number): plans, areas, prices and media are not published yet.
 import unitsJson from './shirat-units.json';
@@ -20,7 +20,6 @@ export const project = {
  base,
  logoBlack: '/brand/orelia-logo-black.png', logoWhite: '/brand/orelia-logo-white.png',
  developerUrl: 'https://www.residence.tech',
- mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Gesher+HaShmurot+Netanya',
  // From the developer's sheets (floors, homes, plot) — facts about the building, not about any one home.
  // the presentation film (data/projects/Shirat-HaYam-Netanya/presentation, 1080p v1, re-encoded for the web), one per language
  film: {

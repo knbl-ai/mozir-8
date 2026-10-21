@@ -178,7 +178,7 @@ export default function ShiratSite() {
   const timer = setTimeout(() => { try { const url = new URL(window.location.href); url.searchParams.set('home', selected); window.history.replaceState(window.history.state, '', url); } catch { /* sandboxed */ } }, 350);
   return () => clearTimeout(timer);
  }, [selected]);
- useEffect(() => { document.title = `${t.name} · ${t.place} · Orelia`; }, [t]);
+ useEffect(() => { document.title = `${t.name} · Orelia`; }, [t]);
 
  // ---- pointer on the stage: drag turns, a still click picks the home under it
  const press = useRef<{ x: number; moved: boolean } | null>(null);
@@ -250,8 +250,8 @@ export default function ShiratSite() {
    <a href={project.developerUrl} target="_blank" rel="noreferrer" className={s.logo} aria-label="Orelia">
     <img src={project.logoBlack} alt="Orelia · Development since 2004" width={1600} height={452} />
    </a>
-   <div className={s.wordmark} aria-label={`${t.name}, ${t.place}`}>
-    <span>{t.name.toUpperCase()}</span><small>{t.place.toUpperCase()}</small>
+   <div className={s.wordmark} aria-label={t.name}>
+    <span>{t.name.toUpperCase()}</span>
    </div>
    <div className={s.barEnd}>
     <LanguageSwitch id="shirat-lang" compact tone="glass" />
@@ -498,7 +498,6 @@ export default function ShiratSite() {
     <p className={s.kicker}>{t.story.locationKicker}</p>
     <h2 className={s.display2}>{t.story.locationTitle}</h2>
     <p className={s.lead}>{t.story.locationLead}</p>
-    <a className={s.linkBtn} href={project.mapsUrl} target="_blank" rel="noreferrer">{t.story.openMaps}<ArrowUpRight size={15} strokeWidth={1.8} aria-hidden /></a>
    </motion.div>
   </section>
 
