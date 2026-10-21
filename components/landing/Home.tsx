@@ -109,8 +109,6 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
      </div>
     </div>
     <div className={s.projectGrid}>
-     <Project href={withLang('/shirat-hayam', lang)} text={p.towers} newTab={p.newTab}
-      preview={a => <BuildingPreview frames={towersFrames} active={a} span={1} zoom={0.92} skies={towersSky} />} />
      <Project href={withLang('/projects/borges-15', lang)} text={p.heritage} newTab={p.newTab}
       preview={a => <BuildingPreview frames={heritageFrames} active={a} span={0.6} centre={0.5} />} />
      <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}
