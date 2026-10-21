@@ -178,7 +178,7 @@ export default function ShiratSite() {
   const timer = setTimeout(() => { try { const url = new URL(window.location.href); url.searchParams.set('home', selected); window.history.replaceState(window.history.state, '', url); } catch { /* sandboxed */ } }, 350);
   return () => clearTimeout(timer);
  }, [selected]);
- useEffect(() => { document.title = `${t.name} · ${t.place} · BRIGA`; }, [t]);
+ useEffect(() => { document.title = `${t.name} · ${t.place} · Orelia`; }, [t]);
 
  // ---- pointer on the stage: drag turns, a still click picks the home under it
  const press = useRef<{ x: number; moved: boolean } | null>(null);
@@ -247,11 +247,11 @@ export default function ShiratSite() {
  return <MotionConfig reducedMotion="user"><div className={s.page} data-compact={(compact && !focus) || undefined} data-focus={focus || undefined}>
   {/* ---------------------------------------------------------------- top bar */}
   <header className={s.bar}>
-   <a href={project.developerUrl} target="_blank" rel="noreferrer" className={s.logo} aria-label="BRIGA">
-    <img src={project.logoBlack} alt="BRIGA · Real estate since 1979" width={1600} height={452} />
+   <a href={project.developerUrl} target="_blank" rel="noreferrer" className={s.logo} aria-label="Orelia">
+    <img src={project.logoBlack} alt="Orelia · Development since 2004" width={1600} height={452} />
    </a>
    <div className={s.wordmark} aria-label={`${t.name}, ${t.place}`}>
-    <span>SHIRAT HAYAM</span><small>NETANYA</small>
+    <span>{t.name.toUpperCase()}</span><small>{t.place.toUpperCase()}</small>
    </div>
    <div className={s.barEnd}>
     <LanguageSwitch id="shirat-lang" compact tone="glass" />
@@ -381,7 +381,7 @@ export default function ShiratSite() {
       <div className={s.headActions}>
        <div className={s.actRow}>
         <button type="button" className={s.secondary} onClick={copyLink} aria-label={t.share} title={t.share}>{copied ? <Check size={15} strokeWidth={1.8} aria-hidden /> : <Link2 size={15} strokeWidth={1.6} aria-hidden />}</button>
-        {media && <a className={s.dlBtn} href={`/downloads/shirat-hayam/${media.key}.zip`} download={`shirat-hayam-${media.key}.zip`} aria-label={t.downloadTitle} title={t.downloadTitle}>
+        {media && <a className={s.dlBtn} href={`/downloads/alma-bay/${media.key}.zip`} download={`alma-bay-${media.key}.zip`} aria-label={t.downloadTitle} title={t.downloadTitle}>
          <Download size={14} strokeWidth={1.6} aria-hidden /><span>{t.download}</span>
         </a>}
         <button type="button" className={s.stepBtn} aria-pressed={focus} aria-label={focus ? t.back : t.step} onClick={() => { setFinder(false); setFocus(v => !v); }} title={focus ? t.backTitle : t.stepTitle}>
@@ -503,7 +503,7 @@ export default function ShiratSite() {
   </section>
 
   <footer className={s.footer}>
-   <img src={project.logoWhite} alt="BRIGA" width={1600} height={452} />
+   <img src={project.logoWhite} alt="Orelia" width={1600} height={452} />
    <p className={s.brandLine}>{t.story.brandLine}</p>
    <a className={s.footLink} href={project.developerUrl} target="_blank" rel="noreferrer">{t.story.developer}<ArrowUpRight size={14} strokeWidth={1.8} aria-hidden /></a>
    <p className={s.disclaimer}>{t.story.disclaimer}</p>

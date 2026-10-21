@@ -20,10 +20,10 @@ for (const home of Object.values(HOMES)) {
  home.images.forEach((im, i) => { files[`images/${String(i + 1).padStart(2, '0')}-${slug(im.label.en)}.webp`] = read(`${dir}/${im.id}.webp`); });
  files['plans/furnished-plan.webp'] = read(`${dir}/plan.webp`);
  files['plans/architect-plan.webp'] = read(`${dir}/drawing.webp`);
- files['README.txt'] = strToU8(`Shirat HaYam · Netanya · BRIGA\n${title}\n${home.rooms} rooms · ${home.interior} m² interior · ${home.outdoor} m² ${home.outdoorKind} · ${home.aspect.en}\n\nContents\n- video/: walkthrough film${home.final ? ' (1080p)' : ' (draft, 480p)'}${home.model ? '\n- 3D/apartment.glb: the 3D residence (open in Blender: File > Import > glTF 2.0, or any glTF viewer)' : ''}\n- images/: interiors in walkthrough order (WebP)\n- plans/: the furnished plan and the architect's plan\n\n${home.about.en}\n\n${home.final ? 'Visuals' : 'Draft visuals'}: the film, interiors and furnished plan are AI-assisted illustrations of this layout and are shared by every home of the same layout; views differ by floor. Binding details are those in the sale agreement. ${project.developerUrl}\n\n---\nשירת הים · נתניה · בריגה\n${home.about.he}\nהדמיות טיוטה להמחשה בלבד; הפרטים המחייבים הם אלה שבהסכם המכר.\n`);
- const dest = path.join(publicRoot, 'downloads', 'shirat-hayam');
+ files['README.txt'] = strToU8(`Alma Bay · Netanya · Orelia\n${title}\n${home.rooms} rooms · ${home.interior} m² interior · ${home.outdoor} m² ${home.outdoorKind} · ${home.aspect.en}\n\nContents\n- video/: walkthrough film${home.final ? ' (1080p)' : ' (draft, 480p)'}${home.model ? '\n- 3D/apartment.glb: the 3D residence (open in Blender: File > Import > glTF 2.0, or any glTF viewer)' : ''}\n- images/: interiors in walkthrough order (WebP)\n- plans/: the furnished plan and the architect's plan\n\n${home.about.en}\n\n${home.final ? 'Visuals' : 'Draft visuals'}: the film, interiors and furnished plan are AI-assisted illustrations of this layout and are shared by every home of the same layout; views differ by floor. Binding details are those in the sale agreement. ${project.developerUrl}\n\n---\nאלמה ביי · נתניה · אורליה\n${home.about.he}\nהדמיות טיוטה להמחשה בלבד; הפרטים המחייבים הם אלה שבהסכם המכר.\n`);
+ const dest = path.join(publicRoot, 'downloads', 'alma-bay');
  fs.mkdirSync(dest, { recursive: true });
  const zip = zipSync(files, { level: 0 });
  fs.writeFileSync(path.join(dest, `${home.key}.zip`), zip);
- console.log(`Packaged shirat-hayam/${home.key}: ${Object.keys(files).length} files, ${(zip.length / 1024 / 1024).toFixed(1)} MB`);
+ console.log(`Packaged alma-bay/${home.key}: ${Object.keys(files).length} files, ${(zip.length / 1024 / 1024).toFixed(1)} MB`);
 }

@@ -211,6 +211,8 @@ img.filmMedia { background: var(--sage); transition: transform 1.4s var(--ease),
   transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
 }
 .card[data-wide] { grid-column: span 2; grid-row: span 2; }
+.card[data-span] { grid-column: span 2; }
+.card[data-span] .cardMedia { aspect-ratio: auto; flex: 1; min-height: 0; }
 .card[data-active] { transform: translateY(-4px); box-shadow: var(--lift-hover); }
 .card:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 .cardMedia { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--sage); isolation: isolate; }
@@ -388,6 +390,8 @@ video.previewMedia[data-playing] { opacity: 1; }
   .nodeNote { top: 50%; inset-inline-start: calc(100% + 14px); transform: translateY(-50%); }
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card[data-wide] { grid-row: auto; }
+  .card[data-span] { grid-column: auto; }
+  .card[data-span] .cardMedia { aspect-ratio: 4 / 3; flex: none; }
   .card[data-wide] .cardMedia { aspect-ratio: 16 / 9; min-height: 0; flex: none; }
   .projectGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .page main > .trial { grid-template-columns: 1fr; }

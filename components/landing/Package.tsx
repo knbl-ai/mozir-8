@@ -42,9 +42,9 @@ function useCycle(active: boolean, count: number, ms: number) {
  return i;
 }
 
-function Card({ id, item, Icon, children, wide }: { id: DeliverableKey | 'brand'; item: { title: string; body: string }; Icon: (p: { size?: number }) => React.ReactNode; wide?: boolean; children: (active: boolean) => React.ReactNode }) {
+function Card({ id, item, Icon, children, wide, span }: { id: DeliverableKey; item: { title: string; body: string }; Icon: (p: { size?: number }) => React.ReactNode; wide?: boolean; span?: boolean; children: (active: boolean) => React.ReactNode }) {
  const { ref, active, handlers } = useActive<HTMLElement>();
- return <article ref={ref} className={s.card} data-card={id} data-wide={wide || undefined} data-active={active || undefined} tabIndex={0} aria-labelledby={`pk-${id}`} {...handlers}>
+ return <article ref={ref} className={s.card} data-card={id} data-wide={wide || undefined} data-span={span || undefined} data-active={active || undefined} tabIndex={0} aria-labelledby={`pk-${id}`} {...handlers}>
   <div className={s.cardMedia}>{children(active)}<i className={s.cardTick} aria-hidden /></div>
   <div className={s.cardText}>
    <span className={s.cardIcon}><Icon size={26} /></span>
@@ -67,7 +67,6 @@ function Phone({ active }: { active: boolean }) {
 
 export default function Package({ t, spinFrames, buildingFrames, buildingSky }: { t: LandingCopy['package']; spinFrames: string[]; buildingFrames: string[]; buildingSky?: string[] }) {
  const it = t.items;
- const he = useLang() === 'he';
  return <section id="package" className={s.packageSection} aria-labelledby="package-title">
   <div className={s.sectionHead}>
    <div>
@@ -87,12 +86,8 @@ export default function Package({ t, spinFrames, buildingFrames, buildingSky }: 
     {a => <><BuildingPreview frames={buildingFrames} active={a} span={1} zoom={buildingSky ? 0.92 : 1} skies={buildingSky} />
      <span className={s.chips}><span data-status="sale">{t.forSale}</span><span data-status="sold">{t.sold}</span></span></>}
    </Card>
-   <Card id="site" item={it.site} Icon={SiteIcon}>{a => <Phone active={a} />}</Card>
-   {/* Shirat HaYam's presentation film, ending on its sales card */}
-   <Card id="brand" item={it.brand} Icon={FilmIcon}>
-    {a => <FilmPreview poster={`/projects/shirat-hayam/film/poster${he ? '-he' : ''}.webp`} film={film(`/projects/shirat-hayam/film/presentation${he ? '-he' : ''}.mp4`)} active={a} />}
-   </Card>
+   <Card id="site" item={it.site} Icon={SiteIcon} span>{a => <Phone active={a} />}</Card>
   </div>
-  <p className={s.note}>{t.example} <a className={s.view360} href="/projects/shirat-hayam/360/index.html" target="_blank" rel="noopener" aria-label={t.view360Label}>{t.view360}</a></p>
+  <p className={s.note}>{t.example}</p>
  </section>;
 }
