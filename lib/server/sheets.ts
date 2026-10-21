@@ -3,7 +3,7 @@ import { env } from './env';
 import type { Lead } from './mongo';
 
 const API = 'https://sheets.googleapis.com/v4/spreadsheets';
-const HEADER = ['Time (UTC)', 'Name', 'Email', 'Phone', 'Description', 'Plan file', 'Plan path', 'Lang', 'Source', 'First source', 'First medium', 'First campaign', 'First landing page', 'Last source', 'Last medium', 'Last campaign', 'Last landing page', 'Click id', 'Referrer', 'Lead id'];
+const HEADER = ['Time (Israel)', 'Name', 'Email', 'Phone', 'Description', 'Plan file', 'Lang', 'First source', 'First medium', 'Last source', 'Last medium', 'Referrer', 'Status'];
 
 let client: JWT | null = null;
 let headed = false;
@@ -15,16 +15,15 @@ const jwt = () => {
  return client;
 };
 
-const row = (lead: Lead, id: string) => {
- const f = lead.attribution?.first, l = lead.attribution?.last;
- const clickId = ['gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid', 'ttclid', 'li_fat_id'].map(k => l?.params[k] || f?.params[k]).find(Boolean) || '';
- return [lead.createdAt.toISOString(), lead.name, lead.email, lead.phone, lead.description, lead.plan?.filename || '', lead.plan?.path || '', lead.lang, lead.source,
-  f?.params.utm_source || '', f?.params.utm_medium || '', f?.params.utm_campaign || '', f?.landingPage || '',
-  l?.params.utm_source || '', l?.params.utm_medium || '', l?.params.utm_campaign || '', l?.landingPage || '', clickId, l?.referrer || f?.referrer || '', id];
-};
+// 12/10/2026 23:57, Israel time
+export const when = (d: Date) => new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Jerusalem', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).format(d).replace(',', '');
 
-// A cell starting with = + - @ would run as a formula in the sheet; keep the text a literal.
-const safe = (v: string) => /^[=+\-@]/.test(v) ? `'${v}` : v;
+// Status stays empty: the team fills it in the sheet.
+const row = (lead: Lead) => {
+ const f = lead.attribution?.first, l = lead.attribution?.last;
+ return [when(lead.createdAt), lead.name, lead.email, lead.phone, lead.description, lead.plan?.filename || '', lead.lang,
+  f?.params.utm_source || '', f?.params.utm_medium || '', l?.params.utm_source || '', l?.params.utm_medium || '', l?.referrer || f?.referrer || '', ''];
+};
 
 async function ensureHeader(id: string) {
  if (headed) return;
@@ -39,8 +38,8 @@ export async function appendLeads(items: { lead: Lead; id: string }[]) {
  if (!sheet || !items.length) return;
  await ensureHeader(sheet);
  await jwt().request({
-  url: `${API}/${sheet}/values/A1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+  url: `${API}/${sheet}/values/A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
   method: 'POST',
-  data: { values: items.map(({ lead, id }) => row(lead, id).map(safe)) },
+  data: { values: items.map(({ lead }) => row(lead)) },
  });
 }
