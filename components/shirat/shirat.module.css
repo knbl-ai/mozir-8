@@ -1096,3 +1096,11 @@
 
 /* the presentation film in the story, in place of the street still */
 .wideFilm video { width: 100%; height: 100%; object-fit: cover; display: block; background: #0d0c0b; }
+
+/* project section: the towers as two images, with a near-invisible play button for the film */
+.towerShow { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.towerShow .wide[data-pair] { aspect-ratio: 4 / 3; }
+.towerShow .towerFilm { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+.filmMini { position: absolute; bottom: 10px; inset-inline-end: 10px; z-index: 2; display: grid; place-items: center; width: 26px; height: 26px; border: 0; padding: 0; border-radius: 50%; cursor: pointer; background: rgb(255 255 255 / 0.5); color: #2a2118; opacity: 0.35; transition: opacity 0.3s; }
+.filmMini:hover, .filmMini:focus-visible { opacity: 0.95; }
+@media (max-width: 640px) { .towerShow { grid-template-columns: 1fr; } }
