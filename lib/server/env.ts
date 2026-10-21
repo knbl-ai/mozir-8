@@ -14,6 +14,7 @@ export const env = {
  leadsPrefix: () => (process.env.LEADS_PREFIX || 'apt3d/leads').replace(/\/+$/, ''),
  leadsFrom: () => process.env.LEADS_FROM || 'ai@kanibal.co.il',  // info@residence.tech once its mail authentication (DKIM) is set up
  leadsNotify: () => (process.env.LEADS_NOTIFY || 'ravit@kanibal.co.il,vladi@kanibal.co.il,raz@kanibal.co.il').split(',').map(s => s.trim()).filter(Boolean),
+ leadsSheet: () => process.env.LEADS_SHEET_ID || '',  // Google Sheet the leads are copied to (shared with the service account); empty = off
  google: () => ({
   projectId: need('GCLOUD_PROJECT_ID'),
   clientEmail: need('GCLOUD_CLIENT_EMAIL'),

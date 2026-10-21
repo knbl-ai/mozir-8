@@ -34,6 +34,8 @@ export type Lead = {
  userAgent: string;
  createdAt: Date;
  emails?: { user: 'sent' | 'failed'; team: 'sent' | 'failed'; error?: string; at: Date };
+ /** copy of the lead in the Google Sheet (app/api/leads); 'failed' ones are picked up by scripts/sync-leads-sheet.ts */
+ sheet?: 'ok' | 'failed';
  /** the ad campaign the visitor came from (UTM tags, click ids), first and latest */
  attribution?: { first: LeadTouch; last: LeadTouch } | null;
 };
