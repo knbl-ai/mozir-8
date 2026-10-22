@@ -55,7 +55,7 @@ export default function HabaronApartment() {
        <div className={es.headText}>
         <span className={s.logos}>{b.logos.map(l => <img key={l.alt} src={l.src} alt={l.alt} width={l.w} height={l.h} className={s.logo} />)}</span>
         <h1 className={es.title}>{home.shortTitle}</h1>
-        <p className={es.titleMeta}>{[he ? 'דירה 28' : 'Apartment 28', floor].join(' · ')}</p>
+        <p className={es.titleMeta}>{he ? b.nameHe : b.name}</p>
        </div>
        <div className={es.headAside}><span className={es.aptTag}>{home.label}</span></div>
       </div>

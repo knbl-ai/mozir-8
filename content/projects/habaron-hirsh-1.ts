@@ -21,17 +21,17 @@ export const habaronBuilding = {
 };
 
 export const habaronHome: HabaronHome = {
- id: '28', title: 'The Collector’s Flat · 3 rooms', shortTitle: 'The Collector’s Flat', tagline: 'Three rooms composed like an exhibition: limewash, travertine and smoked oak, with a sun balcony over the trees.',
- rooms: 3, outdoor: 'Sun balcony', area: 64, outdoorArea: 9.7, exposure: 'South', label: 'Apartment 28 · Building 1', floorLabel: 'Floor 4', floorLabelHe: 'קומה 4',
+ id: '28', title: 'Apartment 28 · 3 rooms', shortTitle: 'Apartment 28', tagline: 'A bright three-room home with a south-facing sun balcony over the trees.',
+ rooms: 3, outdoor: 'Sun balcony', area: 64, outdoorArea: 9.7, exposure: 'South', label: 'Building 1 · 3 rooms', floorLabel: 'Floor 4', floorLabelHe: 'קומה 4',
  plan: `${base}/plans/28.webp`, sourceUnits: 'Apartment 28',
- concept: 'A quiet, gallery-grade home for a design-literate couple: every object chosen, one strong piece of art in each room.',
- conceptHe: 'בית שקט ברמת גלריה לזוג שאוהב עיצוב: כל חפץ נבחר, ויצירה אחת חזקה בכל חדר.',
+ concept: 'A calm three-room home with a south sun balcony.',
+ conceptHe: 'דירת שלושה חדרים רגועה עם מרפסת שמש דרומית.',
  description: 'An open living room, dining and kitchen onto a south sun balcony; a master bedroom with its own en-suite, a safe room set up as a study, and a family bathroom.',
  about: ['The entrance opens straight into one long, bright space: dining table under a paper pendant, the living room by the south glass, and the kitchen along the east wall. The wide slider leads to a 1.25-metre sun balcony facing the garden trees of Ramat Aviv.',
   'A corridor runs back to the family bathroom, the safe room (furnished here as a study) and the master bedroom with its en-suite bathroom. Areas follow the developer’s sales plan (about 64 m² inside and 9.7 m² of balcony). Worth checking: the master-bedroom door is a narrow 70 cm, and all furniture shown is one way to live in the home.'],
  media: { film: { src: `${base}/media/28/film-480p.mp4`, poster: `${base}/media/28/film-480p-poster.webp` }, images: [], model: `${base}/models/28.glb` },
- he: { title: 'דירת האספן · 3 חדרים', shortTitle: 'דירת האספן', tagline: 'שלושה חדרים שמורכבים כמו תערוכה: טיח גיר, טרוורטין ואלון מעושן, עם מרפסת שמש מעל העצים.',
-  outdoor: 'מרפסת שמש', exposure: 'דרום', label: 'דירה 28 · בניין 1',
+ he: { title: 'דירה 28 · 3 חדרים', shortTitle: 'דירה 28', tagline: 'דירת שלושה חדרים מוארת עם מרפסת שמש דרומית מעל העצים.',
+  outdoor: 'מרפסת שמש', exposure: 'דרום', label: 'בניין 1 · 3 חדרים',
   description: 'סלון, פינת אוכל ומטבח פתוחים למרפסת שמש דרומית; חדר שינה ראשי עם חדר רחצה צמוד, ממ״ד שמשמש כחדר עבודה וחדר רחצה משפחתי.',
   about: ['הכניסה נפתחת ישר לחלל אחד ארוך ומואר: שולחן אוכל מתחת לפנס נייר, הסלון ליד הזיגוג הדרומי והמטבח לאורך הקיר המזרחי. הדלת הרחבה מובילה למרפסת שמש ברוחב 1.25 מ׳ מול עצי הגינה של רמת אביב.',
    'מסדרון מוביל אל חדר הרחצה המשפחתי, הממ״ד (מוצג כאן כחדר עבודה) וחדר השינה הראשי עם חדר הרחצה הצמוד. השטחים לפי תוכנית המכר של היזם (כ־64 מ״ר פנים ו־9.7 מ״ר מרפסת). כדאי לבדוק: דלת חדר השינה הראשי צרה, 70 ס״מ בלבד, והריהוט המוצג הוא אפשרות אחת לחיות בבית.'] },
