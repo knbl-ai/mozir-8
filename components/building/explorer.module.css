@@ -1148,3 +1148,42 @@
   .shell[data-theme='borges'] .projectInner { padding-top: 76px; }
   .shell[data-theme='borges'] .stageTop { top: 72px; }
 }
+
+/* HaBaron Hirsh 1 (Villar · Nachman Group): Villar's yellow and green, Nachman's navy, from the developer's sales sheet.
+   A white ground like the sheet; navy carries facts and people, green the active tab and the call to act, Villar yellow
+   is kept to a thin rule under the header of the panel. The lightbox is a portal, so <html> carries the theme too. */
+.shell[data-theme='habaron'],
+:global(html[data-theme='habaron']) .pickerContent,
+:global(html[data-theme='habaron']) .lightbox,
+:global(html[data-theme='habaron']) .lightboxOverlay {
+  --villar-yellow: #f0d000;
+  --villar-green: #00902f;
+  --nachman-navy: #001566;
+  --surface: #f6f5ef;
+  --card: #ffffff;
+  --well: #f1f0e8;
+  --ink: #1b1d17;
+  --ink-2: #565a4f;
+  --ink-3: #8a8d80;
+  --hairline: rgb(27 29 23 / 0.1);
+  --hairline-strong: rgb(27 29 23 / 0.18);
+  --fill: rgb(27 29 23 / 0.05);
+  --accent: var(--nachman-navy);
+  --accent-hover: #0b2380;
+  --brand-blue: var(--nachman-navy);
+  --brand-blue-tint: rgb(0 21 102 / 0.07);
+  --brand-red: var(--villar-green);
+  --brand-red-tint: rgb(0 144 47 / 0.1);
+  --available: #00802a;
+  --available-tint: rgb(0 144 47 / 0.1);
+  --cta: var(--villar-green);
+  --cta-hover: #007a28;
+  --cta-glow: rgb(0 144 47 / 0.4);
+  --mark: var(--villar-yellow);
+  --header-bg: rgb(255 255 255 / 0.9);
+  --display: 'Habaron Display', 'Hebrew Display', system-ui, sans-serif;
+  --sans: 'Habaron Sans', 'Hebrew Sans', system-ui, -apple-system, sans-serif;
+}
+.shell[data-theme='habaron'] { background: var(--surface); }
+.shell[data-theme='habaron'] .panel { box-shadow: 0 0 0 1px var(--hairline), var(--shadow-soft), inset 0 4px 0 var(--villar-yellow); }
+.shell[data-theme='habaron'] .title { font-weight: 600; letter-spacing: -0.03em; white-space: normal; overflow-wrap: break-word; text-wrap: balance; font-size: clamp(30px, 2.5vw, 44px); line-height: 1.05; }

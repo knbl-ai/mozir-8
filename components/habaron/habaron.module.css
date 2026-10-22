@@ -1,0 +1,25 @@
+/* HaBaron Hirsh 1: the few details this page adds to the Sales Gallery's apartment panel.
+   Type: the developer's wordmarks (Nachman Group, Maoz Price) are geometric sans, so Outfit (display) and DM Sans (text)
+   carry the page, with Heebo (Hebrew Display / Hebrew Sans, app/globals.css) for Hebrew. */
+@font-face { font-family: 'Habaron Display'; src: url('/fonts/outfit-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Habaron Display'; src: url('/fonts/outfit-600.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Habaron Display'; src: url('/fonts/outfit-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Habaron Sans'; src: url('/fonts/dm-sans-400.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Habaron Sans'; src: url('/fonts/dm-sans-500.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Habaron Sans'; src: url('/fonts/dm-sans-600.ttf') format('truetype'); font-weight: 600; font-display: swap; }
+.logos { display: flex; align-items: center; gap: 22px; margin-bottom: 18px; }
+.logo { display: block; height: 36px; width: auto; }
+.footer { align-self: end; padding: 0; margin: 0; }
+.credit { margin: 22px 0 0; font-size: 12px; line-height: 1.5; color: var(--ink-2); }
+.credit strong { font-weight: 600; color: var(--ink); }
+.disclaimer { margin: 8px 0 0; font-size: 11px; line-height: 1.5; color: var(--ink-3); }
+@media (min-width: 761px) { .footer { grid-area: actions; } }
+@media (max-width: 760px) { .logo { height: 28px; } .logos { gap: 16px; } .footer { margin-top: 18px; } }
+
+/* Sales agent not known yet: looks unfilled, does nothing. */
+.pending { opacity: 0.55; filter: grayscale(0.6); cursor: default; user-select: none; }
+.pending [aria-disabled] { pointer-events: none; }
+
+/* Agent block with the language switch under it. */
+.lang { margin-top: 14px; }
+@media (min-width: 761px) { .agentCol { grid-area: contact; } }
