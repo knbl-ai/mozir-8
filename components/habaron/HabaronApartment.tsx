@@ -69,7 +69,7 @@ export default function HabaronApartment() {
       <div className={es.tabs}>
        <SegmentedControl id="media" label={t.homePreview} role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS.map(o => ({ ...o, label: t.tabs[o.value] }))} />
       </div>
-      <div className={es.mediaWrap}>
+      <div className={es.mediaWrap} data-tab={tab}>
        <MediaPanel tab={tab} residence={home} media={media} specs={specs} onExpandPlan={() => setPlanOpen(true)} />
       </div>
       <div className={s.agentCol}>

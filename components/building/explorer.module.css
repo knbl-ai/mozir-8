@@ -1187,3 +1187,15 @@
 .shell[data-theme='habaron'] { background: var(--surface); }
 .shell[data-theme='habaron'] .panel { box-shadow: 0 0 0 1px var(--hairline), var(--shadow-soft), inset 0 4px 0 var(--villar-yellow); }
 .shell[data-theme='habaron'] .title { font-weight: 600; letter-spacing: -0.03em; white-space: normal; overflow-wrap: break-word; text-wrap: balance; font-size: clamp(30px, 2.5vw, 44px); line-height: 1.05; }
+/* Phones: the film and the images are 16:9, so their frame is 16:9 at the full width (no bars at the sides). */
+@media (max-width: 760px) {
+  .shell[data-theme='habaron'] .mediaWrap[data-tab='film'],
+  .shell[data-theme='habaron'] .mediaWrap[data-tab='images'] { flex: none; min-height: 0; }
+  .shell[data-theme='habaron'] .mediaWrap[data-tab='film'] .mediaPanel { flex: none; aspect-ratio: 16 / 9; }
+  .shell[data-theme='habaron'] .mediaWrap[data-tab='film'] .filmLayer video { object-fit: cover; }
+  .shell[data-theme='habaron'] .mediaWrap[data-tab='images'] .mediaPanel { flex: none; height: auto; }
+  .shell[data-theme='habaron'] .mediaWrap[data-tab='images'] .mediaLayer { position: relative; inset: auto; }
+  .shell[data-theme='habaron'] .mediaWrap[data-tab='images'] .galleryView { position: relative; inset: auto; }
+  .shell[data-theme='habaron'] .mediaWrap[data-tab='images'] .galleryStage { flex: none; aspect-ratio: 16 / 9; }
+}
+
