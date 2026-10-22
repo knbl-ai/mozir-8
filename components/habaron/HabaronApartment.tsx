@@ -64,6 +64,7 @@ export default function HabaronApartment() {
        <div><dt>{t.floor}</dt><dd className={es.factWord}>{floor}</dd></div>
        <div><dt>{t.interior}</dt><dd className={es.factNumber}>{home.area}<span className={es.factUnit}>{t.sqm}</span></dd></div>
        <div><dt>{t.outdoor}</dt><dd className={es.factWord}>{home.outdoor}<span className={es.factUnit}>{home.outdoorArea} {t.sqm}</span></dd></div>
+       <div className={es.factPrice}><dt>{t.price}</dt><dd className={es.factWord}>{t.onRequest}</dd></div>
       </dl>
       <div className={es.tabs}>
        <SegmentedControl id="media" label={t.homePreview} role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS.map(o => ({ ...o, label: t.tabs[o.value] }))} />
