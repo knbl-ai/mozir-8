@@ -4,6 +4,9 @@ import type { Lang } from '@/lib/i18n';
 // HaBaron Hirsh 1, Ramat Aviv Alef, Tel Aviv (Villar · Nachman Group · Maoz Price Architects): apt 28 from
 // data/projects/HaBaron-Hirsh-1-Tel-Aviv/apt28 (the apartment pipeline). A direct-link page only: nothing links here and the
 // route is noindex. Media is the current WORK IN PROGRESS (480p film, images still in review), copied by hand from the box.
+// The film is played straight from the bucket: behind the Vercel rewrite a small video gets a browser's *range* response
+// cached and served to everyone as the whole file (unplayable). KLEE's films are over the cache size limit, this one is not.
+const filmBase = 'https://storage.googleapis.com/knbl-sma/apt3d/site/projects/habaron-hirsh-1/r2';
 const base = '/projects/habaron-hirsh-1/r2';   // r2: fresh URLs (an early range-request check left partial files in the CDN cache)
 const img = (name: string, label: string, labelHe: string): MediaImage => ({ src: `${base}/media/28/${name}.webp`, label, labelHe });
 
@@ -29,7 +32,7 @@ export const habaronHome: HabaronHome = {
  description: 'An open living room, dining and kitchen onto a south sun balcony; a master bedroom with its own en-suite, a safe room set up as a study, and a family bathroom.',
  about: ['The entrance opens straight into one long, bright space: dining table under a paper pendant, the living room by the south glass, and the kitchen along the east wall. The wide slider leads to a 1.25-metre sun balcony facing the garden trees of Ramat Aviv.',
   'A corridor runs back to the family bathroom, the safe room (furnished here as a study) and the master bedroom with its en-suite bathroom. Areas follow the developer’s sales plan (about 64 m² inside and 9.7 m² of balcony). Worth checking: the master-bedroom door is a narrow 70 cm, and all furniture shown is one way to live in the home.'],
- media: { film: { src: `${base}/media/28/film-480p.mp4`, poster: `${base}/media/28/film-480p-poster.webp` }, images: [], model: `${base}/models/28.glb` },
+ media: { film: { src: `${filmBase}/media/28/film-480p.mp4`, poster: `${base}/media/28/film-480p-poster.webp` }, images: [], model: `${base}/models/28.glb` },
  he: { title: 'דירה 28 · 3 חדרים', shortTitle: 'דירה 28', tagline: 'דירת שלושה חדרים מוארת עם מרפסת שמש דרומית מעל העצים.',
   outdoor: 'מרפסת שמש', exposure: 'דרום', label: 'בניין 1 · 3 חדרים',
   description: 'סלון, פינת אוכל ומטבח פתוחים למרפסת שמש דרומית; חדר שינה ראשי עם חדר רחצה צמוד, ממ״ד שמשמש כחדר עבודה וחדר רחצה משפחתי.',
