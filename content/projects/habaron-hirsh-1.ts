@@ -4,7 +4,7 @@ import type { Lang } from '@/lib/i18n';
 // HaBaron Hirsh 1, Ramat Aviv Alef, Tel Aviv (Villar · Nachman Group · Maoz Price Architects): apt 28 from
 // data/projects/HaBaron-Hirsh-1-Tel-Aviv/apt28 (the apartment pipeline). A direct-link page only: nothing links here and the
 // route is noindex. Media is the current WORK IN PROGRESS (480p film, images still in review), copied by hand from the box.
-const base = '/projects/habaron-hirsh-1';
+const base = '/projects/habaron-hirsh-1/r2';   // r2: fresh URLs (an early range-request check left partial files in the CDN cache)
 const img = (name: string, label: string, labelHe: string): MediaImage => ({ src: `${base}/media/28/${name}.webp`, label, labelHe });
 
 export type HabaronHome = Residence & { he: ResidenceText; floorLabel: string; floorLabelHe: string; concept: string; conceptHe: string };
