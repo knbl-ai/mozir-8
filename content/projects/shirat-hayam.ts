@@ -21,10 +21,10 @@ export const project = {
  logoBlack: '/brand/orelia-logo-black.png', logoWhite: '/brand/orelia-logo-white.png',
  developerUrl: 'https://www.residence.tech',
  // From the developer's sheets (floors, homes, plot) — facts about the building, not about any one home.
- // the presentation film (data/projects/Shirat-HaYam-Netanya/presentation, 1080p v1, re-encoded for the web), one per language
+ // the presentation film (data/projects/Shirat-HaYam-Netanya/presentation, Alma Bay 1080p, re-encoded for the web), one per language
  film: {
-  en: { src: `${base}/film/presentation.mp4`, poster: `${base}/film/poster.webp` },
-  he: { src: `${base}/film/presentation-he.mp4`, poster: `${base}/film/poster-he.webp` },
+  en: { src: `${base}/film/presentation-v2.mp4`, poster: `${base}/film/poster-v2.webp` },
+  he: { src: `${base}/film/presentation-he-v2.mp4`, poster: `${base}/film/poster-he-v2.webp` },
  },
  figures: { towers: 2, floors: 32, homes: UNITS.length, plot: 6635 },
  stills: {

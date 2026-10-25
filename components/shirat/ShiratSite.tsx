@@ -443,7 +443,10 @@ export default function ShiratSite() {
       <strong>{v.toLocaleString('en-US')}</strong><span>{t.story.figures[i][0]}</span><small>{t.story.figures[i][1]}</small>
      </motion.div>)}
    </div>
-   <TowersShowcase film={project.film[lang === 'he' ? 'he' : 'en']} stills={[project.stills.street, project.stills.hero]} label={t.tabs.film} />
+   <motion.figure className={`${s.wide} ${s.wideFilm}`} initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1.1, ease: EASE }}>
+    {/* locally from public/ (not uploaded yet), in production straight from the bucket like the home films */}
+    {(() => { const f = project.film[lang === 'he' ? 'he' : 'en']; return <FilmPlayer key={lang} src={process.env.NODE_ENV === 'development' ? f.src : film(f.src)} poster={f.poster} label={t.tabs.film} />; })()}
+   </motion.figure>
   </section>
 
   <section id="amenities" className={s.amenities}>
@@ -590,18 +593,6 @@ function HomeCode({ unit }: { unit: ShiratUnit }) {
   <i aria-hidden />
   <span className={s.codePart} title={unit.ph ? t.penthouse : t.residence}><House size={11} strokeWidth={1.6} aria-hidden /><em>{unit.ph ? 'PH' : t.codeHome}</em>{unit.u}</span>
  </span>;
-}
-
-// ---- the towers as two images; a nearly invisible button in the corner swaps them for the presentation film
-function TowersShowcase({ film: f, stills, label }: { film: { src: string; poster: string }; stills: string[]; label: string }) {
- const [playing, setPlaying] = useState(false);
- const src = process.env.NODE_ENV === 'development' ? f.src : film(f.src);
- return <motion.div className={s.towerShow} initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1.1, ease: EASE }}>
-  {playing
-   ? <figure className={`${s.wide} ${s.wideFilm} ${s.towerFilm}`}><video src={src} controls autoPlay playsInline /></figure>
-   : stills.map(img => <figure key={img} className={s.wide} data-pair=""><FadeImg src={img} alt="" loading="lazy" /></figure>)}
-  {!playing && <button type="button" className={s.filmMini} onClick={() => setPlaying(true)} aria-label={label} title={label}><Play size={13} strokeWidth={1.8} fill="currentColor" aria-hidden /></button>}
- </motion.div>;
 }
 
 // ---- the film: one big play button over the poster (a single tap starts it on phones, where a tap on a
