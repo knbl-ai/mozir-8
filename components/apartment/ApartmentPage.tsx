@@ -9,7 +9,7 @@ import SegmentedControl from '@/components/building/SegmentedControl';
 import { explorerText } from '@/components/building/strings';
 import es from '@/components/building/explorer.module.css';
 import { localizeResidence } from '@/content/projects';
-import { disclaimerIn, textIn, toMedia, toResidence, type ApartmentPageData } from '@/content/apartment-page';
+import { brandVars, disclaimerIn, textIn, toMedia, toResidence, type ApartmentPageData } from '@/content/apartment-page';
 import { setPageLangs, useLang } from '@/lib/i18n';
 import s from '@/components/habaron/habaron.module.css';
 
@@ -18,7 +18,8 @@ const TABS: { value: MediaTab; icon: typeof Play }[] = [
 ];
 
 // One finished pipeline apartment, laid out like the HaBaron Hirsh 1 page (components/habaron) but driven by page.json.
-// The theme is an optional [data-theme] block in explorer.module.css; without one the Sales Gallery's colours apply.
+// Colours: the client's `brand` from page.json (hex values, written as one rule for the shell and its portals: the plan
+// lightbox lives outside the shell), or a [data-theme] block in explorer.module.css; else the Sales Gallery's colours.
 export default function ApartmentPage({ data }: { data: ApartmentPageData }) {
  setPageLangs(data.langs);
  useEffect(() => () => setPageLangs(null), []);
@@ -31,13 +32,17 @@ export default function ApartmentPage({ data }: { data: ApartmentPageData }) {
  const [planOpen, setPlanOpen] = useState(false);
  const b = data.building;
  const name = textIn(b.name, lang);
+ const vars = Object.entries(brandVars(data.brand));
+ const brandCss = vars.length ? `:is(.${es.shell}[data-single], html[data-brand] :is(.${es.lightbox}, .${es.lightboxOverlay}, .${es.pickerContent})) { ${vars.map(([k, v]) => `${k}: ${v};`).join(' ')} }`
+  + (data.brand?.mark ? ` .${es.shell}[data-single] .${es.panel} { box-shadow: 0 0 0 1px var(--hairline), var(--shadow-soft), inset 0 4px 0 var(--mark); }` : '') : '';
 
  // The lightbox is a portal outside the shell, so <html> carries the theme as well.
  useEffect(() => {
-  if (!data.theme) return;
-  document.documentElement.setAttribute('data-theme', data.theme);
-  return () => document.documentElement.removeAttribute('data-theme');
- }, [data.theme]);
+  const root = document.documentElement;
+  if (data.theme) root.setAttribute('data-theme', data.theme);
+  if (brandCss) root.setAttribute('data-brand', '');
+  return () => { root.removeAttribute('data-theme'); root.removeAttribute('data-brand'); };
+ }, [data.theme, brandCss]);
  useEffect(() => { document.title = `${home.shortTitle} · ${name}`; }, [home.shortTitle, name]);
 
  const specs: Spec[] = home.exposure ? [{ key: 'exposure', label: t.specs.exposure, value: home.exposure }] : [];
@@ -79,6 +84,7 @@ export default function ApartmentPage({ data }: { data: ApartmentPageData }) {
     </div>
    </section>
   </main>
+  {brandCss && <style>{brandCss}</style>}
   <PlanLightbox open={planOpen} onOpenChange={setPlanOpen} src={home.plan} title={t.floorPlanOf(home.shortTitle)} />
  </div></div></MotionConfig>;
 }

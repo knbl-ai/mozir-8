@@ -9,8 +9,11 @@ export const PAGES_ORIGIN = process.env.APT_PAGES_ORIGIN ?? 'https://storage.goo
 
 export type Text = { en: string; he?: string; pt?: string };
 export type FilmRes = '480p' | '720p' | '1080p';
+// The client's own colours (from their logo / sales sheet), when they have them: hex only. `font: 'geometric'` swaps the
+// serif display face for Outfit + DM Sans (as on HaBaron). Missing keys keep the residence.tech defaults.
+export type Brand = { accent?: string; cta?: string; mark?: string; surface?: string; ink?: string; font?: 'geometric' };
 export type ApartmentPageData = {
- v: 1; slug: string; langs: Lang[]; theme?: string; published: string;
+ v: 1; slug: string; langs: Lang[]; theme?: string; brand?: Brand; published: string;
  building: { name: Text; address: Text; developer?: string; architects?: string; logos?: { src: string; alt: string; w: number; h: number }[]; disclaimer?: Text };
  home: { id: string; rooms: number; area: number; outdoorArea: number; floor: Text; title: Text; shortTitle: Text; tagline: Text; outdoor: Text;
   exposure: Text; label: Text; description: Text; about: { en: string[]; he?: string[]; pt?: string[] } };
@@ -39,6 +42,24 @@ export const lowRes = (d: ApartmentPageData) => Boolean(d.media.film && d.media.
 export const disclaimerIn = (d: ApartmentPageData, lang: Lang) =>
  [pick(d.building.disclaimer, lang), lowRes(d) ? LOW_RES_NOTE[lang] : ''].filter(Boolean).join(' ');
 export const textIn = pick;
+
+const HEX = /^#[0-9a-fA-F]{6}$/;
+const mix = (c: string, pct: number, to: string) => `color-mix(in oklab, ${c} ${pct}%, ${to})`;
+// CSS variables for the explorer's tokens (explorer.module.css: the shell and its portals redefine them, so the page
+// writes one rule for all of them, see ApartmentPage).
+export function brandVars(b?: Brand): Record<string, string> {
+ if (!b) return {};
+ const ok = (c?: string) => (c && HEX.test(c) ? c : undefined);
+ const accent = ok(b.accent), cta = ok(b.cta) ?? accent, mark = ok(b.mark), surface = ok(b.surface), ink = ok(b.ink);
+ const v: Record<string, string> = {};
+ if (accent) Object.assign(v, { '--accent': accent, '--accent-hover': mix(accent, 85, 'black'), '--brand-blue': accent, '--brand-blue-tint': mix(accent, 8, 'transparent'), '--mark': accent });
+ if (cta) Object.assign(v, { '--cta': cta, '--cta-hover': mix(cta, 85, 'black'), '--cta-glow': mix(cta, 40, 'transparent'), '--brand-red': cta, '--brand-red-tint': mix(cta, 10, 'transparent') });
+ if (mark) v['--mark'] = mark;
+ if (surface) Object.assign(v, { '--surface': surface, '--well': mix(surface, 92, 'black'), '--header-bg': mix(surface, 90, 'transparent') });
+ if (ink) Object.assign(v, { '--ink': ink, '--ink-2': mix(ink, 72, 'white'), '--ink-3': mix(ink, 50, 'white'), '--hairline': mix(ink, 9, 'transparent'), '--hairline-strong': mix(ink, 16, 'transparent'), '--fill': mix(ink, 5, 'transparent') });
+ if (b.font === 'geometric') Object.assign(v, { '--display': "'Habaron Display', 'Hebrew Display', system-ui, sans-serif", '--sans': "'Habaron Sans', 'Hebrew Sans', system-ui, -apple-system, sans-serif" });
+ return v;
+}
 
 export function toResidence(d: ApartmentPageData): Residence {
  const h = d.home;
