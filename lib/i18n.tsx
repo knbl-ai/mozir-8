@@ -11,8 +11,11 @@ const isLang = (value: unknown): value is Lang => value === 'en' || value === 'h
 // A visitor's choice is kept as is; on a page that doesn't offer it, the page shows English.
 const LANG_PAGES: [string, Lang[]][] = [['/projects/borges-15', ['en', 'pt']]];
 const DEFAULT_LANGS: Lang[] = ['en', 'he'];
+// A data-driven page (content/apartment-page.ts) names its own languages; it sets them here while it is shown.
+let pageLangs: Lang[] | null = null;
+export const setPageLangs = (langs: Lang[] | null) => { if (typeof window !== 'undefined') pageLangs = langs; };
 export const langsFor = (pathname: string | null | undefined): Lang[] =>
- LANG_PAGES.find(([prefix]) => pathname?.includes(prefix))?.[1] ?? DEFAULT_LANGS;
+ pageLangs ?? LANG_PAGES.find(([prefix]) => pathname?.includes(prefix))?.[1] ?? DEFAULT_LANGS;
 const fitLang = (lang: Lang, pathname: string | null | undefined): Lang => langsFor(pathname).includes(lang) ? lang : 'en';
 
 // ?lang= wins (a shared link says which language it was sent in), then the visitor's last choice.
