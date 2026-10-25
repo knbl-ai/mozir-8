@@ -34,7 +34,7 @@ export type LandingCopy = {
   title: string; lede: string; newTab: string;
   salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy; furniture: ProjectCopy;
  };
- footer: { line: string; contact: string };
+ footer: { line: string; contact: string; whatsapp: string; whatsappText: string };
  thanks: { kicker: string; title: string; body: (email: string | null) => string; next: string; home: string; projects: string };
 };
 
@@ -111,7 +111,7 @@ const en: LandingCopy = {
   heritage: { kind: 'Historic building, Lisbon', name: 'Borges 15', body: 'A Lapa house rebuilt from its plans, with a duplex to walk through.', cta: 'Open Borges 15' },
   furniture: { kind: 'Furniture maker, Cancún', name: 'Studio ORYX', body: 'Ten hand-made pieces placed in one bedroom from its plan, with a film of the room.', cta: 'Open Studio ORYX' },
  },
- footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech' },
+ footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech', whatsapp: 'Chat on WhatsApp', whatsappText: 'Hi, I saw residence.tech and I’d like to talk about a project.' },
  thanks: {
   kicker: 'Request received',
   title: 'Thank you. Your plan is with us.',
@@ -196,7 +196,7 @@ const he: LandingCopy = {
   heritage: { kind: 'בניין היסטורי, ליסבון', name: 'Borges 15', body: 'בית בלאפה שנבנה מחדש מהתוכניות, עם דופלקס לסיור.', cta: 'לבורז׳ש 15' },
   furniture: { kind: 'יצרן רהיטים, קנקון', name: 'Studio ORYX', body: 'עשרה רהיטים בעבודת יד, מוצבים בחדר שינה אחד לפי התוכנית, עם סרטון של החדר.', cta: 'ל־Studio ORYX' },
  },
- footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech' },
+ footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech', whatsapp: 'דברו איתנו בוואטסאפ', whatsappText: 'היי, ראיתי את residence.tech ואשמח לדבר על פרויקט.' },
  thanks: {
   kicker: 'הבקשה התקבלה',
   title: 'תודה! התוכנית שלכם אצלנו.',

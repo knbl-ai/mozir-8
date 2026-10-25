@@ -1,0 +1,31 @@
+/* Floating WhatsApp button: one green disc with the site's button depth (top highlight, bottom shade) and a slow pulse. */
+.wa {
+  position: fixed; z-index: 30; inset-block-end: max(20px, env(safe-area-inset-bottom)); inset-inline-end: clamp(16px, 2.4vw, 32px);
+  display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%;
+  background: linear-gradient(180deg, #34e07a, #1fbf5b); color: #fff; text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.4), inset 0 -2px 0 rgb(0 0 0 / 0.14),
+    0 1px 1px rgb(14 42 33 / 0.18), 0 8px 18px -4px rgb(14 42 33 / 0.35), 0 18px 32px -14px rgb(14 42 33 / 0.45);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+  animation: waIn 0.7s var(--ease) 1.2s both;
+}
+.wa svg { width: 29px; height: 29px; transition: transform 0.45s var(--ease); }
+.wa:hover { transform: translateY(-3px); }
+.wa:hover svg { transform: rotate(-8deg) scale(1.08); }
+.wa:active { transform: translateY(1px); transition-duration: 0.08s; }
+.wa:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+/* The pulse. */
+.wa::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid #25d366; opacity: 0; animation: waRing 3.2s ease-out 2.4s infinite; pointer-events: none;
+}
+
+@keyframes waIn { from { opacity: 0; transform: translateY(16px) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes waRing { 0% { transform: scale(1); opacity: 0.55; } 70%, 100% { transform: scale(1.7); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .wa { animation: none; transition: none; }
+  .wa::after { animation: none; }
+  .wa svg { transition: none; }
+}

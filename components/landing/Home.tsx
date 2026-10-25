@@ -15,6 +15,7 @@ import Process from './Process';
 import Package from './Package';
 import Rotator from './Rotator';
 import TrialForm from './TrialForm';
+import WhatsAppButton from './WhatsAppButton';
 import { film } from './media';
 import s from './landing.module.css';
 
@@ -133,5 +134,6 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
     <span>© {new Date().getFullYear()} {t.footer.line}</span>
    </div>
   </footer>
+  <WhatsAppButton label={t.footer.whatsapp} message={t.footer.whatsappText} />
  </div></MotionConfig>;
 }
