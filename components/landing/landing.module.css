@@ -349,6 +349,7 @@ video.previewMedia[data-playing] { opacity: 1; }
 .projects { padding-top: clamp(80px, 12vh, 150px); padding-bottom: clamp(72px, 11vh, 140px); }
 .projectGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 52px 24px; }
 .project { display: grid; align-content: start; gap: 4px; min-width: 0; }
+.moreRow { display: flex; justify-content: center; margin-top: 56px; }
 .projectPreview {
   position: relative; display: block; aspect-ratio: 5 / 4; margin-bottom: 16px; border-radius: 20px; overflow: hidden; background: var(--sage); isolation: isolate;
   box-shadow: 0 1px 1px rgb(14 42 33 / 0.05), 0 12px 26px -16px rgb(14 42 33 / 0.3);

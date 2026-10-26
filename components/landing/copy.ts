@@ -38,7 +38,7 @@ export type LandingCopy = {
   rooms: Record<'living' | 'kitchen' | 'master' | 'bath', string>; roomAlt: (room: string, name: string) => string; roomNav: (room: string) => string;
  };
  projects: {
-  title: string; lede: string; newTab: string;
+  title: string; lede: string; newTab: string; more: string;
   tower: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy; furniture: ProjectCopy;
  };
  footer: { line: string; contact: string; whatsapp: string; whatsappText: string };
@@ -122,6 +122,7 @@ const en: LandingCopy = {
   title: 'Made with residence.tech',
   lede: 'Real projects, each made from its floor plans. Availability is sample data.',
   newTab: 'opens in a new tab',
+  more: 'Show more projects',
   tower: { kind: 'New development, Givat Shmuel', name: 'SYMBOL', body: 'A 24-floor tower to turn all the way round. Pick any home on it, and step into the finished three-room home.', cta: 'Open SYMBOL' },
   salesGallery: { kind: 'New development', name: 'Hurgin 29, Ramat Gan', body: 'Turn the building, see which homes are for sale, open any one.', cta: 'Open Hurgin 29' },
   openHouse: { kind: 'Single apartment', name: 'Mozir 8', body: 'One apartment with a website of its own: film, rooms and 3D.', cta: 'Visit Mozir 8' },
@@ -219,6 +220,7 @@ const he: LandingCopy = {
   title: 'נוצר עם residence.tech',
   lede: 'פרויקטים אמיתיים, כל אחד נבנה מהתוכניות שלו. הזמינות היא לדוגמה.',
   newTab: 'נפתח בכרטיסייה חדשה',
+  more: 'לפרויקטים נוספים',
   tower: { kind: 'פרויקט חדש, גבעת שמואל', name: 'SYMBOL', body: 'מגדל של 24 קומות שמסובבים סביב סביב. בוחרים כל דירה במגדל, ונכנסים לדירת שלושת החדרים המוכנה.', cta: 'ל־SYMBOL' },
   salesGallery: { kind: 'פרויקט חדש', name: 'חורגין 29, רמת גן', body: 'מסובבים את הבניין, רואים מה למכירה, פותחים כל דירה.', cta: 'לחורגין 29' },
   openHouse: { kind: 'דירה אחת', name: 'מוזיר 8', body: 'דירה אחת עם אתר משלה: סרטון, חדרים ותלת־\u2060מימד.', cta: 'למוזיר 8' },

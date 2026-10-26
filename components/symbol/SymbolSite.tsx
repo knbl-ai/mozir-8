@@ -183,7 +183,7 @@ export default function SymbolSite() {
   linkRead.current = true;
   const id = readDeepLink();
   if (id && unitById(id)) { select(id); return; }
-  select(SHOWCASE.c1); setTab('film');     // no link: C1 on floor 20, opened on its film (the home with a film, gallery and 3D)
+  select(SHOWCASE.c1, { turn: false }); setTab('film');     // no link: C1 on floor 20 on its film, the tower kept in its front view (the developer's render angle)
   // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [frames.length, engine.firstReady]);
  useEffect(() => {
