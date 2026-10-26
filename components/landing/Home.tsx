@@ -53,7 +53,7 @@ function Project({ href, text, newTab, tone, preview }: { href: string; text: Pr
  </Link>;
 }
 
-export default function Home({ buildingFrames, penthouseFrames, heritageFrames, spinFrames }: { buildingFrames: string[]; penthouseFrames: string[]; heritageFrames: string[]; spinFrames: string[] }) {
+export default function Home({ buildingFrames, penthouseFrames, heritageFrames, spinFrames, tower }: { buildingFrames: string[]; penthouseFrames: string[]; heritageFrames: string[]; spinFrames: string[]; tower: { frames: string[]; skies: string[] } }) {
  const lang = useLang();
  const t = copy[lang];
  const filmLang = lang === 'he' ? 'he' : 'en';
@@ -100,7 +100,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
    </section>
 
    <Process t={t.process} />
-   <Package t={t.package} spinFrames={spinFrames} buildingFrames={buildingFrames} />   {/* the building card: Shirat HaYam's 360° orbit */}
+   <Package t={t.package} spinFrames={spinFrames} buildingFrames={tower.frames} />   {/* the building card: SYMBOL's 360-view orbit */}
    <StylesSection />
    <TrialForm t={t.form} lang={filmLang} />
 
@@ -116,6 +116,8 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       preview={a => <BuildingPreview frames={heritageFrames} active={a} span={0.6} centre={0.5} />} />
      <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}
       preview={a => <FilmPreview poster="/projects/klee-8/media/apt-3/v-garden.webp" film={film("/projects/klee-8/media/apt-3/film.mp4")} active={a} />} />
+     <Project href={withLang('/symbol', lang)} text={p.tower} newTab={p.newTab}
+      preview={a => <BuildingPreview frames={tower.frames} skies={tower.skies} active={a} />} />
      <Project href={withLang('/projects/building-preview#explore', lang)} text={p.salesGallery} newTab={p.newTab}
       preview={a => <BuildingPreview frames={buildingFrames} active={a} />} />
      <Project href={withLang('/mozir-8', lang)} text={p.openHouse} newTab={p.newTab}

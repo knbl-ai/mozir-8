@@ -212,6 +212,8 @@ img.filmMedia { background: var(--sage); transition: transform 1.4s var(--ease),
 }
 .card[data-wide] { grid-column: span 2; grid-row: span 2; }
 .card[data-tall] { grid-row: span 2; }
+.card[data-full] { grid-column: 1 / -1; }
+.card[data-full] .cardMedia { aspect-ratio: 21 / 9; }
 .card[data-tall] .cardMedia { aspect-ratio: auto; flex: 1; min-height: 360px; }
 .card[data-tall] .phone { width: 36%; top: 5%; }
 .card[data-active] { transform: translateY(-4px); box-shadow: var(--lift-hover); }

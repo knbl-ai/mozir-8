@@ -42,9 +42,9 @@ function useCycle(active: boolean, count: number, ms: number) {
  return i;
 }
 
-function Card({ id, item, Icon, children, wide, tall }: { id: DeliverableKey; item: { title: string; body: string }; Icon: (p: { size?: number }) => React.ReactNode; wide?: boolean; tall?: boolean; children: (active: boolean) => React.ReactNode }) {
+function Card({ id, item, Icon, children, wide, tall, full }: { id: DeliverableKey | 'brand'; item: { title: string; body: string }; Icon: (p: { size?: number }) => React.ReactNode; wide?: boolean; tall?: boolean; full?: boolean; children: (active: boolean) => React.ReactNode }) {
  const { ref, active, handlers } = useActive<HTMLElement>();
- return <article ref={ref} className={s.card} data-card={id} data-wide={wide || undefined} data-tall={tall || undefined} data-active={active || undefined} tabIndex={0} aria-labelledby={`pk-${id}`} {...handlers}>
+ return <article ref={ref} className={s.card} data-card={id} data-wide={wide || undefined} data-tall={tall || undefined} data-full={full || undefined} data-active={active || undefined} tabIndex={0} aria-labelledby={`pk-${id}`} {...handlers}>
   <div className={s.cardMedia}>{children(active)}<i className={s.cardTick} aria-hidden /></div>
   <div className={s.cardText}>
    <span className={s.cardIcon}><Icon size={26} /></span>
@@ -65,7 +65,7 @@ function Phone({ active }: { active: boolean }) {
  </div>;
 }
 
-export default function Package({ t, spinFrames, buildingFrames, buildingSky }: { t: LandingCopy['package']; spinFrames: string[]; buildingFrames: string[]; buildingSky?: string[] }) {
+export default function Package({ t, spinFrames, buildingFrames }: { t: LandingCopy['package']; spinFrames: string[]; buildingFrames: string[] }) {
  const it = t.items;
  return <section id="package" className={s.packageSection} aria-labelledby="package-title">
   <div className={s.sectionHead}>
@@ -84,8 +84,12 @@ export default function Package({ t, spinFrames, buildingFrames, buildingSky }: 
    </Card>
    <Card id="images" item={it.images} Icon={ImagesIcon}>{a => <Stills active={a} />}</Card>
    <Card id="building" item={it.building} Icon={BuildingIcon}>
-    {a => <><BuildingPreview frames={buildingFrames} active={a} span={1} zoom={buildingSky ? 0.92 : 1} skies={buildingSky} />
+    {a => <><BuildingPreview frames={buildingFrames} active={a} span={0.84} centre={0.515} zoom={1.12} />   {/* the tower roof to street (rows 58–585 of 625) filling the card */}
      <span className={s.chips}><span data-status="sale">{t.forSale}</span><span data-status="sold">{t.sold}</span></span></>}
+   </Card>
+   {/* SYMBOL's presentation film (Levinstein, Givat Shmuel), full width under the grid */}
+   <Card id="brand" item={it.brand} Icon={FilmIcon} full>
+    {a => <FilmPreview poster="/projects/symbol/film/poster.webp" film={film('/projects/symbol/film/presentation-en-720.mp4')} active={a} />}
    </Card>
   </div>
   <p className={s.note}>{t.example}</p>
