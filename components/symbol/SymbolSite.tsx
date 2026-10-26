@@ -616,7 +616,6 @@ function HomeView({ media, tab, code, onOpen }: { media: HomeMedia; tab: Tab; co
  const n = items.length;
  if (tab === 'film') return <div className={s.film}>
   <FilmPlayer key={media.key} src={film(`${dir}/film.mp4`)} poster={`${dir}/film-poster.jpg`} label={t.playFilm} />
-  <p className={s.filmNote}>{t.shownOn(code, media.shownOn)}</p>
  </div>;
  return <div className={s.gallery}>
   <div className={s.galleryMain}>

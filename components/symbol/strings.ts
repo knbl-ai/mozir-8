@@ -65,7 +65,6 @@ const en = {
  tryHome: 'Residences with a sales plan', tryType: (code: string, rooms: number) => `${code} · ${rooms} rooms`,
  sameLayout: (code: string) => `Type ${code} repeats on floors 2–20`,
  photoPrev: 'Previous image', photoNext: 'Next image', playFilm: 'Play the walkthrough film',
- shownOn: (code: string, f: number) => `Filmed in a type ${code} home on floor ${f}; views differ by floor`,
  studyRender: 'Visualisation',
 };
 
@@ -135,7 +134,6 @@ const he: Strings = {
  tryHome: 'דירות עם תוכנית מכר', tryType: (code, rooms) => `${code} · ${rooms} חדרים`,
  sameLayout: code => `טיפוס ${code} חוזר בקומות 2–20`,
  photoPrev: 'התמונה הקודמת', photoNext: 'התמונה הבאה', playFilm: 'הפעלת סרט הסיור',
- shownOn: (code, f) => `צולם בדירת טיפוס ${code} בקומה ${f}; הנוף משתנה לפי הקומה`,
  studyRender: 'הדמיה',
 };
 
