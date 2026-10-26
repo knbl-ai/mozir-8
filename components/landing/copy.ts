@@ -30,6 +30,13 @@ export type LandingCopy = {
   errors: { email: string; type: string; size: string; rate: string; upload: string; server: string };
   privacy: string;
  };
+ styles: {
+  title: string; lede: string; region: string; prev: string; next: string; goTo: (name: string) => string; chips: string; all: string; cta: string;
+  pageTitle: string; pageLede: string; back: string; count: (n: number) => string; tone: string; temperature: string; any: string;
+  values: Record<'light' | 'mid' | 'dark', string>; temps: Record<'warm' | 'neutral' | 'cool', string>;
+  open: (name: string) => string; close: string; empty: string; palette: string;
+  rooms: Record<'living' | 'kitchen' | 'master' | 'bath', string>; roomAlt: (room: string, name: string) => string; roomNav: (room: string) => string;
+ };
  projects: {
   title: string; lede: string; newTab: string;
   salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy; furniture: ProjectCopy;
@@ -99,6 +106,16 @@ const en: LandingCopy = {
    server: 'Something went wrong on our side. Try again, or write to info@residence.tech.',
   },
   privacy: 'We use your details only to reply to this request.',
+ },
+ styles: {
+  title: 'Every home in its own design style', lede: 'Each apartment gets one curated interior style; every room is a variation of it.',
+  region: 'Design styles', prev: 'Previous style', next: 'Next style', goTo: name => `Show ${name}`, chips: 'Choose a style', all: 'All styles', cta: 'See the full style library',
+  pageTitle: 'The style library', pageLede: 'Eighteen curated interior styles. Pick one for a project and every room, from the living room to the bath, is designed as a variation of it.',
+  back: 'Back to residence.tech', count: n => `${n} styles`, tone: 'Tone', temperature: 'Temperature', any: 'All',
+  values: { light: 'Light', mid: 'Mid', dark: 'Dark' }, temps: { warm: 'Warm', neutral: 'Neutral', cool: 'Cool' },
+  open: name => `Open ${name}`, close: 'Close', empty: 'No style matches these filters.', palette: 'Palette',
+  rooms: { living: 'Living room', kitchen: 'Kitchen', master: 'Bedroom', bath: 'Bathroom' },
+  roomAlt: (room, name) => `${room} in the ${name} style`, roomNav: room => `Show the ${room.toLowerCase()}`,
  },
  projects: {
   title: 'Made with residence.tech',
@@ -184,6 +201,16 @@ const he: LandingCopy = {
    server: 'משהו השתבש אצלנו. נסו שוב, או כתבו ל־info@residence.tech.',
   },
   privacy: 'נשתמש בפרטים רק כדי לענות לפנייה הזו.',
+ },
+ styles: {
+  title: 'לכל בית סגנון עיצוב משלו', lede: 'כל דירה מקבלת סגנון פנים אחד נבחר, וכל חדר הוא וריאציה שלו.',
+  region: 'סגנונות עיצוב', prev: 'הסגנון הקודם', next: 'הסגנון הבא', goTo: name => `הצגת ${name}`, chips: 'בחירת סגנון', all: 'כל הסגנונות', cta: 'לספריית הסגנונות המלאה',
+  pageTitle: 'ספריית הסגנונות', pageLede: 'שמונה־עשר סגנונות פנים נבחרים. בוחרים אחד לפרויקט, וכל חדר, מהסלון ועד חדר הרחצה, מעוצב כוריאציה שלו.',
+  back: 'חזרה ל־residence.tech', count: n => `${n} סגנונות`, tone: 'גוון', temperature: 'טמפרטורה', any: 'הכול',
+  values: { light: 'בהיר', mid: 'בינוני', dark: 'כהה' }, temps: { warm: 'חם', neutral: 'ניטרלי', cool: 'קר' },
+  open: name => `פתיחת ${name}`, close: 'סגירה', empty: 'אין סגנון שמתאים למסננים האלה.', palette: 'פלטה',
+  rooms: { living: 'סלון', kitchen: 'מטבח', master: 'חדר שינה', bath: 'חדר רחצה' },
+  roomAlt: (room, name) => `${room} בסגנון ${name}`, roomNav: room => `הצגת ${room}`,
  },
  projects: {
   title: 'נוצר עם residence.tech',

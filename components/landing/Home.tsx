@@ -13,6 +13,7 @@ import Button from './Button';
 import DimensionLine from './DimensionLine';
 import Process from './Process';
 import Package from './Package';
+import StylesSection from './StylesSection';
 import Rotator from './Rotator';
 import TrialForm from './TrialForm';
 import WhatsAppButton from './WhatsAppButton';
@@ -100,6 +101,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
 
    <Process t={t.process} />
    <Package t={t.package} spinFrames={spinFrames} buildingFrames={buildingFrames} />   {/* the building card: Shirat HaYam's 360° orbit */}
+   <StylesSection />
    <TrialForm t={t.form} lang={filmLang} />
 
    <section id="projects" className={s.projects} aria-labelledby="projects-title">

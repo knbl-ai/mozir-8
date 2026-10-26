@@ -1,0 +1,1254 @@
+[
+ {
+  "slug": "collector-colour",
+  "name": "Collector's Colour",
+  "concept": "A home assembled by someone who buys art and sculptural furniture first and arranges rooms around them, with one jewel colour per room.",
+  "mood": [
+   "collected",
+   "art-led",
+   "sculptural",
+   "warm"
+  ],
+  "axes": {
+   "value": "mid",
+   "temperature": "warm",
+   "colour": "colourful"
+  },
+  "palette": [
+   {
+    "name": "Plaster cream",
+    "hex": "#EDE6DA"
+   },
+   {
+    "name": "Honey oak",
+    "hex": "#C9A97F"
+   },
+   {
+    "name": "Walnut brown",
+    "hex": "#6B4A33"
+   },
+   {
+    "name": "Oxblood",
+    "hex": "#6E1F27"
+   },
+   {
+    "name": "Peacock teal",
+    "hex": "#1F5A66"
+   },
+   {
+    "name": "Ink black",
+    "hex": "#1E1C1A"
+   },
+   {
+    "name": "Polished chrome",
+    "hex": "#C8C8C6"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/collector-colour/living.webp",
+    "thumb": "/landing/styles/collector-colour/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/collector-colour/kitchen.webp",
+    "thumb": "/landing/styles/collector-colour/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/collector-colour/master.webp",
+    "thumb": "/landing/styles/collector-colour/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/collector-colour/bath.webp",
+    "thumb": "/landing/styles/collector-colour/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "baka-bohemian",
+  "name": "Baka Bohemian",
+  "concept": "A bookish Jerusalem family home of navy lacquer, cognac leather and burgundy velvet, layered with vintage rugs and walls of art, where blue is the accent and every room has a story.",
+  "mood": [
+   "collected",
+   "bookish",
+   "jewelled",
+   "lived-in"
+  ],
+  "axes": {
+   "value": "mid",
+   "temperature": "warm",
+   "colour": "colourful"
+  },
+  "palette": [
+   {
+    "name": "Navy lacquer",
+    "hex": "#1B2A47"
+   },
+   {
+    "name": "Wallpaper blue",
+    "hex": "#5E7FB4"
+   },
+   {
+    "name": "Cognac leather",
+    "hex": "#A8662F"
+   },
+   {
+    "name": "Burgundy velvet",
+    "hex": "#7A2E3E"
+   },
+   {
+    "name": "Teal-grey rug",
+    "hex": "#5F7F88"
+   },
+   {
+    "name": "Cream plaster",
+    "hex": "#EFE8DA"
+   },
+   {
+    "name": "Walnut brown",
+    "hex": "#7A4B2D"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/baka-bohemian/living.webp",
+    "thumb": "/landing/styles/baka-bohemian/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/baka-bohemian/kitchen.webp",
+    "thumb": "/landing/styles/baka-bohemian/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/baka-bohemian/master.webp",
+    "thumb": "/landing/styles/baka-bohemian/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/baka-bohemian/bath.webp",
+    "thumb": "/landing/styles/baka-bohemian/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "botanical-folly",
+  "name": "Botanical Folly",
+  "concept": "A small flat wrapped like a garden pavilion, where one room is papered floor to ceiling in birds and blossom and everything else stays pale oak, linen and quiet so the green can sing.",
+  "mood": [
+   "leafy",
+   "playful",
+   "crafted",
+   "sun-dappled"
+  ],
+  "axes": {
+   "value": "mid",
+   "temperature": "neutral",
+   "colour": "colourful"
+  },
+  "palette": [
+   {
+    "name": "Chinoiserie green",
+    "hex": "#3F7F3A"
+   },
+   {
+    "name": "Bottle green",
+    "hex": "#1E5A32"
+   },
+   {
+    "name": "Ink slate",
+    "hex": "#3A4650"
+   },
+   {
+    "name": "Raspberry stripe",
+    "hex": "#C4505C"
+   },
+   {
+    "name": "Blush pink",
+    "hex": "#E5B9B6"
+   },
+   {
+    "name": "Pale oak",
+    "hex": "#D4B48A"
+   },
+   {
+    "name": "Soft white",
+    "hex": "#F2EFE8"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/botanical-folly/living.webp",
+    "thumb": "/landing/styles/botanical-folly/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/botanical-folly/kitchen.webp",
+    "thumb": "/landing/styles/botanical-folly/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/botanical-folly/master.webp",
+    "thumb": "/landing/styles/botanical-folly/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/botanical-folly/bath.webp",
+    "thumb": "/landing/styles/botanical-folly/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "emerald-stone",
+  "name": "Emerald Stone",
+  "concept": "A home in rose-pink Jerusalem stone and smoky grey, where one bath of emerald green onyx and copper is the jewel.",
+  "mood": [
+   "blush",
+   "mineral",
+   "soft",
+   "jewelled"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "neutral",
+   "colour": "colourful"
+  },
+  "palette": [
+   {
+    "name": "Rose Jerusalem stone",
+    "hex": "#D9B39B"
+   },
+   {
+    "name": "Smoky taupe",
+    "hex": "#C9BDB5"
+   },
+   {
+    "name": "Warm grey slab",
+    "hex": "#C4BFB8"
+   },
+   {
+    "name": "Quartzite blush",
+    "hex": "#CBBFC0"
+   },
+   {
+    "name": "Emerald onyx",
+    "hex": "#3F7F6F"
+   },
+   {
+    "name": "Copper",
+    "hex": "#B8745A"
+   },
+   {
+    "name": "Silver velvet",
+    "hex": "#A7A9AD"
+   },
+   {
+    "name": "Blush chevron",
+    "hex": "#CBA79E"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/emerald-stone/living.webp",
+    "thumb": "/landing/styles/emerald-stone/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/emerald-stone/kitchen.webp",
+    "thumb": "/landing/styles/emerald-stone/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/emerald-stone/master.webp",
+    "thumb": "/landing/styles/emerald-stone/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/emerald-stone/bath.webp",
+    "thumb": "/landing/styles/emerald-stone/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "garden-white",
+  "name": "Garden White",
+  "concept": "A white, sheer-curtained house that opens onto green, where travertine, herringbone oak and brass are warmed by one poppy-red or ochre note per room.",
+  "mood": [
+   "white",
+   "luminous",
+   "tactile",
+   "garden-fed"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "neutral",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Plaster white",
+    "hex": "#F4F3F0"
+   },
+   {
+    "name": "Voile white",
+    "hex": "#ECEAE4"
+   },
+   {
+    "name": "Vein-cut travertine",
+    "hex": "#CFC0A6"
+   },
+   {
+    "name": "Smoked oak",
+    "hex": "#8A5D3B"
+   },
+   {
+    "name": "Concrete taupe",
+    "hex": "#8C7F72"
+   },
+   {
+    "name": "Aged brass",
+    "hex": "#B08A3E"
+   },
+   {
+    "name": "Poppy red",
+    "hex": "#C8102E"
+   },
+   {
+    "name": "Ochre",
+    "hex": "#D4A017"
+   },
+   {
+    "name": "Steel black",
+    "hex": "#26282A"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/garden-white/living.webp",
+    "thumb": "/landing/styles/garden-white/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/garden-white/kitchen.webp",
+    "thumb": "/landing/styles/garden-white/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/garden-white/master.webp",
+    "thumb": "/landing/styles/garden-white/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/garden-white/bath.webp",
+    "thumb": "/landing/styles/garden-white/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "graphite-lounge",
+  "name": "Graphite Lounge",
+  "concept": "A city apartment in charcoal and stone, where soft cream leather and one portrait on the wall are the only things that glow.",
+  "mood": [
+   "dark",
+   "tailored",
+   "urban",
+   "hushed"
+  ],
+  "axes": {
+   "value": "dark",
+   "temperature": "cool",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Graphite",
+    "hex": "#2B2D30"
+   },
+   {
+    "name": "Ebonised oak",
+    "hex": "#1F1C1A"
+   },
+   {
+    "name": "Black marble",
+    "hex": "#1B1E20"
+   },
+   {
+    "name": "Oatmeal leather",
+    "hex": "#B9AA92"
+   },
+   {
+    "name": "Cast concrete",
+    "hex": "#C9C4BA"
+   },
+   {
+    "name": "Smoke",
+    "hex": "#8E949A"
+   },
+   {
+    "name": "Chartreuse",
+    "hex": "#C6BF35"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/graphite-lounge/living.webp",
+    "thumb": "/landing/styles/graphite-lounge/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/graphite-lounge/kitchen.webp",
+    "thumb": "/landing/styles/graphite-lounge/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/graphite-lounge/master.webp",
+    "thumb": "/landing/styles/graphite-lounge/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/graphite-lounge/bath.webp",
+    "thumb": "/landing/styles/graphite-lounge/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "kilim-gallery",
+  "name": "Kilim Gallery",
+  "concept": "A pale, calm apartment grounded by smoked-oak floors, where antique rugs laid on the dark floor and glass bubble lights carry all the colour.",
+  "mood": [
+   "warm",
+   "collected",
+   "calm",
+   "tower-lit"
+  ],
+  "axes": {
+   "value": "mid",
+   "temperature": "warm",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Smoked oak",
+    "hex": "#3A2D27"
+   },
+   {
+    "name": "Plaster white",
+    "hex": "#E9E5DE"
+   },
+   {
+    "name": "Pewter bronze",
+    "hex": "#7C6F63"
+   },
+   {
+    "name": "Madder red",
+    "hex": "#7A1E22"
+   },
+   {
+    "name": "Heather grey",
+    "hex": "#8A857D"
+   },
+   {
+    "name": "Calacatta",
+    "hex": "#EDEBE7"
+   },
+   {
+    "name": "Indigo",
+    "hex": "#26304A"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/kilim-gallery/living.webp",
+    "thumb": "/landing/styles/kilim-gallery/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/kilim-gallery/kitchen.webp",
+    "thumb": "/landing/styles/kilim-gallery/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/kilim-gallery/master.webp",
+    "thumb": "/landing/styles/kilim-gallery/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/kilim-gallery/bath.webp",
+    "thumb": "/landing/styles/kilim-gallery/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "loft-library",
+  "name": "Loft Library",
+  "concept": "A raw-and-warm loft where a black steel bookwall runs the length of the room, set against concrete, timber and a garden outside the glass.",
+  "mood": [
+   "raw",
+   "bookish",
+   "warm",
+   "garden-lit"
+  ],
+  "axes": {
+   "value": "mid",
+   "temperature": "warm",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Board-formed concrete",
+    "hex": "#7E7B74"
+   },
+   {
+    "name": "Polished concrete",
+    "hex": "#A09E99"
+   },
+   {
+    "name": "Blackened steel",
+    "hex": "#1E1E20"
+   },
+   {
+    "name": "Cognac leather",
+    "hex": "#B8651E"
+   },
+   {
+    "name": "Rust velvet",
+    "hex": "#9A4A22"
+   },
+   {
+    "name": "Slat timber",
+    "hex": "#A3825B"
+   },
+   {
+    "name": "Olive green",
+    "hex": "#6F7F4A"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/loft-library/living.webp",
+    "thumb": "/landing/styles/loft-library/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/loft-library/kitchen.webp",
+    "thumb": "/landing/styles/loft-library/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/loft-library/master.webp",
+    "thumb": "/landing/styles/loft-library/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/loft-library/bath.webp",
+    "thumb": "/landing/styles/loft-library/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "noir-garden",
+  "name": "Noir Garden",
+  "concept": "A dark, lacquered city home of black joinery and smoked marble, softened by potted lemon trees and warm ipe wood.",
+  "mood": [
+   "dark",
+   "hushed",
+   "sensual",
+   "green-edged"
+  ],
+  "axes": {
+   "value": "dark",
+   "temperature": "warm",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Black lacquer",
+    "hex": "#1B1B1D"
+   },
+   {
+    "name": "Macassar ebony",
+    "hex": "#3A2220"
+   },
+   {
+    "name": "Smoked marble",
+    "hex": "#4C4543"
+   },
+   {
+    "name": "Grass-cloth sand",
+    "hex": "#B7A58B"
+   },
+   {
+    "name": "Antique brass",
+    "hex": "#B59A66"
+   },
+   {
+    "name": "Opal white",
+    "hex": "#F4F2EC"
+   },
+   {
+    "name": "Saffron",
+    "hex": "#C9862B"
+   },
+   {
+    "name": "Garden green",
+    "hex": "#4F6B3A"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/noir-garden/living.webp",
+    "thumb": "/landing/styles/noir-garden/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/noir-garden/kitchen.webp",
+    "thumb": "/landing/styles/noir-garden/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/noir-garden/master.webp",
+    "thumb": "/landing/styles/noir-garden/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/noir-garden/bath.webp",
+    "thumb": "/landing/styles/noir-garden/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "nordic-arch",
+  "name": "Oak & Arch",
+  "concept": "A flat clad in one warm oak, where arched mirrors and niches, bottle-green seats and a rust-velvet bunk make a small plan feel designed like a boutique hotel.",
+  "mood": [
+   "warm",
+   "crafted",
+   "playful-tailored",
+   "green-and-rust"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "warm",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Honey oak",
+    "hex": "#D1A56F"
+   },
+   {
+    "name": "Pale straw oak",
+    "hex": "#E2C79D"
+   },
+   {
+    "name": "Bottle green",
+    "hex": "#1F5B46"
+   },
+   {
+    "name": "Rust velvet",
+    "hex": "#B5532E"
+   },
+   {
+    "name": "Ivory plaster",
+    "hex": "#EFE9DD"
+   },
+   {
+    "name": "Soft-veined marble",
+    "hex": "#DAD6CC"
+   },
+   {
+    "name": "Black steel",
+    "hex": "#1C1C1C"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/nordic-arch/living.webp",
+    "thumb": "/landing/styles/nordic-arch/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/nordic-arch/kitchen.webp",
+    "thumb": "/landing/styles/nordic-arch/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/nordic-arch/master.webp",
+    "thumb": "/landing/styles/nordic-arch/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/nordic-arch/bath.webp",
+    "thumb": "/landing/styles/nordic-arch/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "pastel-pop",
+  "name": "Pastel Pop",
+  "concept": "A young, happy home in aqua, blush and pale oak, where every colour is a milky pastel and the crafted details, glass globes, terrazzo and fluted wood, make it look made not bought.",
+  "mood": [
+   "milky",
+   "sunny",
+   "crafted",
+   "cheerful"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "neutral",
+   "colour": "colourful"
+  },
+  "palette": [
+   {
+    "name": "Aqua mist",
+    "hex": "#CFE6E6"
+   },
+   {
+    "name": "Teal glass",
+    "hex": "#1E9AA4"
+   },
+   {
+    "name": "Dusty blush",
+    "hex": "#E9C7C8"
+   },
+   {
+    "name": "Berry magenta",
+    "hex": "#B3325A"
+   },
+   {
+    "name": "Pale oak",
+    "hex": "#D8BB90"
+   },
+   {
+    "name": "Brushed brass",
+    "hex": "#B8995A"
+   },
+   {
+    "name": "Cream white",
+    "hex": "#F4F1EA"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/pastel-pop/living.webp",
+    "thumb": "/landing/styles/pastel-pop/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/pastel-pop/kitchen.webp",
+    "thumb": "/landing/styles/pastel-pop/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/pastel-pop/master.webp",
+    "thumb": "/landing/styles/pastel-pop/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/pastel-pop/bath.webp",
+    "thumb": "/landing/styles/pastel-pop/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "quiet-luxe-monochrome",
+  "name": "Quiet Luxe Monochrome",
+  "concept": "A hushed apartment in chalk white, greige and ink black, where every surface is stone, bouclé or lacquer and the daylight is the only colour.",
+  "mood": [
+   "hushed",
+   "tonal",
+   "sculptural",
+   "sky-high"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "cool",
+   "colour": "mono"
+  },
+  "palette": [
+   {
+    "name": "Chalk white",
+    "hex": "#F1EEE8"
+   },
+   {
+    "name": "Bleached oak",
+    "hex": "#D9D2C6"
+   },
+   {
+    "name": "Greige stone",
+    "hex": "#CFC6B8"
+   },
+   {
+    "name": "Ivory bouclé",
+    "hex": "#E6E0D6"
+   },
+   {
+    "name": "Silver mist",
+    "hex": "#A9A9A6"
+   },
+   {
+    "name": "Ink black",
+    "hex": "#1B1B1C"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/quiet-luxe-monochrome/living.webp",
+    "thumb": "/landing/styles/quiet-luxe-monochrome/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/quiet-luxe-monochrome/kitchen.webp",
+    "thumb": "/landing/styles/quiet-luxe-monochrome/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/quiet-luxe-monochrome/master.webp",
+    "thumb": "/landing/styles/quiet-luxe-monochrome/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/quiet-luxe-monochrome/bath.webp",
+    "thumb": "/landing/styles/quiet-luxe-monochrome/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "soft-arch-mediterranean",
+  "name": "Soft Arch",
+  "concept": "A pale, quiet home of travertine and soft-veined marble where arched openings, blush-and-terracotta leather and one black-framed arch make every room a gentle frame.",
+  "mood": [
+   "pale",
+   "sculptural",
+   "sunlit",
+   "softly Mediterranean"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "warm",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Travertine sand",
+    "hex": "#CFC3AE"
+   },
+   {
+    "name": "Pale oak",
+    "hex": "#D9BE98"
+   },
+   {
+    "name": "Chalk plaster",
+    "hex": "#EAE4D8"
+   },
+   {
+    "name": "Cream marble vein",
+    "hex": "#E6E0D2"
+   },
+   {
+    "name": "Terracotta leather",
+    "hex": "#A85C3A"
+   },
+   {
+    "name": "Blush rose",
+    "hex": "#D4A593"
+   },
+   {
+    "name": "Black steel",
+    "hex": "#20201F"
+   },
+   {
+    "name": "Sage green",
+    "hex": "#8E9A80"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/soft-arch-mediterranean/living.webp",
+    "thumb": "/landing/styles/soft-arch-mediterranean/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/soft-arch-mediterranean/kitchen.webp",
+    "thumb": "/landing/styles/soft-arch-mediterranean/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/soft-arch-mediterranean/master.webp",
+    "thumb": "/landing/styles/soft-arch-mediterranean/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/soft-arch-mediterranean/bath.webp",
+    "thumb": "/landing/styles/soft-arch-mediterranean/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "stone-and-beam",
+  "name": "Stone & Beam",
+  "concept": "A Jerusalem stone house where chiselled limestone, dark timber beams and rounded arches hold a calm, sun-filled home of linen, oak and forged iron.",
+  "mood": [
+   "sunlit",
+   "rooted",
+   "tactile",
+   "quietly rustic"
+  ],
+  "axes": {
+   "value": "mid",
+   "temperature": "warm",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Chiselled limestone",
+    "hex": "#CDBB9C"
+   },
+   {
+    "name": "Plaster cream",
+    "hex": "#EDE6D8"
+   },
+   {
+    "name": "Beam walnut",
+    "hex": "#3E2A20"
+   },
+   {
+    "name": "Wide oak",
+    "hex": "#8F7456"
+   },
+   {
+    "name": "Cognac leather",
+    "hex": "#9A5B33"
+   },
+   {
+    "name": "Black iron",
+    "hex": "#1F1E1E"
+   },
+   {
+    "name": "Linen natural",
+    "hex": "#D9CFBD"
+   },
+   {
+    "name": "Dusty blue",
+    "hex": "#6F8794"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/stone-and-beam/living.webp",
+    "thumb": "/landing/styles/stone-and-beam/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/stone-and-beam/kitchen.webp",
+    "thumb": "/landing/styles/stone-and-beam/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/stone-and-beam/master.webp",
+    "thumb": "/landing/styles/stone-and-beam/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/stone-and-beam/bath.webp",
+    "thumb": "/landing/styles/stone-and-beam/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "teak-gallery",
+  "name": "Teak Gallery",
+  "concept": "A home laid out like a private gallery, where teak-lined walls lead on to stone, crystal and brass.",
+  "mood": [
+   "warm",
+   "gallery-calm",
+   "sea-lit",
+   "jewelled"
+  ],
+  "axes": {
+   "value": "mid",
+   "temperature": "warm",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Teak honey",
+    "hex": "#A0602F"
+   },
+   {
+    "name": "Walnut brown",
+    "hex": "#5A3A2A"
+   },
+   {
+    "name": "Greige limestone",
+    "hex": "#BDAA95"
+   },
+   {
+    "name": "Warm white",
+    "hex": "#EFEBE4"
+   },
+   {
+    "name": "Cobalt blue",
+    "hex": "#1F3F8F"
+   },
+   {
+    "name": "Brushed brass",
+    "hex": "#B8995A"
+   },
+   {
+    "name": "Black-stone grey",
+    "hex": "#2E2C2E"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/teak-gallery/living.webp",
+    "thumb": "/landing/styles/teak-gallery/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/teak-gallery/kitchen.webp",
+    "thumb": "/landing/styles/teak-gallery/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/teak-gallery/master.webp",
+    "thumb": "/landing/styles/teak-gallery/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/teak-gallery/bath.webp",
+    "thumb": "/landing/styles/teak-gallery/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "tel-aviv-morning",
+  "name": "Tel Aviv Morning",
+  "concept": "A bright young Tel Aviv Bauhaus flat with an east-facing morning sun, speckled terrazzo underfoot, glazed zellige in terracotta, and one colour-blocked wall that makes it feel like a friend lives here.",
+  "mood": [
+   "happy",
+   "sunny",
+   "young",
+   "designer-fresh"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "warm",
+   "colour": "colourful"
+  },
+  "palette": [
+   {
+    "name": "Pale oak",
+    "hex": "#D9BC8F"
+   },
+   {
+    "name": "Warm white plaster",
+    "hex": "#F3EEE4"
+   },
+   {
+    "name": "Terrazzo ground",
+    "hex": "#E7DFD0"
+   },
+   {
+    "name": "Terracotta zellige",
+    "hex": "#C0643F"
+   },
+   {
+    "name": "Sand",
+    "hex": "#D9C3A0"
+   },
+   {
+    "name": "Dusty blue",
+    "hex": "#7E9BB0"
+   },
+   {
+    "name": "Rattan honey",
+    "hex": "#C89B5A"
+   },
+   {
+    "name": "White steel",
+    "hex": "#F6F6F3"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/tel-aviv-morning/living.webp",
+    "thumb": "/landing/styles/tel-aviv-morning/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/tel-aviv-morning/kitchen.webp",
+    "thumb": "/landing/styles/tel-aviv-morning/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/tel-aviv-morning/master.webp",
+    "thumb": "/landing/styles/tel-aviv-morning/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/tel-aviv-morning/bath.webp",
+    "thumb": "/landing/styles/tel-aviv-morning/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "walnut-library",
+  "name": "Walnut Library",
+  "concept": "A home that feels like a private club, with a walnut book wall, black steel bookcases and navy sofas.",
+  "mood": [
+   "scholarly",
+   "hushed",
+   "tailored",
+   "sky-high"
+  ],
+  "axes": {
+   "value": "mid",
+   "temperature": "neutral",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Quarter-cut walnut",
+    "hex": "#4A2E1F"
+   },
+   {
+    "name": "Chestnut leather",
+    "hex": "#8A4C32"
+   },
+   {
+    "name": "Cream limestone",
+    "hex": "#D8CEBE"
+   },
+   {
+    "name": "Greige boiserie",
+    "hex": "#CFC8BC"
+   },
+   {
+    "name": "Navy tweed",
+    "hex": "#2E3B55"
+   },
+   {
+    "name": "Dusty rose",
+    "hex": "#C58F8A"
+   },
+   {
+    "name": "Blackened steel",
+    "hex": "#1C1C1E"
+   },
+   {
+    "name": "Back-lit onyx",
+    "hex": "#F0DEB9"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/walnut-library/living.webp",
+    "thumb": "/landing/styles/walnut-library/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/walnut-library/kitchen.webp",
+    "thumb": "/landing/styles/walnut-library/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/walnut-library/master.webp",
+    "thumb": "/landing/styles/walnut-library/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/walnut-library/bath.webp",
+    "thumb": "/landing/styles/walnut-library/bath-sm.webp"
+   }
+  ]
+ },
+ {
+  "slug": "warm-minimal",
+  "name": "Linen & Lime",
+  "concept": "A hushed, tactile home of limewash, linen and pale fir boards, where solid oak and a few black-stained shelves are the only hard lines.",
+  "mood": [
+   "quiet",
+   "pale",
+   "tactile",
+   "sun-softened"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "warm",
+   "colour": "mono"
+  },
+  "palette": [
+   {
+    "name": "Limewash greige",
+    "hex": "#B9B2A6"
+   },
+   {
+    "name": "Bone linen",
+    "hex": "#E3DDD0"
+   },
+   {
+    "name": "Soaped fir",
+    "hex": "#D2B89A"
+   },
+   {
+    "name": "Wool sand",
+    "hex": "#D8C7AA"
+   },
+   {
+    "name": "Raw oak",
+    "hex": "#B58B5B"
+   },
+   {
+    "name": "Black ash",
+    "hex": "#1E1D1C"
+   },
+   {
+    "name": "Moss olive",
+    "hex": "#6B6E4F"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/warm-minimal/living.webp",
+    "thumb": "/landing/styles/warm-minimal/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/warm-minimal/kitchen.webp",
+    "thumb": "/landing/styles/warm-minimal/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/warm-minimal/master.webp",
+    "thumb": "/landing/styles/warm-minimal/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/warm-minimal/bath.webp",
+    "thumb": "/landing/styles/warm-minimal/bath-sm.webp"
+   }
+  ]
+ }
+]
