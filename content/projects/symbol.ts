@@ -31,8 +31,11 @@ export const project = {
  projectUrl: 'https://symbol.co.il',
  // facts from the developer's sheets and site: tower floors, boutique floors, homes per tower floor, plot
  figures: { towerFloors: 24, boutiqueFloors: 9, perFloor: 6, plot: 3584 },
- // the presentation film (data/projects/Symbol-Givat-Shmuel/presentation, v2 2026-10-26); English only so far
- film: { src: `${base}/film/presentation-en.mp4`, preview: `${base}/film/presentation-en-720.mp4`, poster: `${base}/film/poster.webp` },
+ // the presentation film (data/projects/Symbol-Givat-Shmuel/presentation, v2 2026-10-26), one edition per language
+ film: {
+  en: { src: `${base}/film/presentation-en.mp4`, preview: `${base}/film/presentation-en-720.mp4`, poster: `${base}/film/poster.webp` },
+  he: { src: `${base}/film/presentation-he.mp4`, preview: `${base}/film/presentation-he-720.mp4`, poster: `${base}/film/poster-he.webp` },
+ },
  stills: Object.fromEntries(['hero', 'street', 'shops', 'garden', 'crown', 'facade', 'mirkami', 'mirkami-w', 'top'].map(k => [k, `${base}/stills/${k}.webp`])) as Record<string, string>,
 };
 

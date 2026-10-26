@@ -436,7 +436,7 @@ export default function SymbolSite() {
    </div>
    {/* the presentation film; straight from the bucket in production (Vercel's CDN caches partial Range responses) */}
    <motion.figure className={`${s.wide} ${s.wideFilm}`} initial={{ opacity: 0, scale: 0.98 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 1.1, ease: EASE }}>
-    <FilmPlayer src={process.env.NODE_ENV === 'development' ? project.film.src : film(project.film.src)} poster={project.film.poster} label={t.playFilm} />
+    {(() => { const f = project.film[lang === 'he' ? 'he' : 'en']; return <FilmPlayer key={lang} src={process.env.NODE_ENV === 'development' ? f.src : film(f.src)} poster={f.poster} label={t.playFilm} />; })()}
    </motion.figure>
 
    <div className={s.buildings}>

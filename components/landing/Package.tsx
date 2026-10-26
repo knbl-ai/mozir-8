@@ -67,6 +67,7 @@ function Phone({ active }: { active: boolean }) {
 
 export default function Package({ t, spinFrames, buildingFrames }: { t: LandingCopy['package']; spinFrames: string[]; buildingFrames: string[] }) {
  const it = t.items;
+ const he = useLang() === 'he';
  return <section id="package" className={s.packageSection} aria-labelledby="package-title">
   <div className={s.sectionHead}>
    <div>
@@ -89,7 +90,7 @@ export default function Package({ t, spinFrames, buildingFrames }: { t: LandingC
    </Card>
    {/* SYMBOL's presentation film (Levinstein, Givat Shmuel), full width under the grid */}
    <Card id="brand" item={it.brand} Icon={FilmIcon} full>
-    {a => <FilmPreview poster="/projects/symbol/film/poster.webp" film={film('/projects/symbol/film/presentation-en-720.mp4')} active={a} />}
+    {a => <FilmPreview key={he ? 'he' : 'en'} poster={`/projects/symbol/film/poster${he ? '-he' : ''}.webp`} film={film(`/projects/symbol/film/presentation-${he ? 'he' : 'en'}-720.mp4`)} active={a} />}
    </Card>
   </div>
   <p className={s.note}>{t.example}</p>
