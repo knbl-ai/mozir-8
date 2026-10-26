@@ -27,6 +27,12 @@ export default function HayarkonSite() {
  const roomsWith = ROOMS.filter(r => r.materials.includes(active)).map(r => lang === 'he' ? L(r.name) : L(r.name).toLowerCase());
  const roomOf = (image: string) => ROOMS.find(r => r.image === image || r.alt === image)!;
 
+ // The hero buttons bring the film / the model itself to the middle of the window, not the top of its section.
+ const show = (id: string) => (e: React.MouseEvent) => {
+  const el = document.getElementById(id); if (!el) return;
+  e.preventDefault();
+  el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+ };
  const play = () => { const v = video.current; if (!v) return; v.muted = false; void v.play(); setPlaying(true); };
 
  return <div className={s.page}>
@@ -42,8 +48,14 @@ export default function HayarkonSite() {
     <div className={s.heroSide}>
      <p className={s.lede}>{t.lede}</p>
      <div className={s.actions}>
-      <a className={s.primary} href="#film">{t.watch}</a>
-      <a className={s.secondary} href="#model">{t.turn}</a>
+      <a className={s.filmButton} href="#film" onClick={show('film-frame')}>
+       <span className={s.filmThumb} aria-hidden>
+        <video src={film(`${BASE}/film-preview.mp4`)} poster={img('living', '-m')} muted loop playsInline autoPlay preload="metadata" />
+        <Play size={14} strokeWidth={0} fill="currentColor" />
+       </span>
+       <span className={s.filmLabel}>{t.watch}<small>{t.filmLength}</small></span>
+      </a>
+      <a className={s.secondary} href="#model" onClick={show('model-frame')}>{t.turn}</a>
      </div>
      <p className={s.credit}>{t.credit}</p>
     </div>
@@ -94,7 +106,7 @@ export default function HayarkonSite() {
     <h2 id="film-title" className={s.h2}>{t.filmTitle}</h2>
     <p>{t.filmLede}</p>
    </div>
-   <div className={s.filmFrame}>
+   <div id="film-frame" className={s.filmFrame}>
     <video ref={video} src={film(`${BASE}/film.mp4`)} poster={`${BASE}/film-poster.jpg`} playsInline preload="metadata"
      controls={playing} onPlay={() => setPlaying(true)} onEnded={() => setPlaying(false)} />
     {!playing && <button type="button" className={s.play} onClick={play} aria-label={t.play}><Play size={28} strokeWidth={1.5} fill="currentColor" aria-hidden /></button>}
@@ -107,7 +119,7 @@ export default function HayarkonSite() {
     <p>{t.modelLede}</p>
     <button type="button" className={s.plan} onClick={() => setOpen(GALLERY.length)}><img src={img('top', '-m')} alt={t.planAlt} loading="lazy" /></button>
    </div>
-   <div className={s.modelFrame}>
+   <div id="model-frame" className={s.modelFrame}>
     <ResidenceModel src={`${BASE}/model.glb`} poster={`${BASE}/model-poster.webp`} defaultOrbit="-45deg 52deg 100%" outdoorOrbit="-70deg 58deg 72%" stage="paper" />
    </div>
   </section>

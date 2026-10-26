@@ -55,7 +55,7 @@ export const ROOMS: Room[] = [
 const en = {
  title: 'Hayarkon 56',
  lede: 'Apartment 2, a 152 m² home on Tel Aviv’s seafront street, designed as a private gallery in teak, limestone and one blue.',
- watch: 'Watch the film', turn: 'Turn it in 3D',
+ watch: 'Watch the film', filmLength: '75 seconds, with sound', turn: 'Turn it in 3D',
  credit: 'Developer: Noga Group. Visualised by residence.tech.',
  heroAlt: 'The long living room of Hayarkon 56, apartment 2, looking toward the balcony and the palms',
  materialsTitle: 'Six materials make every room',
@@ -82,7 +82,7 @@ type Strings = typeof en;
 const he: Strings = {
  title: 'הירקון 56',
  lede: 'דירה 2, בית של 152 מ״ר ברחוב החוף של תל אביב, מעוצב כגלריה פרטית בטיק, אבן גיר וכחול אחד.',
- watch: 'לצפייה בסרט', turn: 'לסיבוב בתלת־מימד',
+ watch: 'לצפייה בסרט', filmLength: '75 שניות, עם סאונד', turn: 'לסיבוב בתלת־מימד',
  credit: 'יזם: נוגה גרופ. הדמיה: residence.tech.',
  heroAlt: 'הסלון הארוך בהירקון 56, דירה 2, במבט אל המרפסת והדקלים',
  materialsTitle: 'שישה חומרים בונים כל חדר',
