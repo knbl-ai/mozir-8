@@ -39,7 +39,7 @@ export type LandingCopy = {
  };
  projects: {
   title: string; lede: string; newTab: string; more: string;
-  tower: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy; furniture: ProjectCopy;
+  tower: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; interior: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy; furniture: ProjectCopy;
  };
  footer: { line: string; contact: string; whatsapp: string; whatsappText: string };
  thanks: { kicker: string; title: string; body: (email: string | null) => string; next: string; home: string; projects: string };
@@ -129,6 +129,7 @@ const en: LandingCopy = {
   penthouse: { kind: 'Luxury home', name: 'A.f.k Penthouse', body: 'A penthouse found on its tower, in the project’s own look.', cta: 'Open the penthouse' },
   boutique: { kind: 'Boutique building', name: 'N°8 KLEE', body: 'Three homes to step into, a garden duplex floor by floor.', cta: 'Open N°8 KLEE' },
   heritage: { kind: 'Historic building, Lisbon', name: 'Borges 15', body: 'A Lapa house rebuilt from its plans, with a duplex to walk through.', cta: 'Open Borges 15' },
+  interior: { kind: 'Interior design, Tel Aviv', name: 'Hayarkon 56', body: 'A gallery home in teak, limestone and one blue, room by room and material by material.', cta: 'Open Hayarkon 56' },
   furniture: { kind: 'Furniture maker, Cancún', name: 'Studio ORYX', body: 'Ten hand-made pieces placed in one bedroom from its plan, with a film of the room.', cta: 'Open Studio ORYX' },
  },
  footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech', whatsapp: 'Chat on WhatsApp', whatsappText: 'Hi, I saw residence.tech and I’d like to talk about a project.' },
@@ -227,6 +228,7 @@ const he: LandingCopy = {
   penthouse: { kind: 'דירת יוקרה', name: 'הפנטהאוז ב־A.f.k', body: 'פנטהאוז שמוצאים על המגדל שלו, בעיצוב הפרויקט.', cta: 'לפנטהאוז' },
   boutique: { kind: 'בניין בוטיק', name: 'N°8 KLEE', body: 'שלוש דירות להיכנס אליהן, ודופלקס גן קומה אחר קומה.', cta: 'ל־N°8 KLEE' },
   heritage: { kind: 'בניין היסטורי, ליסבון', name: 'Borges 15', body: 'בית בלאפה שנבנה מחדש מהתוכניות, עם דופלקס לסיור.', cta: 'לבורז׳ש 15' },
+  interior: { kind: 'עיצוב פנים, תל אביב', name: 'הירקון 56', body: 'בית גלריה בטיק, אבן גיר וכחול אחד, חדר אחר חדר וחומר אחר חומר.', cta: 'להירקון 56' },
   furniture: { kind: 'יצרן רהיטים, קנקון', name: 'Studio ORYX', body: 'עשרה רהיטים בעבודת יד, מוצבים בחדר שינה אחד לפי התוכנית, עם סרטון של החדר.', cta: 'ל־Studio ORYX' },
  },
  footer: { line: 'residence.tech by KNBL', contact: 'info@residence.tech', whatsapp: 'דברו איתנו בוואטסאפ', whatsappText: 'היי, ראיתי את residence.tech ואשמח לדבר על פרויקט.' },

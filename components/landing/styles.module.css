@@ -40,6 +40,7 @@
 .chip:hover { border-color: var(--forest); color: var(--forest); }
 .chip[data-on] { background: var(--forest); border-color: var(--forest); color: #fff; }
 .chipAll { background: transparent; color: var(--forest); border-color: var(--forest); font-weight: 600; }
+.chip[data-extra] { display: none; }
 .cta { display: flex; justify-content: center; margin-top: clamp(28px, 4vw, 44px); }
 
 /* Library page */
@@ -98,7 +99,10 @@
   .slideImg { object-position: 50% 40%; }
   .captionConcept { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
   .arrow { width: 40px; height: 40px; top: 36%; }
-  .chips { justify-content: flex-start; }
+  /* phones: every style in one row that scrolls sideways, edge to edge, the active chip kept in view */
+  .chips { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; margin-inline: -16px; padding: 2px 16px 6px; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip, .chip[data-extra] { display: inline-flex; flex: none; scroll-snap-align: start; white-space: nowrap; }
   .found { margin-inline-start: 0; }
 }
 @media (prefers-reduced-motion: reduce) {

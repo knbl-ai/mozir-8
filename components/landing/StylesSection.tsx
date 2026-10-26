@@ -24,8 +24,16 @@ export default function StylesSection() {
  const [reduced, setReduced] = useState(true);  // until known, no motion
  const [seen, setSeen] = useState<Set<number>>(() => new Set([0]));
  const root = useRef<HTMLDivElement>(null);
+ const chipRow = useRef<HTMLDivElement>(null);
 
  const go = useCallback((to: number) => setI(((to % n) + n) % n), [n]);
+ // Phones: the chip row scrolls sideways; keep the current style's chip in view (the row only, never the page).
+ useEffect(() => {
+  const row = chipRow.current, chip = row?.querySelector<HTMLElement>('[aria-pressed="true"]');
+  if (!row || !chip || row.scrollWidth <= row.clientWidth) return;
+  const left = chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2;
+  row.scrollTo({ left, behavior: reduced ? 'auto' : 'smooth' });
+ }, [i, reduced]);
  // Only the slides already shown and the next one are in the page, so the section adds one image to the first load.
  useEffect(() => { setSeen(prev => (prev.has(i) && prev.has((i + 1) % n)) ? prev : new Set(prev).add(i).add((i + 1) % n)); }, [i, n]);
  useEffect(() => {
@@ -79,8 +87,9 @@ export default function StylesSection() {
    </div>
   </div>
 
-  <div className={x.chips} role="group" aria-label={t.chips}>
-   {styles.slice(0, CHIPS).map((st, k) => <button key={st.slug} type="button" className={x.chip} data-on={k === i || undefined} aria-pressed={k === i} onClick={() => go(k)}>
+  <div ref={chipRow} className={x.chips} role="group" aria-label={t.chips}>
+   {/* every style: desktop shows the first CHIPS (data-extra hidden), phones scroll the whole row */}
+   {styles.map((st, k) => <button key={st.slug} type="button" className={x.chip} data-on={k === i || undefined} data-extra={k >= CHIPS || undefined} aria-pressed={k === i} onClick={() => go(k)}>
     <i style={{ background: st.palette[0].hex }} aria-hidden />{st.name}
    </button>)}
    <Link href={withLang('/styles', lang)} className={`${x.chip} ${x.chipAll}`}>{t.all} <span aria-hidden>{rtl ? '←' : '→'}</span></Link>

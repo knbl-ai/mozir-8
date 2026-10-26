@@ -123,9 +123,11 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       preview={a => <FilmPreview poster="/projects/studio-oryx/v1-hero-sm.jpg" film={film("/projects/studio-oryx/film-480p.mp4")} active={a} />} />
      <Project href={withLang('/projects/building-preview#explore', lang)} text={p.salesGallery} newTab={p.newTab}
       preview={a => <BuildingPreview frames={buildingFrames} active={a} />} />
-     <Project href={withLang('/mozir-8', lang)} text={p.openHouse} newTab={p.newTab}
-      preview={a => <FilmPreview poster="/media/01_living.webp" film={film("/media/residence-film.mp4")} active={a} />} />
-     {/* six on show; the rest behind "Show more" */}
+     <Project href={withLang('/hayarkon-56', lang)} text={p.interior} newTab={p.newTab}
+      preview={a => <FilmPreview poster="/projects/hayarkon-56/living-m.webp" film={film("/projects/hayarkon-56/film-preview.mp4")} active={a} />} />
+     {/* six on show; the rest behind "Show more" (Mozir 8 moved there for Hayarkon 56, 2026-10-26) */}
+     {more && <Project href={withLang('/mozir-8', lang)} text={p.openHouse} newTab={p.newTab}
+      preview={a => <FilmPreview poster="/media/01_living.webp" film={film("/media/residence-film.mp4")} active={a} />} />}
      {more && <Project href={withLang('/projects/afk-urban-comfort#explore', lang)} text={p.penthouse} newTab={p.newTab}
       preview={a => <BuildingPreview frames={penthouseFrames} active={a} span={0.6} centre={0.5} />} />}
     </div>
