@@ -88,9 +88,9 @@ export default function Package({ t, spinFrames, buildingFrames }: { t: LandingC
     {a => <><BuildingPreview frames={buildingFrames} active={a} span={0.84} centre={0.515} zoom={1.12} />   {/* the tower roof to street (rows 58–585 of 625) filling the card */}
      <span className={s.chips}><span data-status="sale">{t.forSale}</span><span data-status="sold">{t.sold}</span></span></>}
    </Card>
-   {/* SYMBOL's presentation film (Levinstein, Givat Shmuel), full width under the grid */}
+   {/* SYMBOL's presentation film (Levinstein, Givat Shmuel) as a 17 s highlights cut, full width under the grid */}
    <Card id="brand" item={it.brand} Icon={FilmIcon} full>
-    {a => <FilmPreview key={he ? 'he' : 'en'} poster={`/projects/symbol/film/poster${he ? '-he' : ''}.webp`} film={film(`/projects/symbol/film/presentation-${he ? 'he' : 'en'}-720.mp4`)} active={a} />}
+    {a => <FilmPreview key={he ? 'he' : 'en'} poster={`/projects/symbol/film/poster${he ? '-he' : ''}.webp`} film={film(`/projects/symbol/film/highlights-${he ? 'he' : 'en'}-720.mp4`)} active={a} />}
    </Card>
   </div>
   <p className={s.note}>{t.example}</p>
