@@ -9,6 +9,7 @@ import SegmentedControl from '@/components/building/SegmentedControl';
 import { explorerText } from '@/components/building/strings';
 import es from '@/components/building/explorer.module.css';
 import { localizeResidence } from '@/content/projects';
+import Downloads from './Downloads';
 import { brandVars, disclaimerIn, textIn, toMedia, toResidence, type ApartmentPageData } from '@/content/apartment-page';
 import { setPageLangs, useLang } from '@/lib/i18n';
 import s from '@/components/habaron/habaron.module.css';
@@ -75,7 +76,10 @@ export default function ApartmentPage({ data }: { data: ApartmentPageData }) {
       <div className={es.mediaWrap} data-tab={tab}>
        <MediaPanel tab={tab} residence={home} media={media} specs={specs} onExpandPlan={() => setPlanOpen(true)} />
       </div>
-      {data.langs.length > 1 && <div className={s.agentCol}><LanguageSwitch id="apt-lang" className={s.lang} /></div>}
+      {(data.downloads || data.langs.length > 1) && <div className={s.agentCol}>
+       {data.downloads && <Downloads data={data} lang={lang} />}
+       {data.langs.length > 1 && <LanguageSwitch id="apt-lang" className={s.lang} />}
+      </div>}
       <footer className={s.footer}>
        <p className={s.credit}><strong>{name}</strong> · {textIn(b.address, lang)}{credits && <><br />{credits}</>}</p>
        <p className={s.disclaimer}>{disclaimerIn(data, lang)}</p>

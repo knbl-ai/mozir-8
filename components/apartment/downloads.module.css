@@ -1,0 +1,28 @@
+/* Downloads on a pipeline apartment page (Downloads.tsx): the explorer's tokens, so a client's brand colours apply. */
+.downloads { margin-top: 22px; }
+.title { margin: 0 0 10px; font-size: 12px; font-weight: 500; color: var(--ink-3); }
+.all {
+ display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 999px;
+ background: var(--cta, var(--ink)); color: #fff; font-size: 14px; font-weight: 500; text-decoration: none;
+ transition: background-color 0.2s var(--ease);
+}
+.all:hover { background: var(--cta-hover, var(--ink)); }
+.all:focus-visible, .each a:focus-visible, .each summary:focus-visible { outline: 2px solid var(--accent, var(--ink)); outline-offset: 2px; }
+.size { margin-inline-start: auto; font-size: 12px; font-weight: 400; opacity: 0.8; }
+.each { margin-top: 8px; }
+.each summary {
+ display: inline-flex; align-items: center; gap: 6px; padding: 6px 2px; list-style: none; cursor: pointer;
+ font-size: 13px; color: var(--ink-2);
+}
+.each summary::-webkit-details-marker { display: none; }
+.each summary svg { transition: transform 0.2s var(--ease); }
+.each[open] summary svg { transform: rotate(180deg); }
+.each ul { margin: 4px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--hairline); }
+.each li { border-bottom: 1px solid var(--hairline); }
+.each a {
+ display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 2px;
+ font-size: 13px; line-height: 1.35; color: var(--ink); text-decoration: none;
+}
+.each a svg { flex: none; color: var(--ink-3); }
+.each a:hover svg { color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .all, .each summary svg { transition: none; } }

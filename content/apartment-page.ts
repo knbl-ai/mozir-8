@@ -14,11 +14,13 @@ export type FilmRes = '480p' | '720p' | '1080p';
 export type Brand = { accent?: string; cta?: string; mark?: string; surface?: string; ink?: string; font?: 'geometric' };
 export type ApartmentPageData = {
  v: 1; slug: string; langs: Lang[]; theme?: string; brand?: Brand; published: string;
+ // downloads: the page offers its media to save (components/apartment/Downloads.tsx); media.zip = every file in one archive
+ downloads?: boolean;
  building: { name: Text; address: Text; developer?: string; architects?: string; logos?: { src: string; alt: string; w: number; h: number }[]; disclaimer?: Text };
  home: { id: string; rooms: number; area: number; outdoorArea: number; floor: Text; title: Text; shortTitle: Text; tagline: Text; outdoor: Text;
   exposure: Text; label: Text; description: Text; about: { en: string[]; he?: string[]; pt?: string[] } };
  media: { film?: { src: string; poster: string; res: FilmRes }; images: { src: string; label: Text }[]; plan: string;
-  model?: string; modelPoster?: string; modelOrbit?: string; modelOutdoorOrbit?: string };
+  model?: string; modelPoster?: string; modelOrbit?: string; modelOutdoorOrbit?: string; zip?: { src: string; bytes?: number } };
 };
 
 export async function loadPage(slug: string): Promise<ApartmentPageData | null> {
