@@ -218,6 +218,7 @@ export default function ShiratSite() {
   if (sp.id === selected) return s.spotSelected;
   if (sp.id === hovered) return s.spotHover;
   if (out) return s.spotOut;
+  if (u && mediaFor(u)) return s.spotAvail;
   return showAll || tower !== 'all' || finder ? s.spotShown : s.spotIdle;
  };
 
