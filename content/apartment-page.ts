@@ -9,6 +9,9 @@ export const PAGES_ORIGIN = process.env.APT_PAGES_ORIGIN ?? 'https://storage.goo
 
 export type Text = { en: string; he?: string; pt?: string };
 export type FilmRes = '480p' | '720p' | '1080p';
+// More cuts of the same walkthrough (page.yaml `films:`, pipeline/video_variants): highlights, infographic, 3D, a vertical
+// reel. The page shows a film switcher when there are any; the main film stays the first and the default.
+export type FilmCut = { id: string; title: Text; src: string; poster: string; seconds?: number; aspect?: '16:9' | '9:16' };
 // The client's own colours (from their logo / sales sheet), when they have them: hex only. `font: 'geometric'` swaps the
 // serif display face for Outfit + DM Sans (as on HaBaron). Missing keys keep the residence.tech defaults.
 export type Brand = { accent?: string; cta?: string; mark?: string; surface?: string; ink?: string; font?: 'geometric' };
@@ -19,7 +22,7 @@ export type ApartmentPageData = {
  building: { name: Text; address: Text; developer?: string; architects?: string; logos?: { src: string; alt: string; w: number; h: number }[]; disclaimer?: Text };
  home: { id: string; rooms: number; area: number; outdoorArea: number; floor: Text; title: Text; shortTitle: Text; tagline: Text; outdoor: Text;
   exposure: Text; label: Text; description: Text; about: { en: string[]; he?: string[]; pt?: string[] } };
- media: { film?: { src: string; poster: string; res: FilmRes }; images: { src: string; label: Text }[]; plan: string;
+ media: { film?: { src: string; poster: string; res: FilmRes; seconds?: number }; films?: FilmCut[]; images: { src: string; label: Text }[]; plan: string;
   model?: string; modelPoster?: string; modelOrbit?: string; modelOutdoorOrbit?: string; zip?: { src: string; bytes?: number } };
 };
 
@@ -72,10 +75,21 @@ export function toResidence(d: ApartmentPageData): Residence {
   ...(d.langs.includes('he') ? { he: text('he') } : {}), ...(d.langs.includes('pt') ? { pt: text('pt') } : {}) };
 }
 
-export function toMedia(d: ApartmentPageData, lang: Lang): ResolvedMedia {
+const FULL: Text = { en: 'Full walkthrough', he: 'סיור מלא', pt: 'Percurso completo' };
+// Every film of the page in order: the main walkthrough first, then the extra cuts.
+export const filmCuts = (d: ApartmentPageData): FilmCut[] => [
+ ...(d.media.film ? [{ id: 'film', title: FULL, src: d.media.film.src, poster: d.media.film.poster, seconds: d.media.film.seconds, aspect: '16:9' as const }] : []),
+ ...(d.media.films ?? []),
+];
+
+// `cut`: the film the switcher picked (filmCuts id); `autoplay` when the viewer picked it, so it starts at once.
+export function toMedia(d: ApartmentPageData, lang: Lang, cut?: string, autoplay = false): ResolvedMedia {
  const m = d.media;
- const film = m.film
-  ? { src: m.film.src, poster: m.film.poster, ...(lowRes(d) ? { note: LOW_RES.en(m.film.res), noteHe: LOW_RES.he(m.film.res), notePt: LOW_RES.pt(m.film.res) } : {}) }
+ const extra = cut && cut !== 'film' ? m.films?.find(f => f.id === cut) : undefined;
+ const film = extra
+  ? { src: extra.src, poster: extra.poster, autoplay }
+  : m.film
+  ? { src: m.film.src, poster: m.film.poster, autoplay, ...(lowRes(d) ? { note: LOW_RES.en(m.film.res), noteHe: LOW_RES.he(m.film.res), notePt: LOW_RES.pt(m.film.res) } : {}) }
   : { src: '', poster: '' };
  const images: MediaImage[] = m.images.map(i => ({ src: i.src, label: pick(i.label, lang) }));
  return { film, images, model: m.model ?? '', modelPoster: m.modelPoster, modelOrbit: m.modelOrbit ?? '28deg 52deg 100%',

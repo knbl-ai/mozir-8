@@ -10,7 +10,8 @@ import { explorerText } from '@/components/building/strings';
 import es from '@/components/building/explorer.module.css';
 import { localizeResidence } from '@/content/projects';
 import Downloads from './Downloads';
-import { brandVars, disclaimerIn, textIn, toMedia, toResidence, type ApartmentPageData } from '@/content/apartment-page';
+import FilmCuts from './FilmCuts';
+import { brandVars, disclaimerIn, filmCuts, textIn, toMedia, toResidence, type ApartmentPageData } from '@/content/apartment-page';
 import { setPageLangs, useLang } from '@/lib/i18n';
 import s from '@/components/habaron/habaron.module.css';
 
@@ -28,7 +29,11 @@ export default function ApartmentPage({ data }: { data: ApartmentPageData }) {
  const t = explorerText[lang];
  const residence = useMemo(() => toResidence(data), [data]);
  const home = useMemo(() => localizeResidence(residence, lang), [residence, lang]);
- const media = useMemo(() => toMedia(data, lang), [data, lang]);
+ // The film switcher (page.json media.films): which cut plays; one the viewer picks starts playing.
+ const cuts = useMemo(() => filmCuts(data), [data]);
+ const [cut, setCut] = useState({ id: cuts[0]?.id ?? 'film', picked: false });
+ const aspect = cuts.find(c => c.id === cut.id)?.aspect ?? '16:9';
+ const media = useMemo(() => toMedia(data, lang, cut.id, cut.picked), [data, lang, cut]);
  const [tab, setTab] = useState<MediaTab>(data.media.film ? 'film' : 'images');
  const [planOpen, setPlanOpen] = useState(false);
  const b = data.building;
@@ -73,7 +78,8 @@ export default function ApartmentPage({ data }: { data: ApartmentPageData }) {
       <div className={es.tabs}>
        <SegmentedControl id="media" label={t.homePreview} role="tablist" controls="apartment-preview" fill value={tab} onChange={setTab} options={TABS.map(o => ({ ...o, label: t.tabs[o.value] }))} />
       </div>
-      <div className={es.mediaWrap} data-tab={tab}>
+      <div className={es.mediaWrap} data-tab={tab} data-cuts={tab === 'film' && cuts.length > 1 ? '' : undefined} data-aspect={tab === 'film' && aspect === '9:16' ? 'portrait' : undefined}>
+       {tab === 'film' && cuts.length > 1 && <FilmCuts cuts={cuts} value={cut.id} lang={lang} onChange={id => setCut({ id, picked: true })} />}
        <MediaPanel tab={tab} residence={home} media={media} specs={specs} onExpandPlan={() => setPlanOpen(true)} />
       </div>
       {(data.downloads || data.langs.length > 1) && <div className={s.agentCol}>

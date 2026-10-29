@@ -23,6 +23,7 @@ export default function Downloads({ data, lang }: { data: ApartmentPageData; lan
  const t = T[lang], m = data.media, slug = data.slug;
  const files = [
   ...(m.film ? [{ href: m.film.src, label: t.film(m.film.res), name: `${slug}-film.mp4` }] : []),
+  ...(m.films ?? []).map(f => ({ href: f.src, label: `${textIn(f.title, lang)} · ${f.aspect ?? '16:9'}`, name: `${slug}-${f.id}.mp4` })),
   ...m.images.map((im, i) => ({ href: im.src, label: textIn(im.label, lang), name: `${slug}-${String(i + 1).padStart(2, '0')}.${ext(im.src)}` })),
   { href: m.plan, label: t.plan, name: `${slug}-plan.${ext(m.plan)}` },
   ...(m.model ? [{ href: m.model, label: t.model, name: `${slug}-3d.glb` }] : []),

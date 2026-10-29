@@ -1192,6 +1192,11 @@
 .shell[data-single] .mediaWrap[data-tab='film'] { justify-content: center; }
 .shell[data-single] .mediaWrap[data-tab='film'] .mediaPanel { flex: none; width: 100%; aspect-ratio: 16 / 9; max-height: 100%; }
 .shell[data-single] .mediaWrap[data-tab='film'] :is(.mediaPanel, .filmView) { background: var(--card); }
+/* More than one film (the switcher row above the player, components/apartment/FilmCuts): the player gives the row its
+   height; a vertical reel gets a 9:16 frame centred in the same space. */
+.shell[data-single] .mediaWrap[data-tab='film'][data-cuts] { justify-content: flex-start; }
+.shell[data-single] .mediaWrap[data-tab='film'][data-cuts] .mediaPanel { max-height: calc(100% - 46px); }
+.shell[data-single] .mediaWrap[data-tab='film'][data-aspect='portrait'] .mediaPanel { width: auto; height: calc(100% - 46px); aspect-ratio: 9 / 16; align-self: center; }
 /* Habaron and the pipeline apartment pages (data-single). Phones: the film and the images are 16:9, so their frame is 16:9 at the full width (no bars at the sides). */
 @media (max-width: 760px) {
   :is(.shell[data-theme='habaron'], .shell[data-single]) .mediaWrap[data-tab='film'],
@@ -1202,5 +1207,7 @@
   :is(.shell[data-theme='habaron'], .shell[data-single]) .mediaWrap[data-tab='images'] .mediaLayer { position: relative; inset: auto; }
   :is(.shell[data-theme='habaron'], .shell[data-single]) .mediaWrap[data-tab='images'] .galleryView { position: relative; inset: auto; }
   :is(.shell[data-theme='habaron'], .shell[data-single]) .mediaWrap[data-tab='images'] .galleryStage { flex: none; aspect-ratio: 16 / 9; }
+  .shell[data-single] .mediaWrap[data-tab='film'][data-cuts] .mediaPanel { max-height: none; }
+  .shell[data-single] .mediaWrap[data-tab='film'][data-aspect='portrait'] .mediaPanel { height: auto; width: min(100%, calc(72dvh * 9 / 16)); aspect-ratio: 9 / 16; }
 }
 

@@ -55,12 +55,18 @@ function FilmView({ film, placeholder }: { film: ResolvedMedia['film']; placehol
  const t = explorerText[lang];
  // A work-in-progress film (the P2 blockout, runbook §11) says so on the page.
  const note = (lang === 'he' ? film.noteHe : lang === 'pt' ? film.notePt : undefined) ?? film.note;
+ // `video` follows the film shown now, never the one still fading out.
  const video = useRef<HTMLVideoElement>(null);
+ const view = useRef<HTMLDivElement>(null);
  const [playing, setPlaying] = useState(false);
- return <div className={s.filmView}>
+ // Another film (the page's film switcher): back to its poster, or straight into it when the viewer picked it.
+ const [current, setCurrent] = useState(film.src);
+ if (current !== film.src) { setCurrent(film.src); setPlaying(false); }
+ useEffect(() => { view.current?.querySelectorAll('video').forEach(v => { if (v.getAttribute('src') !== film.src) v.pause(); }); }, [film.src]);
+ return <div ref={view} className={s.filmView}>
   <AnimatePresence initial={false}>
    <motion.div key={film.src} className={s.filmLayer} {...fade} transition={swap}>
-    <video ref={video} src={film.src} poster={film.poster} playsInline preload="metadata" controls={playing}
+    <video ref={el => { if (el?.getAttribute('src') === film.src) video.current = el; }} src={film.src} poster={film.poster} playsInline preload="metadata" controls={playing} autoPlay={film.autoplay}
      onPlay={() => setPlaying(true)} onEnded={() => setPlaying(false)} />
    </motion.div>
   </AnimatePresence>
