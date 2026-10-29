@@ -3,12 +3,12 @@
 // six swatches cut from the renders lead into the rooms, then the film, the 3D model and the style library.
 // The apartment's own sales page stays at /hayarkon-56-apt-2 (pipeline page, app/[slug]).
 import { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Play, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Smartphone, X } from 'lucide-react';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import ResidenceModel from '@/components/building/ResidenceModel';
 import { film } from '@/components/landing/media';
 import { useLang, withLang } from '@/lib/i18n';
-import { MATERIALS, ROOMS, hayarkonText, type MaterialId } from './strings';
+import { FILMS, MATERIALS, ROOMS, hayarkonText, type MaterialId } from './strings';
 import s from './hayarkon.module.css';
 
 const BASE = '/projects/hayarkon-56';
@@ -21,6 +21,8 @@ export default function HayarkonSite() {
  const L = (l: { en: string; he: string }) => lang === 'he' ? l.he : l.en;
  const [active, setActive] = useState<MaterialId>('teak');
  const [playing, setPlaying] = useState(false);
+ const [cut, setCut] = useState(0);
+ const shown = FILMS[cut];
  const [open, setOpen] = useState<number | null>(null);
  const video = useRef<HTMLVideoElement>(null);
  const material = MATERIALS.find(m => m.id === active)!;
@@ -34,6 +36,18 @@ export default function HayarkonSite() {
   el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
  };
  const play = () => { const v = video.current; if (!v) return; v.muted = false; void v.play(); setPlaying(true); };
+ // A film card: that film plays in the frame (brought into view when it is off screen); if the browser blocks the
+ // start, its play button comes back.
+ const pick = (i: number) => {
+  setCut(i); setPlaying(true);
+  const frame = document.getElementById('film-frame')?.getBoundingClientRect();
+  if (frame && (frame.top < 0 || frame.bottom > window.innerHeight)) document.getElementById('film-frame')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ };
+ useEffect(() => {
+  const v = video.current;
+  if (v && playing && v.paused) { v.muted = false; v.play().catch(() => setPlaying(false)); }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- only when another film is picked
+ }, [cut]);
 
  return <div className={s.page}>
   <header className={s.bar}>
@@ -106,10 +120,22 @@ export default function HayarkonSite() {
     <h2 id="film-title" className={s.h2}>{t.filmTitle}</h2>
     <p>{t.filmLede}</p>
    </div>
-   <div id="film-frame" className={s.filmFrame}>
-    <video ref={video} src={film(`${BASE}/film.mp4`)} poster={`${BASE}/film-poster.jpg`} playsInline preload="metadata"
+   <div id="film-frame" className={s.filmFrame} data-vertical={'vertical' in shown || undefined}>
+    {'vertical' in shown && <img className={s.filmBlur} src={`${BASE}/${shown.poster}`} alt="" aria-hidden />}
+    <video key={shown.id} ref={video} src={film(`${BASE}/${shown.src}`)} poster={`${BASE}/${shown.poster}`} playsInline preload="metadata"
      controls={playing} onPlay={() => setPlaying(true)} onEnded={() => setPlaying(false)} />
     {!playing && <button type="button" className={s.play} onClick={play} aria-label={t.play}><Play size={28} strokeWidth={1.5} fill="currentColor" aria-hidden /></button>}
+   </div>
+   <div className={s.cuts} role="radiogroup" aria-label={t.films}>
+    {FILMS.map((f, i) => <button key={f.id} type="button" role="radio" aria-checked={i === cut} className={s.cut} onClick={() => pick(i)}>
+     <span className={s.cutThumb}>
+      <img src={`${BASE}/${f.poster}`} alt="" loading="lazy" />
+      {'vertical' in f && <span className={s.cutBadge}><Smartphone size={12} strokeWidth={2} aria-hidden />{t.vertical}</span>}
+      <span className={s.cutTime}>{f.length}</span>
+     </span>
+     <span className={s.cutName}>{L(f.name)}</span>
+     <span className={s.cutNote}>{L(f.note)}</span>
+    </button>)}
    </div>
   </section>
 

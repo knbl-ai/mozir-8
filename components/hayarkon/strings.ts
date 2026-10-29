@@ -52,6 +52,21 @@ export const ROOMS: Room[] = [
    he: 'באגף משלה בקצה המסדרון: מיטה מרופדת בגוון טאופ מול קיר אבן, כורסת קטיפה בכחול קובלט, מנורות זכוכית בצורת ביצה על בסיס פליז, וחלונות לשני כיוונים אל הדקלים.' } },
 ];
 
+// The films, in the order they are offered: the full take first (the hero's button), then the cuts made from it
+// (pipeline/video_variants, user 2026-10-29). Files under /projects/hayarkon-56/ (media bucket).
+export const FILMS = [
+ { id: 'walk', src: 'film.mp4', poster: 'film-poster.jpg', length: '1:15',
+  name: { en: 'The full walk', he: 'הסיור המלא' }, note: { en: 'Every room in one continuous take, with sound.', he: 'כל החדרים בצילום רציף אחד, עם סאונד.' } },
+ { id: 'highlights', src: 'films/highlights.mp4', poster: 'films/highlights-poster.webp', length: '0:46',
+  name: { en: 'Highlights', he: 'תקציר' }, note: { en: 'Each room at walking pace, the corridors sped up.', he: 'כל חדר בקצב הליכה, המסדרונות במהירות.' } },
+ { id: 'infographic', src: 'films/infographic.mp4', poster: 'films/infographic-poster.webp', length: '0:46',
+  name: { en: 'Room by room', he: 'חדר אחר חדר' }, note: { en: 'Sizes and areas as you enter each room, with a live plan.', he: 'מידות ושטחים בכניסה לכל חדר, עם תוכנית מתעדכנת.' } },
+ { id: '3d-tour', src: 'films/3d-tour.mp4', poster: 'films/3d-tour-poster.webp', length: '0:53',
+  name: { en: 'From the 3D model', he: 'מהמודל התלת־ממדי' }, note: { en: 'Dives from the model into the rooms.', he: 'צלילות מהמודל אל תוך החדרים.' } },
+ { id: 'reel', src: 'films/reel.mp4', poster: 'films/reel-poster-2.webp', length: '0:31', vertical: true,
+  name: { en: 'Reel', he: 'רילס' }, note: { en: 'Vertical, for phones and stories.', he: 'אנכי, לטלפון ולסטוריז.' } },
+] as const;
+
 const en = {
  title: 'Hayarkon 56',
  lede: 'Apartment 2, a 152 m² home on Tel Aviv’s seafront street, designed as a private gallery in teak, limestone and one blue.',
@@ -63,8 +78,9 @@ const en = {
  foundIn: 'Found in',
  roomsTitle: 'Through the apartment',
  open: (room: string) => `Enlarge: ${room}`, another: 'Another view',
- filmTitle: 'The walk, in one continuous take',
- filmLede: 'From the front door to the master suite in 75 seconds, with the sound of the street through the open glazing.',
+ filmTitle: 'The walk, five ways',
+ filmLede: 'The full take, a short cut, a room-by-room guide with sizes, a tour from the 3D model and a vertical reel. Pick one.',
+ films: 'Films', vertical: 'Vertical',
  play: 'Play the film',
  modelTitle: 'The whole home, from above',
  modelLede: 'Turn the light-baked model, or step back to the plan.',
@@ -90,8 +106,9 @@ const he: Strings = {
  foundIn: 'נמצא ב',
  roomsTitle: 'לאורך הדירה',
  open: room => `הגדלה: ${room}`, another: 'מבט נוסף',
- filmTitle: 'הסיור, בצילום רציף אחד',
- filmLede: 'מדלת הכניסה ועד סוויטת ההורים ב־75 שניות, עם קולות הרחוב דרך חזית הזכוכית הפתוחה.',
+ filmTitle: 'הסיור, בחמש גרסאות',
+ filmLede: 'הצילום המלא, גרסה קצרה, מדריך חדר אחר חדר עם מידות, סיור מהמודל התלת־ממדי ורילס אנכי. בחרו אחד.',
+ films: 'סרטונים', vertical: 'אנכי',
  play: 'הפעלת הסרט',
  modelTitle: 'הבית כולו, ממבט על',
  modelLede: 'סובבו את המודל, או התרחקו אל התוכנית.',

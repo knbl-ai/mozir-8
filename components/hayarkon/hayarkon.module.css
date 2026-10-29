@@ -94,6 +94,25 @@
 .play { position: absolute; inset: 0; margin: auto; width: 96px; height: 96px; border-radius: 50%; border: 0; display: grid; place-items: center; padding-inline-start: 6px; cursor: pointer;
   background: var(--cobalt); color: #fff; box-shadow: 0 14px 40px -12px rgb(0 0 0 / 0.6); transition: transform 0.25s; }
 .play:hover { transform: scale(1.06); }
+/* the films (strings FILMS): the reel plays upright inside the wide frame, over its own poster blurred */
+.filmFrame { overflow: hidden; }
+.filmFrame[data-vertical] video { position: relative; object-fit: contain; }
+.filmBlur { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); object-fit: cover; filter: blur(36px) brightness(0.55); }
+.cuts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; margin: 28px auto 0; max-width: calc((100svh - 150px) * 16 / 9); }
+.cut { display: flex; flex-direction: column; gap: 4px; padding: 0; border: 0; background: none; color: inherit; text-align: start; cursor: pointer; font: inherit; }
+.cutThumb { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; margin-bottom: 8px; background: var(--walnut-2);
+  box-shadow: 0 0 0 1px rgb(241 235 226 / 0.12); transition: box-shadow 0.25s; }
+.cutThumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.72; transition: opacity 0.25s, transform 0.5s cubic-bezier(.2,.8,.2,1); }
+.cut:hover .cutThumb img { opacity: 1; transform: scale(1.04); }
+.cut[aria-checked='true'] .cutThumb { box-shadow: 0 0 0 2px var(--brass); }
+.cut[aria-checked='true'] .cutThumb img { opacity: 1; }
+.cutTime, .cutBadge { position: absolute; bottom: 8px; padding: 3px 8px; border-radius: 999px; background: rgb(20 12 6 / 0.72); color: var(--plaster);
+  font-size: 12px; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.cutTime { inset-inline-end: 8px; }
+.cutBadge { inset-inline-start: 8px; display: inline-flex; align-items: center; gap: 5px; }
+.cutName { font-family: var(--display); font-size: 21px; line-height: 1.15; }
+.cut[aria-checked='true'] .cutName { color: #fff; }
+.cutNote { font-size: 13.5px; line-height: 1.45; color: #bfae9a; }
 
 /* ---- the 3D model and the plan */
 .model { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 48px; padding: 104px var(--gutter); align-items: start; }
@@ -140,6 +159,11 @@
   .room, .room[data-side='end'] { grid-template-columns: 1fr; gap: 20px; margin-bottom: 64px; }
   .room[data-side='end'] .roomImage { order: 0; }
   .play { width: 72px; height: 72px; }
+  .filmFrame[data-vertical] { aspect-ratio: 9 / 16; max-width: min(100%, calc((100svh - 120px) * 9 / 16)); }
+  .filmFrame[data-vertical] .filmBlur { display: none; }
+  .cuts { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none; }
+  .cuts::-webkit-scrollbar { display: none; }
+  .cut { flex: none; width: 62vw; scroll-snap-align: start; }
   .model { padding-block: 72px; gap: 28px; }
   .modelFrame { height: 64svh; min-height: 360px; }
   .footer { grid-template-columns: 1fr; }
