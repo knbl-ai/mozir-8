@@ -21,7 +21,8 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const SPEC_GROUPS = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]];
 const SPEC_ICONS = [Paintbrush, DoorOpen, Sun, Package, Building2, Sun, Paintbrush, TreePine, Church, Coffee, TrainFront, Footprints];
 const ZOOM_IN = 1.7;
-const PHONE_SHIFT = -30;
+const PHONE_SHIFT = -110;   // px up on phones: the card covers the stage's lower half, lift the street floors above it
+const DESK_SHIFT = -120;
 const FRAME_MASK = 'radial-gradient(ellipse 70% 74% at 50% 50%, #000 62%, transparent 100%)';
 const HOVER_MS = 70;
 // the two houses' extent in the 1000×625 orbit frame (the camera circles 34 m out, so the house swings across the view)
@@ -118,8 +119,8 @@ export default function LapaSite() {
    const pw = W > 1100 ? (panelRef.current?.offsetWidth ?? 0) + 26 : 0;
    const region = W - pw;
    const top0 = W > 1100 ? 90 : 64, dockTop = W > 1100 ? 80 : 110;
-   const shift = W <= 640 ? PHONE_SHIFT : 0;
-   const cover = Math.max(region / 1000, (H + Math.max(0, -shift)) / 625);
+   const shift = W <= 640 ? PHONE_SHIFT : DESK_SHIFT;
+   const cover = Math.max(region / 1000, H / 625);   // the blurred backdrop fills what the lift uncovers
    const sc = Math.max(cover, Math.min(region * 0.9 / (TOWERS.x1 - TOWERS.x0), (H - dockTop - top0) / (TOWERS.y1 - TOWERS.y0)));
    const availH = (TOWERS.y1 - TOWERS.y0) * sc;
    const w = 1000 * sc, h = 625 * sc;
