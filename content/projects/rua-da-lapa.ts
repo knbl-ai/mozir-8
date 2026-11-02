@@ -61,7 +61,7 @@ export type HomeMedia = { key: 'i'; shownOn: string; film: string; poster: strin
 const hi = `${base}/homes/i`;
 const img = (n: string, en: string, pt: string) => ({ src: `${hi}/images/${n}.webp`, label: { en, pt } });
 const HOME_I: HomeMedia = {
- key: 'i', shownOn: 'i', film: `${hi}/film.mp4`, poster: `${hi}/film-poster.webp`,
+ key: 'i', shownOn: 'i', film: `${hi}/film-wm.mp4`, poster: `${hi}/film-poster.webp`,
  hq: { glb: `${hi}/model.glb`, poster: `${hi}/model-poster.webp`, orbit: '33deg 52deg 100%', outdoorOrbit: '8deg 58deg 72%' },
  images: [
   img('01-g-entry', 'Arrival: the flat from the hall, both street windows', 'A chegada: o apartamento visto do hall, com as duas janelas para a rua'),
