@@ -1130,3 +1130,5 @@
 @media (max-width: 640px) { .stepper { display: none; } .logo img { height: 26px; } }
 @media (max-width: 640px) { .amenityGroup ul { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .amenityGroup .amenityName { min-width: 0; overflow-wrap: anywhere; } .display { overflow-wrap: break-word; } }
 @media (max-width: 640px) { .page .amenityGroup .amenityName { white-space: normal; } .page .amenityGroup li { min-width: 0; } }
+/* phones: the picture sits on the plain page colour, no gradient under the street */
+.stage[data-plain] { background: var(--ivory); }

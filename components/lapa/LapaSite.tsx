@@ -21,7 +21,6 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const SPEC_GROUPS = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]];
 const SPEC_ICONS = [Paintbrush, DoorOpen, Sun, Package, Building2, Sun, Paintbrush, TreePine, Church, Coffee, TrainFront, Footprints];
 const ZOOM_IN = 1.7;
-const PHONE_SHIFT = -110;   // px up on phones: the card covers the stage's lower half, lift the street floors above it
 const DESK_SHIFT = -120;
 const FRAME_MASK = 'radial-gradient(ellipse 70% 74% at 50% 50%, #000 62%, transparent 100%)';
 const HOVER_MS = 70;
@@ -109,24 +108,31 @@ export default function LapaSite() {
  // ---- stage geometry (as Symbol): the 16:10 frame covers the stage, its centre pulled beside the panel on wide screens
  const stageRef = useRef<HTMLDivElement>(null);
  const panelRef = useRef<HTMLElement>(null);
- const [box, setBox] = useState({ w: 1000, h: 625, left: 0, top: 0, scale: 1, rx0: 0, rx1: 100000, shift: 50, cx: 500 });
+ const [box, setBox] = useState({ w: 1000, h: 625, left: 0, top: 0, scale: 1, rx0: 0, rx1: 100000, shift: 50, cx: 500, vh: 0 });
+ const dockRef = useRef<HTMLDivElement>(null);
  useLayoutEffect(() => {
   const el = stageRef.current;
   if (!el) return;
   const fit = () => {
    if (document.querySelector('[data-focus]')) return;
-   const W = el.clientWidth, H = el.clientHeight;
+   const W = el.clientWidth, H0 = el.clientHeight;
+   // phones: the home card covers the stage's lower part; the picture ends at the card's top edge (its rendered
+   // bottom is the street), so the street floors sit just above the card and no blank band shows below the picture
+   const phone = W <= 640;
+   // the picture ends just above the viewpoint bar; below it the stage fades into the page (the render has no ground there)
+   const dockTop = phone && dockRef.current ? dockRef.current.getBoundingClientRect().top - el.getBoundingClientRect().top - 6 : H0;
+   const H = phone ? Math.min(H0, Math.max(240, dockTop)) : H0;
    const pw = W > 1100 ? (panelRef.current?.offsetWidth ?? 0) + 26 : 0;
    const region = W - pw;
-   const top0 = W > 1100 ? 90 : 64, dockTop = W > 1100 ? 80 : 110;
-   const shift = W <= 640 ? PHONE_SHIFT : DESK_SHIFT;
-   const cover = Math.max(region / 1000, H / 625);   // the blurred backdrop fills what the lift uncovers
-   const sc = Math.max(cover, Math.min(region * 0.9 / (TOWERS.x1 - TOWERS.x0), (H - dockTop - top0) / (TOWERS.y1 - TOWERS.y0)));
+   const top0 = W > 1100 ? 90 : 64, dockH = W > 1100 ? 80 : phone ? 20 : 110;
+   const shift = phone ? 0 : DESK_SHIFT;
+   const cover = Math.max(region / 1000, (H - shift) / 625);   // the picture reaches the bottom of what is visible (no blurred band)
+   const sc = Math.max(cover, Math.min(region * 0.9 / (TOWERS.x1 - TOWERS.x0), (H - dockH - top0) / (TOWERS.y1 - TOWERS.y0)));
    const availH = (TOWERS.y1 - TOWERS.y0) * sc;
    const w = 1000 * sc, h = 625 * sc;
    const cx = region / 2, cy = top0 + availH / 2;
    const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
-   setBox({ w, h, left: clamp(cx - (TOWERS.x0 + TOWERS.x1) / 2 * sc, region - w, 0), top: clamp(cy - (TOWERS.y0 + TOWERS.y1) / 2 * sc, H - h - shift, 0), scale: sc, rx0: 0, rx1: region, shift, cx });
+   setBox({ w, h, left: clamp(cx - (TOWERS.x0 + TOWERS.x1) / 2 * sc, region - w, 0), top: clamp(cy - (TOWERS.y0 + TOWERS.y1) / 2 * sc, H - h - shift, 0), scale: sc, rx0: 0, rx1: region, shift, cx, vh: phone ? H : 0 });
   };
   fit();
   const ro = new ResizeObserver(fit); ro.observe(el); if (panelRef.current) ro.observe(panelRef.current);
@@ -251,7 +257,7 @@ export default function LapaSite() {
   </header>
 
   <section id="residences" className={s.explorer} aria-label={t.stage}>
-   <div ref={stageRef} className={s.stage} data-moving={turning || undefined} tabIndex={0} role="group" aria-label={t.stage}
+   <div ref={stageRef} className={s.stage} data-plain={box.vh ? '' : undefined} data-moving={turning || undefined} tabIndex={0} role="group" aria-label={t.stage}
     onKeyDown={e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); dismissHint(); engine.step((e.key === 'ArrowRight' ? -1 : 1) * Math.max(1, Math.round(frames.length / 72))); } }}
     onPointerDown={e => { if (e.button !== 0 || (e.target as HTMLElement).closest('[data-ui]')) return; press.current = { x: e.clientX, moved: false }; engine.beginDrag(e.clientX); e.currentTarget.setPointerCapture(e.pointerId); }}
     onPointerMove={e => {
@@ -268,8 +274,8 @@ export default function LapaSite() {
     onPointerCancel={() => { press.current = null; engine.endDrag(); }}
     onPointerLeave={() => { if (!press.current) hover(null); }}>
 
-    {frames[engine.settled] && <div className={s.backdrop} aria-hidden style={{ backgroundImage: `url(${frames[engine.settled].src})` }} />}
-    <div className={s.frameBox} style={{ width: box.w, height: box.h, left: frameLeft, top: box.top, transform: `translateY(${box.shift}px)`, WebkitMaskImage: FRAME_MASK, maskImage: FRAME_MASK }}>
+    {frames[engine.settled] && <div className={s.backdrop} aria-hidden style={{ backgroundImage: `url(${frames[engine.settled].src})`, ...(box.vh ? { display: 'none' } : {}) }} />}
+    <div className={s.frameBox} style={{ width: box.w, height: box.h, left: frameLeft, top: box.top, transform: `translateY(${box.shift}px)`, ...(box.vh ? {} : { WebkitMaskImage: FRAME_MASK, maskImage: FRAME_MASK }) }}>
      <div className={s.zoomLayer} style={{ transform: `scale(${zoom})`, transformOrigin: origin }}>
       {frames[0] && !engine.firstReady && <img className={s.poster} src={frames[0].src} alt="" draggable={false} />}
       <canvas ref={engine.canvasRef} className={s.canvas} role="img" aria-label={t.stage} />
@@ -284,7 +290,7 @@ export default function LapaSite() {
       </AnimatePresence>
      </div>
     </div>
-    <div className={s.vignette} aria-hidden />
+    {!box.vh && <div className={s.vignette} aria-hidden />}
 
     <AnimatePresence>
      {tip && tipUnit && tip.id !== selected && !turning && <motion.div key="tip" className={s.tip} data-flip={tip.x + 300 > box.rx1 || undefined} style={{ left: tip.x, top: tip.y }} initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.16 }}>
@@ -306,7 +312,7 @@ export default function LapaSite() {
      <span className={s.dial}><i style={{ transform: `rotate(${-((bearing + 180) % 360)}deg)`, ['--r' as string]: `${-((bearing + 180) % 360)}deg` }}><b>N</b></i><em /><u /></span>
     </div>
 
-    <div className={s.dock} data-ui>
+    <div ref={dockRef} className={s.dock} data-ui>
      <button type="button" className={s.dockIcon} aria-label={t.turnLeft} onClick={() => { dismissHint(); engine.step(Math.max(1, Math.round(frames.length / 24))); }}><ChevronLeft size={18} strokeWidth={1.7} aria-hidden /></button>
      <div className={s.compass} aria-live="polite">
       <span className={s.compassText}><small>{t.viewFrom}</small><strong>{t.dirName[dirOf(bearing)]}</strong></span>
