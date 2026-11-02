@@ -1105,3 +1105,15 @@
 .unitChip:has(i) { background: rgb(46 184 108 / 0.16); box-shadow: inset 0 0 0 1px rgb(46 184 108 / 0.55); }
 .unitChip i { background: #2eb86c; }
 .unitChip[data-on] i { background: #fff; }
+
+/* the walk inside (early preview): a pill on the 3D model, then the walk full screen */
+.walkBtn { position: absolute; z-index: 3; inset-inline-start: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px;
+ height: 38px; padding: 0 16px; border: 0; border-radius: 999px; background: #1d1b18; color: #f6f2ea; font: inherit; font-size: 13px; cursor: pointer;
+ box-shadow: 0 8px 24px rgb(0 0 0 / 0.18); white-space: nowrap; transition: transform .2s, background .2s; }
+.walkBtn:hover { background: #000; transform: translateY(-1px); }
+.walkBtn small { font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; opacity: .62; padding-inline-start: 8px; border-inline-start: 1px solid rgb(255 255 255 / 0.25); }
+.walkLayer { position: fixed; inset: 0; z-index: 80; background: #1a1816; }
+.walkLayer iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.page .walkBtn { background: #1d1b18 !important; color: #f6f2ea !important; }
+.page .walkBtn:hover { background: #000 !important; }
+.page .walkLayer .lbClose { position: absolute !important; top: 14px; inset-inline-end: 14px; inset-inline-start: auto; z-index: 2; background: rgb(20 18 16 / 0.6) !important; backdrop-filter: blur(6px); }

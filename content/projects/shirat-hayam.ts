@@ -43,6 +43,8 @@ export type HomeMedia = {
  final?: boolean; model?: boolean;
  /** the HQ web model (baked light dollhouse, pipeline/hq): file name in the home's folder, poster, default + Outdoor orbit */
  hq?: { glb: string; poster: string; orbit: string; outdoorOrbit: string };
+ /** the walk inside (light-baked rooms, pipeline/bake + web_pack.py): folder in the home's folder, opened in /walk/tour.html */
+ walk?: string;
  rooms: number; interior: number; outdoor: number; outdoorKind: 'balcony' | 'terrace'; aspect: L;
  about: L; highlights: L[]; images: HomeImage[];
 };
@@ -51,6 +53,7 @@ export const HOMES: Record<HomeMedia['key'], HomeMedia> = {
  apt01: {
   key: 'apt01', final: true, model: true, shownOn: { b: 'A', f: 25 },
   hq: { glb: 'model-hq-2.glb', poster: 'model-hq-2-poster.webp', orbit: '4deg 52deg 100%', outdoorOrbit: '-21deg 58deg 72%' },   // 4.8 MB, viewer.json of the HQ run
+  walk: 'walk',   // early preview, 161 MB (bake hq-all, 2026-11-01)
   rooms: 5, interior: 147.3, outdoor: 22, outdoorKind: 'balcony', aspect: { en: 'North · East', he: 'צפון · מזרח' },
   about: {
    en: 'A five-room corner home on the north-east of the tower. The front door opens into the kitchen and dining room with a long island; the living room faces north and opens onto a 4.6 × 4.8 m balcony with the sea at an angle to the west. A corridor leads to the master suite with its en-suite, two bedrooms and the safe room, all facing east over the city.',

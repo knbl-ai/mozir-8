@@ -16,6 +16,7 @@ public/models/
 public/projects/**/*.webp
 public/projects/**/*.mp4
 public/projects/**/*.glb
+public/projects/**/*.exr
 public/projects/**/*.jpg
 public/projects/**/*.jpeg
 public/projects/**/*.png

@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { ArrowUpRight, BookOpen, House, Layers, Box, Building2, Check, DoorOpen, Dumbbell, Flame, Flower2, Gamepad2, Sofa, Volleyball, WavesLadder, Wine, ChevronLeft as ChevronL, ChevronRight as ChevronR, Download, Expand, Eye, EyeOff, Hand, Images, Info, LayoutPanelLeft, Link2, Minus, Play, Plus, Search, X } from 'lucide-react';
+import { ArrowUpRight, BookOpen, Footprints, House, Layers, Box, Building2, Check, DoorOpen, Dumbbell, Flame, Flower2, Gamepad2, Sofa, Volleyball, WavesLadder, Wine, ChevronLeft as ChevronL, ChevronRight as ChevronR, Download, Expand, Eye, EyeOff, Hand, Images, Info, LayoutPanelLeft, Link2, Minus, Play, Plus, Search, X } from 'lucide-react';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import { useLang } from '@/lib/i18n';
 import { useFrameSequence } from '@/components/building/useFrameSequence';
@@ -87,6 +87,7 @@ export default function ShiratSite() {
  const [tower, setTower] = useState<TowerFilter>('all');
  const [showAll, setShowAll] = useState(false);
  const [tab, setTab] = useState<Tab>('film');
+ const [walk, setWalk] = useState<string | null>(null);   // the walk-inside page open over everything
  const [lightbox, setLightbox] = useState<{ items: { src: string; label: string }[]; i: number } | null>(null);
  const [finder, setFinder] = useState(false);
  const [register, setRegister] = useState(false);
@@ -411,7 +412,10 @@ export default function ShiratSite() {
        {tab === 'model' && media?.model
         ? <motion.div key={`model-${media.key}`} className={s.mediaFill} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: EASE }}><div className={s.model3d}>{media.hq
           ? <ResidenceModel src={`${homeBase(media.key)}/${media.hq.glb}`} poster={`${homeBase(media.key)}/${media.hq.poster}`} defaultOrbit={media.hq.orbit} outdoorOrbit={media.hq.outdoorOrbit} stage="paper" />
-          : <ResidenceModel src={`${homeBase(media.key)}/model.glb`} />}</div></motion.div>
+          : <ResidenceModel src={`${homeBase(media.key)}/model.glb`} />}
+          {media.walk && <button type="button" className={s.walkBtn} title={t.walkNote} onClick={() => setWalk(`/walk/tour.html?src=${homeBase(media.key)}/${media.walk}/`)}>
+           <Footprints size={15} strokeWidth={1.7} aria-hidden /><span>{t.walkIn}</span><small>{t.walkBeta}</small>
+          </button>}</div></motion.div>
         : tab === 'about'
         ? <motion.div key={`about-${unit.id}`} className={s.mediaFill} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3, ease: EASE }}><AboutView unit={unit} media={media} /></motion.div>
         : media && tab !== 'model'
@@ -510,6 +514,7 @@ export default function ShiratSite() {
   </footer>
 
   <AnimatePresence>{lightbox && <Lightbox key="lb" {...lightbox} onClose={() => setLightbox(null)} />}</AnimatePresence>
+  <AnimatePresence>{walk && <WalkInside key="walk" src={walk} onClose={() => setWalk(null)} />}</AnimatePresence>
 
   {/* ---------------------------------------------------------------- floor finder */}
   <AnimatePresence>
@@ -690,6 +695,19 @@ function HomeView({ media, tab, onOpen }: { media: HomeMedia; tab: Tab; onOpen: 
   </div>;
  }
  return null;
+}
+
+// the walk inside (apps/walk tour.html, an early preview): full screen over the page; Esc inside it only releases the mouse
+function WalkInside({ src, onClose }: { src: string; onClose: () => void }) {
+ const lang = useLang(); const t = shiratText[lang];
+ useEffect(() => {
+  const k = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+  window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k);
+ }, [onClose]);
+ return <motion.div className={s.walkLayer} role="dialog" aria-modal="true" aria-label={t.walkIn} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+  <iframe src={src} title={t.walkIn} allow="fullscreen" />
+  <button type="button" className={`${s.close} ${s.lbClose}`} aria-label={t.close} onClick={onClose}><X size={18} strokeWidth={1.7} aria-hidden /></button>
+ </motion.div>;
 }
 
 function Lightbox({ items, i: start, onClose }: { items: { src: string; label: string }[]; i: number; onClose: () => void }) {
