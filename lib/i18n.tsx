@@ -9,7 +9,7 @@ const isLang = (value: unknown): value is Lang => value === 'en' || value === 'h
 
 // Each page offers English and one second language: Hebrew by default, Portuguese on the Lisbon project.
 // A visitor's choice is kept as is; on a page that doesn't offer it, the page shows English.
-const LANG_PAGES: [string, Lang[]][] = [['/projects/borges-15', ['en', 'pt']]];
+const LANG_PAGES: [string, Lang[]][] = [['/projects/borges-15', ['en', 'pt']], ['/rua-da-lapa', ['en', 'pt']]];
 const DEFAULT_LANGS: Lang[] = ['en', 'he'];
 // A data-driven page (content/apartment-page.ts) names its own languages; it sets them here while it is shown.
 let pageLangs: Lang[] | null = null;
