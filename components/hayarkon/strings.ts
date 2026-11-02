@@ -1,6 +1,6 @@
 import type { Lang } from '@/lib/i18n';
 
-// Hayarkon 56, apartment 2 (Noga Group): the interior-design edition of the apartment. Design notes follow the
+// Hayarkon, apartment 2: the interior-design edition of the apartment. Design notes follow the
 // apartment's Teak Gallery room variations (data/projects/Hayarkon-56-Tel-Aviv/apt2/apartment.yaml, style.room_variation).
 export type MaterialId = 'teak' | 'limestone' | 'calacatta' | 'walnut' | 'brass' | 'cobalt';
 type L = { en: string; he: string };
@@ -68,11 +68,11 @@ export const FILMS = [
 ] as const;
 
 const en = {
- title: 'Hayarkon 56',
+ title: 'Hayarkon',
  lede: 'Apartment 2, a 152 m² home on Tel Aviv’s seafront street, designed as a private gallery in teak, limestone and one blue.',
  watch: 'Watch the film', filmLength: '75 seconds, with sound', turn: 'Turn it in 3D',
- credit: 'Developer: Noga Group. Visualised by residence.tech.',
- heroAlt: 'The long living room of Hayarkon 56, apartment 2, looking toward the balcony and the palms',
+ credit: 'Visualised by residence.tech.',
+ heroAlt: 'The long living room of Hayarkon, apartment 2, looking toward the balcony and the palms',
  materialsTitle: 'Six materials make every room',
  materialsLede: 'Pick a material to see where it is used.',
  foundIn: 'Found in',
@@ -89,18 +89,18 @@ const en = {
  closingLede: 'This interior uses Teak Gallery, one of eighteen styles in our library. Each home gets one style, and each room its own variation of it.',
  styles: 'See the style library', tryIt: 'Send us a floor plan',
  salesPage: 'The apartment’s sales page', home: 'residence.tech',
- address: 'HaYarkon 56, Tel Aviv',
+ address: 'HaYarkon, Tel Aviv',
  disclaimer: 'A visualisation for illustration only, not an offer to sell and not part of any contract. Furniture, finishes, views and light are an artistic interpretation of the developer’s plan. The safe room is shown furnished as a study and is not presented as certified.',
  close: 'Close', prev: 'Previous image', next: 'Next image',
 };
 type Strings = typeof en;
 
 const he: Strings = {
- title: 'הירקון 56',
+ title: 'הירקון',
  lede: 'דירה 2, בית של 152 מ״ר ברחוב החוף של תל אביב, מעוצב כגלריה פרטית בטיק, אבן גיר וכחול אחד.',
  watch: 'לצפייה בסרט', filmLength: '75 שניות, עם סאונד', turn: 'לסיבוב בתלת־מימד',
- credit: 'יזם: נוגה גרופ. הדמיה: residence.tech.',
- heroAlt: 'הסלון הארוך בהירקון 56, דירה 2, במבט אל המרפסת והדקלים',
+ credit: 'הדמיה: residence.tech.',
+ heroAlt: 'הסלון הארוך בהירקון, דירה 2, במבט אל המרפסת והדקלים',
  materialsTitle: 'שישה חומרים בונים כל חדר',
  materialsLede: 'בחרו חומר כדי לראות היכן הוא נמצא.',
  foundIn: 'נמצא ב',
@@ -117,7 +117,7 @@ const he: Strings = {
  closingLede: 'הפנים כאן מעוצב בסגנון Teak Gallery, אחד משמונה עשר הסגנונות בספרייה שלנו. כל בית מקבל סגנון אחד, וכל חדר וריאציה משלו.',
  styles: 'לספריית הסגנונות', tryIt: 'שלחו לנו תוכנית',
  salesPage: 'דף המכירה של הדירה', home: 'residence.tech',
- address: 'הירקון 56, תל אביב',
+ address: 'הירקון, תל אביב',
  disclaimer: 'הדמיה להמחשה בלבד, אינה הצעה למכירה ואינה חלק מחוזה. הריהוט, הגימורים, הנוף והתאורה הם פרשנות אמנותית של תוכנית היזם. הממ״ד מוצג מרוהט כחדר עבודה ואינו מוצג כמאושר.',
  close: 'סגירה', prev: 'התמונה הקודמת', next: 'התמונה הבאה',
 };
