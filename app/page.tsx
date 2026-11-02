@@ -15,9 +15,9 @@ const readSpin = (): string[] => {
  const manifest = path.join(process.cwd(), 'public/landing/spin-apt2/spin.json');
  return fs.existsSync(manifest) ? (JSON.parse(fs.readFileSync(manifest, 'utf8')) as { src: string }[]).map(f => f.src) : [];
 };
-// SYMBOL's 360-view orbit (one view a degree): every 10th view, with each view's sky colour for the band above the tower
+// Rua da Lapa's (Porto) 360-view orbit (one view a degree): every 10th view, with each view's sky colour for the band above the tower
 const readTower = (): { frames: string[]; skies: string[] } => {
- const manifest = path.join(process.cwd(), 'public/projects/symbol/orbit-s12-360/frames.json');
+ const manifest = path.join(process.cwd(), 'public/projects/rua-da-lapa/orbit-s13-360/frames.json');
  if (!fs.existsSync(manifest)) return { frames: [], skies: [] };
  const views = (JSON.parse(fs.readFileSync(manifest, 'utf8')) as { frames: { src: string; sky?: string }[] }).frames.filter((_, i) => i % 10 === 0);
  return { frames: views.map(v => v.src), skies: views.map(v => v.sky ?? '#8aa7c6') };

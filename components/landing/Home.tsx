@@ -100,7 +100,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
    </section>
 
    <Process t={t.process} />
-   <Package t={t.package} spinFrames={spinFrames} buildingFrames={tower.frames} />   {/* the building card: SYMBOL's 360-view orbit */}
+   <Package t={t.package} spinFrames={spinFrames} buildingFrames={tower.frames} />   {/* the building card: Rua da Lapa's 360-view orbit */}
    <StylesSection />
    <TrialForm t={t.form} lang={filmLang} />
 
@@ -122,7 +122,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       preview={a => <BuildingPreview frames={buildingFrames} active={a} />} />
      <Project href={withLang('/hayarkon-56', lang)} text={p.interior} newTab={p.newTab}
       preview={a => <FilmPreview poster="/projects/hayarkon-56/living-m.webp" film={film("/projects/hayarkon-56/film-preview.mp4")} active={a} />} />
-     <Project href={withLang('/symbol', lang)} text={p.tower} newTab={p.newTab}
+     <Project href={withLang('/rua-da-lapa', lang)} text={p.tower} newTab={p.newTab}
       preview={a => <BuildingPreview frames={tower.frames} skies={tower.skies} active={a} />} />
     </div>
    </section>

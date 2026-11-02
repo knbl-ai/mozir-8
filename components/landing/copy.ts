@@ -70,7 +70,7 @@ const en: LandingCopy = {
  package: {
   title: 'What you get',
   lede: '',
-  example: 'Shown with N°8 KLEE, apartment 2, Tel Aviv, and SYMBOL, Givat Shmuel: made from the plans above.',
+  example: 'Shown with N°8 KLEE, apartment 2, Tel Aviv, and Alma Bay: made from the plans above.',
   items: {
    film: { title: 'Walkthrough film', body: 'A cinematic tour of the home, with natural sound.' },
    model: { title: '3D floor plan', body: 'A furnished model buyers turn and zoom.' },
@@ -78,7 +78,7 @@ const en: LandingCopy = {
    building: { title: 'Building and availability', body: 'Turn the building, see what’s still for sale.' },
    site: { title: 'Sales page', body: 'Film, plan, images and 3D on one link, on any phone.' },
    languages: { title: 'Every language you sell in', body: 'English, Hebrew, Portuguese and more.' },
-   brand: { title: 'Project brand film', body: 'The whole development in 35 seconds: arrival, homes, gardens, amenities and a closing card.' },
+   brand: { title: 'Project brand film', body: 'The whole development in 27 seconds: arrival, homes, gardens, amenities and a closing card.' },
   },
   spinNote: '360°',
   forSale: 'For sale', sold: 'Sold',
@@ -123,7 +123,7 @@ const en: LandingCopy = {
   lede: 'Real projects, each made from its floor plans. Availability is sample data.',
   newTab: 'opens in a new tab',
   more: 'Show more projects',
-  tower: { kind: 'New development, Givat Shmuel', name: 'SYMBOL', body: 'A 24-floor tower to turn all the way round. Pick any home on it, and step into the finished three-room home.', cta: 'Open SYMBOL' },
+  tower: { kind: 'Rehabilitation, Porto', name: 'Rua da Lapa', body: 'A 15-home rehabilitation to turn all the way round. Pick any home on it, and step inside.', cta: 'Open Rua da Lapa' },
   salesGallery: { kind: 'New development', name: 'Hurgin 29, Ramat Gan', body: 'Turn the building, see which homes are for sale, open any one.', cta: 'Open Hurgin 29' },
   openHouse: { kind: 'Single apartment', name: 'Mozir 8', body: 'One apartment with a website of its own: film, rooms and 3D.', cta: 'Visit Mozir 8' },
   penthouse: { kind: 'Luxury home', name: 'A.f.k Penthouse', body: 'A penthouse found on its tower, in the project’s own look.', cta: 'Open the penthouse' },
@@ -169,7 +169,7 @@ const he: LandingCopy = {
  package: {
   title: 'טעימה מהתוצרים שתקבלו באתר הפרויקט',
   lede: '',
-  example: 'בדוגמה: N°8 KLEE, דירה 2, תל אביב, ו־SYMBOL, גבעת שמואל — מהתוכניות שלמעלה.',
+  example: 'בדוגמה: N°8 KLEE, דירה 2, תל אביב, ו־Alma Bay — מהתוכניות שלמעלה.',
   items: {
    film: { title: 'סרטון סיור בדירה', body: 'כולל סאונד ומראה מקום של היכן נמצאים בדירה בכל רגע.' },
    model: { title: 'תוכנית בתלת־\u2060מימד', body: 'מודל 3D שהרוכש יכול לסובב ולהגדיל כדי לקבל המחשה מדוייקת של החלל' },
@@ -177,7 +177,7 @@ const he: LandingCopy = {
    building: { title: 'הבניין והזמינות', body: 'מסובבים את הבניין ורואים אילו דירות עוד זמינות לרכישה.' },
    site: { title: 'עמוד מכירה', body: 'סרטון, תוכנית, הדמיות ותלת־\u2060מימד בקישור אחד, בכל טלפון.' },
    languages: { title: 'בכל שפה שמוכרים בה', body: 'עברית, אנגלית, פורטוגזית ועוד.' },
-   brand: { title: 'סרט ממותג לכל הפרויקט', body: 'כל הפרויקט ב־35 שניות: הגעה, דירות, גינות, שירותים וסגיר מכירתי.' },
+   brand: { title: 'סרט ממותג לכל הפרויקט', body: 'כל הפרויקט ב־27 שניות: הגעה, דירות, גינות, שירותים וסגיר מכירתי.' },
   },
   spinNote: '360°',
   forSale: 'למכירה', sold: 'נמכר',
@@ -222,7 +222,7 @@ const he: LandingCopy = {
   lede: 'פרויקטים אמיתיים, כל אחד נבנה מהתוכניות שלו. הזמינות היא לדוגמה.',
   newTab: 'נפתח בכרטיסייה חדשה',
   more: 'לפרויקטים נוספים',
-  tower: { kind: 'פרויקט חדש, גבעת שמואל', name: 'SYMBOL', body: 'מגדל של 24 קומות שמסובבים סביב סביב. בוחרים כל דירה במגדל, ונכנסים לדירת שלושת החדרים המוכנה.', cta: 'ל־SYMBOL' },
+  tower: { kind: 'שיקום בניין, פורטו', name: 'Rua da Lapa', body: 'שיקום של 15 דירות שמסובבים סביב סביב. בוחרים כל דירה ונכנסים פנימה.', cta: 'ל־Rua da Lapa' },
   salesGallery: { kind: 'פרויקט חדש', name: 'חורגין 29, רמת גן', body: 'מסובבים את הבניין, רואים מה למכירה, פותחים כל דירה.', cta: 'לחורגין 29' },
   openHouse: { kind: 'דירה אחת', name: 'מוזיר 8', body: 'דירה אחת עם אתר משלה: סרטון, חדרים ותלת־\u2060מימד.', cta: 'למוזיר 8' },
   penthouse: { kind: 'דירת יוקרה', name: 'הפנטהאוז ב־A.f.k', body: 'פנטהאוז שמוצאים על המגדל שלו, בעיצוב הפרויקט.', cta: 'לפנטהאוז' },
