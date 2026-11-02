@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { MotionConfig } from 'motion/react';
-import { ArrowUpRight, Play, Plus } from 'lucide-react';
+import { ArrowUpRight, Play } from 'lucide-react';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import Logo from '@/components/brand/Logo';
 import { useLang, withLang } from '@/lib/i18n';
@@ -58,7 +58,6 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
  const t = copy[lang];
  const filmLang = lang === 'he' ? 'he' : 'en';
  const [playing, setPlaying] = useState(false);
- const [more, setMore] = useState(false);
  const [scrolled, setScrolled] = useState(false);
  const header = useRef<HTMLElement>(null);
  const p = t.projects;
@@ -117,21 +116,15 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       preview={a => <BuildingPreview frames={heritageFrames} active={a} span={0.6} centre={0.5} />} />
      <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}
       preview={a => <FilmPreview poster="/projects/klee-8/media/apt-3/v-garden.webp" film={film("/projects/klee-8/media/apt-3/film.mp4")} active={a} />} />
-     <Project href={withLang('/symbol', lang)} text={p.tower} newTab={p.newTab}
-      preview={a => <BuildingPreview frames={tower.frames} skies={tower.skies} active={a} />} />
      <Project href={withLang('/studio-oryx', lang)} text={p.furniture} newTab={p.newTab}
       preview={a => <FilmPreview poster="/projects/studio-oryx/v1-hero-sm.jpg" film={film("/projects/studio-oryx/film-480p.mp4")} active={a} />} />
      <Project href={withLang('/projects/building-preview#explore', lang)} text={p.salesGallery} newTab={p.newTab}
       preview={a => <BuildingPreview frames={buildingFrames} active={a} />} />
      <Project href={withLang('/hayarkon-56', lang)} text={p.interior} newTab={p.newTab}
       preview={a => <FilmPreview poster="/projects/hayarkon-56/living-m.webp" film={film("/projects/hayarkon-56/film-preview.mp4")} active={a} />} />
-     {/* six on show; the rest behind "Show more" (Mozir 8 moved there for Hayarkon 56, 2026-10-26) */}
-     {more && <Project href={withLang('/mozir-8', lang)} text={p.openHouse} newTab={p.newTab}
-      preview={a => <FilmPreview poster="/media/01_living.webp" film={film("/media/residence-film.mp4")} active={a} />} />}
-     {more && <Project href={withLang('/projects/afk-urban-comfort#explore', lang)} text={p.penthouse} newTab={p.newTab}
-      preview={a => <BuildingPreview frames={penthouseFrames} active={a} span={0.6} centre={0.5} />} />}
+     <Project href={withLang('/symbol', lang)} text={p.tower} newTab={p.newTab}
+      preview={a => <BuildingPreview frames={tower.frames} skies={tower.skies} active={a} />} />
     </div>
-    {!more && <div className={s.moreRow}><Button variant="ghost" icon={Plus} onClick={() => setMore(true)}>{p.more}</Button></div>}
    </section>
   </main>
 
