@@ -11,6 +11,10 @@ const isLang = (value: unknown): value is Lang => value === 'en' || value === 'h
 // A visitor's choice is kept as is; on a page that doesn't offer it, the page shows English.
 const LANG_PAGES: [string, Lang[]][] = [['/projects/borges-15', ['en', 'pt']], ['/rua-da-lapa', ['en', 'pt']]];
 const DEFAULT_LANGS: Lang[] = ['en', 'he'];
+// A page whose audience reads another language first opens in it unless the link names one (?lang=); the
+// visitor's last choice on other pages does not override it. The Lod day care page is Hebrew first.
+const LANG_DEFAULTS: [string, Lang][] = [['/lod-daycare', 'he']];
+const pageDefault = (pathname: string | null | undefined): Lang | undefined => LANG_DEFAULTS.find(([prefix]) => pathname?.includes(prefix))?.[1];
 // A data-driven page (content/apartment-page.ts) names its own languages; it sets them here while it is shown.
 let pageLangs: Lang[] | null = null;
 export const setPageLangs = (langs: Lang[] | null) => { if (typeof window !== 'undefined') pageLangs = langs; };
@@ -24,6 +28,8 @@ export function readLang(): Lang {
  try {
   const fromUrl = new URLSearchParams(window.location.search).get(LANG_PARAM);
   if (isLang(fromUrl)) return fromUrl;
+  const preset = pageDefault(window.location.pathname);
+  if (preset) return preset;
   const stored = window.localStorage.getItem(LANG_STORAGE_KEY);
   if (isLang(stored)) return stored;
  } catch { /* storage blocked */ }
@@ -81,6 +87,6 @@ export function withLang(href: string, lang: Lang) {
  return hash === undefined ? joined : `${joined}#${hash}`;
 }
 
-export const LANG_BOOT_SCRIPT = `(function(){try{var d=document.documentElement,pages=${JSON.stringify(LANG_PAGES)},ok=['en','he'];for(var i=0;i<pages.length;i++)if(location.pathname.indexOf(pages[i][0])>=0)ok=pages[i][1];var q=new URLSearchParams(location.search).get('${LANG_PARAM}'),l=ok.indexOf(q)>=0?q:localStorage.getItem('${LANG_STORAGE_KEY}');if(ok.indexOf(q)>=0)localStorage.setItem('${LANG_STORAGE_KEY}',q);if(l!=='en'&&ok.indexOf(l)>=0){d.lang=l;if(l==='he')d.dir='rtl';d.setAttribute('data-lang',l);setTimeout(function(){d.setAttribute('data-lang-ready','')},2500);}}catch(e){}})();`;
+export const LANG_BOOT_SCRIPT = `(function(){try{var d=document.documentElement,pages=${JSON.stringify(LANG_PAGES)},ok=['en','he'];for(var i=0;i<pages.length;i++)if(location.pathname.indexOf(pages[i][0])>=0)ok=pages[i][1];var defs=${JSON.stringify(LANG_DEFAULTS)},def=null;for(var j=0;j<defs.length;j++)if(location.pathname.indexOf(defs[j][0])>=0)def=defs[j][1];var q=new URLSearchParams(location.search).get('${LANG_PARAM}'),l=ok.indexOf(q)>=0?q:(def||localStorage.getItem('${LANG_STORAGE_KEY}'));if(ok.indexOf(q)>=0)localStorage.setItem('${LANG_STORAGE_KEY}',q);if(l!=='en'&&ok.indexOf(l)>=0){d.lang=l;if(l==='he')d.dir='rtl';d.setAttribute('data-lang',l);setTimeout(function(){d.setAttribute('data-lang-ready','')},2500);}}catch(e){}})();`;
 
 export const LANGUAGES: { value: Lang; label: string; short: string }[] = [{ value: 'en', label: 'English', short: 'EN' }, { value: 'he', label: 'עברית', short: 'עב' }, { value: 'pt', label: 'Português', short: 'PT' }];

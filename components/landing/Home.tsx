@@ -38,9 +38,9 @@ function PromoFilm({ lang, play, label, playing, onPlay }: { lang: 'en' | 'he'; 
  </div>;
 }
 
-function Project({ href, text, newTab, tone, preview }: { href: string; text: ProjectCopy; newTab: string; tone?: 'dark'; preview: (active: boolean) => React.ReactNode }) {
+function Project({ href, text, newTab, tone, wide, preview }: { href: string; text: ProjectCopy; newTab: string; tone?: 'dark'; wide?: boolean; preview: (active: boolean) => React.ReactNode }) {
  const [active, setActive] = useState(false);
- return <Link href={href} target="_blank" rel="noopener" className={s.project} aria-label={`${text.cta} (${newTab})`}
+ return <Link href={href} target="_blank" rel="noopener" className={s.project} data-wide={wide || undefined} aria-label={`${text.cta} (${newTab})`}
   onPointerEnter={e => e.pointerType === 'mouse' && setActive(true)} onPointerLeave={() => setActive(false)}
   onFocus={() => setActive(true)} onBlur={() => setActive(false)}>
   <span className={s.projectPreview} data-tone={tone}>
@@ -124,6 +124,9 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       preview={a => <FilmPreview poster="/projects/hayarkon-56/living-m.webp" film={film("/projects/hayarkon-56/film-preview.mp4")} active={a} />} />
      <Project href={withLang('/rua-da-lapa', lang)} text={p.tower} newTab={p.newTab}
       preview={a => <BuildingPreview frames={tower.frames} skies={tower.skies} active={a} />} />
+     {/* 7th card: a full-width row, so the 3- and 2-column grids keep complete rows */}
+     <Project href={withLang('/lod-daycare', lang)} text={p.daycare} newTab={p.newTab} wide
+      preview={a => <FilmPreview poster="/projects/lod-daycare/stills/golden.webp" film={film(`/projects/lod-daycare/film/lod-film-${filmLang}.mp4`)} active={a} />} />
     </div>
    </section>
   </main>

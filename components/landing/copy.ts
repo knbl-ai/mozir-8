@@ -39,7 +39,7 @@ export type LandingCopy = {
  };
  projects: {
   title: string; lede: string; newTab: string; more: string;
-  tower: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; interior: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy; furniture: ProjectCopy;
+  tower: ProjectCopy; daycare: ProjectCopy; salesGallery: ProjectCopy; openHouse: ProjectCopy; interior: ProjectCopy; penthouse: ProjectCopy; boutique: ProjectCopy; heritage: ProjectCopy; furniture: ProjectCopy;
  };
  footer: { line: string; contact: string; whatsapp: string; whatsappText: string };
  thanks: { kicker: string; title: string; body: (email: string | null) => string; next: string; home: string; projects: string };
@@ -123,6 +123,7 @@ const en: LandingCopy = {
   lede: 'Real projects, each made from its floor plans. Availability is sample data.',
   newTab: 'opens in a new tab',
   more: 'Show more projects',
+  daycare: { kind: 'Public building · Kalkalit Lod', name: 'Rehabilitative day care · Lod', body: 'A six-class day care for children 0–3, shown to operators bidding in the tender: turn the building, open a class, watch the film.', cta: 'Open the Lod day care' },
   tower: { kind: 'Rehabilitation, Porto', name: 'Rua da Lapa', body: 'A 15-home rehabilitation to turn all the way round. Pick any home on it, and step inside.', cta: 'Open Rua da Lapa' },
   salesGallery: { kind: 'New development', name: 'Hurgin 29, Ramat Gan', body: 'Turn the building, see which homes are for sale, open any one.', cta: 'Open Hurgin 29' },
   openHouse: { kind: 'Single apartment', name: 'Mozir 8', body: 'One apartment with a website of its own: film, rooms and 3D.', cta: 'Visit Mozir 8' },
@@ -222,6 +223,7 @@ const he: LandingCopy = {
   lede: 'פרויקטים אמיתיים, כל אחד נבנה מהתוכניות שלו. הזמינות היא לדוגמה.',
   newTab: 'נפתח בכרטיסייה חדשה',
   more: 'לפרויקטים נוספים',
+  daycare: { kind: 'מבנה ציבור · כלכלית לוד', name: 'מעון יום שיקומי · לוד', body: 'מעון יום של שש כיתות לגילאי 0–3, למפעילים במכרז: מסובבים את המבנה, פותחים כיתה וצופים בסרט.', cta: 'למעון היום בלוד' },
   tower: { kind: 'שיקום בניין, פורטו', name: 'Rua da Lapa', body: 'שיקום של 15 דירות שמסובבים סביב סביב. בוחרים כל דירה ונכנסים פנימה.', cta: 'ל־Rua da Lapa' },
   salesGallery: { kind: 'פרויקט חדש', name: 'חורגין 29, רמת גן', body: 'מסובבים את הבניין, רואים מה למכירה, פותחים כל דירה.', cta: 'לחורגין 29' },
   openHouse: { kind: 'דירה אחת', name: 'מוזיר 8', body: 'דירה אחת עם אתר משלה: סרטון, חדרים ותלת־\u2060מימד.', cta: 'למוזיר 8' },

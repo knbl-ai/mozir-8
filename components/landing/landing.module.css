@@ -349,6 +349,8 @@ video.previewMedia[data-playing] { opacity: 1; }
 .projects { padding-top: clamp(80px, 12vh, 150px); padding-bottom: clamp(72px, 11vh, 140px); }
 .projectGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 52px 24px; }
 .project { display: grid; align-content: start; gap: 4px; min-width: 0; }
+.project[data-wide] { grid-column: 1 / -1; }
+.project[data-wide] .projectPreview { aspect-ratio: 21 / 8; }
 .moreRow { display: flex; justify-content: center; margin-top: 56px; }
 .projectPreview {
   position: relative; display: block; aspect-ratio: 5 / 4; margin-bottom: 16px; border-radius: 20px; overflow: hidden; background: var(--sage); isolation: isolate;
@@ -420,6 +422,7 @@ video.previewMedia[data-playing] { opacity: 1; }
   .card[data-wide] { grid-column: auto; }
   .row { grid-template-columns: 1fr; }
   .projectGrid { grid-template-columns: 1fr; }
+  .project[data-wide] .projectPreview { aspect-ratio: 5 / 4; }
   .playButton { padding-inline-end: 18px; font-size: 15px; }
   .playChip { width: 38px; height: 38px; }
 }
