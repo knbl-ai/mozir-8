@@ -11,8 +11,11 @@ import { useLang } from '@/lib/i18n';
 import { CLASSES, FIGURES, FINISHES, HOTSPOTS, project, type Age, type Programme } from '@/content/projects/lod-daycare';
 import { lodText } from './strings';
 import LodOrbit from './LodOrbit';
+import { film } from '@/components/landing/media';
 import s from './lod.module.css';
 
+// videos stream straight from the bucket in production (through the Vercel rewrite they fail to play), as on Lapa / Symbol
+const prod = (src: string) => process.env.NODE_ENV === 'development' ? src : film(src);
 const EASE = [0.22, 1, 0.36, 1] as const;
 const AGES: Age[] = ['infants', 'toddlers', 'children'];
 const PROGRAMMES: Programme[] = ['mixed', 'comm'];
@@ -92,7 +95,7 @@ export default function LodSite() {
     </div>
     <div className={s.filmFrame} {...reveal}>
      {project.projectFilm[he ? 'he' : 'en']
-      ? <video key={lang} src={project.projectFilm[he ? 'he' : 'en']!.src} poster={project.projectFilm[he ? 'he' : 'en']!.poster} controls playsInline preload="none" />
+      ? <video key={lang} src={prod(project.projectFilm[he ? 'he' : 'en']!.src)} poster={project.projectFilm[he ? 'he' : 'en']!.poster} controls playsInline preload="none" />
       : <div className={s.filmPoster}>
        <img src={project.projectFilmPoster} alt="" loading="lazy" draggable={false} />
        <div className={s.filmEmpty}><span className={s.filmIcon}><Play size={26} strokeWidth={1.5} fill="currentColor" aria-hidden /></span><strong>{t.projectFilm.soon}</strong></div>

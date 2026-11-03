@@ -10,6 +10,7 @@ import { ChevronLeft, ChevronRight, Hand, X } from 'lucide-react';
 import { useFrameSequence } from '@/components/building/useFrameSequence';
 import { useLang } from '@/lib/i18n';
 import { CLASSES } from '@/content/projects/lod-daycare';
+import { film } from '@/components/landing/media';
 import { lodText } from './strings';
 import s from './lod.module.css';
 
@@ -27,7 +28,7 @@ const ringMode = (n: number): { video?: string; stride: number } => {
  const ua = navigator.userAgent;
  const ios = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
  const safari = /Safari/.test(ua) && !/Chrome|Chromium|CriOS|Edg|FxiOS|Android/.test(ua);
- return ios || safari ? { stride: n >= 300 ? 3 : 1 } : { video: `${BASE}/ring.mp4`, stride: n >= 300 ? 8 : 4 };
+ return ios || safari ? { stride: n >= 300 ? 3 : 1 } : { video: process.env.NODE_ENV === 'development' ? `${BASE}/ring.mp4` : film(`${BASE}/ring.mp4`), stride: n >= 300 ? 8 : 4 };
 };
 
 export default function LodOrbit() {
