@@ -23,7 +23,9 @@ export type ApartmentPageData = {
  home: { id: string; rooms: number; area: number; outdoorArea: number; floor: Text; title: Text; shortTitle: Text; tagline: Text; outdoor: Text;
   exposure: Text; label: Text; description: Text; about: { en: string[]; he?: string[]; pt?: string[]; el?: string[] } };
  media: { film?: { src: string; poster: string; res: FilmRes; seconds?: number }; films?: FilmCut[]; images: { src: string; label: Text }[]; plan: string;
-  model?: string; modelPoster?: string; modelOrbit?: string; modelOutdoorOrbit?: string; zip?: { src: string; bytes?: number } };
+  model?: string; modelPoster?: string; modelOrbit?: string; modelOutdoorOrbit?: string; zip?: { src: string; bytes?: number };
+  // About on scroll (components/apartment/AboutStory): the stills placed beside the About paragraphs, kept out of the gallery
+  aboutImages?: { src: string; label: Text }[] };
 };
 
 export async function loadPage(slug: string): Promise<ApartmentPageData | null> {

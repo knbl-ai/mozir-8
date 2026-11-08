@@ -1335,3 +1335,5 @@
   .shell[data-theme='cyclades'] .brandLogo[data-brand='cyclades'] { height: 28px; }
   .shell[data-theme='cyclades'] .headAside .focusToggle { width: 42px; padding: 0; gap: 0; }
 }
+/* About on scroll (components/apartment/AboutStory): the scroll cue sits at the bottom of the first screen. */
+.shell[data-single] .explorer { position: relative; }

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { MotionConfig } from 'motion/react';
-import { Box, Images, Info, LayoutPanelLeft, Play } from 'lucide-react';
+import { Box, Images, LayoutPanelLeft, Play } from 'lucide-react';
 import MediaPanel, { type MediaTab, type Spec } from '@/components/building/MediaPanel';
 import PlanLightbox from '@/components/building/PlanLightbox';
 import LanguageSwitch from '@/components/LanguageSwitch';
@@ -11,13 +11,16 @@ import es from '@/components/building/explorer.module.css';
 import { localizeResidence } from '@/content/projects';
 import Downloads from './Downloads';
 import FilmCuts from './FilmCuts';
-import { brandVars, disclaimerIn, filmCuts, textIn, toMedia, toResidence, type ApartmentPageData } from '@/content/apartment-page';
+import AboutStory, { ScrollCue } from './AboutStory';
+import { brandVars, filmCuts, textIn, toMedia, toResidence, type ApartmentPageData } from '@/content/apartment-page';
 import { setPageLangs, useLang } from '@/lib/i18n';
 import s from '@/components/habaron/habaron.module.css';
 
 const TABS: { value: MediaTab; icon: typeof Play }[] = [
- { value: 'film', icon: Play }, { value: 'plan', icon: LayoutPanelLeft }, { value: 'images', icon: Images }, { value: 'model', icon: Box }, { value: 'about', icon: Info },
+ { value: 'film', icon: Play }, { value: 'plan', icon: LayoutPanelLeft }, { value: 'images', icon: Images }, { value: 'model', icon: Box },
 ];
+// No About tab and no credit / disclaimer footer on the card (user 2026-11-08, Paros villa): About is the story below
+// the card (AboutStory, reached by scrolling or the cue), on every apartment page.
 
 // One finished pipeline apartment, laid out like the HaBaron Hirsh 1 page (components/habaron) but driven by page.json.
 // Colours: the client's `brand` from page.json (hex values, written as one rule for the shell and its portals: the plan
@@ -52,8 +55,6 @@ export default function ApartmentPage({ data }: { data: ApartmentPageData }) {
  useEffect(() => { document.title = `${home.shortTitle} · ${name}`; }, [home.shortTitle, name]);
 
  const specs: Spec[] = home.exposure ? [{ key: 'exposure', label: t.specs.exposure, value: home.exposure }] : [];
- const credits = [b.developer && (lang === 'he' ? `יזם: ${b.developer}` : `Developer: ${b.developer}`),
-  b.architects && (lang === 'he' ? `אדריכלות: ${b.architects}` : `Architects: ${b.architects}`)].filter(Boolean).join(' · ');
 
  return <MotionConfig reducedMotion="user"><div className={es.shell} data-theme={data.theme} data-single><div className={es.frame} data-focus>
   <main>
@@ -86,13 +87,11 @@ export default function ApartmentPage({ data }: { data: ApartmentPageData }) {
        {data.downloads && <Downloads data={data} lang={lang} />}
        {data.langs.length > 1 && <LanguageSwitch id="apt-lang" className={s.lang} />}
       </div>}
-      <footer className={s.footer}>
-       <p className={s.credit}><strong>{name}</strong> · {textIn(b.address, lang)}{credits && <><br />{credits}</>}</p>
-       <p className={s.disclaimer}>{disclaimerIn(data, lang)}</p>
-      </footer>
      </aside>
     </div>
+    <ScrollCue lang={lang} />
    </section>
+   <AboutStory data={data} home={home} lang={lang} />
   </main>
   {brandCss && <style>{brandCss}</style>}
   <PlanLightbox open={planOpen} onOpenChange={setPlanOpen} src={home.plan} title={t.floorPlanOf(home.shortTitle)} />
