@@ -185,4 +185,4 @@ const en: Strings = {
  footer: { client: 'Kalkalit Lod · Lod Municipality', architect: 'Architecture: Rona-Cohen Architects', disclaimer: 'Renders are for illustration only. Information is based on the planning programme and the finishes specification and may change.' },
 };
 
-export const lodText: Record<Lang, Strings> = { he, en, pt: en };   // Hebrew first + English (lib/i18n LANG_DEFAULTS)
+export const lodText: Record<Lang, Strings> = { he, en, pt: en, el: en };   // Hebrew first + English (lib/i18n LANG_DEFAULTS)

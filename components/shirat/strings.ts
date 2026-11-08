@@ -141,4 +141,4 @@ const he: Strings = {
  studyRender: 'הדמיה',
 };
 
-export const shiratText: Record<Lang, Strings> = { en, he, pt: en };
+export const shiratText: Record<Lang, Strings> = { en, he, pt: en, el: en };

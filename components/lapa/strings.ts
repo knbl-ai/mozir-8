@@ -135,4 +135,4 @@ const pt: Strings = {
  studyRender: 'Visualização',
 };
 
-export const lapaText: Record<Lang, Strings> = { en, pt, he: en };
+export const lapaText: Record<Lang, Strings> = { en, pt, he: en, el: en };

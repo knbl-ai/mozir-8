@@ -137,4 +137,4 @@ const he: Strings = {
  studyRender: 'הדמיה',
 };
 
-export const symbolText: Record<Lang, Strings> = { en, he, pt: en };
+export const symbolText: Record<Lang, Strings> = { en, he, pt: en, el: en };

@@ -1211,3 +1211,127 @@
   .shell[data-single] .mediaWrap[data-tab='film'][data-aspect='portrait'] .mediaPanel { height: auto; width: min(100%, calc(72dvh * 9 / 16)); aspect-ratio: 9 / 16; }
 }
 
+
+
+/* ── Cyclades (Paros villa, 2026-11-08): the Borges / Lapa treatment carried to a Greek island ─────────────
+   Whitewash surfaces, cool charcoal ink, Aegean blue for facts, warm ochre (sun on limestone) for acting;
+   Noto Serif Display as the display face and Manrope as the text face, both with Greek letters (SIL OFL). */
+@font-face { font-family: 'Cyclades Display'; src: url('/fonts/noto-serif-display-var-latin.woff2') format('woff2'); font-weight: 100 900; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Cyclades Display'; src: url('/fonts/noto-serif-display-var-greek.woff2') format('woff2'); font-weight: 100 900; font-display: swap; unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF; }
+@font-face { font-family: 'Cyclades Sans'; src: url('/fonts/manrope-var-latin.woff2') format('woff2'); font-weight: 200 800; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Cyclades Sans'; src: url('/fonts/manrope-var-greek.woff2') format('woff2'); font-weight: 200 800; font-display: swap; unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF; }
+.shell[data-theme='cyclades'],
+:global(html[data-theme='cyclades']) .pickerContent,
+:global(html[data-theme='cyclades']) .lightbox,
+:global(html[data-theme='cyclades']) .lightboxOverlay {
+  --cyc-ochre: #b0773b;
+  --cyc-ochre-soft: #c9a374;
+  --cyc-blue: #1d4f7c;
+  --cyc-lime: #f1ede5;
+  --cyc-caps: 500 10.5px/1.2 var(--sans);
+  --surface: #fcfbf8;
+  --card: #ffffff;
+  --well: #f3f0ea;
+  --ink: #20262c;
+  --ink-2: #56606a;
+  --ink-3: #8a8f94;
+  --hairline: rgb(32 38 44 / 0.08);
+  --hairline-strong: rgb(32 38 44 / 0.16);
+  --fill: rgb(32 38 44 / 0.05);
+  --accent: var(--cyc-blue);
+  --accent-hover: #286196;
+  --brand-blue: var(--cyc-blue);
+  --brand-blue-tint: rgb(29 79 124 / 0.07);
+  --brand-red: var(--cyc-ochre);
+  --brand-red-tint: rgb(176 119 59 / 0.12);
+  --available: #84562a;
+  --available-tint: rgb(176 119 59 / 0.13);
+  --cta: var(--cyc-ochre);
+  --cta-hover: #965f2c;
+  --cta-glow: rgb(176 119 59 / 0.45);
+  --zone: 200 140 75;
+  --zone-strong: #84562a;
+  --facade-ink: #6b4521;
+  --mark: var(--cyc-ochre);
+  --header-bg: rgb(252 251 248 / 0.88);
+  --display: 'Cyclades Display', 'Hebrew Display', Georgia, serif;
+  --sans: 'Cyclades Sans', 'Hebrew Sans', system-ui, -apple-system, sans-serif;
+  font-family: var(--sans);
+}
+.shell[data-theme='cyclades'] { background: var(--surface); }
+.shell[data-theme='cyclades'] .header { border-bottom: 1px solid var(--hairline); }
+.shell[data-theme='cyclades'] .brandLogo[data-brand='cyclades'] { height: 38px; width: auto; }
+.shell[data-theme='cyclades'] ::selection { background: rgb(176 119 59 / 0.25); }
+.shell[data-theme='cyclades'] :focus-visible { outline-color: var(--cyc-ochre); }
+.shell[data-theme='cyclades'] .title { color: var(--ink); }
+.shell[data-theme='cyclades'] .projectKicker { color: var(--cyc-ochre); }
+.shell[data-theme='cyclades'] .facts dt { font: var(--cyc-caps); letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); }
+.shell[data-theme='cyclades'] .factNumber, .shell[data-theme='cyclades'] .factWord { font-family: var(--display); color: var(--cyc-blue); }
+.shell[data-theme='cyclades'] .toneTag { background: transparent; box-shadow: inset 0 0 0 1px rgb(176 119 59 / 0.45); color: var(--cyc-ochre); font: var(--cyc-caps); letter-spacing: 0.16em; text-transform: uppercase; }
+.shell[data-theme='cyclades'] .toneTag i { background: var(--cyc-ochre); box-shadow: 0 0 0 3px rgb(176 119 59 / 0.2); }
+/* Step inside: deep blue, gold on hover — the one solid button on the card. */
+.shell[data-theme='cyclades'] .headAside .focusToggle,
+.shell[data-theme='cyclades'] .focusToggle { background: var(--cyc-blue); color: #fff; box-shadow: none; font: 500 11.5px/1 var(--sans); letter-spacing: 0.18em; text-transform: uppercase; border-radius: 999px; height: 42px; padding: 0 22px 0 18px; gap: 9px; transition: background 0.4s var(--ease); }
+.shell[data-theme='cyclades'] .headAside .focusToggle svg { color: #ead2a6; }
+.shell[data-theme='cyclades'] .headAside .focusToggle:hover { background: var(--cyc-ochre); }
+.shell[data-theme='cyclades'] .headAside .focusToggle:hover svg { color: #fff; }
+.shell[data-theme='cyclades'] .returnButton { background: var(--cyc-blue); letter-spacing: 0.16em; text-transform: uppercase; font-size: 12px; }
+.shell[data-theme='cyclades'] .returnButton:hover { background: var(--cyc-ochre); }
+.shell[data-theme='cyclades'] .tabs .segmented { background: transparent; padding: 0; border-radius: 0; box-shadow: inset 0 -1px 0 var(--hairline-strong); }
+.shell[data-theme='cyclades'] .tabs .segment { height: 40px; border-radius: 0; font: var(--cyc-caps); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); }
+.shell[data-theme='cyclades'] .tabs .segment[data-active] { color: var(--ink); }
+.shell[data-theme='cyclades'] .tabs .segment[data-active] svg { color: var(--cyc-ochre); }
+.shell[data-theme='cyclades'] .tabs .segmentThumb { background: transparent; border-radius: 0; box-shadow: inset 0 -2px 0 var(--cyc-ochre); }
+/* Over the building: deep-blue glass, cream type. */
+.shell[data-theme='cyclades'] .segmented_glass,
+.shell[data-theme='cyclades'] .glassIcon,
+.shell[data-theme='cyclades'] .legend,
+.shell[data-theme='cyclades'] .coachHint,
+.shell[data-theme='cyclades'] .playButton { background: rgb(29 79 124 / 0.72); border: 1px solid rgb(255 255 255 / 0.16); color: #fcfbf8; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.shell[data-theme='cyclades'] .segmented_glass .segment { color: rgb(252 251 248 / 0.72); font: var(--cyc-caps); letter-spacing: 0.14em; text-transform: uppercase; }
+.shell[data-theme='cyclades'] .segmented_glass .segment[data-active] { color: var(--cyc-blue); }
+.shell[data-theme='cyclades'] .segmented_glass .segmentThumb { background: #fcfbf8; }
+.shell[data-theme='cyclades'] .glassIcon:hover { background: var(--cyc-ochre); border-color: transparent; color: #fff; }
+.shell[data-theme='cyclades'] .coachHint { font: var(--cyc-caps); letter-spacing: 0.14em; text-transform: uppercase; }
+.shell[data-theme='cyclades'] .coachHand { color: #ead2a6; }
+.shell[data-theme='cyclades'] .legendTile { background: rgb(255 255 255 / 0.1); color: rgb(252 251 248 / 0.6); }
+.shell[data-theme='cyclades'] .legendLabel { font: var(--cyc-caps); letter-spacing: 0.14em; text-transform: uppercase; color: rgb(252 251 248 / 0.65); }
+.shell[data-theme='cyclades'] .legendCount { color: rgb(252 251 248 / 0.55); }
+.shell[data-theme='cyclades'] .legendRow[aria-pressed='true'][data-tone='available'] .legendTile { background: #ead2a6; color: #4a2f12; }
+.shell[data-theme='cyclades'] .legendRow[aria-pressed='true'][data-tone='available'] .legendLabel { color: #ead2a6; }
+.shell[data-theme='cyclades'] .legendRow[aria-pressed='true'] .legendCount { color: #fcfbf8; }
+/* The home on the building: a warm gold glow that reads on the green-white tiles and the terracotta roof. */
+.shell[data-theme='cyclades'] { --zone-lit: 236 196 130; }
+.shell[data-theme='cyclades'] .zoneGlowColor { flood-color: rgb(var(--zone-lit)); flood-opacity: 0.55; }
+.shell[data-theme='cyclades'] .zoneSelected,
+.shell[data-theme='cyclades'] .zoneHover { filter: url(#zone-glow); stroke: rgb(var(--zone-lit)); }
+.shell[data-theme='cyclades'] .zoneSelected { fill: rgb(var(--zone-lit) / 0.24); stroke-width: 2; animation: cycladesBreathe 2.6s ease-in-out infinite; }
+.shell[data-theme='cyclades'] .zoneHover { fill: rgb(var(--zone-lit) / 0.34); stroke-width: 2.4; }
+.shell[data-theme='cyclades'] .zoneAvailable { fill: rgb(var(--zone-lit) / 0.18); stroke: rgb(var(--zone-lit) / 0.85); stroke-width: 1.8; }
+@keyframes cycladesBreathe { 0%, 100% { fill-opacity: 1; stroke-opacity: 0.95; } 50% { fill-opacity: 0.6; stroke-opacity: 0.7; } }
+@media (prefers-reduced-motion: reduce) { .shell[data-theme='cyclades'] .zoneSelected { animation: none; } }
+.shell[data-theme='cyclades'] .facadeLabel { font: 500 26px/1 var(--display); letter-spacing: 3px; color: #fff; text-shadow: 0 0 2px rgb(29 79 124), 0 0 6px rgb(29 79 124 / 0.8), 0 0 14px rgb(29 79 124 / 0.5); }
+/* Header picker. */
+.shell[data-theme='cyclades'] .pickerCaption { font: var(--cyc-caps); letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyc-ochre); }
+.shell[data-theme='cyclades'] .pickerTrigger { border-radius: 14px; }
+:global(html[data-theme='cyclades']) .pickerContent { background: rgb(252 251 248 / 0.97); border-radius: 18px; }
+:global(html[data-theme='cyclades']) .pickerHead strong { font: 400 22px/1 var(--display); color: var(--ink); }
+:global(html[data-theme='cyclades']) .pickerLevel { font-family: var(--display); color: var(--cyc-ochre); }
+:global(html[data-theme='cyclades']) .pickerOption[aria-selected='true'] { background: var(--cyc-blue); }
+:global(html[data-theme='cyclades']) .pickerOption[aria-selected='true'] .pickerName { color: #fff; }
+:global(html[data-theme='cyclades']) .pickerOption[aria-selected='true'] :is(.pickerPrice, .pickerMeta, .pickerCheck) { color: #ead2a6; }
+/* Contact: a cream card with the gold sales button. */
+.shell[data-theme='cyclades'] .contact { background: var(--cyc-lime); box-shadow: inset 0 0 0 1px var(--hairline); }
+.shell[data-theme='cyclades'] .contactAvatar { background: var(--cyc-blue); font-family: var(--display); }
+.shell[data-theme='cyclades'] .contactName small { font: var(--cyc-caps); letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyc-ochre); }
+.shell[data-theme='cyclades'] .contactPhone { direction: ltr; unicode-bidi: isolate; }
+.shell[data-theme='cyclades'] .expandHint { background: var(--cyc-blue); color: #fff; }
+.shell[data-theme='cyclades'] .planView:hover .expandHint { background: var(--cyc-ochre); }
+.shell[data-theme='cyclades'] .projectFactIcon { background: var(--cyc-blue); color: #ead2a6; box-shadow: none; }
+.shell[data-theme='cyclades'] .mapLinks a:hover { background: var(--cyc-blue); color: #fff; }
+:global(html[lang='he']) .shell[data-theme='cyclades'] *,
+:global(html[lang='he'][data-theme='cyclades']) .pickerContent * { letter-spacing: 0 !important; }
+@media (max-width: 760px) {
+  .shell[data-theme='cyclades'] .brandLogo[data-brand='cyclades'] { height: 28px; }
+  .shell[data-theme='cyclades'] .headAside .focusToggle { width: 42px; padding: 0; gap: 0; }
+}

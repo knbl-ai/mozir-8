@@ -122,4 +122,4 @@ const he: Strings = {
  close: 'סגירה', prev: 'התמונה הקודמת', next: 'התמונה הבאה',
 };
 
-export const hayarkonText: Record<Lang, Strings> = { en, he, pt: en };
+export const hayarkonText: Record<Lang, Strings> = { en, he, pt: en, el: en };

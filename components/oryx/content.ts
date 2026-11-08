@@ -92,4 +92,4 @@ const he: OryxText = {
  },
 };
 
-export const oryxText: Record<Lang, OryxText> = { en, he, pt: en };
+export const oryxText: Record<Lang, OryxText> = { en, he, pt: en, el: en };

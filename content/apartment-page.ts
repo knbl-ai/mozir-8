@@ -7,7 +7,7 @@ import type { MediaImage, Residence, ResidenceText, ResolvedMedia } from './proj
 // APT_PAGES_ORIGIN: a local folder server for testing a page.json before it is uploaded.
 export const PAGES_ORIGIN = process.env.APT_PAGES_ORIGIN ?? 'https://storage.googleapis.com/knbl-sma/apt3d/site/pages';
 
-export type Text = { en: string; he?: string; pt?: string };
+export type Text = { en: string; he?: string; pt?: string; el?: string };
 export type FilmRes = '480p' | '720p' | '1080p';
 // More cuts of the same walkthrough (page.yaml `films:`, pipeline/video_variants): highlights, infographic, 3D, a vertical
 // reel. The page shows a film switcher when there are any; the main film stays the first and the default.
@@ -21,7 +21,7 @@ export type ApartmentPageData = {
  downloads?: boolean;
  building: { name: Text; address: Text; developer?: string; architects?: string; logos?: { src: string; alt: string; w: number; h: number }[]; disclaimer?: Text };
  home: { id: string; rooms: number; area: number; outdoorArea: number; floor: Text; title: Text; shortTitle: Text; tagline: Text; outdoor: Text;
-  exposure: Text; label: Text; description: Text; about: { en: string[]; he?: string[]; pt?: string[] } };
+  exposure: Text; label: Text; description: Text; about: { en: string[]; he?: string[]; pt?: string[]; el?: string[] } };
  media: { film?: { src: string; poster: string; res: FilmRes; seconds?: number }; films?: FilmCut[]; images: { src: string; label: Text }[]; plan: string;
   model?: string; modelPoster?: string; modelOrbit?: string; modelOutdoorOrbit?: string; zip?: { src: string; bytes?: number } };
 };
@@ -34,14 +34,14 @@ export async function loadPage(slug: string): Promise<ApartmentPageData | null> 
  return data?.v === 1 && data.slug === slug ? data : null;
 }
 
-const pick = (t: Text | undefined, lang: Lang) => (t && (lang === 'he' ? t.he : lang === 'pt' ? t.pt : undefined)) ?? t?.en ?? '';
+const pick = (t: Text | undefined, lang: Lang) => (t && (lang === 'he' ? t.he : lang === 'pt' ? t.pt : lang === 'el' ? t.el : undefined)) ?? t?.en ?? '';
 
 // A film below 1080p is the low-resolution version (the admin stopped at 480p): the page says so on the film.
 const LOW_RES: Record<Lang, (res: string) => string> = {
- en: res => `Low-resolution preview · ${res}`, he: res => `תצוגה מקדימה ברזולוציה נמוכה · ${res}`, pt: res => `Pré-visualização em baixa resolução · ${res}`,
+ en: res => `Low-resolution preview · ${res}`, he: res => `תצוגה מקדימה ברזולוציה נמוכה · ${res}`, pt: res => `Pré-visualização em baixa resolução · ${res}`, el: res => `Προεπισκόπηση χαμηλής ανάλυσης · ${res}`,
 };
 const LOW_RES_NOTE: Record<Lang, string> = {
- en: 'The film is a low-resolution preview.', he: 'הסרטון הוא תצוגה מקדימה ברזולוציה נמוכה.', pt: 'O filme é uma pré-visualização em baixa resolução.',
+ en: 'The film is a low-resolution preview.', he: 'הסרטון הוא תצוגה מקדימה ברזולוציה נמוכה.', pt: 'O filme é uma pré-visualização em baixa resolução.', el: 'Η ταινία είναι προεπισκόπηση χαμηλής ανάλυσης.',
 };
 export const lowRes = (d: ApartmentPageData) => Boolean(d.media.film && d.media.film.res !== '1080p');
 export const disclaimerIn = (d: ApartmentPageData, lang: Lang) =>
@@ -70,12 +70,12 @@ export function toResidence(d: ApartmentPageData): Residence {
  const h = d.home;
  const text = (lang: Lang): ResidenceText => ({ title: pick(h.title, lang), shortTitle: pick(h.shortTitle, lang), tagline: pick(h.tagline, lang),
   outdoor: pick(h.outdoor, lang), exposure: pick(h.exposure, lang), label: pick(h.label, lang), description: pick(h.description, lang),
-  about: (lang === 'he' ? h.about.he : lang === 'pt' ? h.about.pt : undefined) ?? h.about.en });
+  about: (lang === 'he' ? h.about.he : lang === 'pt' ? h.about.pt : lang === 'el' ? h.about.el : undefined) ?? h.about.en });
  return { id: h.id, ...text('en'), rooms: h.rooms, area: h.area, outdoorArea: h.outdoorArea, plan: d.media.plan, sourceUnits: pick(h.shortTitle, 'en'),
-  ...(d.langs.includes('he') ? { he: text('he') } : {}), ...(d.langs.includes('pt') ? { pt: text('pt') } : {}) };
+  ...(d.langs.includes('he') ? { he: text('he') } : {}), ...(d.langs.includes('pt') ? { pt: text('pt') } : {}), ...(d.langs.includes('el') ? { el: text('el') } : {}) };
 }
 
-const FULL: Text = { en: 'Full walkthrough', he: 'סיור מלא', pt: 'Percurso completo' };
+const FULL: Text = { en: 'Full walkthrough', he: 'סיור מלא', pt: 'Percurso completo', el: 'Πλήρης περιήγηση' };
 // Every film of the page in order: the main walkthrough first, then the extra cuts.
 export const filmCuts = (d: ApartmentPageData): FilmCut[] => [
  ...(d.media.film ? [{ id: 'film', title: FULL, src: d.media.film.src, poster: d.media.film.poster, seconds: d.media.film.seconds, aspect: '16:9' as const }] : []),
@@ -89,7 +89,7 @@ export function toMedia(d: ApartmentPageData, lang: Lang, cut?: string, autoplay
  const film = extra
   ? { src: extra.src, poster: extra.poster, autoplay }
   : m.film
-  ? { src: m.film.src, poster: m.film.poster, autoplay, ...(lowRes(d) ? { note: LOW_RES.en(m.film.res), noteHe: LOW_RES.he(m.film.res), notePt: LOW_RES.pt(m.film.res) } : {}) }
+  ? { src: m.film.src, poster: m.film.poster, autoplay, ...(lowRes(d) ? { note: LOW_RES.en(m.film.res), noteHe: LOW_RES.he(m.film.res), notePt: LOW_RES.pt(m.film.res), noteEl: LOW_RES.el(m.film.res) } : {}) }
   : { src: '', poster: '' };
  const images: MediaImage[] = m.images.map(i => ({ src: i.src, label: pick(i.label, lang) }));
  return { film, images, model: m.model ?? '', modelPoster: m.modelPoster, modelOrbit: m.modelOrbit ?? '28deg 52deg 100%',

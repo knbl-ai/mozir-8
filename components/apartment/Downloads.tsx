@@ -16,6 +16,7 @@ const T: Record<Lang, { title: string; all: string; each: string; film: (r: stri
  en: { title: 'Downloads', all: 'Download everything', each: 'Or choose files', film: r => `Walkthrough film · ${r}`, plan: 'Floor plan', model: '3D model (GLB)' },
  he: { title: 'הורדות', all: 'להורדת הכול', each: 'או לבחור קבצים', film: r => `סרט הסיור · ${r}`, plan: 'תוכנית הדירה', model: 'מודל תלת־ממד (GLB)' },
  pt: { title: 'Downloads', all: 'Baixar tudo', each: 'Ou escolher arquivos', film: r => `Filme do percurso · ${r}`, plan: 'Planta', model: 'Modelo 3D (GLB)' },
+ el: { title: 'Λήψεις', all: 'Λήψη όλων', each: 'Ή επιλέξτε αρχεία', film: r => `Ταινία περιήγησης · ${r}`, plan: 'Κάτοψη', model: 'Τρισδιάστατο μοντέλο (GLB)' },
 };
 const mb = (bytes?: number) => (bytes ? `${Math.max(1, Math.round(bytes / 2 ** 20))} MB` : '');
 

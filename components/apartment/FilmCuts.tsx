@@ -8,6 +8,7 @@ import s from './filmcuts.module.css';
 // Each says its length; a vertical reel carries a phone mark. Picking one plays it (ApartmentPage → toMedia autoplay).
 const T: Record<Lang, { label: string; vertical: string }> = {
  en: { label: 'Films', vertical: 'Vertical, for phones' }, he: { label: 'סרטונים', vertical: 'אנכי, לטלפון' }, pt: { label: 'Filmes', vertical: 'Vertical, para celular' },
+ el: { label: 'Ταινίες', vertical: 'Κάθετη, για κινητό' },
 };
 const clock = (sec?: number) => (sec ? `${Math.floor(Math.round(sec) / 60)}:${String(Math.round(sec) % 60).padStart(2, '0')}` : '');
 

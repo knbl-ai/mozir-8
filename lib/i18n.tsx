@@ -2,14 +2,14 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { usePathname } from 'next/navigation';
 
-export type Lang = 'en' | 'he' | 'pt';
+export type Lang = 'en' | 'he' | 'pt' | 'el';
 export const LANG_PARAM = 'lang';
 export const LANG_STORAGE_KEY = 'residences-lang';
-const isLang = (value: unknown): value is Lang => value === 'en' || value === 'he' || value === 'pt';
+const isLang = (value: unknown): value is Lang => value === 'en' || value === 'he' || value === 'pt' || value === 'el';
 
 // Each page offers English and one second language: Hebrew by default, Portuguese on the Lisbon project.
 // A visitor's choice is kept as is; on a page that doesn't offer it, the page shows English.
-const LANG_PAGES: [string, Lang[]][] = [['/projects/borges-15', ['en', 'pt']], ['/rua-da-lapa', ['en', 'pt']]];
+const LANG_PAGES: [string, Lang[]][] = [['/projects/borges-15', ['en', 'pt']], ['/rua-da-lapa', ['en', 'pt']], ['/paros-', ['en', 'el']]];
 const DEFAULT_LANGS: Lang[] = ['en', 'he'];
 // A page whose audience reads another language first opens in it unless the link names one (?lang=); the
 // visitor's last choice on other pages does not override it. The Lod day care page is Hebrew first.
@@ -89,4 +89,4 @@ export function withLang(href: string, lang: Lang) {
 
 export const LANG_BOOT_SCRIPT = `(function(){try{var d=document.documentElement,pages=${JSON.stringify(LANG_PAGES)},ok=['en','he'];for(var i=0;i<pages.length;i++)if(location.pathname.indexOf(pages[i][0])>=0)ok=pages[i][1];var defs=${JSON.stringify(LANG_DEFAULTS)},def=null;for(var j=0;j<defs.length;j++)if(location.pathname.indexOf(defs[j][0])>=0)def=defs[j][1];var q=new URLSearchParams(location.search).get('${LANG_PARAM}'),l=ok.indexOf(q)>=0?q:(def||localStorage.getItem('${LANG_STORAGE_KEY}'));if(ok.indexOf(q)>=0)localStorage.setItem('${LANG_STORAGE_KEY}',q);if(l!=='en'&&ok.indexOf(l)>=0){d.lang=l;if(l==='he')d.dir='rtl';d.setAttribute('data-lang',l);setTimeout(function(){d.setAttribute('data-lang-ready','')},2500);}}catch(e){}})();`;
 
-export const LANGUAGES: { value: Lang; label: string; short: string }[] = [{ value: 'en', label: 'English', short: 'EN' }, { value: 'he', label: 'עברית', short: 'עב' }, { value: 'pt', label: 'Português', short: 'PT' }];
+export const LANGUAGES: { value: Lang; label: string; short: string }[] = [{ value: 'en', label: 'English', short: 'EN' }, { value: 'he', label: 'עברית', short: 'עב' }, { value: 'pt', label: 'Português', short: 'PT' }, { value: 'el', label: 'Ελληνικά', short: 'ΕΛ' }];
