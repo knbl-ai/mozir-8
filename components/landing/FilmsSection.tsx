@@ -60,11 +60,12 @@ export default function FilmsSection() {
   const io = new IntersectionObserver(([e]) => setSeen(e.isIntersecting), { threshold: 0.35 });
   io.observe(el); return () => io.disconnect();
  }, []);
- // only the front card plays, and only while the band is on screen
+ // only the front card plays, and only while the band is on screen (re-run once its source is set: the source arrives a
+ // render after the card comes to the front)
  useEffect(() => {
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  vids.current.forEach((v, k) => { if (!v) return; if (k === i && seen && !still) v.play().catch(() => {}); else v.pause(); });
- }, [i, seen]);
+  vids.current.forEach((v, k) => { if (!v) return; if (k === i && seen && !still && v.getAttribute('src')) v.play().catch(() => {}); else v.pause(); });
+ }, [i, seen, loaded]);
 
  const share = async () => {
   const url = `${location.origin}${location.pathname}${location.search}#films`;
