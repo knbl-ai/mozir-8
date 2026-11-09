@@ -1,17 +1,14 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Bricolage_Grotesque, Hanken_Grotesk, Instrument_Serif } from 'next/font/google';
+import { bricolage as sunday, hanken as mono, instrument as riviera } from '@/components/films/fonts';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Link2 } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
 import { FILM_STYLES } from '@/content/projects/alma-bay-films';
 import { copy } from './copy';
 import f from './films.module.css';
 
-// Each style's name is set in its own film's display face (the same as the style pages).
-const riviera = Instrument_Serif({ subsets: ['latin'], weight: '400', style: ['normal', 'italic'], variable: '--f-riviera-d', display: 'swap' });
-const mono = Hanken_Grotesk({ subsets: ['latin'], weight: ['300', '600'], variable: '--f-mono-d', display: 'swap' });
-const sunday = Bricolage_Grotesque({ subsets: ['latin'], weight: ['800'], variable: '--f-sunday-d', display: 'swap' });
+// Each style's name is set in its own film's display face (the same self-hosted fonts as the style pages).
 
 const N = FILM_STYLES.length;
 const AUTO_MS = 6000;
