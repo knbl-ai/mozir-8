@@ -9,6 +9,7 @@ import { useLang, withLang } from '@/lib/i18n';
 import { copy, type ProjectCopy } from './copy';
 import BuildingPreview from './BuildingPreview';
 import FilmPreview from './FilmPreview';
+import FilmsSection from './FilmsSection';
 import Button from './Button';
 import DimensionLine from './DimensionLine';
 import Process from './Process';
@@ -101,6 +102,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
 
    <Process t={t.process} />
    <Package t={t.package} spinFrames={spinFrames} buildingFrames={tower.frames} />   {/* the building card: Rua da Lapa's 360-view orbit */}
+   <FilmsSection />
    <StylesSection />
    <TrialForm t={t.form} lang={filmLang} />
 

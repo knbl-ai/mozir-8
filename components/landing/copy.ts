@@ -30,6 +30,8 @@ export type LandingCopy = {
   errors: { email: string; type: string; size: string; rate: string; upload: string; server: string };
   privacy: string;
  };
+ films: { title: [string, string]; sub: string; getTitle: string; get: { name: string; spec: string; use: string; ratio: '16:9' | '9:16' }[]; whyTitle: string; why: Item[];
+  share: string; copied: string; open: (name: string) => string; show: (name: string) => string; newTab: string; region: string; prev: string; next: string; all: string; note: string };
  styles: {
   title: string; lede: string; region: string; prev: string; next: string; goTo: (name: string) => string; chips: string; all: string; cta: string;
   pageTitle: string; pageLede: string; back: string; count: (n: number) => string; tone: string; temperature: string; any: string;
@@ -107,6 +109,27 @@ const en: LandingCopy = {
    server: 'Something went wrong on our side. Try again, or write to info@residence.tech.',
   },
   privacy: 'We use your details only to reply to this request.',
+ },
+ films: {
+  title: ['Apartment', 'Highlights'],
+  sub: 'Everything you need to promote one home, made to convert. Choose the style that matches you.',
+  getTitle: 'What you get',
+  get: [
+   { name: 'The film', spec: '46 s · 16:9', use: 'Listing page, YouTube, the sales-office screen', ratio: '16:9' },
+   { name: 'Short cut', spec: '20 s · 16:9', use: 'Ads, property portals, WhatsApp', ratio: '16:9' },
+   { name: 'Phone cut', spec: '20 s · 9:16', use: 'Reels, TikTok, Stories', ratio: '9:16' },
+  ],
+  whyTitle: 'Why it sells',
+  why: [
+   { title: 'A style for your buyer', body: 'Three directed looks — picture, type, motion and music.' },
+   { title: 'True to the floor plan', body: 'Every room from the architect’s drawing; areas measured.' },
+   { title: 'The plan on screen', body: 'Buyers always know which room they are in.' },
+   { title: 'The real neighbourhood', body: 'Walking routes to the beach, parks and schools.' },
+   { title: 'An original score', body: 'One music track, composed for the film.' },
+  ],
+  share: 'Copy link', copied: 'Link copied', open: name => `Open ${name}`, show: name => `Show ${name}`, newTab: 'opens in a new tab',
+  region: 'Film styles', prev: 'Previous style', next: 'Next style', all: 'All three styles',
+  note: 'Shown with Alma Bay · Residence 01.',
  },
  styles: {
   title: 'Every home in its own design style', lede: 'Each apartment gets one curated interior style; every room is a variation of it.',
@@ -207,6 +230,27 @@ const he: LandingCopy = {
    server: 'משהו השתבש אצלנו. נסו שוב, או כתבו ל־info@residence.tech.',
   },
   privacy: 'נשתמש בפרטים רק כדי לענות לפנייה הזו.',
+ },
+ films: {
+  title: ['היילייטס', 'לדירה'],
+  sub: 'כל מה שצריך כדי לקדם דירה אחת, בנוי להמרה. בחרו את הסגנון שמתאים לכם.',
+  getTitle: 'מה מקבלים',
+  get: [
+   { name: 'הסרט', spec: '46 שנ׳ · 16:9', use: 'דף הדירה, YouTube, מסך משרד המכירות', ratio: '16:9' },
+   { name: 'גרסה קצרה', spec: '20 שנ׳ · 16:9', use: 'מודעות, פורטלים, WhatsApp', ratio: '16:9' },
+   { name: 'גרסה לטלפון', spec: '20 שנ׳ · 9:16', use: 'Reels‏, TikTok‏, Stories', ratio: '9:16' },
+  ],
+  whyTitle: 'למה זה מוכר',
+  why: [
+   { title: 'סגנון שמתאים לקונה', body: 'שלושה סגנונות בבימוי: תמונה, טיפוגרפיה, תנועה ומוזיקה.' },
+   { title: 'נאמן לתוכנית הדירה', body: 'כל חדר לפי שרטוט האדריכל, השטחים מדודים.' },
+   { title: 'התוכנית על המסך', body: 'הקונים תמיד יודעים באיזה חדר הם נמצאים.' },
+   { title: 'השכונה האמיתית', body: 'מסלולי הליכה לים, לפארקים ולבתי הספר.' },
+   { title: 'מוזיקה מקורית', body: 'פסקול אחד, שנכתב לסרט.' },
+  ],
+  share: 'העתקת קישור', copied: 'הקישור הועתק', open: name => `פתיחת ${name}`, show: name => `הצגת ${name}`, newTab: 'נפתח בכרטיסייה חדשה',
+  region: 'סגנונות הסרט', prev: 'הסגנון הקודם', next: 'הסגנון הבא', all: 'כל שלושת הסגנונות',
+  note: 'מוצג עם Alma Bay · דירה 01.',
  },
  styles: {
   title: 'לכל בית סגנון עיצוב משלו', lede: 'כל דירה מקבלת סגנון פנים אחד נבחר, וכל חדר הוא וריאציה שלו.',
