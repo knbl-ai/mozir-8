@@ -121,8 +121,8 @@ export default function FilmsSection() {
       <span className={f.cardTag}>{s.tagline}</span>
      </>;
      // the same element for every position, so a change glides instead of swapping elements: the front card opens the
-     // style page in a new tab, a side card turns the ring to itself
-     return <Link key={s.slug} href={`/alma-bay/films/${s.slug}`} target="_blank" rel="noopener" className={f.card} data-style={s.slug}
+     // apartment page in that style (in the visitor's language) in a new tab, a side card turns the ring to itself
+     return <Link key={s.slug} href={`/alma-bay/films/${s.slug}?lang=${lang}`} target="_blank" rel="noopener" className={f.card} data-style={s.slug}
       data-front={front || undefined} data-side={!front ? (off < 0 ? 'start' : 'end') : undefined} style={style} draggable={false}
       aria-label={front ? `${t.open(s.name)} (${t.newTab})` : t.show(s.name)}
       onClick={e => { if (!front) { e.preventDefault(); go(k); } }}>{body}</Link>;
@@ -133,12 +133,12 @@ export default function FilmsSection() {
     <p className={f.tagline} aria-live="polite"><b>{st.name}</b> — {st.tagline}</p>
     <div className={f.ctrls}>
      <button type="button" onClick={() => go(i - 1)} aria-label={t.prev}>{rtl ? <ArrowRight size={18} aria-hidden /> : <ArrowLeft size={18} aria-hidden />}</button>
-     <Link href={`/alma-bay/films/${st.slug}`} target="_blank" rel="noopener" className={f.open}>{t.open(st.name)}<ArrowUpRight size={16} aria-hidden /></Link>
+     <Link href={`/alma-bay/films/${st.slug}?lang=${lang}`} target="_blank" rel="noopener" className={f.open}>{t.open(st.name)}<ArrowUpRight size={16} aria-hidden /></Link>
      <button type="button" onClick={() => go(i + 1)} aria-label={t.next}>{rtl ? <ArrowLeft size={18} aria-hidden /> : <ArrowRight size={18} aria-hidden />}</button>
     </div>
     <ul className={f.dots}>{FILM_STYLES.map((s, k) => <li key={s.slug}>
      <button type="button" onClick={() => go(k)} aria-current={k === i || undefined}><i />{s.name}</button></li>)}</ul>
-    <p className={f.note}>{t.note} <Link href="/alma-bay/films" target="_blank" rel="noopener">{t.all}</Link>
+    <p className={f.note}>{t.note} <Link href={`/alma-bay/films/${st.slug}?lang=${lang}`} target="_blank" rel="noopener">{t.all}</Link>
      <button type="button" className={f.share} onClick={share} aria-live="polite">{copied ? <Check size={14} aria-hidden /> : <Link2 size={14} aria-hidden />}{copied ? t.copied : t.share}</button></p>
    </div>
    </div>

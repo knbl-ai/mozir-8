@@ -127,8 +127,8 @@ const en: LandingCopy = {
    { title: 'The real neighbourhood', body: 'Walking routes to the beach, parks and schools.' },
    { title: 'An original score', body: 'One music track, composed for the film.' },
   ],
-  share: 'Copy link', copied: 'Link copied', open: name => `Open ${name}`, show: name => `Show ${name}`, newTab: 'opens in a new tab',
-  region: 'Film styles', prev: 'Previous style', next: 'Next style', all: 'All three styles',
+  share: 'Copy link', copied: 'Link copied', open: name => `Open the page in ${name}`, show: name => `Show ${name}`, newTab: 'opens in a new tab',
+  region: 'Film styles', prev: 'Previous style', next: 'Next style', all: 'See the full apartment page',
   note: 'Shown with Alma Bay · Residence 01.',
  },
  styles: {
@@ -248,8 +248,8 @@ const he: LandingCopy = {
    { title: 'השכונה האמיתית', body: 'מסלולי הליכה לים, לפארקים ולבתי הספר.' },
    { title: 'מוזיקה מקורית', body: 'פסקול אחד, שנכתב לסרט.' },
   ],
-  share: 'העתקת קישור', copied: 'הקישור הועתק', open: name => `פתיחת ${name}`, show: name => `הצגת ${name}`, newTab: 'נפתח בכרטיסייה חדשה',
-  region: 'סגנונות הסרט', prev: 'הסגנון הקודם', next: 'הסגנון הבא', all: 'כל שלושת הסגנונות',
+  share: 'העתקת קישור', copied: 'הקישור הועתק', open: name => `לעמוד בסגנון ${name}`, show: name => `הצגת ${name}`, newTab: 'נפתח בכרטיסייה חדשה',
+  region: 'סגנונות הסרט', prev: 'הסגנון הקודם', next: 'הסגנון הבא', all: 'לעמוד הדירה המלא',
   note: 'מוצג עם Alma Bay · דירה 01.',
  },
  styles: {

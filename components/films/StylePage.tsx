@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { preload } from 'react-dom';
 import { ArrowDown, ArrowRight } from 'lucide-react';
 import Logo from '@/components/brand/Logo';
-import { ALMA_BAY_FILMS, FILM_STYLES, type FilmCut, type FilmStyle } from '@/content/projects/alma-bay-films';
+import { ALMA_BAY_FILMS, FILM_STYLES, type FilmCut } from '@/content/projects/alma-bay-films';
 import { useInView } from './useScroll';
 import s from './style.module.css';
 
@@ -12,7 +12,7 @@ import s from './style.module.css';
 // (the style's word, the film showing through its letters, magnifying until the film fills the screen), the three cuts,
 // the style sheet, plates and the next style. Each page can be sent on its own.
 
-function useSolo() {
+export function useSolo() {
  useEffect(() => {
   const on = (e: Event) => document.querySelectorAll<HTMLVideoElement>('video[data-film]').forEach(v => { if (v !== e.target) v.pause(); });
   document.addEventListener('play', on, true);
@@ -24,7 +24,7 @@ function useSolo() {
  *  screens, the 16:9 loop elsewhere; starts once on screen */
 const LOOP = { wide: { src: '/projects/shirat-hayam/highlights/hero.mp4', poster: '/projects/shirat-hayam/highlights/hero-poster.jpg' },
  tall: { src: '/projects/shirat-hayam/highlights/hero-916.mp4', poster: '/projects/shirat-hayam/highlights/hero-916-poster.jpg' } };
-function Ambient({ className, start = 0, slug }: { className?: string; start?: number; slug?: string }) {
+export function Ambient({ className, start = 0, slug }: { className?: string; start?: number; slug?: string }) {
  const ref = useRef<HTMLVideoElement>(null);
  const seen = useInView(ref, '0px');
  const [tall, setTall] = useState(false);
@@ -51,11 +51,11 @@ function Ambient({ className, start = 0, slug }: { className?: string; start?: n
 }
 
 // where each style's hero loop starts (s into the clean loop): Riviera on the sea, Monograph the kitchen, Sunday the bedroom
-const HERO_START: Record<string, number> = { 'riviera-editorial': 12.2, monograph: 5.55, 'sunday-house': 16.2 };  // just after a cut in hero.mp4
+export const HERO_START: Record<string, number> = { 'riviera-editorial': 12.2, monograph: 5.55, 'sunday-house': 16.2 };  // just after a cut in hero.mp4
 // the same moments in the vertical loop (1.5 s per shot: kitchen 0, balcony 7.5, master bed 9.0)
 const TALL_START: Record<number, number> = { 12.2: 7.55, 5.55: 0.05, 16.2: 9.05 };
 
-function Film({ cut, name, big }: { cut: FilmCut; name: string; big?: boolean }) {
+export function Film({ cut, name, big }: { cut: FilmCut; name: string; big?: boolean }) {
  return <figure className={s.film} data-phone={cut.aspect === '9:16' || undefined} data-big={big || undefined}>
   <div className={s.frame}><video data-film src={cut.src} poster={cut.poster} controls playsInline preload="none" aria-label={`${name} — ${cut.label}, ${cut.length}`} /></div>
   <figcaption className={s.cap}><span>{cut.label}</span><span>{cut.aspect} · {cut.length}</span></figcaption>
@@ -69,24 +69,24 @@ function Film({ cut, name, big }: { cut: FilmCut; name: string; big?: boolean })
  *  exponential scale (constant perceived speed). React removes the layer once it has played.
  *  Hidden with reduced motion (CSS). */
 const OPEN_MS = 1600;
-function Intro({ st, onDone }: { st: FilmStyle; onDone: () => void }) {
+export function Intro({ word, under, id: key, onDone }: { word: string; under: string; id: string; onDone: () => void }) {
  useEffect(() => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { onDone(); return; }
   const t = window.setTimeout(onDone, OPEN_MS);
   return () => clearTimeout(t);
  }, [onDone]);
- const id = `m-${st.slug}`;
+ const id = `m-${key}`;
  return <div className={s.opening} aria-hidden>
   <svg className={s.revealMask} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" style={{ animationDuration: `${OPEN_MS}ms` }}>
    <defs>
     <mask id={id} maskUnits="userSpaceOnUse" x="-1600" y="-900" width="4800" height="2700">
      <rect x="-1600" y="-900" width="4800" height="2700" fill="#fff" />
-     <text x="800" y="500" textAnchor="middle" textLength="1360" lengthAdjust="spacingAndGlyphs" className={s.revealWord}>{st.maskWord}</text>
+     <text x="800" y="500" textAnchor="middle" textLength="1360" lengthAdjust="spacingAndGlyphs" className={s.revealWord}>{word}</text>
     </mask>
    </defs>
    <rect x="-1600" y="-900" width="4800" height="2700" className={s.revealPaper} mask={`url(#${id})`} />
   </svg>
-  <p className={s.revealUnder}>{ALMA_BAY_FILMS.title}</p>
+  <p className={s.revealUnder}>{under}</p>
  </div>;
 }
 
@@ -103,7 +103,7 @@ export default function StylePage({ slug }: { slug: string }) {
  useEffect(() => { const on = () => setScrolled(window.scrollY > 40); on(); window.addEventListener('scroll', on, { passive: true }); return () => window.removeEventListener('scroll', on); }, []);
 
  return <main className={s.page} data-style={st.slug} data-opening={opening || undefined}>
-  {opening && <Intro st={st} onDone={done} />}
+  {opening && <Intro word={st.maskWord} under={A.title} id={st.slug} onDone={done} />}
   <nav className={s.bar} data-solid={scrolled || undefined}>
    <Link href="/" className={s.logo} aria-label="residence.tech"><Logo /></Link>
    <ul className={s.tabs}>{FILM_STYLES.map(x => <li key={x.slug}><Link href={`/alma-bay/films/${x.slug}`} aria-current={x.slug === slug ? 'page' : undefined}>{x.name}</Link></li>)}</ul>
