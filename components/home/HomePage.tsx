@@ -7,7 +7,7 @@ import ResidenceModel from '@/components/building/ResidenceModel';
 import BuildingSection from './BuildingSection';
 import { Film, Intro, useSolo } from '@/components/films/StylePage';
 import { filmStyle } from '@/content/projects/alma-bay-films';
-import { HOME, ROOMS, type Place, type PlanRoom } from '@/content/projects/alma-bay-home';
+import { HE_FILMS, HOME, ROOMS, type Place, type PlanRoom } from '@/content/projects/alma-bay-home';
 import { useInView } from '@/components/films/useScroll';
 import st from '@/components/films/style.module.css';
 import s from './home.module.css';
@@ -288,7 +288,9 @@ export default function HomePage({ styleSlug }: { styleSlug: string }) {
  const [long, short, phone] = style.cuts;
  // section markers in the style's own vernacular (as on the style pages: folio, sheet number, sticker)
  const mark = (n: number, t: string) => style.slug === 'monograph' ? `A-10${n} · ${t}` : style.slug === 'sunday-house' ? `0${n} · ${t}` : `Nº 0${n} — ${t}`;
- const kit = HOME.kits[style.slug];
+ const kit0 = HOME.kits[style.slug];
+ // the Hebrew page's media kit carries the Hebrew films (…-he.zip)
+ const kit = L === 'he' && HE_FILMS.has(style.slug) ? { ...kit0, href: kit0.href.replace(/\.zip$/, '-he.zip') } : kit0;
  const map = HOME.maps[style.slug];
  const A = x.address;
  const title = L === 'he' ? `${A.street} ${A.no}` : `${A.no} ${A.street}`;   // Hebrew writes the number after the street
@@ -300,7 +302,11 @@ export default function HomePage({ styleSlug }: { styleSlug: string }) {
  const open = useCallback((items: Shot[], at = 0) => setLb({ items, at }), []);
  useEffect(() => { const on = () => setScrolled(window.scrollY > 40); on(); window.addEventListener('scroll', on, { passive: true }); return () => window.removeEventListener('scroll', on); }, []);
  const nav = (['films', 'plan', 'model', 'building', 'area', 'contact'] as const).map(k => [k, t.nav[k]]);
- const cut = (c: typeof long, k: 'long' | 'short' | 'phone') => ({ ...c, label: t.cuts[k] });
+ // the Hebrew page plays the Hebrew films (<slug>[-20|-916]-he.mp4 + posters) once they are published (HE_FILMS)
+
+ const heFilm = L === 'he' && HE_FILMS.has(style.slug);
+ const he = (u: string) => heFilm ? u.replace(/(-poster)?\.(mp4|jpg)$/, '-he$1.$2') : u;
+ const cut = (c: typeof long, k: 'long' | 'short' | 'phone') => ({ ...c, label: t.cuts[k], src: he(c.src), poster: he(c.poster) });
 
  return <main className={`${st.page} ${s.home}`} data-style={style.slug} data-opening={opening || undefined}>
   {opening && <Intro word={word} under={`${A.street} · ${A.city}`} id={`home-${style.slug}-${L}`} onDone={done} />}
