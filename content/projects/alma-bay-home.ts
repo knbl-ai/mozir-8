@@ -105,5 +105,4 @@ export const ROOMS: Record<string, RoomInfo> = {
 // each photograph knows its room (the plan lights it up when the photo is hovered)
 for (const g of HOME.gallery) g.room = Object.entries(ROOMS).find(([, r]) => r.images.includes(g.src))?.[0];
 
-/** styles whose Hebrew films are published (highlights/<slug>[-20|-916]-he.mp4 + -he-poster.jpg); add a slug when they are up */
-export const HE_FILMS = new Set<string>(['riviera-editorial', 'sunday-house', 'monograph']);   // published 2026-11-10
+export { HE_FILMS } from './alma-bay-films';

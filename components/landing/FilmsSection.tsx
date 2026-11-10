@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { bricolage as sunday, hanken as mono, instrument as riviera } from '@/components/films/fonts';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Link2 } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
-import { FILM_STYLES } from '@/content/projects/alma-bay-films';
+import { FILM_STYLES, heMedia } from '@/content/projects/alma-bay-films';
 import { copy } from './copy';
 import f from './films.module.css';
 
@@ -76,7 +76,7 @@ export default function FilmsSection() {
 
  return <div id="films" ref={band} className={`${f.band} ${riviera.variable} ${mono.variable} ${sunday.variable}`} data-style={st.slug}>
   <div className={f.backdrops} aria-hidden>
-   {FILM_STYLES.map((s, k) => <img key={s.slug} src={`${M}/card-${s.slug}.jpg`} alt="" data-on={k === i || undefined} loading="lazy" />)}
+   {FILM_STYLES.map((s, k) => <img key={s.slug} src={heMedia(`${M}/card-${s.slug}.jpg`, s.slug, lang)} alt="" data-on={k === i || undefined} loading="lazy" />)}
   </div>
   <section className={f.inner} aria-labelledby="films-title">
    <h2 id="films-title" className={f.title}>{t.title[0]} <em>{t.title[1]}</em></h2>
@@ -110,8 +110,8 @@ export default function FilmsSection() {
      } as React.CSSProperties;
      const front = k === i;
      const body = <>
-      <img src={`${M}/card-${s.slug}.jpg`} alt="" className={f.media} draggable={false} />
-      <video ref={el => { vids.current[k] = el; }} className={f.media} src={loaded.has(k) ? s.cuts[2].src : undefined} muted loop playsInline preload="none" aria-hidden
+      <img src={heMedia(`${M}/card-${s.slug}.jpg`, s.slug, lang)} alt="" className={f.media} draggable={false} />
+      <video ref={el => { vids.current[k] = el; }} className={f.media} src={loaded.has(k) ? heMedia(s.cuts[2].src, s.slug, lang) : undefined} muted loop playsInline preload="none" aria-hidden
        onLoadedMetadata={e => { e.currentTarget.currentTime = 4; }}  // start inside the home, past the map and towers
        onPlaying={e => e.currentTarget.setAttribute('data-playing', '')} onPause={e => e.currentTarget.removeAttribute('data-playing')} />
       <span className={f.shade} aria-hidden />

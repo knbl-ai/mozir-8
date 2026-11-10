@@ -78,3 +78,8 @@ export const ALMA_BAY_FILMS = {
 };
 
 export const filmStyle = (slug: string) => FILM_STYLES.find(s => s.slug === slug);
+
+/** styles whose Hebrew films are published (<slug>[-20|-916]-he.mp4, -he-poster.jpg, card-<slug>-he.jpg; 2026-11-10) */
+export const HE_FILMS = new Set<string>(['riviera-editorial', 'sunday-house', 'monograph']);
+/** the Hebrew edition of a film or still when the page is in Hebrew and that style has one */
+export const heMedia = (u: string, slug: string, lang: string) => lang === 'he' && HE_FILMS.has(slug) ? u.replace(/(-poster)?\.(mp4|jpg)$/, '-he$1.$2') : u;
