@@ -1,6 +1,7 @@
 import { JWT } from 'google-auth-library';
 import { env } from './env';
 import type { Lead } from './mongo';
+import { fileLink } from './file-links';
 
 const API = 'https://sheets.googleapis.com/v4/spreadsheets';
 const HEADER = ['Time (Israel)', 'Name', 'Email', 'Phone', 'Description', 'Plan file', 'Lang', 'First source', 'First medium', 'Last source', 'Last medium', 'Referrer', 'Status'];
@@ -20,8 +21,8 @@ export const when = (d: Date) => new Intl.DateTimeFormat('en-GB', { timeZone: 'A
 
 // With USER_ENTERED a cell starting with = + - @ would run as a formula, and 12/10/2026 would turn into a date; the ' keeps the text as written.
 const text = (v: string) => /^[=+\-@]/.test(v) ? `'${v}` : v;
-// The plan sits in the public bucket under an unguessable path, so the link never expires.
-export const planCell = (plan: Lead['plan']) => plan ? `=HYPERLINK("https://storage.googleapis.com/${env.bucket()}/${encodeURI(plan.path)}","${plan.filename.replace(/"/g, '""')}")` : '';
+// The plan sits in the private bucket: the cell links to a signed team link that never expires (/api/files).
+export const planCell = (plan: Lead['plan']) => plan ? `=HYPERLINK("${fileLink(plan.path)}","${plan.filename.replace(/"/g, '""')}")` : '';
 
 // Status stays empty: the team fills it in the sheet.
 const row = (lead: Lead) => {

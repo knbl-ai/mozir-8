@@ -1,4 +1,4 @@
-import { bucket, PLAN_MAX_BYTES, PLAN_TYPES } from '@/lib/server/storage';
+import { privateBucket, PLAN_MAX_BYTES, PLAN_TYPES, SIZE_RANGE } from '@/lib/server/storage';
 import { env } from '@/lib/server/env';
 
 // Step 1 of the demo form: a short-lived signed PUT URL, so the plan goes from the browser straight to GCS
@@ -14,8 +14,8 @@ export async function POST(request: Request) {
  const base = filename.replace(/\.[^.]*$/, '').normalize('NFKD').replace(/[^\w-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'plan';
  const month = new Date().toISOString().slice(0, 7);
  const path = `${env.leadsPrefix()}/${month}/${crypto.randomUUID()}/${base}.${PLAN_TYPES[contentType]}`;
- const [url] = await bucket().file(path).getSignedUrl({
-  version: 'v4', action: 'write', contentType, expires: Date.now() + 15 * 60 * 1000,
+ const [url] = await privateBucket().file(path).getSignedUrl({   // private: a client's plan is never public
+  version: 'v4', action: 'write', contentType, extensionHeaders: SIZE_RANGE, expires: Date.now() + 15 * 60 * 1000,
  });
  return Response.json({ url, path });
 }

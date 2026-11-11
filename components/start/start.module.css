@@ -1,0 +1,38 @@
+/* The intake form (components/start/IntakeForm.tsx): the landing's paper / ink / olive tokens, one calm column. */
+.page { min-height: 100svh; background: var(--paper); padding: clamp(24px, 6vw, 72px) 16px 80px; }
+.card { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; }
+.kicker { font-size: 10px; letter-spacing: .19em; color: var(--muted); }
+.title { font-size: clamp(36px, 6vw, 56px); line-height: 1.08; margin: 14px 0 12px; }
+.lead { font-size: 15px; line-height: 1.7; color: #4b5045; margin-bottom: 18px; }
+.block { border: 0; border-top: 1px solid var(--line); margin: 0; padding: 22px 0 8px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.block legend { float: left; width: 100%; padding: 0; font-family: var(--serif); font-size: 22px; letter-spacing: -.02em; margin-bottom: 2px; }
+.block legend em { font: 10px Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #b26b3c; margin-inline-start: 10px; font-style: normal; vertical-align: middle; }
+.hint { font-size: 13px; line-height: 1.6; color: var(--muted); }
+.card input:not([type=checkbox]):not([type=file]), .card textarea {
+ width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: #fffdf8; border: 1px solid var(--line);
+ border-radius: 0; padding: 13px 14px; transition: border-color .2s;
+}
+.card input:focus, .card textarea:focus { outline: none; border-color: var(--olive); }
+.card textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.drop { position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 22px 16px;
+ border: 1px dashed #a9ad9e; background: #f0eee6; color: var(--olive); font-size: 13px; cursor: pointer; transition: background .2s; }
+.drop:hover { background: #e6e8dd; }
+.drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.file { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 10px; padding: 9px 12px; background: #fffdf8; border: 1px solid var(--line); font-size: 13px; }
+.file[data-failed] { border-color: #d69a86; color: #8a3b24; }
+.fileName { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fileSize { color: var(--muted); font-size: 12px; }
+.file button { display: grid; place-items: center; width: 26px; height: 26px; color: var(--muted); }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; padding: 9px 14px; border: 1px solid var(--line); background: #fffdf8; font-size: 13px; cursor: pointer; user-select: none; }
+.chip input { position: absolute; opacity: 0; pointer-events: none; }
+.chip[data-on] { background: var(--olive); border-color: var(--olive); color: #f6f4ee; }
+.ghost { align-self: flex-start; font-size: 13px; color: var(--olive); padding: 4px 0; border-bottom: 1px solid #a2a697; }
+.error { color: #8a3b24; font-size: 14px; margin-top: 14px; }
+.primary { display: inline-flex; justify-content: center; align-items: center; margin-top: 22px; padding: 17px 28px; background: var(--olive); color: #f6f4ee; font-size: 14px; letter-spacing: .02em; transition: background .2s; align-self: stretch; text-align: center; }
+.primary:hover { background: #4e5947; }
+.primary:disabled { opacity: .55; cursor: default; }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } .title { margin-top: 10px; } }

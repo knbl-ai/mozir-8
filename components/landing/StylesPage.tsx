@@ -77,6 +77,11 @@ export default function StylesPage() {
   on(); window.addEventListener('scroll', on, { passive: true });
   return () => window.removeEventListener('scroll', on);
  }, []);
+ // /styles?style=<slug> opens that style (the WhatsApp concierge sends these links)
+ useEffect(() => {
+  const want = new URLSearchParams(window.location.search).get('style');
+  if (want && styles.some(st => st.slug === want)) setOpen(want);
+ }, []);
  const shown = useMemo(() => styles.filter(st => (!tone || st.axes.value === tone) && (!temp || st.axes.temperature === temp)), [tone, temp]);
  const current = styles.find(st => st.slug === open) ?? null;
  const Back = rtl ? ArrowRight : ArrowLeft;
