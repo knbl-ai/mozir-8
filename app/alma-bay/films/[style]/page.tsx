@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import HomePage from '@/components/home/HomePage';
 import { FILM_STYLES, filmStyle } from '@/content/projects/alma-bay-films';
+import { almaHome } from '@/content/projects/alma-bay-home-data';
+import type { FilmStyleSlug } from '@/components/home/data';
 
 // One page per film style, each a standalone presentation that can be sent on its own. Unlisted, not indexed.
 export function generateStaticParams() { return FILM_STYLES.map(s => ({ style: s.slug })); }
@@ -22,5 +24,5 @@ export default async function Page({ params }: { params: Promise<{ style: string
  const st = filmStyle((await params).style);
  if (!st) notFound();
  // the apartment page (address, films, plan, 3D, building, area, contact, media kit), set in each film style
- return <HomePage styleSlug={st.slug} />;
+ return <HomePage data={almaHome(st.slug as FilmStyleSlug)} />;
 }

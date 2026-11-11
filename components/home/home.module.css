@@ -404,3 +404,20 @@ main.home[data-style='sunday-house'] { --d: var(--he-sunday-d), var(--f-sunday-d
 /* the orbit's tools follow the reading direction; on phones the drag hint sits above the arrows, one line */
 .orbitTools { right: auto; inset-inline-end: 14px; }
 @media (max-width: 760px) { .orbitHint { bottom: 66px; white-space: nowrap; font-size: 11px; padding: 6px 11px; } }
+
+/* ---- template states (components/home/HomePage.tsx): a section still being made, a building without an orbit ---- */
+.soon { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: clamp(28px, 5vw, 56px) clamp(20px, 4vw, 44px);
+ border: 1px dashed color-mix(in srgb, var(--ink) 28%, transparent); border-radius: var(--r);
+ background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--accent) 7%, transparent) 0 14px, transparent 14px 28px);
+ color: var(--ink); font-family: var(--t); }
+.soon b { font-family: var(--d); font-size: clamp(20px, 2.2vw, 28px); font-weight: 400; letter-spacing: -.01em; }
+.soon span { flex-basis: 100%; font-size: 15px; line-height: 1.6; opacity: .75; }
+.soon svg { color: var(--accent); }
+.building[data-solo] { grid-template-columns: 1fr; }
+.building[data-solo] .bMedia { height: auto; }
+.building[data-solo] .bBig { flex: none; aspect-ratio: 16 / 8; }
+/* grid items may shrink below their content (the thumbnail row was pushing the media column past the edge on phones) */
+.building > * { min-width: 0; }
+.bMedia { max-width: 100%; }
+.devFacts span, .bFigures span { overflow-wrap: anywhere; }
+.building[data-solo] .bBig { max-height: 72vh; }

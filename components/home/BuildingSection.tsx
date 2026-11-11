@@ -3,32 +3,31 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Expand, Hand, Play } from 'lucide-react';
 import { useFrameSequence } from '@/components/building/useFrameSequence';
 import { film } from '@/components/landing/media';
-import type { Orbit } from '@/content/projects/shirat-hayam';
-import { HOME } from '@/content/projects/alma-bay-home';
 import s from './home.module.css';
-import { useHome } from './strings';
+import { useHome, type Orbit } from './data';
 
-// The building: the measured 360° orbit on the left (drag / swipe / arrows to turn; this residence outlined on every
-// view), the towers' stills and films on the right (they open in the page's lightbox).
+// The building: the measured 360° orbit on the left when the building was modelled (drag / swipe / arrows to turn; this
+// residence outlined on every view), its stills and films on the right (they open in the page's lightbox). Without an
+// orbit the media viewer takes the whole width (the developer's renders, or stills made from a simple massing model).
 
 type Shot = { kind: 'img' | 'video'; src: string; caption: string };
 const area = (pts: string) => { const p = pts.trim().split(/\s+/).map(q => q.split(',').map(Number)); let a = 0; for (let i = 0; i < p.length; i++) { const [x0, y0] = p[i], [x1, y1] = p[(i + 1) % p.length]; a += x0 * y1 - x1 * y0; } return Math.abs(a) / 2; };
 
-function useRing(count: number) {
+function useRing(count: number, ringVideo?: string) {
  const [ring, setRing] = useState<{ video?: string; stride: number } | null>(null);
  useEffect(() => {
   if (!count) return;
   const ua = navigator.userAgent;
   const ios = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const safari = /Safari/.test(ua) && !/Chrome|Chromium|CriOS|Edg|FxiOS|Android/.test(ua);
-  const src = window.location.hostname.endsWith('residence.tech') ? film(HOME.building.ringVideo) : HOME.building.ringVideo;
-  setRing(!(ios || safari) ? { video: src, stride: count >= 300 ? 12 : 4 } : { stride: count >= 300 ? 3 : 1 });
- }, [count]);
+  const src = ringVideo && (window.location.hostname.endsWith('residence.tech') && ringVideo.startsWith('/') ? film(ringVideo) : ringVideo);
+  setRing(src && !(ios || safari) ? { video: src, stride: count >= 300 ? 12 : 4 } : { stride: count >= 300 ? 3 : 1 });
+ }, [count, ringVideo]);
  return [ring, setRing] as const;
 }
 
 function Orbit360() {
- const B = HOME.building; const { t, x } = useHome();
+ const { d, t, tx } = useHome(); const B = d.building!.orbit!;
  const [orbit, setOrbit] = useState<Orbit | null>(null);
  const host = useRef<HTMLDivElement>(null);
  const [near, setNear] = useState(false);
@@ -37,13 +36,13 @@ function Orbit360() {
   const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { setNear(true); io.disconnect(); } }, { rootMargin: '800px' });
   io.observe(el); return () => io.disconnect();
  }, []);
- useEffect(() => { if (near) fetch(B.orbit).then(r => r.json()).then(setOrbit).catch(() => {}); }, [near, B.orbit]);
+ useEffect(() => { if (near) fetch(B.frames).then(r => r.json()).then(setOrbit).catch(() => {}); }, [near, B.frames]);
  const frames = orbit?.frames ?? [];
- const [ring, setRing] = useRing(orbit?.count ?? 0);
+ const [ring, setRing] = useRing(orbit?.count ?? 0, B.ringVideo);
  const sources = useMemo(() => ring ? frames.map(f => f.src) : [], [frames, ring]);
  // the orbit opens on the front: both towers side by side, the pool between them (admin 11-10)
  const best = frames.length ? B.startView % frames.length : 0;
- const engine = useFrameSequence(sources, 0, 1, { aspect: 625 / 1000, maxWidth: 2000, turnPerWidth: 260, inertia: 480, video: ring?.video, stride: ring?.stride ?? 1, onVideoFail: () => setRing({ stride: (orbit?.count ?? 0) >= 300 ? 3 : 1 }) });
+ const engine = useFrameSequence(sources, 0, 1, { aspect: B.aspect ?? 625 / 1000, maxWidth: 2000, turnPerWidth: 260, inertia: 480, video: ring?.video, stride: ring?.stride ?? 1, onVideoFail: () => setRing({ stride: (orbit?.count ?? 0) >= 300 ? 3 : 1 }) });
  const turned = useRef(false);
  useEffect(() => { if (!turned.current && sources.length && best) { turned.current = true; engine.rotateTo(best); } }, [sources.length, best, engine]);
  const press = useRef<number | null>(null);
@@ -95,7 +94,7 @@ function Orbit360() {
     </g>}
    </svg>}
    {lead && !engine.failed && <span ref={labelRef} className={s.leadLabel} data-side={lead.right ? 'r' : 'l'} data-moving={engine.moving || undefined}
-    style={{ left: `${lead.lx / 10}%`, top: `${lead.ly / 6.25}%` }}><i />{t.building.yours}<small>{t.building.floor(x.unit, HOME.unit.floor)}</small></span>}
+    style={{ left: `${lead.lx / 10}%`, top: `${lead.ly / 6.25}%` }}><i />{t.building.yours}{d.where.floor != null && <small>{t.building.floor(tx(d.unit), d.where.floor)}</small>}</span>}
    </div>
    {hint && <span className={s.orbitHint}><Hand size={15} aria-hidden />{t.building.hint}</span>}
    <div className={s.orbitTools} data-ui>
@@ -103,16 +102,16 @@ function Orbit360() {
     <button type="button" aria-label={t.building.right} onClick={() => step(-1)}><ChevronRight size={18} /></button>
    </div>
   </div>
-  <ul className={s.bFigures}>{B.figures.map(f => <li key={f.label}><b>{f.value}</b><span>{x.figure(f.label)}</span></li>)}</ul>
+  <ul className={s.bFigures}>{d.building!.figures.map(f => <li key={f.label.en}><b>{f.value}</b><span>{tx(f.label)}</span></li>)}</ul>
  </div>;
 }
 
 /** the media: one large viewer (videos play on their own) + a row of thumbnails that scrolls sideways; hovering a
  *  thumbnail shows it in the viewer, clicking the viewer or a thumbnail opens the lightbox */
 function MediaViewer({ open, height }: { open: (items: Shot[], at?: number) => void; height?: number }) {
- const M = HOME.building.media;
- const { t, x, L } = useHome();
- const cap = (j: number) => x.bmedia(j, M[j].caption);
+ const { d, t, tx } = useHome();
+ const M = d.building!.media;
+ const cap = (j: number) => tx(M[j].caption);
  const items: Shot[] = M.map((m, j) => ({ kind: m.kind, src: m.src, caption: cap(j) }));
  const [cur, setCur] = useState(0);
  const row = useRef<HTMLDivElement>(null);
@@ -137,15 +136,18 @@ function MediaViewer({ open, height }: { open: (items: Shot[], at?: number) => v
 }
 
 export default function BuildingSection({ open }: { open: (items: Shot[], at?: number) => void }) {
+ const { d } = useHome();
  const host = useRef<HTMLDivElement>(null);
+ const orbit = !!d.building?.orbit;
  const [h, setH] = useState<number>();
  // the media column is as tall as the orbit stage beside it (one column under the other on small screens)
  useEffect(() => {
   const st = host.current?.querySelector<HTMLElement>('[data-stage]'); if (!st) return;
   const ro = new ResizeObserver(() => setH(window.innerWidth > 960 ? st.offsetHeight : undefined)); ro.observe(st); return () => ro.disconnect();
- }, []);
- return <div className={s.building} ref={host}>
-  <Orbit360 />
-  <MediaViewer open={open} height={h} />
+ }, [orbit]);
+ if (!d.building?.media.length && !orbit) return null;
+ return <div className={s.building} ref={host} data-solo={!orbit || undefined}>
+  {orbit && <Orbit360 />}
+  {d.building!.media.length > 0 && <MediaViewer open={open} height={orbit ? h : undefined} />}
  </div>;
 }
