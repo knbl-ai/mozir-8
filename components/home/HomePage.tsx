@@ -291,7 +291,7 @@ function ModelBlock() {
  const [on, setOn] = useState(false);
  useEffect(() => { if (near) setOn(true); }, [near]);
  const m = d.model!;
- return <div className={s.model} ref={ref} style={on ? undefined : { backgroundImage: `url(${m.poster})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+ return <div className={s.model} ref={ref} style={on ? undefined : { backgroundImage: `url(${JSON.stringify(m.poster)})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
   {on && <ResidenceModel src={m.glb} poster={m.poster} defaultOrbit={m.orbit} outdoorOrbit={m.outdoorOrbit} stage="paper" />}
   {m.walk && <a className={s.walk} href={m.walk} target="_blank" rel="noreferrer"><Footprints size={15} aria-hidden />{t.model.walk}<small>{t.model.early}</small></a>}
  </div>;
@@ -308,7 +308,8 @@ function Page() {
  // the section's content when ready, the under-construction card while it is being made
  const body = (k: Section, el: () => React.ReactNode) => ready(k) ? el() : <Soon what={k} />;
  // section markers in the style's own vernacular (folio, sheet number, sticker); numbered over the shown sections
- const order = (['films', 'plan', 'model', 'building', 'area', 'contact'] as const).filter(k => show(k) && (k !== 'model' || d.model || !ready(k)) && (k !== 'area' || d.map || !ready(k)));
+ const order = (['films', 'plan', 'model', 'building', 'area', 'contact'] as const).filter(k => show(k) && (k !== 'model' || d.model || !ready(k)) && (k !== 'area' || d.map || !ready(k))
+  && (k !== 'building' || d.building || !ready(k)) && (k !== 'contact' || !!(d.agent || d.developer)));
  const mark = (k: typeof order[number]) => { const n = order.indexOf(k) + 1, w = t.marks[k];
   return d.style === 'monograph' ? `A-10${n} · ${w}` : d.style === 'sunday-house' ? `0${n} · ${w}` : `Nº 0${n} — ${w}`; };
  const kit = byLang(d.kit);
@@ -336,7 +337,7 @@ function Page() {
    <ul className={st.tabs}>{nav.map(([h, w]) => <li key={h}><a href={`#${h}`}>{w}</a></li>)}</ul>
    {d.langs.length > 1 && <LanguageSwitch id="home-lang" compact tone={scrolled ? 'light' : 'glass'} className={s.lang} langs={d.langs} />}
    {kitReady && <a href={kit!.href} download className={s.dl} aria-label={t.downloadAria(kit!.size)}><Download size={15} aria-hidden /><span>{t.download}</span></a>}
-   {show('contact') && <a href="#contact" className={s.cta}><Phone size={15} aria-hidden />{t.enquire}<ArrowUpRight size={15} aria-hidden /></a>}
+   {order.includes('contact') && <a href="#contact" className={s.cta}><Phone size={15} aria-hidden />{t.enquire}<ArrowUpRight size={15} aria-hidden /></a>}
   </nav>
 
   <header className={st.hero}>
@@ -384,7 +385,7 @@ function Page() {
    {body('model', () => <ModelBlock />)}
   </section>}
 
-  {show('building') && (d.building || !ready('building')) && <section className={st.section} id="building">
+  {order.includes('building') && <section className={st.section} id="building">
    <p className={st.mark}>{mark('building')}</p>
    <div className={s.modelHead}>
     <h2 className={s.h2}>{bh0}<em>{bh1}</em></h2>
@@ -399,7 +400,7 @@ function Page() {
    {body('area', () => <AreaMap />)}
   </section>}
 
-  {show('contact') && (d.agent || d.developer) && <section className={st.section} id="contact">
+  {order.includes('contact') && <section className={st.section} id="contact">
    <p className={st.mark}>{mark('contact')}</p>
    <Enquiry />
   </section>}

@@ -4,7 +4,7 @@
 // loads it from the bucket (content/home-page.ts, route /r/<slug>), written by the pipeline (pipeline/client/page.py).
 // Texts are { en: …, he: …, pt: … }: the page's language when given, else English.
 import { createContext, createElement, useContext, type ReactNode } from 'react';
-import { useLang, type Lang } from '@/lib/i18n';
+import { RTL, useLang, type Lang } from '@/lib/i18n';
 import type { Orbit } from '@/content/projects/shirat-hayam';
 import { T } from './strings';
 
@@ -65,5 +65,5 @@ export function useHome() {
  const t = (T as Record<string, typeof T.en>)[L] ?? T.en;          // interface words: en / he (others fall back to English)
  const tx = (x: Tx | undefined) => (x ? x[L] ?? x.en : '');
  const byLang = <V,>(m: Partial<Record<string, V>> | undefined) => m?.[L] ?? m?.en;
- return { d, L, t, tx, byLang, rtl: L === 'he' };
+ return { d, L, t, tx, byLang, rtl: RTL.includes(L) };
 }

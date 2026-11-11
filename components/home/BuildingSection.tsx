@@ -145,9 +145,10 @@ export default function BuildingSection({ open }: { open: (items: Shot[], at?: n
   const st = host.current?.querySelector<HTMLElement>('[data-stage]'); if (!st) return;
   const ro = new ResizeObserver(() => setH(window.innerWidth > 960 ? st.offsetHeight : undefined)); ro.observe(st); return () => ro.disconnect();
  }, [orbit]);
- if (!d.building?.media.length && !orbit) return null;
- return <div className={s.building} ref={host} data-solo={!orbit || undefined}>
+ const media = d.building?.media.length ?? 0;
+ if (!media && !orbit) return null;
+ return <div className={s.building} ref={host} data-solo={!orbit || !media || undefined}>
   {orbit && <Orbit360 />}
-  {d.building!.media.length > 0 && <MediaViewer open={open} height={orbit ? h : undefined} />}
+  {media > 0 && <MediaViewer open={open} height={orbit ? h : undefined} />}
  </div>;
 }
