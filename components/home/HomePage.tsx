@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowDown, ArrowUpRight, BedDouble, ChefHat, ChevronLeft, ChevronRight, Compass, Croissant, Download, Footprints, GraduationCap, Hammer, Mail, MapPin, Phone, Play, ShoppingBag, Sofa, Sunrise, Trees, Waves, X } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, BedDouble, ChefHat, Clapperboard, ChevronLeft, ChevronRight, Compass, Croissant, Download, Footprints, GraduationCap, Hammer, Mail, MapPin, Phone, Play, ShoppingBag, Sofa, Sunrise, Trees, Waves, X } from 'lucide-react';
 import Logo from '@/components/brand/Logo';
 import ResidenceModel from '@/components/building/ResidenceModel';
 import BuildingSection from './BuildingSection';
@@ -28,9 +28,25 @@ if (typeof window !== 'undefined' && !(window as unknown as { __meshQuiet?: bool
  console.error = (...a: unknown[]) => { if (typeof a[0] === 'string' && a[0].startsWith('Mesh is missing primitive index association')) return; err(...a); };
 }
 
+/* ---------------------------------------------------------------- hero while the films are being made: the home's stills */
+// A slow crossfade with a gentle push-in (each still ~6 s); the hero loop video replaces it once the films are ready.
+function HeroSlides({ className, slides }: { className: string; slides: string[] }) {
+ const [i, setI] = useState(0);
+ useEffect(() => {
+  if (slides.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const t = window.setInterval(() => setI(k => (k + 1) % slides.length), 6000);
+  return () => window.clearInterval(t);
+ }, [slides.length]);
+ return <>{slides.map((src, k) => <img key={src} src={src} alt="" aria-hidden className={`${className} ${st.graded} ${s.slide}`}
+  data-on={k === i || undefined} fetchPriority={k === 0 ? 'high' : 'low'} loading={k === 0 ? 'eager' : 'lazy'} />)}</>;
+}
+
 /* ---------------------------------------------------------------- hero loop: one calm continuous loop (dissolves, no cuts) */
 function HeroLoop({ className }: { className: string }) {
  const { d } = useHome();
+ // until the films are ready there is no footage of the home: its stills instead (a client page mid-order)
+ const slides = d.status.films !== 'ready' || !d.hero.wide ? (d.hero.slides?.length ? d.hero.slides : [d.hero.wideStill, ...d.gallery.map(g => g.src)]).slice(0, 8) : null;
+ if (slides) return <HeroSlides className={className} slides={slides} />;
  const [tall, setTall] = useState(false);
  useEffect(() => { const mq = window.matchMedia('(max-aspect-ratio: 4/5)'); const pick = () => setTall(mq.matches); pick(); mq.addEventListener('change', pick); return () => mq.removeEventListener('change', pick); }, []);
  const H = d.hero; const src = tall ? H.tall ?? H.wide : H.wide; const still = (tall ? H.tallStill : undefined) ?? H.wideStill;
@@ -353,6 +369,7 @@ function Page() {
     </div>}
    </div>
    <HeroFacts />
+   {d.status.films !== 'ready' && d.status.films !== 'hidden' && <a href="#films" className={s.heroSoon}><Clapperboard size={16} aria-hidden />{t.soon.heroFilm}</a>}
    <a href={`#${order[0] ?? 'contact'}`} className={`${st.cue} ${s.cue}`}><ArrowDown size={16} aria-hidden />{t.scroll}</a>
   </header>
 

@@ -24,7 +24,7 @@ export const T = {
   kit: { kicker: 'Media kit', title: ['Everything on this page, ', 'in one file'], btn: 'Download all', meta: (size: string, n: number) => `zip · ${size} · ${n} files` },
   lb: { close: 'Close', prev: 'Previous', next: 'Next' },
   foot: (p: string, u: string) => `Films, plan, model and images made with residence.tech from the floor plan of ${p} · ${u}. Images are illustrative. Walking times are routed on OpenStreetMap.`,
-  soon: { title: 'Under construction', films: 'The films are being made — they appear here when ready.', model: 'The 3D model is being built — it appears here when ready.', building: 'The building’s images are on their way.', area: 'The neighbourhood map is being drawn.', plan: 'The interactive plan is being prepared.', kit: 'The download opens when everything is ready.', contact: '' },
+  soon: { heroFilm: 'The film is being made — it plays here soon', title: 'Under construction', films: 'The films are being made — they appear here when ready.', model: 'The 3D model is being built — it appears here when ready.', building: 'The building’s images are on their way.', area: 'The neighbourhood map is being drawn.', plan: 'The interactive plan is being prepared.', kit: 'The download opens when everything is ready.', contact: '' },
   allResidences: (p: string) => `${p} — all residences`,
  },
  he: {
@@ -50,7 +50,7 @@ export const T = {
   kit: { kicker: 'ערכת מדיה', title: ['כל מה שבעמוד הזה, ', 'בקובץ אחד'], btn: 'הורדת הכול', meta: (size: string, n: number) => `zip · ${size} · ${n} קבצים` },
   lb: { close: 'סגירה', prev: 'הקודם', next: 'הבא' },
   foot: (p: string, u: string) => `הסרטים, התוכנית, המודל והתמונות נוצרו ב־residence.tech מתוכנית הדירה של ${p} · ${u}. התמונות להמחשה בלבד. זמני ההליכה חושבו ב־OpenStreetMap.`,
-  soon: { title: 'בהכנה', films: 'הסרטים בהכנה — יופיעו כאן כשיהיו מוכנים.', model: 'מודל התלת־ממד בבנייה — יופיע כאן כשיהיה מוכן.', building: 'התמונות של הבניין בדרך.', area: 'מפת השכונה בהכנה.', plan: 'התוכנית האינטראקטיבית בהכנה.', kit: 'ההורדה תיפתח כשהכול יהיה מוכן.', contact: '' },
+  soon: { heroFilm: 'הסרט בהכנה — יוצג כאן בקרוב', title: 'בהכנה', films: 'הסרטים בהכנה — יופיעו כאן כשיהיו מוכנים.', model: 'מודל התלת־ממד בבנייה — יופיע כאן כשיהיה מוכן.', building: 'התמונות של הבניין בדרך.', area: 'מפת השכונה בהכנה.', plan: 'התוכנית האינטראקטיבית בהכנה.', kit: 'ההורדה תיפתח כשהכול יהיה מוכן.', contact: '' },
   allResidences: (p: string) => `${p} — כל הדירות`,
  },
 };
