@@ -421,3 +421,14 @@ main.home[data-style='sunday-house'] { --d: var(--he-sunday-d), var(--f-sunday-d
 .bMedia { max-width: 100%; }
 .devFacts span, .bFigures span { overflow-wrap: anywhere; }
 .building[data-solo] .bBig { max-height: 72vh; }
+
+/* ---- the hero while the films are being made (HeroSlides): crossfading stills with a slow push-in, and a label ---- */
+.slide { opacity: 0; transform: scale(1.02); transition: opacity 1.6s var(--ease), transform 7s linear; }
+.slide[data-on] { opacity: 1; transform: scale(1.09); }
+@media (prefers-reduced-motion: reduce) { .slide { transition: none; transform: none !important; } }
+.heroSoon { position: absolute; z-index: 3; inset-inline-start: var(--gutter); bottom: 74px; display: inline-flex; align-items: center; gap: 10px;
+ padding: 11px 18px; border-radius: 999px; background: rgba(12, 12, 12, .42); color: #fff; backdrop-filter: blur(10px);
+ border: 1px solid rgba(255, 255, 255, .28); font-family: var(--t); font-size: 14px; letter-spacing: .01em; text-decoration: none; }
+.heroSoon svg { flex: none; }
+.heroSoon:hover { background: rgba(12, 12, 12, .58); }
+@media (max-width: 900px) { .heroSoon { position: relative; bottom: auto; inset-inline-start: auto; margin: 0 var(--gutter) 18px; grid-row: 3; grid-column: 1 / -1; justify-self: start; font-size: 13px; padding: 9px 14px; } }

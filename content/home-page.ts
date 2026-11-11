@@ -51,7 +51,7 @@ export function checkHome(d: unknown, slug: string): HomeData | null {
  // the frame of the page: without these there is no page
  const a = d.address, h = d.hero, f = d.facts, c = d.copy;
  if (!tx(d.project) || !tx(d.unit) || !obj(a) || !tx(a.street) || !tx(a.city) || !tx(a.country) || !opt(a.word, tx) || !opt(a.no, str)) return null;
- if (!obj(h) || !url(h.wideStill) || !opt(h.wide, url) || !opt(h.tall, url) || !opt(h.tallStill, url)) return null;
+ if (!obj(h) || !url(h.wideStill) || !opt(h.wide, url) || !opt(h.tall, url) || !opt(h.tallStill, url) || !opt(h.slides, v => arr(v, url))) return null;
  if (!obj(f) || !num(f.area) || !num(f.balcony) || !num(f.rooms)) return null;
  if (!opt(f.nearest, n => obj(n) && num(n.minutes) && tx(n.label) && str(n.icon))) return null;
  if (!obj(c) || !arr(c.pointsHead, tx) || (c.pointsHead as unknown[]).length !== 2 || !tx(c.wholeLine) || !tx(c.aspect)) return null;
