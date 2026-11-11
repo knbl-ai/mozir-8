@@ -24,7 +24,7 @@ export function orderFromToken(token: string): string | null {
 // What the form may show and prefill (never payments, history or the conversation).
 export interface FormOrder {
  id: string; state: string; lang: string;
- intake: { planFiles: string[]; address?: string; developerUrl?: string; referenceLinks?: string[]; audience?: string; notes?: string;
+ intake: { planCount: number; address?: string; developerUrl?: string; referenceLinks?: string[]; audience?: string; notes?: string;
   contactOnPage?: { name?: string; phone?: string; email?: string; company?: string } };
  languages: string[];
 }
@@ -36,13 +36,19 @@ export async function formOrder(id: string): Promise<(FormOrder & { open: boolea
  const i = o.intake ?? {};
  return {
   id, state: o.state, lang: o.lang ?? 'en', open: OPEN.includes(o.state), languages: o.choices?.languages ?? [],
-  intake: { planFiles: i.planFiles ?? [], address: i.address, developerUrl: i.developerUrl, referenceLinks: i.referenceLinks, audience: i.audience, notes: i.notes, contactOnPage: i.contactOnPage },
+  intake: { planCount: (i.planFiles ?? []).length, address: i.address, developerUrl: i.developerUrl, referenceLinks: i.referenceLinks, audience: i.audience, notes: i.notes, contactOnPage: i.contactOnPage },
  };
 }
 
 export type FormFile = { kind: 'plan' | 'building' | 'reference'; path: string; name: string; url: string };
 export interface FormSubmission { orderId: string; fields: Record<string, unknown>; files: FormFile[]; ip: string }
 export const orderEvents = async () => (await db()).collection<any>('order_events');
+// signed upload URLs handed out (rate limit per order and per IP; rows expire after a day)
+export const uploadRequests = async () => {
+ const c = (await db()).collection<{ orderId: string; ip: string; at: Date }>('upload_requests');
+ await c.createIndex({ at: 1 }, { expireAfterSeconds: 86400 }).catch(() => {});
+ return c;
+};
 
 /** One row for the bridge to apply (services/bridge/src/concierge/form.ts). */
 export async function submitForm(s: FormSubmission) {

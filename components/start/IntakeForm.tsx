@@ -62,6 +62,7 @@ function put(url: string, file: File, on: (p: number) => void) {
   const x = new XMLHttpRequest();
   x.open('PUT', url);
   x.setRequestHeader('content-type', file.type);
+  x.setRequestHeader('x-goog-content-length-range', `0,${MAX}`);   // signed into the URL (lib/server/storage.ts SIZE_RANGE)
   x.upload.onprogress = e => e.lengthComputable && on(e.loaded / e.total);
   x.onload = () => resolve(x.status >= 200 && x.status < 300);
   x.onerror = () => resolve(false);
@@ -112,7 +113,7 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
   e.preventDefault();
   const d = new FormData(e.currentTarget);
   const done = ups.filter(u => u.path);
-  if (!i.planFiles.length && !done.some(u => u.kind === 'plan')) { setErr(t.needPlan); return; }
+  if (!i.planCount && !done.some(u => u.kind === 'plan')) { setErr(t.needPlan); return; }
   const extra = other.split(/[,،]/).map(x => OTHER[x.trim().toLowerCase()]).filter(Boolean);
   setState('sending'); setErr(null);
   const body = {
@@ -168,7 +169,7 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
 
     <fieldset className={s.block}>
      <legend>{t.plan} <em>{t.required}</em></legend>
-     <p className={s.hint}>{i.planFiles.length ? t.planHave(i.planFiles.length) : t.planHint}</p>
+     <p className={s.hint}>{i.planCount ? t.planHave(i.planCount) : t.planHint}</p>
      {zone('plan')}
     </fieldset>
 
@@ -207,10 +208,10 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
     <fieldset className={s.block}>
      <legend>{t.langs}</legend>
      <div className={s.chips}>
-      {['he', 'en', 'ru', 'fr', 'ar'].map(code => (
+      {[...new Set(['he', 'en', 'ru', 'fr', 'ar', ...order.languages])].map(code => (
        <label key={code} className={s.chip} data-on={langs.includes(code) || undefined}>
         <input type="checkbox" checked={langs.includes(code)} onChange={e => setLangs(l => e.target.checked ? [...l, code] : l.filter(x => x !== code))} />
-        {t.L[code]}
+        {t.L[code] ?? code.toUpperCase()}
        </label>
       ))}
      </div>

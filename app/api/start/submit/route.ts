@@ -4,6 +4,7 @@ import { privateBucket, PLAN_MAX_BYTES } from '@/lib/server/storage';
 // Intake form, step 2: the answers + the uploaded files' paths. Checked here (link, open order, files in the order's
 // folder and really uploaded), then stored for the bridge, which validates the fields again with the chat's rules.
 const str = (v: unknown, max: number) => typeof v === 'string' ? v.trim().slice(0, max) : '';
+const web = (v: unknown, max: number) => { const s = str(v, max); return /^https?:\/\/[^\s]+$/i.test(s) ? s : ''; };   // links: http(s) only
 const LANG = /^[a-z]{2,3}(-[A-Za-z]{2,4})?$/;
 const PER_HOUR = 10;
 
@@ -18,8 +19,11 @@ export async function POST(request: Request) {
   return Response.json({ error: 'rate' }, { status: 429 });
 
  const files: FormFile[] = [];
- for (const f of Array.isArray(body?.files) ? body!.files.slice(0, 60) : []) {
+ const seen = new Set<string>();
+ for (const f of Array.isArray(body?.files) ? body!.files.slice(0, 30) : []) {
   const path = str(f?.path, 300), kind = f?.kind;
+  if (seen.has(path)) continue;
+  seen.add(path);
   if (!['plan', 'building', 'reference'].includes(kind) || !path.startsWith(`orders/${id}/${kind}/`) || path.includes('..')) return Response.json({ error: 'file' }, { status: 400 });
   const file = privateBucket().file(path);
   const [exists] = await file.exists();
@@ -30,12 +34,12 @@ export async function POST(request: Request) {
   const [url] = await file.getSignedUrl({ version: 'v4', action: 'read', expires: Date.now() + 7 * 24 * 3600 * 1000 });
   files.push({ kind, path, name: path.split('/').pop()!, url });
  }
- if (!o.intake.planFiles.length && !files.some(f => f.kind === 'plan')) return Response.json({ error: 'plan' }, { status: 400 });
+ if (!o.intake.planCount && !files.some(f => f.kind === 'plan')) return Response.json({ error: 'plan' }, { status: 400 });
 
  const contact = body?.contactOnPage ?? {};
  const fields = {
-  address: str(body?.address, 300), developerUrl: str(body?.developerUrl, 500), audience: str(body?.audience, 500), notes: str(body?.notes, 2000),
-  referenceLinks: (Array.isArray(body?.referenceLinks) ? body!.referenceLinks : []).map((x: unknown) => str(x, 500)).filter(Boolean).slice(0, 20),
+  address: str(body?.address, 300), developerUrl: web(body?.developerUrl, 500), audience: str(body?.audience, 500), notes: str(body?.notes, 2000),
+  referenceLinks: (Array.isArray(body?.referenceLinks) ? body!.referenceLinks : []).map((x: unknown) => web(x, 500)).filter(Boolean).slice(0, 20),
   languages: (Array.isArray(body?.languages) ? body!.languages : []).map((x: unknown) => str(x, 12).toLowerCase()).filter((x: string) => LANG.test(x)).slice(0, 6),
   contactOnPage: { name: str(contact.name, 120), phone: str(contact.phone, 40), email: str(contact.email, 200), company: str(contact.company, 120) },
  };

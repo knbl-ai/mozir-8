@@ -25,3 +25,6 @@ export const PLAN_TYPES: Record<string, string> = {
  'application/pdf': 'pdf', 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp',
 };
 export const PLAN_MAX_BYTES = 25 * 1024 * 1024;
+// Signed into every upload URL: Google Storage itself refuses a PUT bigger than this, whatever size the browser claimed.
+// The browser must send the same header (components/landing/TrialForm.tsx, components/start/IntakeForm.tsx).
+export const SIZE_RANGE = { 'x-goog-content-length-range': `0,${PLAN_MAX_BYTES}` };

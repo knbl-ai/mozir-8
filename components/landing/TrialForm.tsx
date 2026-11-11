@@ -23,6 +23,7 @@ function put(url: string, file: File, onProgress: (share: number) => void) {
   const xhr = new XMLHttpRequest();
   xhr.open('PUT', url);
   xhr.setRequestHeader('content-type', file.type);
+  xhr.setRequestHeader('x-goog-content-length-range', `0,${MAX_BYTES}`);   // signed into the URL (lib/server/storage.ts SIZE_RANGE)
   xhr.upload.onprogress = e => e.lengthComputable && onProgress(e.loaded / e.total);
   xhr.onload = () => resolve(xhr.status >= 200 && xhr.status < 300);
   xhr.onerror = () => resolve(false);

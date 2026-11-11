@@ -9,7 +9,8 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Your apartment · residence.tech', robots: { index: false, follow: false, nocache: true } };
 
 export default async function Start({ params }: { params: Promise<{ token: string }> }) {
- const token = decodeURIComponent((await params).token);
+ let token = '';
+ try { token = decodeURIComponent((await params).token); } catch { notFound(); }
  const id = orderFromToken(token);
  if (!id) notFound();
  const o = await formOrder(id);
