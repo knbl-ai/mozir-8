@@ -1,5 +1,5 @@
 import { leads, type Lead, type LeadTouch } from '@/lib/server/mongo';
-import { bucket, PLAN_MAX_BYTES } from '@/lib/server/storage';
+import { privateBucket, PLAN_MAX_BYTES } from '@/lib/server/storage';
 import { sendMail } from '@/lib/server/gmail';
 import { teamMail, userMail } from '@/lib/server/lead-emails';
 import { appendLeads } from '@/lib/server/sheets';
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
  const planPath = str(body.planPath, 300);
  if (planPath) {
   if (!planPath.startsWith(`${env.leadsPrefix()}/`) || planPath.includes('..')) return Response.json({ error: 'plan' }, { status: 400 });
-  const file = bucket().file(planPath);
+  const file = privateBucket().file(planPath);
   const [exists] = await file.exists();
   if (!exists) return Response.json({ error: 'plan' }, { status: 400 });
   const [meta] = await file.getMetadata();
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
  };
  const { insertedId } = await col.insertOne(lead);
 
- const planUrl = plan ? (await bucket().file(plan.path).getSignedUrl({ version: 'v4', action: 'read', expires: Date.now() + 7 * 24 * 3600 * 1000 }))[0] : null;
+ const planUrl = plan ? (await privateBucket().file(plan.path).getSignedUrl({ version: 'v4', action: 'read', expires: Date.now() + 7 * 24 * 3600 * 1000 }))[0] : null;
  const [user, team, sheet] = await Promise.allSettled([sendMail(userMail(lead)), sendMail(teamMail(lead, env.leadsNotify(), planUrl)), appendLeads([{ lead, id: insertedId.toString() }])]);
  if (sheet.status === 'rejected') console.error('lead sheet failed', insertedId.toString(), String(sheet.reason?.message || sheet.reason));
  if (env.leadsSheet()) await col.updateOne({ _id: insertedId }, { $set: { sheet: sheet.status === 'fulfilled' ? 'ok' : 'failed' } });
