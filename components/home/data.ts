@@ -34,7 +34,9 @@ export interface HomeData {
  developer?: { name: Tx; logoWhite?: string; logoBlack?: string; url?: string; linkLabel?: Tx; about?: Tx; facts: { value: string; label: Tx }[] };
  agent?: { name: Tx; role?: Tx; phone?: string; email?: string; photo?: string };
  hero: { wide?: string; wideStill: string; tall?: string; tallStill?: string; slides?: string[] };   // slides: the hero while the films are being made
- facts: { area: number; balcony: number; rooms: number; nearest?: { minutes: number; label: Tx; icon: string } };
+ // total: the area as sold (the developer's figure, e.g. gross incl. walls and the veranda) — leads the hero when given;
+ // area / balcony stay the measured split below it
+ facts: { area: number; balcony: number; rooms: number; total?: { m2: number; sqft?: number }; nearest?: { minutes: number; label: Tx; icon: string } };
  copy: {                                          // the home's own sentences (the interface words are in strings.ts)
   pointsHead: [Tx, Tx]; wholeLine: Tx; aspect: Tx;
   buildingHead?: [Tx, Tx]; buildingSub?: Tx; buildingCanvas?: Tx;
