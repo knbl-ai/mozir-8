@@ -18,6 +18,8 @@
 .allFilms:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 .allChev { transition: transform 0.25s ease; }
 .allChev[data-open] { transform: rotate(180deg); }
+.onlyTall { display: none; }
+@media (max-width: 780px) { .onlyTall { display: block; } .onlyWide { display: none; } }
 .allFilmsBody:not([hidden]) { margin-top: clamp(28px, 4vw, 56px); }
 
 /* hero: the developer under the address */

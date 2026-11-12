@@ -393,10 +393,12 @@ function Page() {
      {allFilms ? t.allFilms.close : t.allFilms.open}<ChevronDown size={18} aria-hidden className={s.allChev} data-open={allFilms || undefined} />
     </button>
     <div id="all-films" className={s.allFilmsBody} hidden={!allFilms}>
-     {allFilms && <>
+     {/* only the films not shown above: the long one, plus the phone cut on a wide screen or the short cut on a phone */}
+     {allFilms && <div className={st.pair}>
       <Film cut={cut(films.long, 'long')} name={tx(d.unit)} big />
-      <div className={`${st.pair} ${s.pairGap}`}><Film cut={cut(films.short, 'short')} name={tx(d.unit)} /><Film cut={cut(films.phone, 'phone')} name={tx(d.unit)} /></div>
-     </>}
+      <div className={s.onlyTall}><Film cut={cut(films.short, 'short')} name={tx(d.unit)} /></div>
+      <div className={s.onlyWide}><Film cut={cut(films.phone, 'phone')} name={tx(d.unit)} /></div>
+     </div>}
     </div>
    </>)}
   </section>}
