@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowDown, ArrowUpRight, BedDouble, ChefHat, Clapperboard, ChevronLeft, ChevronRight, Compass, Croissant, Download, Footprints, GraduationCap, Hammer, Mail, MapPin, Phone, Play, ShoppingBag, Sofa, Sunrise, Trees, Waves, X } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, BedDouble, ChefHat, ChevronDown, Clapperboard, ChevronLeft, ChevronRight, Compass, Croissant, Download, Footprints, GraduationCap, Hammer, Mail, MapPin, Phone, Play, ShoppingBag, Sofa, Sunrise, Trees, Waves, X } from 'lucide-react';
 import Logo from '@/components/brand/Logo';
 import ResidenceModel from '@/components/building/ResidenceModel';
 import BuildingSection from './BuildingSection';
@@ -338,6 +338,7 @@ function Page() {
  const [opening, setOpening] = useState(true);
  const done = useCallback(() => setOpening(false), []);
  const [lb, setLb] = useState<{ items: Shot[]; at: number } | null>(null);
+ const [allFilms, setAllFilms] = useState(false);   // the three cuts stay folded: the page leads with one film
  const open = useCallback((items: Shot[], at = 0) => setLb({ items, at }), []);
  useEffect(() => { const on = () => setScrolled(window.scrollY > 40); on(); window.addEventListener('scroll', on, { passive: true }); return () => window.removeEventListener('scroll', on); }, []);
  const nav = order.map(k => [k, t.nav[k]] as const);
@@ -382,8 +383,21 @@ function Page() {
   {show('films') && <section className={st.section} id="films">
    <p className={st.mark}>{mark('films')}</p>
    {body('films', () => films && <>
-    <Film cut={cut(films.long, 'long')} name={tx(d.unit)} big />
-    <div className={`${st.pair} ${s.pairGap}`}><Film cut={cut(films.short, 'short')} name={tx(d.unit)} /><Film cut={cut(films.phone, 'phone')} name={tx(d.unit)} /></div>
+    {/* one film, no frame: the short cut on a wide screen, the phone cut on a phone (CSS picks; preload none, so only the
+        one a viewer plays loads) */}
+    <video className={`${s.featured} ${s.featWide}`} src={films.short.src} poster={films.short.poster} controls playsInline preload="none"
+     aria-label={`${tx(d.unit)} — ${t.cuts.short}, ${films.short.length}`} />
+    <video className={`${s.featured} ${s.featTall}`} src={films.phone.src} poster={films.phone.poster} controls playsInline preload="none"
+     aria-label={`${tx(d.unit)} — ${t.cuts.phone}, ${films.phone.length}`} />
+    <button type="button" className={s.allFilms} aria-expanded={allFilms} aria-controls="all-films" onClick={() => setAllFilms(v => !v)}>
+     {allFilms ? t.allFilms.close : t.allFilms.open}<ChevronDown size={18} aria-hidden className={s.allChev} data-open={allFilms || undefined} />
+    </button>
+    <div id="all-films" className={s.allFilmsBody} hidden={!allFilms}>
+     {allFilms && <>
+      <Film cut={cut(films.long, 'long')} name={tx(d.unit)} big />
+      <div className={`${st.pair} ${s.pairGap}`}><Film cut={cut(films.short, 'short')} name={tx(d.unit)} /><Film cut={cut(films.phone, 'phone')} name={tx(d.unit)} /></div>
+     </>}
+    </div>
    </>)}
   </section>}
 

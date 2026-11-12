@@ -10,6 +10,7 @@ export const T = {
   h2: { plan: ['Walk the plan, ', 'room by room'], model: ['Turn the home ', 'in your hand'], building: ['The ', 'building'], area: ['Everything ', 'on foot'] },
   sub: { model: 'Drag to turn, pinch or scroll to come closer. The model is measured from the architect’s plan and lit like the photographs.', building: 'The building, its entrance and its shared spaces.', buildingOrbit: 'Turn the building to see it from every side.' },
   cuts: { long: 'The film', short: 'Short cut', phone: 'Phone cut' },
+  allFilms: { open: 'All films', close: 'Hide the films' },
   plan: {
    aria: 'Floor plan of the residence — choose a room', north: 'North is to the left', hintOn: 'Click to keep it · photos and the room’s clip on the right', hintOff: 'Move over the plan — every room opens up',
    whole: 'The whole home',
@@ -36,6 +37,7 @@ export const T = {
   h2: { plan: ['לטייל בתוכנית, ', 'חדר אחר חדר'], model: ['לסובב את הבית ', 'בכף היד'], building: ['', 'הבניין'], area: ['הכול ', 'במרחק הליכה'] },
   sub: { model: 'גוררים כדי לסובב, צובטים או גוללים כדי להתקרב. המודל נמדד מתוכנית האדריכל ומואר כמו התמונות.', building: 'הבניין, הכניסה והשטחים המשותפים.', buildingOrbit: 'מסובבים את הבניין כדי לראות אותו מכל צד.' },
   cuts: { long: 'הסרט', short: 'גרסה קצרה', phone: 'גרסה לטלפון' },
+  allFilms: { open: 'כל הסרטים', close: 'הסתרת הסרטים' },
   plan: {
    aria: 'תוכנית הדירה — בחרו חדר', north: 'הצפון משמאל', hintOn: 'לחיצה משאירה את החדר · תמונות וקטע וידאו של החדר בצד', hintOff: 'מעבירים את העכבר על התוכנית — כל חדר נפתח',
    whole: 'כל הדירה',
