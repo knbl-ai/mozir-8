@@ -7,6 +7,19 @@
 .sub { margin: 0; max-width: 46ch; font: 400 17px/1.5 var(--body); color: var(--mute); }
 .pairGap { margin-top: clamp(28px, 4vw, 56px); }
 
+/* films: one film without a frame (the short cut on wide screens, the phone cut on phones) + "All films" */
+.home video.featured { display: block; width: 100%; background: #0e0e0d; border-radius: var(--r); }
+.home video.featWide { aspect-ratio: 16 / 9; object-fit: cover; }
+.home video.featTall { display: none; aspect-ratio: 9 / 16; object-fit: cover; max-height: 86svh; margin: 0 auto; width: auto; max-width: 100%; }
+@media (max-width: 780px) { .home video.featWide { display: none; } .home video.featTall { display: block; } }
+.allFilms { display: flex; align-items: center; gap: 10px; margin: clamp(22px, 3vw, 36px) auto 0; padding: 12px 22px; border: 1px solid currentColor;
+  border-radius: 999px; background: transparent; color: inherit; font: 500 13px var(--t); letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+.allFilms:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
+.allFilms:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.allChev { transition: transform 0.25s ease; }
+.allChev[data-open] { transform: rotate(180deg); }
+.allFilmsBody:not([hidden]) { margin-top: clamp(28px, 4vw, 56px); }
+
 /* hero: the developer under the address */
 .home .heroText { display: grid; justify-items: start; max-width: min(900px, 58vw); }
 @media (max-width: 900px) { .home .heroText { max-width: none; padding-bottom: 20px !important; } }
