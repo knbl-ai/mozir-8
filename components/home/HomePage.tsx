@@ -383,20 +383,20 @@ function Page() {
   {show('films') && <section className={st.section} id="films">
    <p className={st.mark}>{mark('films')}</p>
    {body('films', () => films && <>
-    {/* one film, no frame: the short cut on a wide screen, the phone cut on a phone (CSS picks; preload none, so only the
-        one a viewer plays loads) */}
-    <video className={`${s.featured} ${s.featWide}`} src={films.short.src} poster={films.short.poster} controls playsInline preload="none"
-     aria-label={`${tx(d.unit)} — ${t.cuts.short}, ${films.short.length}`} />
+    {/* one film, no frame: the full (long) cut on a wide screen, the phone cut on a phone (CSS picks; preload none, so
+        only the one a viewer plays loads) */}
+    <video className={`${s.featured} ${s.featWide}`} src={films.long.src} poster={films.long.poster} controls playsInline preload="none"
+     aria-label={`${tx(d.unit)} — ${t.cuts.long}, ${films.long.length}`} />
     <video className={`${s.featured} ${s.featTall}`} src={films.phone.src} poster={films.phone.poster} controls playsInline preload="none"
      aria-label={`${tx(d.unit)} — ${t.cuts.phone}, ${films.phone.length}`} />
     <button type="button" className={s.allFilms} aria-expanded={allFilms} aria-controls="all-films" onClick={() => setAllFilms(v => !v)}>
      {allFilms ? t.allFilms.close : t.allFilms.open}<ChevronDown size={18} aria-hidden className={s.allChev} data-open={allFilms || undefined} />
     </button>
     <div id="all-films" className={s.allFilmsBody} hidden={!allFilms}>
-     {/* only the films not shown above: the long one, plus the phone cut on a wide screen or the short cut on a phone */}
+     {/* only the films not shown above: the short cut, plus the phone cut on a wide screen or the long one on a phone */}
      {allFilms && <div className={st.pair}>
-      <Film cut={cut(films.long, 'long')} name={tx(d.unit)} big />
-      <div className={s.onlyTall}><Film cut={cut(films.short, 'short')} name={tx(d.unit)} /></div>
+      <div className={s.onlyTall}><Film cut={cut(films.long, 'long')} name={tx(d.unit)} big /></div>
+      <Film cut={cut(films.short, 'short')} name={tx(d.unit)} big />
       <div className={s.onlyWide}><Film cut={cut(films.phone, 'phone')} name={tx(d.unit)} /></div>
      </div>}
     </div>
