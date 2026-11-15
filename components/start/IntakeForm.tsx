@@ -84,6 +84,7 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
  const i = order.intake;
  const [ups, setUps] = useState<Up[]>([]);
  const [links, setLinks] = useState<string[]>(i.referenceLinks?.length ? i.referenceLinks : ['']);
+ const [videos, setVideos] = useState<string[]>(i.footageLinks?.length ? i.footageLinks : ['']);
  const [langs, setLangs] = useState<string[]>(order.languages.length ? order.languages : [L]);
  const [other, setOther] = useState('');
  const [err, setErr] = useState<string | null>(null);
@@ -124,7 +125,7 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
    token, files: done.map(u => ({ kind: u.kind, path: u.path })),
    address: d.get('address'), developerUrl: d.get('developerUrl'), audience: d.get('audience'), notes: d.get('notes'),
    referenceLinks: links.map(x => x.trim()).filter(Boolean), languages: [...new Set([...langs, ...extra])],
-   areaSold: { m2: d.get('areaM2'), sqft: d.get('areaSqft') }, footageLinks: [String(d.get('video') ?? '').trim()].filter(Boolean),
+   areaSold: { m2: d.get('areaM2'), sqft: d.get('areaSqft') }, footageLinks: videos.map(x => x.trim()).filter(Boolean),
    contactOnPage: { name: d.get('cname'), phone: d.get('cphone'), email: d.get('cemail'), company: d.get('ccompany') },
   };
   try {
@@ -208,7 +209,9 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
     <fieldset className={s.block}>
      <legend>{t.video}</legend>
      <p className={s.hint}>{t.videoHint}</p>
-     <input name="video" type="url" dir="ltr" placeholder={t.linkPh} defaultValue={i.footageLinks?.[0]} maxLength={500} />
+     {videos.map((v, n) => <input key={n} type="url" dir="ltr" placeholder={t.linkPh} value={v} maxLength={500}
+      onChange={e => setVideos(l => l.map((x, k) => k === n ? e.target.value : x))} />)}
+     {videos.length < 5 && <button type="button" className={s.ghost} onClick={() => setVideos(l => [...l, ''])}>+ {t.addLink}</button>}
     </fieldset>
 
     <fieldset className={s.block}>
