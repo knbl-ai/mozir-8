@@ -63,7 +63,8 @@ function HeroFacts() {
  const [go, setGo] = useState(false);
  useEffect(() => { const t = setTimeout(() => setGo(true), 1250); return () => clearTimeout(t); }, []);
  const F = d.facts;
- const area = useCount(go ? F.area : 0, String(go), 1100);
+ const lead = F.total?.m2 ?? F.area;   // the area as sold, when the page states one; else the measured interior
+ const area = useCount(go ? lead : 0, String(go), 1100);
  const inside = F.area, out = F.balcony, floor = d.where.floor, floors = d.where.floors;
  const share = inside / (inside + out || 1);
  const N = F.nearest, NI = N ? NEAR_ICON[N.icon] ?? MapPin : null;
@@ -74,7 +75,7 @@ function HeroFacts() {
     <circle cx="60" cy="60" r="52" className={s.ringIn} pathLength={1} style={{ strokeDasharray: `${go ? share - 0.01 : 0} 1` }} />
     {out > 0 && <circle cx="60" cy="60" r="52" className={s.ringOut} pathLength={1} style={{ strokeDasharray: `${go ? 1 - share - 0.01 : 0} 1`, strokeDashoffset: -share }} />}
    </svg>
-   <div><b>{area.toFixed(1)}</b><small>{t.facts.interior}</small><span><i data-k="in" />{inside} {t.facts.inside}{out > 0 && <> <i data-k="out" />{out} {t.facts.balcony}</>}</span></div>
+   <div><b>{area.toFixed(1)}</b><small>{F.total ? t.facts.total : t.facts.interior}{F.total?.sqft ? <> · {F.total.sqft.toLocaleString('en-US')} {t.facts.sqft}</> : null}</small><span><i data-k="in" />{inside} {t.facts.inside}{out > 0 && <> <i data-k="out" />{out} {t.facts.balcony}</>}</span></div>
   </div>
   <div className={s.fRow}>
    <div className={s.fRooms}><b>{F.rooms}</b><small>{t.facts.rooms}</small><span aria-hidden>{Array.from({ length: Math.ceil(F.rooms) }, (_, k) => <i key={k} style={{ transitionDelay: `${1.5 + k * 0.08}s` }} />)}</span></div>
