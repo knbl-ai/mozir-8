@@ -170,26 +170,24 @@ function PlanExplorer({ open }: { open: (items: Shot[], at?: number) => void }) 
   const order = d.roomOrder.length ? d.roomOrder : P.rooms.map(r => r.id);
   return order.map(id => P.rooms.find(r => r.id === id)).filter(Boolean).map(r => ({ ...r!, name: R[r!.id]?.name ? tx(R[r!.id].name) : r!.name })) as PlanRoom[];
  }, [P.rooms, L, d.roomOrder]); // eslint-disable-line react-hooks/exhaustive-deps
- const [cur, setCur] = useState<string | null>(null);
- const [pinned, setPinned] = useState<string | null>(null);
- const [seeing, setSeeing] = useState<string | null>(null);   // the room of the photo under the pointer (strip)
- const id = cur ?? pinned;
+ const [cur, setCur] = useState<string | null>(null);          // the room under the pointer
+ const [pinned, setPinned] = useState<string | null>(null);    // the room clicked: it stays, hovering others changes nothing
+ const id = pinned ?? cur;
  const room = rooms.find(r => r.id === id);
- const lit = rooms.find(r => r.id === (id ?? seeing));             // what the plan lights up
+ const lit = room;                                             // what the plan lights up
+ // a click keeps a room (its photos can then be reached and opened); a second click on it lets it go
+ const pick = (rid: string) => { if (pinned === rid) { setPinned(null); setCur(null); } else setPinned(rid); };
  const info = room ? R[room.id] : undefined;
  const area = useCount(room?.area ?? P.headline.area_m2, id ?? 'all');
  const [vx, vy, vw, vh] = P.view;
  const k = vw / 1000;                                      // stroke/text scale: 1 unit at a 1000-wide view
  const dp = (r: PlanRoom) => 'M' + r.poly.map(q => q.join(',')).join('L') + 'Z';
  const b = lit ? bbox(lit.poly) : null;
- const strip = useRef<HTMLDivElement>(null);
- const slide = (dir: number) => strip.current?.scrollBy({ left: dir * strip.current.clientWidth * 0.8, behavior: 'smooth' });
  const shots = (r: PlanRoom): Shot[] => { const i = R[r.id]; return [
   ...(i?.clip ? [{ kind: 'video' as const, src: i.clip, caption: t.plan.fromFilm(r.name) }] : []),
   ...(i?.images ?? []).map(src => ({ kind: 'img' as const, src, caption: r.name })),
  ]; };
  const no = room ? rooms.indexOf(room) + 1 : 0;
- const G = d.gallery;
 
  return <div className={s.planWrap} onMouseLeave={() => setCur(null)}>
   <div className={s.planStage}>
@@ -209,7 +207,7 @@ function PlanExplorer({ open }: { open: (items: Shot[], at?: number) => void }) 
     {rooms.map(r => <path key={r.id} d={dp(r)} className={s.room} data-on={r.id === lit?.id || undefined} style={{ strokeWidth: 3 * k }}
      tabIndex={0} role="button" aria-label={`${r.name}, ${fmt(r.area)} m²`} aria-pressed={pinned === r.id}
      onMouseEnter={() => setCur(r.id)} onFocus={() => setCur(r.id)} onBlur={() => setCur(null)}
-     onClick={() => setPinned(p => p === r.id && !cur ? null : r.id)}
+     onClick={() => pick(r.id)}
      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); const sh = shots(r); if (sh.length) open(sh); } }} />)}
     {lit && b && <g key={lit.id} className={s.dims} direction="ltr" style={{ strokeWidth: 2 * k, fontSize: 24 * k }}>
      {lit.w != null && <g className={s.dimLine}>
@@ -226,7 +224,7 @@ function PlanExplorer({ open }: { open: (items: Shot[], at?: number) => void }) 
     </g>}
    </svg>
    <span className={s.north} aria-label={t.plan.north}><b>N</b><i /></span>
-   <p className={s.planHint}>{room ? t.plan.hintOn : t.plan.hintOff}</p>
+   <p className={s.planHint}>{pinned ? t.plan.hintPinned : room ? t.plan.hintOn : t.plan.hintOff}</p>
   </div>
 
   <aside className={s.panel} aria-live="polite">
@@ -249,15 +247,7 @@ function PlanExplorer({ open }: { open: (items: Shot[], at?: number) => void }) 
    <ul className={s.roomList}><li><button type="button" data-on={!id || undefined} onMouseEnter={() => setCur(null)}
     onClick={() => { setPinned(null); setCur(null); }}>{t.plan.all}<small>{fmt(P.headline.area_m2)}</small></button></li>{rooms.map(r => <li key={r.id}>
     <button type="button" data-on={r.id === id || undefined} onMouseEnter={() => setCur(r.id)} onFocus={() => setCur(r.id)} onBlur={() => setCur(null)}
-     onClick={() => setPinned(p => p === r.id ? null : r.id)}>{r.name}<small>{fmt(r.area)}</small></button></li>)}</ul>
-   {!room && G.length > 0 && <div className={s.stripWrap}>
-    <div className={s.stripHead}><span>{t.plan.photos} · {G.length}</span>
-     <span><button type="button" aria-label={t.plan.back} onClick={() => slide(-1)}><ChevronLeft size={16} /></button><button type="button" aria-label={t.plan.on} onClick={() => slide(1)}><ChevronRight size={16} /></button></span></div>
-    <div className={s.strip} ref={strip} onMouseLeave={() => setSeeing(null)}>{G.map((g, j) => <button key={g.src} type="button" className={s.sItem}
-     onMouseEnter={() => setSeeing(g.room ?? null)} onFocus={() => setSeeing(g.room ?? null)} onBlur={() => setSeeing(null)}
-     onClick={() => open(G.map(q => ({ kind: 'img' as const, src: q.src, caption: tx(q.caption) })), j)} aria-label={t.plan.openAria(tx(g.caption))}>
-     <img src={g.thumb} alt="" loading="lazy" /><span>{tx(g.caption)}</span></button>)}</div>
-   </div>}
+     onClick={() => pick(r.id)}>{r.name}<small>{fmt(r.area)}</small></button></li>)}</ul>
   </aside>
  </div>;
 }
@@ -320,14 +310,17 @@ const pair = (tx: (x: Tx) => string, p: [Tx, Tx] | undefined, fallback: string[]
 function Page() {
  useSolo();
  const { d, t, tx, L, byLang } = useHome();
- const show = (k: Section) => d.status[k] !== 'hidden';
+ // the apartment's photographs are shown with the building's images (one section, "The building & the apartment")
+ const photos = d.gallery.length > 0;
+ const noBuilding = d.status.building === 'hidden' || (d.status.building === 'ready' && !d.building);   // the photographs alone
+ const show = (k: Section) => d.status[k] !== 'hidden' || (k === 'building' && photos);
  const ready = (k: Section) => d.status[k] === 'ready';
  // the section's content when ready, the under-construction card while it is being made
  const body = (k: Section, el: () => React.ReactNode) => ready(k) ? el() : <Soon what={k} />;
  // section markers in the style's own vernacular (folio, sheet number, sticker); numbered over the shown sections
  const order = (['films', 'plan', 'model', 'building', 'area', 'contact'] as const).filter(k => show(k) && (k !== 'model' || d.model || !ready(k)) && (k !== 'area' || d.map || !ready(k))
-  && (k !== 'building' || d.building || !ready(k)) && (k !== 'contact' || !!(d.agent || d.developer)));
- const mark = (k: typeof order[number]) => { const n = order.indexOf(k) + 1, w = t.marks[k];
+  && (k !== 'building' || d.building || photos || !ready(k)) && (k !== 'contact' || !!(d.agent || d.developer)));
+ const mark = (k: typeof order[number]) => { const n = order.indexOf(k) + 1, w = k === 'building' && photos ? (noBuilding ? t.marks.apt : t.marks.buildingApt) : t.marks[k];
   return d.style === 'monograph' ? `A-10${n} · ${w}` : d.style === 'sunday-house' ? `0${n} · ${w}` : `Nº 0${n} — ${w}`; };
  const kit = byLang(d.kit);
  const films = byLang(d.films);
@@ -342,11 +335,12 @@ function Page() {
  const [allFilms, setAllFilms] = useState(false);   // the three cuts stay folded: the page leads with one film
  const open = useCallback((items: Shot[], at = 0) => setLb({ items, at }), []);
  useEffect(() => { const on = () => setScrolled(window.scrollY > 40); on(); window.addEventListener('scroll', on, { passive: true }); return () => window.removeEventListener('scroll', on); }, []);
- const nav = order.map(k => [k, t.nav[k]] as const);
+ const nav = order.map(k => [k, k === 'building' && photos ? t.nav.buildingApt : t.nav[k]] as const);
  const cut = (c: { src: string; poster: string; length: string; aspect: string }, k: 'long' | 'short' | 'phone') => ({ ...c, id: k, label: t.cuts[k], aspect: c.aspect as '16:9' | '9:16' });
  const dev = d.developer;
  const kitReady = ready('kit') && !!kit;
- const [bh0, bh1] = pair(tx, d.copy.buildingHead, t.h2.building);
+ const [bh0, bh1] = photos ? (noBuilding ? t.h2.apt : t.h2.buildingApt) : pair(tx, d.copy.buildingHead, t.h2.building);
+ const bReady = ready('building') && !!d.building;   // the building's own images (the photographs can come first)
 
  return <main className={`${st.page} ${s.home}`} data-style={d.style} data-opening={opening || undefined}>
   {opening && <Intro word={word} under={`${street} · ${city}`} id={`home-${d.slug}-${L}`} onDone={done} />}
@@ -423,9 +417,10 @@ function Page() {
    <p className={st.mark}>{mark('building')}</p>
    <div className={s.modelHead}>
     <h2 className={s.h2}>{bh0}<em>{bh1}</em></h2>
-    {ready('building') && <p className={s.sub}>{tx(d.copy.buildingSub) || (d.building?.orbit ? t.sub.buildingOrbit : t.sub.building)}</p>}
+    {bReady ? <p className={s.sub}>{photos ? t.sub.buildingApt : tx(d.copy.buildingSub) || (d.building?.orbit ? t.sub.buildingOrbit : t.sub.building)}</p>
+     : photos && d.status.building === 'building' && <p className={s.sub}>{t.soon.building}</p>}
    </div>
-   {body('building', () => <BuildingSection open={open} />)}
+   {bReady || photos ? <BuildingSection open={open} withBuilding={bReady} /> : body('building', () => <BuildingSection open={open} withBuilding />)}
   </section>}
 
   {order.includes('area') && <section className={st.section} id="area">

@@ -9,6 +9,7 @@ import { useHome, type Orbit } from './data';
 // The building: the measured 360° orbit on the left when the building was modelled (drag / swipe / arrows to turn; this
 // residence outlined on every view), its stills and films on the right (they open in the page's lightbox). Without an
 // orbit the media viewer takes the whole width (the developer's renders, or stills made from a simple massing model).
+// The apartment's photographs follow the building's images in the same viewer ("The building & the apartment").
 
 type Shot = { kind: 'img' | 'video'; src: string; caption: string };
 const area = (pts: string) => { const p = pts.trim().split(/\s+/).map(q => q.split(',').map(Number)); let a = 0; for (let i = 0; i < p.length; i++) { const [x0, y0] = p[i], [x1, y1] = p[(i + 1) % p.length]; a += x0 * y1 - x1 * y0; } return Math.abs(a) / 2; };
@@ -108,12 +109,15 @@ function Orbit360() {
 
 /** the media: one large viewer (videos play on their own) + a row of thumbnails that scrolls sideways; hovering a
  *  thumbnail shows it in the viewer, clicking the viewer or a thumbnail opens the lightbox */
-function MediaViewer({ open, height }: { open: (items: Shot[], at?: number) => void; height?: number }) {
- const { d, t, tx } = useHome();
- const M = d.building!.media;
- const cap = (j: number) => tx(M[j].caption);
- const items: Shot[] = M.map((m, j) => ({ kind: m.kind, src: m.src, caption: cap(j) }));
+type Media = { kind: 'img' | 'video'; src: string; thumb: string; caption: string };
+function MediaViewer({ M, open, height }: { M: Media[]; open: (items: Shot[], at?: number) => void; height?: number }) {
+ const { t } = useHome();
+ const cap = (j: number) => M[j].caption;
+ const items: Shot[] = M.map(m => ({ kind: m.kind, src: m.src, caption: m.caption }));
  const [cur, setCur] = useState(0);
+ // the large view loads an image only once it has been shown (the set can hold dozens of full-size photographs)
+ const [seen, setSeen] = useState<Set<number>>(() => new Set([0]));
+ useEffect(() => { setSeen(v => v.has(cur) ? v : new Set(v).add(cur)); }, [cur]);
  const row = useRef<HTMLDivElement>(null);
  const m = M[cur];
  const slide = (d: number) => row.current?.scrollBy({ left: d * row.current.clientWidth * 0.8, behavior: 'smooth' });
@@ -121,7 +125,7 @@ function MediaViewer({ open, height }: { open: (items: Shot[], at?: number) => v
   <button type="button" className={s.bBig} onClick={() => open(items, cur)} aria-label={t.building.open(cap(cur))}>
    {M.map((q, j) => q.kind === 'video'
     ? <video key={q.src} src={j === cur ? q.src : undefined} poster={q.thumb} muted loop playsInline autoPlay preload="none" data-on={j === cur || undefined} aria-hidden />
-    : <img key={q.src} src={q.src} alt="" loading="lazy" data-on={j === cur || undefined} />)}
+    : seen.has(j) && <img key={q.src} src={q.src} alt="" data-on={j === cur || undefined} />)}
    <span className={s.bBigCap}>{m.kind === 'video' && <Play size={12} fill="currentColor" aria-hidden />}{cap(cur)}<small><bdi dir="ltr">{cur + 1} / {M.length}</bdi></small></span>
    <span className={s.bExpand} aria-hidden><Expand size={16} /></span>
   </button>
@@ -135,20 +139,25 @@ function MediaViewer({ open, height }: { open: (items: Shot[], at?: number) => v
  </div>;
 }
 
-export default function BuildingSection({ open }: { open: (items: Shot[], at?: number) => void }) {
- const { d } = useHome();
+export default function BuildingSection({ open, withBuilding = true }: { open: (items: Shot[], at?: number) => void; withBuilding?: boolean }) {
+ const { d, tx, L } = useHome();
  const host = useRef<HTMLDivElement>(null);
- const orbit = !!d.building?.orbit;
+ const orbit = withBuilding && !!d.building?.orbit;
+ // the building's images first, then the apartment's photographs (in walkthrough order)
+ const M: Media[] = useMemo(() => [
+  ...(withBuilding ? d.building?.media ?? [] : []).map(m => ({ kind: m.kind, src: m.src, thumb: m.thumb, caption: tx(m.caption) })),
+  ...d.gallery.map(g => ({ kind: 'img' as const, src: g.src, thumb: g.thumb, caption: tx(g.caption) })),
+ ], [withBuilding, d.building, d.gallery, L]); // eslint-disable-line react-hooks/exhaustive-deps
  const [h, setH] = useState<number>();
  // the media column is as tall as the orbit stage beside it (one column under the other on small screens)
  useEffect(() => {
   const st = host.current?.querySelector<HTMLElement>('[data-stage]'); if (!st) return;
   const ro = new ResizeObserver(() => setH(window.innerWidth > 960 ? st.offsetHeight : undefined)); ro.observe(st); return () => ro.disconnect();
  }, [orbit]);
- const media = d.building?.media.length ?? 0;
+ const media = M.length;
  if (!media && !orbit) return null;
  return <div className={s.building} ref={host} data-solo={!orbit || !media || undefined}>
   {orbit && <Orbit360 />}
-  {media > 0 && <MediaViewer open={open} height={orbit ? h : undefined} />}
+  {media > 0 && <MediaViewer M={M} open={open} height={orbit ? h : undefined} />}
  </div>;
 }

@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useLang, type Lang } from '@/lib/i18n';
 import { CONSENT_OPEN_EVENT, openConsent, readConsent, saveConsent, type ConsentChoice } from '@/lib/consent';
 import s from './CookieConsent.module.css';
@@ -13,9 +14,14 @@ const T: Record<Lang, { title: string; body: string; accept: string; reject: str
 
 export const COOKIE_SETTINGS_LABEL: Record<Lang, string> = { en: 'Cookie settings', he: 'הגדרות עוגיות', pt: 'Definições de cookies', el: 'Ρυθμίσεις cookies' };
 
-// The consent banner on every page: shown until the visitor accepts or rejects, reopened by openConsent().
+// The apartment pages (a client order's /r/<slug> and the example pages sent to clients) carry no banner: the page is the
+// client's, and Consent Mode keeps ads and analytics storage denied there (lib/consent.ts defaults).
+export const NO_BANNER = [/^\/r\//, /^\/alma-bay\/films\//];
+
+// The consent banner on every other page: shown until the visitor accepts or rejects, reopened by openConsent().
 export default function CookieConsent() {
  const lang = useLang();
+ const path = usePathname() ?? '';
  const [open, setOpen] = useState(false);
  useEffect(() => {
   if (!readConsent()) setOpen(true);
@@ -23,7 +29,7 @@ export default function CookieConsent() {
   window.addEventListener(CONSENT_OPEN_EVENT, reopen);
   return () => window.removeEventListener(CONSENT_OPEN_EVENT, reopen);
  }, []);
- if (!open) return null;
+ if (!open || NO_BANNER.some(r => r.test(path))) return null;
  const t = T[lang];
  const choose = (v: ConsentChoice) => { saveConsent(v); setOpen(false); };
  return <div className={s.banner} role="dialog" aria-live="polite" aria-label={t.title}>
