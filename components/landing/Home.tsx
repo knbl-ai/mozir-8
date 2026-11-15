@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { CookieSettingsLink } from '@/components/CookieConsent';
 import { MotionConfig } from 'motion/react';
 import { ArrowUpRight, Play } from 'lucide-react';
 import LanguageSwitch from '@/components/LanguageSwitch';
@@ -139,6 +140,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
     <Logo className={s.footerLogo} />
     <a href={`mailto:${t.footer.contact}`}>{t.footer.contact}</a>
     <span>© {new Date().getFullYear()} {t.footer.line}</span>
+    <CookieSettingsLink />
    </div>
   </footer>
   <WhatsAppButton label={t.footer.whatsapp} message={t.footer.whatsappText} />

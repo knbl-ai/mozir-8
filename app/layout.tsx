@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { LANG_BOOT_SCRIPT } from '@/lib/i18n';
 import AttributionCapture from '@/components/AttributionCapture';
+import CookieConsent from '@/components/CookieConsent';
+import { CONSENT_BOOT_SCRIPT } from '@/lib/consent';
 import './globals.css';
 const deploymentHost = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
 export const metadata: Metadata = {
@@ -11,10 +13,10 @@ export const metadata: Metadata = {
  icons: { icon: [{ url: '/icon.svg', type: 'image/svg+xml' }], apple: '/apple-icon.png' },
  openGraph: { title: 'residence.tech', description: 'One floor plan in. A full sales package out: film, images, 3D and a sales page.', images: ['/landing/poster-en.webp'] },
 };
-// Google Tag Manager (the ad and analytics tags are managed in GTM; the thank-you page pushes `lead_submitted`).
+// Google Tag Manager, after the Consent Mode defaults (lib/consent.ts; the ad and analytics tags are managed in GTM; the thank-you page pushes `lead_submitted`).
 const GTM_ID = 'GTM-P9BV3P7F';
 const GTM_SCRIPT = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`;
 // The boot script sets lang/dir before first paint, so the <html> attributes differ from the static HTML.
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
- return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: LANG_BOOT_SCRIPT }} /><script dangerouslySetInnerHTML={{ __html: GTM_SCRIPT }} /></head><body><noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} /></noscript>{children}<AttributionCapture /></body></html>;
+ return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: LANG_BOOT_SCRIPT }} /><script dangerouslySetInnerHTML={{ __html: CONSENT_BOOT_SCRIPT }} /><script dangerouslySetInnerHTML={{ __html: GTM_SCRIPT }} /></head><body><noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} /></noscript>{children}<AttributionCapture /><CookieConsent /></body></html>;
 }

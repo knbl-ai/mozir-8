@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { CookieSettingsLink } from '@/components/CookieConsent';
 import LanguageSwitch from '@/components/LanguageSwitch';
 import Logo from '@/components/brand/Logo';
 import { useLang, withLang } from '@/lib/i18n';
@@ -52,6 +53,7 @@ export default function ThankYou() {
     <Logo className={s.footerLogo} />
     <a href={`mailto:${f.contact}`}>{f.contact}</a>
     <span>© {new Date().getFullYear()} {f.line}</span>
+    <CookieSettingsLink />
    </div>
   </footer>
  </div>;

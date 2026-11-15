@@ -1,0 +1,22 @@
+/* Consent banner: a small card bottom-start (the WhatsApp disc sits bottom-end). Both choices look the same,
+   so rejecting is as easy as accepting (EU rule). Own colours: it sits on every project page's design. */
+.banner {
+  position: fixed; z-index: 1000; inset-block-end: max(16px, env(safe-area-inset-bottom)); inset-inline-start: 16px;
+  width: min(420px, calc(100vw - 32px)); padding: 18px 20px; border-radius: 10px;
+  background: #fffefb; color: #121a16; border: 1px solid rgb(18 26 22 / 0.12);
+  box-shadow: 0 10px 30px -10px rgb(14 42 33 / 0.35);
+  font: 14px/1.5 Arial, 'Hebrew Sans', Helvetica, sans-serif;
+  animation: rtConsentIn 0.4s ease-out both;
+}
+.text { margin: 0 0 14px; }
+.actions { display: flex; gap: 10px; }
+.btn {
+  flex: 1; padding: 10px 14px; border-radius: 6px; cursor: pointer;
+  border: 1px solid #173f32; background: #173f32; color: #fffefb; font: inherit; font-weight: 600;
+}
+.btn:hover { background: #1f5040; }
+.btn:focus-visible { outline: 2px solid #ee6a2b; outline-offset: 2px; }
+.settings { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+.settings:hover { text-decoration: underline; }
+@keyframes rtConsentIn { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { .banner { animation: none; } }
