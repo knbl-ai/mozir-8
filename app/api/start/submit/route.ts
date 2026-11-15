@@ -8,7 +8,7 @@ const web = (v: unknown, max: number) => { const s = str(v, max); return /^https
 const LANG = /^[a-z]{2,3}(-[A-Za-z]{2,4})?$/;
 // An area as people type it: "1,540", "1.540" or "1 540" (thousands), "143,1" or "143.1" (decimals), with or without a
 // unit ("85 m²", "85 מ״ר", "1540 sq ft"). Anything else is dropped (the chat can still take it).
-export function area(v: unknown, max: number): number | undefined {
+function area(v: unknown, max: number): number | undefined {
  let s = String(v ?? '').trim().toLowerCase().replace(/(m²|m2|sq\.? ?ft|sqft|ft²|מ״ר|מ"ר|מטר|מ'ר)\s*$/u, '').replace(/[\s'\u00a0\u202f]/g, '');
  if (!/^\d+([.,]\d+)*$/.test(s)) return undefined;
  if (/^\d{1,3}([.,]\d{3})+$/.test(s)) s = s.replace(/[.,]/g, '');   // groups of three: thousands (nobody gives an area to 3 decimals)
