@@ -21,6 +21,8 @@ const T = {
   dev: 'Developer website', devHint: 'We use it for the building’s facts and look.',
   building: 'Building plans, renders or photos', buildingHint: 'Façade, lobby, pool, the building plan — whatever you have.',
   refs: 'Interior design references', refsHint: 'Photos you like, or links (Pinterest, Instagram, a designer’s site).', linkPh: 'https://…', addLink: 'Add link',
+  area: 'Area as you sell it', areaHint: 'If your figure differs from the plan’s rooms (e.g. with walls or terraces). Either unit is fine.',
+  video: 'Your video of the building or the area', videoHint: 'A link (Vimeo, YouTube, Google Drive) to a drone flight or the developer’s animation. A few seconds may go into the films.',
   audience: 'Who are the buyers?', audiencePh: 'e.g. young families, investors, retirees',
   langs: 'Languages of the page', other: 'Other (e.g. Portuguese, French)',
   contact: 'Contact shown on the page', contactHint: 'The agent or developer buyers should reach. Leave empty for none.',
@@ -42,6 +44,8 @@ const T = {
   dev: 'אתר היזם', devHint: 'משמש לנתוני הבניין ולמראה שלו.',
   building: 'תוכניות, הדמיות או תמונות של הבניין', buildingHint: 'חזית, לובי, בריכה, תוכנית הבניין — מה שיש.',
   refs: 'השראה לעיצוב פנים', refsHint: 'תמונות שאתם אוהבים, או קישורים (פינטרסט, אינסטגרם, אתר של מעצב).', linkPh: 'https://…', addLink: 'הוספת קישור',
+  area: 'השטח כפי שאתם משווקים', areaHint: 'אם הנתון שלכם שונה מסכום החדרים בתוכנית (למשל כולל קירות או מרפסות). כל יחידה מתאימה.',
+  video: 'סרטון שלכם של הבניין או הסביבה', videoHint: 'קישור (Vimeo, YouTube, Google Drive) לצילום רחפן או להדמיה של היזם. כמה שניות ממנו עשויות להיכנס לסרטים.',
   audience: 'מי הקונים?', audiencePh: 'למשל משפחות צעירות, משקיעים, גמלאים',
   langs: 'שפות העמוד', other: 'אחר (למשל פורטוגזית, צרפתית)',
   contact: 'איש קשר בעמוד', contactHint: 'הסוכן או היזם שהקונים יפנו אליו. השאירו ריק אם אין.',
@@ -80,6 +84,7 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
  const i = order.intake;
  const [ups, setUps] = useState<Up[]>([]);
  const [links, setLinks] = useState<string[]>(i.referenceLinks?.length ? i.referenceLinks : ['']);
+ const [videos, setVideos] = useState<string[]>(i.footageLinks?.length ? i.footageLinks : ['']);
  const [langs, setLangs] = useState<string[]>(order.languages.length ? order.languages : [L]);
  const [other, setOther] = useState('');
  const [err, setErr] = useState<string | null>(null);
@@ -120,6 +125,7 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
    token, files: done.map(u => ({ kind: u.kind, path: u.path })),
    address: d.get('address'), developerUrl: d.get('developerUrl'), audience: d.get('audience'), notes: d.get('notes'),
    referenceLinks: links.map(x => x.trim()).filter(Boolean), languages: [...new Set([...langs, ...extra])],
+   areaSold: { m2: d.get('areaM2'), sqft: d.get('areaSqft') }, footageLinks: videos.map(x => x.trim()).filter(Boolean),
    contactOnPage: { name: d.get('cname'), phone: d.get('cphone'), email: d.get('cemail'), company: d.get('ccompany') },
   };
   try {
@@ -198,6 +204,23 @@ export default function IntakeForm({ token, order, wa }: { token: string; order:
      {links.map((v, n) => <input key={n} type="url" dir="ltr" placeholder={t.linkPh} value={v} maxLength={500}
       onChange={e => setLinks(l => l.map((x, k) => k === n ? e.target.value : x))} />)}
      {links.length < 20 && <button type="button" className={s.ghost} onClick={() => setLinks(l => [...l, ''])}>+ {t.addLink}</button>}
+    </fieldset>
+
+    <fieldset className={s.block}>
+     <legend>{t.video}</legend>
+     <p className={s.hint}>{t.videoHint}</p>
+     {videos.map((v, n) => <input key={n} type="url" dir="ltr" placeholder={t.linkPh} value={v} maxLength={500}
+      onChange={e => setVideos(l => l.map((x, k) => k === n ? e.target.value : x))} />)}
+     {videos.length < 5 && <button type="button" className={s.ghost} onClick={() => setVideos(l => [...l, ''])}>+ {t.addLink}</button>}
+    </fieldset>
+
+    <fieldset className={s.block}>
+     <legend>{t.area}</legend>
+     <p className={s.hint}>{t.areaHint}</p>
+     <div className={s.grid}>
+      <input name="areaM2" inputMode="decimal" dir="ltr" placeholder="m²" defaultValue={i.areaSold?.m2} maxLength={8} />
+      <input name="areaSqft" inputMode="decimal" dir="ltr" placeholder="sq ft" defaultValue={i.areaSold?.sqft} maxLength={8} />
+     </div>
     </fieldset>
 
     <fieldset className={s.block}>

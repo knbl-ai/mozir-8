@@ -25,7 +25,8 @@ export function orderFromToken(token: string): string | null {
 export interface FormOrder {
  id: string; state: string; lang: string;
  intake: { planCount: number; address?: string; developerUrl?: string; referenceLinks?: string[]; audience?: string; notes?: string;
-  contactOnPage?: { name?: string; phone?: string; email?: string; company?: string } };
+  contactOnPage?: { name?: string; phone?: string; email?: string; company?: string };
+  areaSold?: { m2?: number; sqft?: number }; footageLinks?: string[] };
  languages: string[];
 }
 const OPEN = ['intake', 'choosing', 'quoted'];   // the setup can still change (bridge orders/index.ts EDITABLE)
@@ -36,7 +37,8 @@ export async function formOrder(id: string): Promise<(FormOrder & { open: boolea
  const i = o.intake ?? {};
  return {
   id, state: o.state, lang: o.lang ?? 'en', open: OPEN.includes(o.state), languages: o.choices?.languages ?? [],
-  intake: { planCount: (i.planFiles ?? []).length, address: i.address, developerUrl: i.developerUrl, referenceLinks: i.referenceLinks, audience: i.audience, notes: i.notes, contactOnPage: i.contactOnPage },
+  intake: { planCount: (i.planFiles ?? []).length, address: i.address, developerUrl: i.developerUrl, referenceLinks: i.referenceLinks, audience: i.audience, notes: i.notes, contactOnPage: i.contactOnPage,
+   areaSold: i.areaSold, footageLinks: i.footageLinks },
  };
 }
 
