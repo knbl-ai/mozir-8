@@ -447,3 +447,17 @@ main.home[data-style='sunday-house'] { --d: var(--he-sunday-d), var(--f-sunday-d
 .heroSoon svg { flex: none; }
 .heroSoon:hover { background: rgba(12, 12, 12, .58); }
 @media (max-width: 900px) { .heroSoon { position: relative; bottom: auto; inset-inline-start: auto; margin: 0 var(--gutter) 18px; grid-row: 3; grid-column: 1 / -1; justify-self: start; font-size: 13px; padding: 9px 14px; } }
+
+/* ---------------------------------------------------------------- phone hero: it grows with its content instead of clipping
+   it (a long street name + the figures + the film note are taller than a phone screen): the title block starts below the
+   bar, the address is set smaller, the figures row has no empty cell when there is no "nearest" figure */
+.fRow { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
+@media (max-width: 900px) {
+ .home header:first-of-type { height: auto; min-height: 100svh; align-content: end; padding-top: calc(84px + env(safe-area-inset-top, 0px)); }
+ .home header:first-of-type h1 { font-size: clamp(40px, 12vw, 72px); line-height: 0.95; overflow-wrap: break-word; }
+ .home .heroText { padding-bottom: 16px !important; }
+ .heroSoon { max-width: calc(100% - 2 * var(--gutter)); white-space: normal; text-align: start; }
+}
+/* the large image keeps to the column: its minimum height times the 16:8 shape made it 480 px wide on a phone */
+.bBig { width: 100%; min-width: 0; }
+@media (max-width: 960px) { .bBig { min-height: 0; } }
