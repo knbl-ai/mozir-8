@@ -6,6 +6,7 @@ import { privateBucket, PLAN_MAX_BYTES } from '@/lib/server/storage';
 const str = (v: unknown, max: number) => typeof v === 'string' ? v.trim().slice(0, max) : '';
 const web = (v: unknown, max: number) => { const s = str(v, max); return /^https?:\/\/[^\s]+$/i.test(s) ? s : ''; };   // links: http(s) only
 const LANG = /^[a-z]{2,3}(-[A-Za-z]{2,4})?$/;
+const num = (v: unknown, max: number) => { const n = Number(String(v ?? '').replace(',', '.')); return Number.isFinite(n) && n > 0 && n <= max ? Math.round(n * 10) / 10 : undefined; };
 const PER_HOUR = 10;
 
 export async function POST(request: Request) {
@@ -41,6 +42,8 @@ export async function POST(request: Request) {
   address: str(body?.address, 300), developerUrl: web(body?.developerUrl, 500), audience: str(body?.audience, 500), notes: str(body?.notes, 2000),
   referenceLinks: (Array.isArray(body?.referenceLinks) ? body!.referenceLinks : []).map((x: unknown) => web(x, 500)).filter(Boolean).slice(0, 20),
   languages: (Array.isArray(body?.languages) ? body!.languages : []).map((x: unknown) => str(x, 12).toLowerCase()).filter((x: string) => LANG.test(x)).slice(0, 6),
+  footageLinks: (Array.isArray(body?.footageLinks) ? body!.footageLinks : []).map((x: unknown) => web(x, 500)).filter(Boolean).slice(0, 5),
+  areaSold: Object.fromEntries(Object.entries({ m2: num(body?.areaSold?.m2, 5000), sqft: num(body?.areaSold?.sqft, 55000) }).filter(([, v]) => v !== undefined)),
   contactOnPage: { name: str(contact.name, 120), phone: str(contact.phone, 40), email: str(contact.email, 200), company: str(contact.company, 120) },
  };
  await submitForm({ orderId: id, fields, files, ip });
