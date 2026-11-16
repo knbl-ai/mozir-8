@@ -11,7 +11,9 @@ const library = path.resolve(__dirname, '../../../data/library/styles');
 const outJson = path.resolve(__dirname, '../content/styles.json');
 const outImages = path.resolve(__dirname, '../public/landing/styles');
 const ROOMS = ['living', 'kitchen', 'master', 'bath'];
-const BANNED = /shirat|briga|yael|gal\b|shanaw|hayarkon|symbol|klee/i;
+const BANNED = /shirat|briga|yael|gal\b|shanaw|hayarkon|symbol|klee|oystra/i;
+// Library styles that stay off the site: made for one client or not residential.
+const PRIVATE = new Set(['azulejo-cork', 'barbados-west-coast', 'rehab-daycare']);
 
 const unquote = v => v.trim().replace(/^["']|["']$/g, '');
 const scalar = (front, key) => { const m = front.match(new RegExp(`^${key}:\\s*(.+)$`, 'm')); return m ? unquote(m[1]) : ''; };
@@ -39,7 +41,7 @@ function parse(slug) {
 
 // Collector's Colour opens the slideshow and the library; the rest follow alphabetically.
 const FIRST = 'collector-colour';
-const slugs = fs.readdirSync(library).filter(d => !d.startsWith('_') && fs.existsSync(path.join(library, d, 'style.md'))).sort((a, b) => (b === FIRST) - (a === FIRST) || a.localeCompare(b));
+const slugs = fs.readdirSync(library).filter(d => !d.startsWith('_') && !PRIVATE.has(d) && fs.existsSync(path.join(library, d, 'style.md'))).sort((a, b) => (b === FIRST) - (a === FIRST) || a.localeCompare(b));
 const styles = slugs.map(parse);
 // Leave out a style whose rooms are missing instead of shipping a broken slide.
 for (const st of styles) {
