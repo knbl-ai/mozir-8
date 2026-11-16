@@ -828,6 +828,74 @@
   ]
  },
  {
+  "slug": "shell-and-sand",
+  "name": "Shell & Sand",
+  "concept": "A resort-soft home in ivory, sand and polished cream stone, where curved lit ceilings, champagne brass and pebble-shaped furniture make every room feel like a calm suite by the water.",
+  "mood": [
+   "ivory",
+   "curved",
+   "glowing",
+   "resort-calm"
+  ],
+  "axes": {
+   "value": "light",
+   "temperature": "warm",
+   "colour": "accent"
+  },
+  "palette": [
+   {
+    "name": "Shell ivory",
+    "hex": "#F3EEE6"
+   },
+   {
+    "name": "Polished sand stone",
+    "hex": "#E4D9C8"
+   },
+   {
+    "name": "Calacatta vein",
+    "hex": "#EDE8E1"
+   },
+   {
+    "name": "Champagne brass",
+    "hex": "#C2A273"
+   },
+   {
+    "name": "Driftwood oak",
+    "hex": "#9C8063"
+   },
+   {
+    "name": "Terracotta",
+    "hex": "#B8653F"
+   },
+   {
+    "name": "Deep navy velvet",
+    "hex": "#2A3550"
+   }
+  ],
+  "images": [
+   {
+    "room": "living",
+    "src": "/landing/styles/shell-and-sand/living.webp",
+    "thumb": "/landing/styles/shell-and-sand/living-sm.webp"
+   },
+   {
+    "room": "kitchen",
+    "src": "/landing/styles/shell-and-sand/kitchen.webp",
+    "thumb": "/landing/styles/shell-and-sand/kitchen-sm.webp"
+   },
+   {
+    "room": "master",
+    "src": "/landing/styles/shell-and-sand/master.webp",
+    "thumb": "/landing/styles/shell-and-sand/master-sm.webp"
+   },
+   {
+    "room": "bath",
+    "src": "/landing/styles/shell-and-sand/bath.webp",
+    "thumb": "/landing/styles/shell-and-sand/bath-sm.webp"
+   }
+  ]
+ },
+ {
   "slug": "soft-arch-mediterranean",
   "name": "Soft Arch",
   "concept": "A pale, quiet home of travertine and soft-veined marble where arched openings, blush-and-terracotta leather and one black-framed arch make every room a gentle frame.",

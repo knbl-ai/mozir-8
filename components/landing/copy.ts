@@ -134,7 +134,7 @@ const en: LandingCopy = {
  styles: {
   title: 'Every home in its own design style', lede: 'Each apartment gets one curated interior style; every room is a variation of it.',
   region: 'Design styles', prev: 'Previous style', next: 'Next style', goTo: name => `Show ${name}`, chips: 'Choose a style', all: 'All styles', cta: 'See the full style library',
-  pageTitle: 'The style library', pageLede: 'Eighteen curated interior styles. Pick one for a project and every room, from the living room to the bath, is designed as a variation of it.',
+  pageTitle: 'The style library', pageLede: 'Nineteen curated interior styles. Pick one for a project and every room, from the living room to the bath, is designed as a variation of it.',
   back: 'Back to residence.tech', count: n => `${n} styles`, tone: 'Tone', temperature: 'Temperature', any: 'All',
   values: { light: 'Light', mid: 'Mid', dark: 'Dark' }, temps: { warm: 'Warm', neutral: 'Neutral', cool: 'Cool' },
   open: name => `Open ${name}`, close: 'Close', empty: 'No style matches these filters.', palette: 'Palette',
@@ -255,7 +255,7 @@ const he: LandingCopy = {
  styles: {
   title: 'לכל בית סגנון עיצוב משלו', lede: 'כל דירה מקבלת סגנון פנים אחד נבחר, וכל חדר הוא וריאציה שלו.',
   region: 'סגנונות עיצוב', prev: 'הסגנון הקודם', next: 'הסגנון הבא', goTo: name => `הצגת ${name}`, chips: 'בחירת סגנון', all: 'כל הסגנונות', cta: 'לספריית הסגנונות המלאה',
-  pageTitle: 'ספריית עיצוב פנים', pageLede: '18 סגנונות עיצוביים לבחירה עבור כל חלל בפרויקט',
+  pageTitle: 'ספריית עיצוב פנים', pageLede: '19 סגנונות עיצוביים לבחירה עבור כל חלל בפרויקט',
   back: 'חזרה ל־residence.tech', count: n => `${n} סגנונות`, tone: 'גוון', temperature: 'טמפרטורה', any: 'הכול',
   values: { light: 'בהיר', mid: 'בינוני', dark: 'כהה' }, temps: { warm: 'חם', neutral: 'ניטרלי', cool: 'קר' },
   open: name => `פתיחת ${name}`, close: 'סגירה', empty: 'אין סגנון שמתאים למסננים האלה.', palette: 'פלטה',
