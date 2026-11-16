@@ -50,9 +50,9 @@ export type LandingCopy = {
 const en: LandingCopy = {
  nav: { how: 'How it works', package: 'What you get', projects: 'Projects', trial: 'Let’s talk' },
  hero: {
-  lead: 'From floor plans',
-  to: 'to buyer',
-  words: ['experience.'],
+  lead: 'Turn building plans',
+  to: 'into a complete',
+  words: ['sales package.'],
   lede: 'Everything you need to market your project – unit walkthroughs, 3D visuals, social-ready assets and a project marketing film.',
   cta: 'Get started',
   watch: 'Watch the film',
@@ -91,7 +91,7 @@ const en: LandingCopy = {
   ],
  },
  form: {
-  title: 'Ready to turn floor plans into a project that sells?',
+  title: 'Ready to turn your building plans into a project that sells?',
   lede: 'Leave your details.\nWe’ll get back to you fast, review your needs, and show you how we can build the right sales experience for it.',
   points: ['Fast response', 'Tailored to your project', 'Fair pricing'],
   name: 'Name', email: 'Email', phone: 'Phone', description: 'About the project', descriptionHint: 'Address, number of homes, anything we should know',
@@ -170,9 +170,9 @@ const en: LandingCopy = {
 const he: LandingCopy = {
  nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'בואו נדבר' },
  hero: {
-  lead: 'מתוכניות דירה',
+  lead: 'הופכים את תוכניות הבניין שלכם',
   to: '',
-  words: ['לחווייה שבאמת מוכרת'],
+  words: ['לחבילת מכירה מלאה'],
   ledeLead: ['תנו למתעניינים ', 'להרגיש', ' את העתיד במקום סתם לדמיין אותו:'],
   lede: 'אתר פרויקט עם סיורי דירות בווידאו, הדמיות 3D מעוצבות, חומרים לסושיאל וסרט שיווקי ממותג שמחבר הכל.',
   cta: 'בואו נתחיל',
