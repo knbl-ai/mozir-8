@@ -116,8 +116,8 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
      </div>
     </div>
     <div className={s.projectGrid}>
-     {/* first card: the newest project, a full-width row with the developer's logo */}
-     <Project href={withLang('/weizmann-97-apt-2', lang)} text={p.garden} newTab={p.newTab} wide
+     {/* first card: the newest project, with the developer's logo */}
+     <Project href={withLang('/weizmann-97-apt-2', lang)} text={p.garden} newTab={p.newTab}
       logo={{ src: '/projects/weizmann-97/logo.png', alt: p.garden.company ?? '' }}
       preview={a => <FilmPreview poster="/projects/weizmann-97/poster.webp" film={film('/projects/weizmann-97/film-preview.mp4')} active={a} />} />
      <Project href={withLang('/projects/borges-15', lang)} text={p.heritage} newTab={p.newTab}
@@ -132,8 +132,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       preview={a => <FilmPreview poster="/projects/hayarkon-56/living-m.webp" film={film("/projects/hayarkon-56/film-preview.mp4")} active={a} />} />
      <Project href={withLang('/rua-da-lapa', lang)} text={p.tower} newTab={p.newTab}
       preview={a => <BuildingPreview frames={tower.frames} skies={tower.skies} active={a} />} />
-     {/* last card: a full-width row, so the 3- and 2-column grids keep complete rows */}
-     <Project href={withLang('/lod-daycare', lang)} text={p.daycare} newTab={p.newTab} wide
+     <Project href={withLang('/lod-daycare', lang)} text={p.daycare} newTab={p.newTab}
       preview={a => <FilmPreview poster="/projects/lod-daycare/stills/golden.webp" film={film(`/projects/lod-daycare/film/lod-film-${filmLang}.mp4`)} active={a} />} />
     </div>
    </section>
