@@ -40,7 +40,7 @@ function PromoFilm({ lang, play, label, playing, onPlay }: { lang: 'en' | 'he'; 
  </div>;
 }
 
-function Project({ href, text, newTab, tone, wide, preview }: { href: string; text: ProjectCopy; newTab: string; tone?: 'dark'; wide?: boolean; preview: (active: boolean) => React.ReactNode }) {
+function Project({ href, text, newTab, tone, wide, logo, preview }: { href: string; text: ProjectCopy; newTab: string; tone?: 'dark'; wide?: boolean; logo?: { src: string; alt: string }; preview: (active: boolean) => React.ReactNode }) {
  const [active, setActive] = useState(false);
  return <Link href={href} target="_blank" rel="noopener" className={s.project} data-wide={wide || undefined} aria-label={`${text.cta} (${newTab})`}
   onPointerEnter={e => e.pointerType === 'mouse' && setActive(true)} onPointerLeave={() => setActive(false)}
@@ -48,6 +48,7 @@ function Project({ href, text, newTab, tone, wide, preview }: { href: string; te
   <span className={s.projectPreview} data-tone={tone}>
    {preview(active)}
    <span className={s.projectChip} aria-hidden><ArrowUpRight size={18} strokeWidth={2} /></span>
+   {logo && <span className={s.projectLogo}><img src={logo.src} alt={logo.alt} /></span>}
   </span>
   <span className={s.projectKind}>{text.kind}</span>
   <span className={s.projectName}>{text.name}</span>
@@ -115,6 +116,10 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
      </div>
     </div>
     <div className={s.projectGrid}>
+     {/* first card: the newest project, a full-width row with the developer's logo */}
+     <Project href={withLang('/weizmann-97-apt-2', lang)} text={p.garden} newTab={p.newTab} wide
+      logo={{ src: '/projects/weizmann-97/logo.png', alt: p.garden.company ?? '' }}
+      preview={a => <FilmPreview poster="/projects/weizmann-97/poster.webp" film={film('/projects/weizmann-97/film-preview.mp4')} active={a} />} />
      <Project href={withLang('/projects/borges-15', lang)} text={p.heritage} newTab={p.newTab}
       preview={a => <BuildingPreview frames={heritageFrames} active={a} span={0.6} centre={0.5} />} />
      <Project href={withLang('/klee-8', lang)} text={p.boutique} newTab={p.newTab}
@@ -127,7 +132,7 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
       preview={a => <FilmPreview poster="/projects/hayarkon-56/living-m.webp" film={film("/projects/hayarkon-56/film-preview.mp4")} active={a} />} />
      <Project href={withLang('/rua-da-lapa', lang)} text={p.tower} newTab={p.newTab}
       preview={a => <BuildingPreview frames={tower.frames} skies={tower.skies} active={a} />} />
-     {/* 7th card: a full-width row, so the 3- and 2-column grids keep complete rows */}
+     {/* last card: a full-width row, so the 3- and 2-column grids keep complete rows */}
      <Project href={withLang('/lod-daycare', lang)} text={p.daycare} newTab={p.newTab} wide
       preview={a => <FilmPreview poster="/projects/lod-daycare/stills/golden.webp" film={film(`/projects/lod-daycare/film/lod-film-${filmLang}.mp4`)} active={a} />} />
     </div>
