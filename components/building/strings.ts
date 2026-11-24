@@ -235,4 +235,4 @@ const el: ExplorerText = {
  modelView: 'Προβολή μοντέλου', modelLeft: 'Περιστροφή του μοντέλου αριστερά', modelRight: 'Περιστροφή του μοντέλου δεξιά', model3d: '3D', modelTop: 'Κάτοψη', modelOutdoor: 'Εξωτερικά', resetView: 'Επαναφορά προβολής', fullscreen: 'Πλήρης οθόνη', exitFullscreen: 'Έξοδος από πλήρη οθόνη', modelFloors: 'Όροφοι', panLeft: 'Μετακίνηση αριστερά', panRight: 'Μετακίνηση δεξιά', panUp: 'Μετακίνηση πάνω', panDown: 'Μετακίνηση κάτω', panPad: 'Μετακίνηση της προβολής',
 };
 
-export const explorerText: Record<Lang, ExplorerText> = { en, he, pt, el };
+export const explorerText: Record<Lang, ExplorerText> = { en, he, pt, el, es: en };

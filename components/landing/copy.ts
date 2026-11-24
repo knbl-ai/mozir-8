@@ -290,4 +290,4 @@ const he: LandingCopy = {
  },
 };
 
-export const copy: Record<Lang, LandingCopy> = { en, he, pt: en, el: en };  // the landing offers Hebrew, not Portuguese (lib/i18n LANG_PAGES)
+export const copy: Record<Lang, LandingCopy> = { en, he, pt: en, el: en, es: en };  // the landing offers Hebrew, not Portuguese (lib/i18n LANG_PAGES)
