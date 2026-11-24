@@ -56,6 +56,14 @@ function Project({ href, text, newTab, tone, wide, logo, preview }: { href: stri
  </Link>;
 }
 
+const ICON = { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'currentColor', 'aria-hidden': true } as const;
+// The accounts residence.tech posts to (Instagram: none for now).
+const SOCIALS = [
+ { name: 'LinkedIn', href: 'https://www.linkedin.com/company/145389579', icon: <svg {...ICON}><path d="M20.450 20.450h-3.550v-5.570c0-1.330-.020-3.040-1.850-3.040-1.850 0-2.140 1.450-2.140 2.950v5.660H9.350V9h3.410v1.560h.050c.470-.900 1.630-1.850 3.360-1.850 3.600 0 4.270 2.370 4.270 5.460v6.280ZM5.340 7.430a2.060 2.060 0 1 1 0-4.130 2.060 2.060 0 0 1 0 4.130ZM7.120 20.450H3.560V9h3.560v11.450ZM22.220 0H1.770C.790 0 0 .770 0 1.730v20.540C0 23.230.790 24 1.770 24h20.450c.980 0 1.780-.770 1.780-1.730V1.730C24 .770 23.200 0 22.220 0Z"/></svg> },
+ { name: 'Facebook', href: 'https://www.facebook.com/1452936557894342', icon: <svg {...ICON}><path d="M24 12.070C24 5.410 18.630 0 12 0S0 5.410 0 12.070C0 18.100 4.390 23.090 10.130 24v-8.440H7.080v-3.490h3.050V9.410c0-3.020 1.790-4.690 4.530-4.690 1.310 0 2.690.240 2.690.240v2.970h-1.510c-1.490 0-1.960.930-1.960 1.890v2.260h3.330l-.530 3.490h-2.800V24C19.610 23.090 24 18.100 24 12.070Z"/></svg> },
+ { name: 'YouTube', href: 'https://www.youtube.com/@ResidenceTech-p4t', icon: <svg {...ICON}><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.900.5A3 3 0 0 0 1 7.200C.5 9.100.5 12 .5 12s0 2.900.5 4.800a3 3 0 0 0 2.100 2.100c1.900.5 8.900.5 8.900.5s7 0 8.900-.5a3 3 0 0 0 2.100-2.100c.5-1.900.5-4.800.5-4.800s0-2.900-.5-4.800ZM9.600 15.500v-7l6 3.500-6 3.500Z"/></svg> },
+];
+
 export default function Home({ buildingFrames, penthouseFrames, heritageFrames, spinFrames, tower }: { buildingFrames: string[]; penthouseFrames: string[]; heritageFrames: string[]; spinFrames: string[]; tower: { frames: string[]; skies: string[] } }) {
  const lang = useLang();
  const t = copy[lang];
@@ -143,6 +151,9 @@ export default function Home({ buildingFrames, penthouseFrames, heritageFrames, 
    <div className={s.footerRow}>
     <Logo className={s.footerLogo} />
     <a href={`mailto:${t.footer.contact}`}>{t.footer.contact}</a>
+    <nav className={s.socials} aria-label="Social media">
+     {SOCIALS.map(x => <a key={x.name} href={x.href} target="_blank" rel="noopener noreferrer" aria-label={x.name}>{x.icon}</a>)}
+    </nav>
     <span>© {new Date().getFullYear()} {t.footer.line}</span>
     <CookieSettingsLink />
    </div>

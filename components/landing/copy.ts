@@ -28,7 +28,7 @@ export type LandingCopy = {
   submit: string; sending: string; uploading: string; required: string;
   done: (email: string) => string; doneTitle: string; again: string;
   errors: { email: string; type: string; size: string; rate: string; upload: string; server: string };
-  privacy: string;
+  privacy: string; newsletter: string;
  };
  films: { title: [string, string]; sub: string; getTitle: string; get: { name: string; spec: string; use: string; ratio: '16:9' | '9:16' }[]; whyTitle: string; why: Item[];
   share: string; copied: string; open: (name: string) => string; show: (name: string) => string; newTab: string; region: string; prev: string; next: string; all: string; note: string };
@@ -50,7 +50,7 @@ export type LandingCopy = {
 const en: LandingCopy = {
  nav: { how: 'How it works', package: 'What you get', projects: 'Projects', trial: 'Let’s talk' },
  hero: {
-  lead: 'Turn building plans',
+  lead: 'Turn floor plans',
   to: 'into a complete',
   words: ['sales package.'],
   lede: 'Everything you need to market your project – unit walkthroughs, 3D visuals, social-ready assets and a project marketing film.',
@@ -91,7 +91,7 @@ const en: LandingCopy = {
   ],
  },
  form: {
-  title: 'Ready to turn your building plans into a project that sells?',
+  title: 'Ready to turn your floor plans into a project that sells?',
   lede: 'Leave your details.\nWe’ll get back to you fast, review your needs, and show you how we can build the right sales experience for it.',
   points: ['Fast response', 'Tailored to your project', 'Fair pricing'],
   name: 'Name', email: 'Email', phone: 'Phone', description: 'About the project', descriptionHint: 'Address, number of homes, anything we should know',
@@ -109,6 +109,7 @@ const en: LandingCopy = {
    server: 'Something went wrong on our side. Try again, or write to info@residence.tech.',
   },
   privacy: 'We use your details only to reply to this request.',
+  newsletter: 'Keep me updated with new projects, demos, and innovations from residence.tech.',
  },
  films: {
   title: ['Apartment', 'Highlights'],
@@ -171,7 +172,7 @@ const en: LandingCopy = {
 const he: LandingCopy = {
  nav: { how: 'איך זה עובד', package: 'מה מקבלים', projects: 'פרויקטים', trial: 'בואו נדבר' },
  hero: {
-  lead: 'הופכים את תוכניות הבניין שלכם',
+  lead: 'הופכים את תוכניות הקומה שלכם',
   to: '',
   words: ['לחבילת מכירה מלאה'],
   ledeLead: ['תנו למתעניינים ', 'להרגיש', ' את העתיד במקום סתם לדמיין אותו:'],
@@ -231,6 +232,7 @@ const he: LandingCopy = {
    server: 'משהו השתבש אצלנו. נסו שוב, או כתבו ל־info@residence.tech.',
   },
   privacy: 'נשתמש בפרטים רק כדי לענות לפנייה הזו.',
+  newsletter: 'אשמח להתעדכן בפרויקטים חדשים, דמואים וחידושים מ־residence.tech.',
  },
  films: {
   title: ['היילייטס', 'לדירה'],

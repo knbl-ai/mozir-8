@@ -69,7 +69,7 @@ export default function TrialForm({ t, lang }: { t: LandingCopy['form']; lang: '
    }
    setState({ step: 'sending' });
    const r = await fetch('/api/leads', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
-    name: data.get('name'), email, phone: data.get('phone'), description: data.get('description'), website: data.get('website'),
+    name: data.get('name'), email, phone: data.get('phone'), description: data.get('description'), website: data.get('website'), newsletter: data.get('newsletter') === 'on',
     planPath, planName: file?.name ?? '', lang, attribution: readAttribution(),
    }) });
    if (!r.ok) throw (await r.json().catch(() => ({}))).error ?? 'server';
@@ -136,6 +136,7 @@ export default function TrialForm({ t, lang }: { t: LandingCopy['form']; lang: '
       <i style={{ transform: `scaleX(${state.progress})` }} /><span>{t.uploading} · {Math.round(state.progress * 100)}%</span>
      </div>}
      <Button type="submit" tone="dark" disabled={busy} className={s.submit}>{state.step === 'uploading' ? t.uploading : state.step === 'sending' ? t.sending : t.submit}</Button>
+     <label className={s.consent}><input type="checkbox" name="newsletter" /><span>{t.newsletter}</span></label>
      <p className={s.privacy}>{t.privacy}</p>
     </form>}
  </section>;

@@ -57,6 +57,7 @@ export async function POST(request: Request) {
   phone: str(body.phone, 40),
   description: str(body.description, 4000),
   plan,
+  newsletter: body.newsletter === true,
   lang: body.lang === 'he' ? 'he' : 'en',
   source: 'landing',
   status: 'new',

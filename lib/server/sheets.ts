@@ -4,7 +4,7 @@ import type { Lead } from './mongo';
 import { fileLink } from './file-links';
 
 const API = 'https://sheets.googleapis.com/v4/spreadsheets';
-const HEADER = ['Time (Israel)', 'Name', 'Email', 'Phone', 'Description', 'Plan file', 'Lang', 'First source', 'First medium', 'Last source', 'Last medium', 'Referrer', 'Status'];
+const HEADER = ['Time (Israel)', 'Name', 'Email', 'Phone', 'Description', 'Plan file', 'Lang', 'First source', 'First medium', 'Last source', 'Last medium', 'Referrer', 'Status', 'Web research', 'Country', 'Newsletter'];
 
 let client: JWT | null = null;
 let headed = false;
@@ -28,7 +28,7 @@ export const planCell = (plan: Lead['plan']) => plan ? `=HYPERLINK("${fileLink(p
 const row = (lead: Lead) => {
  const f = lead.attribution?.first, l = lead.attribution?.last;
  return [`'${when(lead.createdAt)}`, ...[lead.name, lead.email, lead.phone, lead.description].map(text), planCell(lead.plan), lead.lang,
-  ...[f?.params.utm_source, f?.params.utm_medium, l?.params.utm_source, l?.params.utm_medium, l?.referrer || f?.referrer].map(v => text(v || '')), ''];
+  ...[f?.params.utm_source, f?.params.utm_medium, l?.params.utm_source, l?.params.utm_medium, l?.referrer || f?.referrer].map(v => text(v || '')), '', '', '', lead.newsletter ? 'Yes' : 'No'];
 };
 
 async function ensureHeader(id: string) {
