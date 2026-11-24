@@ -343,7 +343,7 @@ function Page() {
  const bReady = ready('building') && !!d.building;   // the building's own images (the photographs can come first)
 
  return <main className={`${st.page} ${s.home}`} data-style={d.style} data-opening={opening || undefined}>
-  {opening && <Intro word={word} under={`${street} · ${city}`} id={`home-${d.slug}-${L}`} onDone={done} />}
+  {opening && <Intro word={word} under={[street, city].filter(Boolean).join(' · ')} id={`home-${d.slug}-${L}`} onDone={done} />}
   <nav className={st.bar} data-solid={scrolled || undefined}>
    <Link href="/" className={st.logo} aria-label="residence.tech"><Logo /></Link>
    <ul className={st.tabs}>{nav.map(([h, w]) => <li key={h}><a href={`#${h}`}>{w}</a></li>)}</ul>
@@ -358,7 +358,7 @@ function Page() {
    <div className={`${st.heroText} ${s.heroText}`}>
     <p className={st.kicker}><span>{tx(d.unit)}</span>{d.where.floor != null && (d.where.tower ? t.tower(d.where.tower, d.where.floor) : t.floorN(d.where.floor))}</p>
     <h1 className={st.h1}>{title}</h1>
-    <p className={st.tagline}>{city}, {tx(A.country)}</p>
+    {(city || tx(A.country)) && <p className={st.tagline}>{[city, tx(A.country)].filter(Boolean).join(', ')}</p>}
     {dev?.logoWhite && <div className={s.dev}>
      <small>{t.developedBy}</small>
      {dev.url ? <Link href={dev.url}><img src={dev.logoWhite} alt={tx(dev.name)} /></Link> : <img src={dev.logoWhite} alt={tx(dev.name)} />}

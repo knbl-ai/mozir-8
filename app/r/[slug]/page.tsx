@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
  const robots = { index: false, follow: false, nocache: true };
  if (!d) return { robots };
  const where = [d.address.no, d.address.street.en].filter(Boolean).join(' ');
- return { title: `${d.unit.en} · ${where}, ${d.address.city.en}`, description: `${d.unit.en}, ${where}: films, plan, images and 3D.`, robots,
+ return { title: `${d.unit.en} · ${[where, d.address.city?.en].filter(Boolean).join(', ')}`, description: `${d.unit.en}, ${where}: films, plan, images and 3D.`, robots,
   openGraph: { title: `${d.unit.en} · ${d.project.en}`, images: [d.hero.wideStill] } };
 }
 
