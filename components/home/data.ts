@@ -30,7 +30,7 @@ export interface HomeData {
  project: Tx;                                     // the development's name (or the street, without one)
  unit: Tx;                                        // "Residence 01", "Apartment 12"
  where: { tower?: string; floor?: number; floors?: number };
- address: { no?: string; street: Tx; word?: Tx; city: Tx; country: Tx };
+ address: { no?: string; street: Tx; word?: Tx; city?: Tx; country?: Tx };
  developer?: { name: Tx; logoWhite?: string; logoBlack?: string; url?: string; linkLabel?: Tx; about?: Tx; facts: { value: string; label: Tx }[] };
  agent?: { name: Tx; role?: Tx; phone?: string; email?: string; photo?: string };
  hero: { wide?: string; wideStill: string; tall?: string; tallStill?: string; slides?: string[] };   // slides: the hero while the films are being made
