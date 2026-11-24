@@ -14,7 +14,7 @@ const STYLES = ['riviera-editorial', 'sunday-house', 'monograph'];
 const SECTIONS: Section[] = ['films', 'plan', 'model', 'building', 'area', 'contact', 'kit'];
 const STATUS: Status[] = ['ready', 'building', 'hidden'];
 // same as lib/i18n.tsx ALL_LANGS (a client module: its values can't be read here on the server)
-const LANGS: Lang[] = ['en', 'he', 'pt', 'el'];
+const LANGS: Lang[] = ['en', 'he', 'pt', 'el', 'es'];
 
 type O = Record<string, unknown>;
 const obj = (v: unknown): v is O => !!v && typeof v === 'object' && !Array.isArray(v);

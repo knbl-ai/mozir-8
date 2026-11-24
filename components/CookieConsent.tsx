@@ -9,10 +9,10 @@ const T: Record<Lang, { title: string; body: string; accept: string; reject: str
  en: { title: 'Cookies', body: 'We use cookies to measure visits and our ads. They stay off unless you accept. You can change your choice anytime from “Cookie settings” in the footer.', accept: 'Accept', reject: 'Reject' },
  he: { title: 'עוגיות', body: 'אנחנו משתמשים בעוגיות כדי למדוד ביקורים ואת הפרסום שלנו. הן כבויות עד שתאשרו. אפשר לשנות את הבחירה בכל עת ב״הגדרות עוגיות״ בתחתית העמוד.', accept: 'אישור', reject: 'דחייה' },
  pt: { title: 'Cookies', body: 'Usamos cookies para medir visitas e os nossos anúncios. Ficam desligados a menos que aceite. Pode mudar a sua escolha a qualquer momento em “Definições de cookies”, no rodapé.', accept: 'Aceitar', reject: 'Recusar' },
- el: { title: 'Cookies', body: 'Χρησιμοποιούμε cookies για να μετράμε τις επισκέψεις και τις διαφημίσεις μας. Μένουν απενεργοποιημένα αν δεν τα αποδεχτείτε. Μπορείτε να αλλάξετε την επιλογή σας οποιαδήποτε στιγμή από τις «Ρυθμίσεις cookies» στο κάτω μέρος.', accept: 'Αποδοχή', reject: 'Απόρριψη' },
+ el: { title: 'Cookies', body: 'Χρησιμοποιούμε cookies για να μετράμε τις επισκέψεις και τις διαφημίσεις μας. Μένουν απενεργοποιημένα αν δεν τα αποδεχτείτε. Μπορείτε να αλλάξετε την επιλογή σας οποιαδήποτε στιγμή από τις «Ρυθμίσεις cookies» στο κάτω μέρος.', accept: 'Αποδοχή', reject: 'Απόρριψη' }, es: { title: 'Cookies', body: 'Usamos cookies para medir las visitas y nuestros anuncios. Permanecen desactivadas hasta que las aceptes. Puedes cambiar tu elección en cualquier momento desde «Configuración de cookies», en el pie de página.', accept: 'Aceptar', reject: 'Rechazar' },
 };
 
-export const COOKIE_SETTINGS_LABEL: Record<Lang, string> = { en: 'Cookie settings', he: 'הגדרות עוגיות', pt: 'Definições de cookies', el: 'Ρυθμίσεις cookies' };
+export const COOKIE_SETTINGS_LABEL: Record<Lang, string> = { en: 'Cookie settings', he: 'הגדרות עוגיות', pt: 'Definições de cookies', el: 'Ρυθμίσεις cookies', es: 'Configuración de cookies' };
 
 // The apartment pages (a client order's /r/<slug> and the example pages sent to clients) carry no banner: the page is the
 // client's, and Consent Mode keeps ads and analytics storage denied there (lib/consent.ts defaults).

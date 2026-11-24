@@ -17,8 +17,9 @@ const T: Record<Lang, { kicker: string; more: string; rooms: string; area: strin
  he: { kicker: 'על הבית', more: 'על הבית', rooms: 'חדרים', area: 'פנים, מ״ר', outdoor: 'חוץ, מ״ר', exposure: 'כיווני אוויר', close: 'סגירה' },
  pt: { kicker: 'Sobre a casa', more: 'Sobre a casa', rooms: 'Divisões', area: 'Interior, m²', outdoor: 'Exterior, m²', exposure: 'Orientação', close: 'Fechar' },
  el: { kicker: 'Σχετικά με το σπίτι', more: 'Σχετικά με το σπίτι', rooms: 'Δωμάτια', area: 'Εσωτερικό, m²', outdoor: 'Εξωτερικό, m²', exposure: 'Προσανατολισμός', close: 'Κλείσιμο' },
+ es: { kicker: 'Sobre la vivienda', more: 'Sobre la vivienda', rooms: 'Estancias', area: 'Interior, m²', outdoor: 'Exterior, m²', exposure: 'Orientación', close: 'Cerrar' },
 };
-const num = (v: number, lang: Lang) => new Intl.NumberFormat(lang === 'en' ? 'en-US' : lang === 'he' ? 'he-IL' : lang === 'pt' ? 'pt-PT' : 'el-GR', { maximumFractionDigits: 1 }).format(v);
+const num = (v: number, lang: Lang) => new Intl.NumberFormat(lang === 'en' ? 'en-US' : lang === 'he' ? 'he-IL' : lang === 'pt' ? 'pt-PT' : lang === 'es' ? 'es-ES' : 'el-GR', { maximumFractionDigits: 1 }).format(v);
 
 export function ScrollCue({ lang }: { lang: Lang }) {
  return <a className={s.cue} href="#about" aria-label={T[lang].more}><span>{T[lang].more}</span><ChevronDown size={16} strokeWidth={1.6} aria-hidden /></a>;

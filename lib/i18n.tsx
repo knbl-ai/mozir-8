@@ -3,8 +3,8 @@ import { useEffect, useSyncExternalStore } from 'react';
 import { usePathname } from 'next/navigation';
 
 // More languages = add the code here and a dictionary entry wherever a page has Record<Lang, …> (TypeScript lists them).
-export type Lang = 'en' | 'he' | 'pt' | 'el';
-export const ALL_LANGS: Lang[] = ['en', 'he', 'pt', 'el'];
+export type Lang = 'en' | 'he' | 'pt' | 'el' | 'es';
+export const ALL_LANGS: Lang[] = ['en', 'he', 'pt', 'el', 'es'];
 export const RTL: string[] = ['he', 'ar'];
 export const LANG_PARAM = 'lang';
 export const LANG_STORAGE_KEY = 'residences-lang';
@@ -94,4 +94,4 @@ export function withLang(href: string, lang: Lang) {
 
 export const LANG_BOOT_SCRIPT = `(function(){try{var d=document.documentElement,pages=${JSON.stringify(LANG_PAGES)},ok=['en','he'];for(var i=0;i<pages.length;i++)if(location.pathname.indexOf(pages[i][0])>=0)ok=pages[i][1];var defs=${JSON.stringify(LANG_DEFAULTS)},def=null;for(var j=0;j<defs.length;j++)if(location.pathname.indexOf(defs[j][0])>=0)def=defs[j][1];var q=new URLSearchParams(location.search).get('${LANG_PARAM}'),l=ok.indexOf(q)>=0?q:(def||localStorage.getItem('${LANG_STORAGE_KEY}'));if(ok.indexOf(q)>=0)localStorage.setItem('${LANG_STORAGE_KEY}',q);if(l!=='en'&&ok.indexOf(l)>=0){d.lang=l;if(${JSON.stringify(RTL)}.indexOf(l)>=0)d.dir='rtl';d.setAttribute('data-lang',l);setTimeout(function(){d.setAttribute('data-lang-ready','')},2500);}}catch(e){}})();`;
 
-export const LANGUAGES: { value: Lang; label: string; short: string }[] = [{ value: 'en', label: 'English', short: 'EN' }, { value: 'he', label: 'עברית', short: 'עב' }, { value: 'pt', label: 'Português', short: 'PT' }, { value: 'el', label: 'Ελληνικά', short: 'ΕΛ' }];
+export const LANGUAGES: { value: Lang; label: string; short: string }[] = [{ value: 'en', label: 'English', short: 'EN' }, { value: 'he', label: 'עברית', short: 'עב' }, { value: 'pt', label: 'Português', short: 'PT' }, { value: 'el', label: 'Ελληνικά', short: 'ΕΛ' }, { value: 'es', label: 'Español', short: 'ES' }];
