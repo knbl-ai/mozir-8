@@ -27,6 +27,8 @@ export type Lead = {
  phone: string;
  description: string;
  plan: { path: string; filename: string; contentType: string; size: number } | null;
+ /** agreed to receive the newsletter (checkbox on the form, checked by default); absent on older leads */
+ newsletter?: boolean;
  lang: 'en' | 'he';
  source: 'landing';
  status: 'new';

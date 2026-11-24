@@ -452,3 +452,7 @@ video.previewMedia[data-playing] { opacity: 1; }
 .thanksKicker { margin: 6px 0 -8px; font: 500 12.5px/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); }
 .thanksActions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 8px; }
 :global([dir=rtl]) .thanksKicker { letter-spacing: 0; font-family: var(--sans); font-size: 14px; }
+.consent { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--ink-3); cursor: pointer; }
+.consent input { margin-top: 3px; width: 16px; height: 16px; flex: none; accent-color: var(--orange); }
+.socials { display: flex; gap: 14px; align-items: center; }
+.socials a { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgb(23 63 50 / 0.2); }
