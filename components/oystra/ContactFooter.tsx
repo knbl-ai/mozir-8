@@ -17,7 +17,7 @@ export default function ContactFooter() {
   <div className={`${s.wrap} ${s.footEnd}`} data-reveal>
    <span className={s.wordmark}>Oystra</span>
    <ul>{CREDITS.map(([role, name]) => <li key={role}><i>{role}</i>{name}</li>)}</ul>
-   <p className={s.small}>Interior pictures are our visualisations of Residence C-905. Exterior pictures follow the developer&apos;s renders. Sizes follow the developer&apos;s plans and may change.</p>
+   <p className={s.small}>Interior pictures are our visualisations of Residence C-905. Exterior pictures follow the developer&apos;s renders. Sizes follow the developer&apos;s plans and may change. Travel times as given by the developer. Map data © OpenStreetMap contributors.</p>
   </div>
  </footer>;
 }

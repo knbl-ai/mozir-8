@@ -31,8 +31,6 @@ export const ROOMS: Room[] = [
   { id: 'c-table', alt: 'The edge of the stone coffee table on its brass base', kind: 'detail' },
   { id: 'w-dining', alt: 'The dining table seen from the lounge, the kitchen behind it', kind: 'wide' },
   { id: 'a-curtain', alt: 'A sheer curtain lifting in the sea breeze at the open glass', kind: 'mood' },
-  { id: 'c-fluted', alt: 'The fluted ivory wall panel in side light', kind: 'detail' },
-  { id: 'c-threshold', alt: 'The flush threshold where the stone floor meets the balcony deck', kind: 'detail' },
  ] },
  { id: 'kitchen', name: 'Kitchen', line: 'Ivory joinery, a stone worktop and brass, open to the dining table.', size: '3.3 × 2.4 m', zone: '778,711 958,711 958,928 722,928 722,856 778,856', at: [868, 770], shots: [
   { id: 'w-kitchen', alt: 'The kitchen seen across the dining table', kind: 'wide' },
@@ -46,7 +44,6 @@ export const ROOMS: Room[] = [
  ] },
  { id: 'bath', name: 'Master bathroom', line: 'A freestanding bath, a floating vanity and warm light from the stone itself.', size: '3.3 × 3.2 m', zone: '720,69 958,69 958,314 720,314', at: [840, 180], shots: [
   { id: 'w-bathm', alt: 'The master bathroom with its vanity and freestanding bath', kind: 'wide' },
-  { id: 'c-bathm', alt: 'The brass bath tap and the lit stone niche', kind: 'detail' },
  ] },
  { id: 'bed2', name: 'Second bedroom', line: 'The same glass, the same balcony, its own bathroom across the hall.', size: '4.7 × 3.2 m', zone: '261,353 611,353 611,578 261,578', at: [430, 395], shots: [
   { id: 'w-bed2', alt: 'The second bedroom looking toward the glass wall and the balcony', kind: 'wide' },
@@ -55,7 +52,6 @@ export const ROOMS: Room[] = [
   { id: 'w-balcony', alt: 'The curved balcony at golden hour, the sea ahead', kind: 'wide' },
   { id: 'a-horizon', alt: 'The view from the glass rail at golden hour', kind: 'mood' },
   { id: 'w-terrace-in', alt: 'The living room seen from the terrace through the open glass', kind: 'wide' },
-  { id: 'a-terrace-dusk', alt: 'The lit living room seen from the terrace at blue hour', kind: 'mood' },
  ] },
 ];
 

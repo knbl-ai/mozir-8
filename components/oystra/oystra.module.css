@@ -383,25 +383,48 @@
 .unfoldPin::after{content:"";position:absolute;inset:auto 0 0;height:26%;background:linear-gradient(0deg,rgba(4,18,28,.96) 38%,transparent);pointer-events:none;opacity:var(--veil,0)}
 .unfoldMap{position:absolute;inset:0;width:100%;height:100%;--u:.14}
 .unfoldMap :is(path,circle){fill:none;stroke-linecap:round;stroke-linejoin:round}
-.unfoldMap [data-k="isl"]{stroke:var(--rose);stroke-width:calc(var(--u)*1.4px);fill:rgba(205,166,135,.14)}
+/* The map in the film's style (pipeline/signature/film/build_map.py): the shore and every street are thin blue lines; only what
+   belongs to the project (the residences, the drives, the marks of the places, the Oystra mark) is rose gold. On the page it stands on
+   the section's night ground (the film's is light); the colours are the variables on .unfold further down. */
+.unfoldMap [data-k="landfar"],.unfoldMap [data-k="land"]{fill:var(--mpaper)}
+.unfoldMap [data-k="land"]{stroke:var(--mline);stroke-width:calc(var(--u)*1.3px)}
+.unfoldMap [data-k="marjan"]{stroke:var(--mline);stroke-width:calc(var(--u)*1.6px)}
+.unfoldMap [data-k="coastfar"]{stroke:var(--mline);stroke-width:calc(var(--u)*1.3px)}
+.unfoldMap [data-k="wl"]{stroke:var(--mwl);stroke-width:calc(var(--u)*1.1px);stroke-opacity:.7}
+.unfoldMap [data-k="rd"]{stroke:var(--mline2);stroke-width:calc(var(--u)*1px);stroke-opacity:.4}
+.unfoldMap [data-k="dsand"]{fill:rgba(255,232,205,.2)}.unfoldMap [data-k="dgreen"]{fill:rgba(127,184,160,.2)}.unfoldMap [data-k="dpool"]{fill:rgba(127,180,196,.3)}
+.unfoldMap [data-k="droad"]{stroke:var(--mline2);stroke-width:calc(var(--u)*1.5px)}
+.unfoldMap [data-k="sweep"]{stroke:#FFF4E6;stroke-width:calc(var(--u)*1.6px)}
 /* the four residences on the island, in metres inside a scaled group: 60 = metres per world unit, so widths hold on screen */
-.unfoldMap [data-k="bbase"]{fill:rgba(205,166,135,.1);stroke:var(--rose-light);stroke-width:calc(var(--u)*84px);stroke-linejoin:round}
-.unfoldMap [data-k="bplate"]{fill:rgba(255,238,223,.07);stroke:var(--rose);stroke-width:calc(var(--u)*60px);stroke-linejoin:round}
-.unfoldMap [data-k="bcell"]{fill:rgba(205,166,135,.15);stroke:var(--rose);stroke-width:calc(var(--u)*34px);stroke-opacity:.75}
-.unfoldMap [data-k="bletter"]{font-family:var(--display);font-style:italic;font-size:calc(var(--u)*1500px);fill:#FFEEDF}
-.unfoldMap [data-k="coast"]{stroke:var(--rose);stroke-width:calc(var(--u)*1.3px)}
-.unfoldMap [data-k="ct"]{stroke:#7FB4C4;stroke-width:calc(var(--u)*.8px);stroke-opacity:.34}
-.unfoldMap [data-k="rd"]{stroke:var(--rose);stroke-width:calc(var(--u)*.75px);stroke-opacity:.32}
-.unfoldMap [data-k="trip"]{stroke:var(--rose-light);stroke-width:calc(var(--u)*1.1px);stroke-dasharray:calc(var(--u)*1px) calc(var(--u)*5px);transition:opacity .35s ease}
-.unfoldMap [data-k="tripMask"]{stroke:#fff;stroke-width:calc(var(--u)*6px)}
-.unfoldMap [data-k="dot"]{fill:var(--deep);stroke:var(--rose);stroke-width:calc(var(--u)*1.3px)}
-.unfoldMap [data-k="light"]{fill:#FFF4E6;filter:drop-shadow(0 0 calc(var(--u)*6px) #FFE2BE)}
-.unfoldMap [data-k="pearl"]{fill:url(#lu-pearl)}
-.unfoldMap [data-k="ring"]{stroke:var(--rose-light);stroke-width:calc(var(--u)*1px)}
-.unfoldMap [data-k="lab"],.unfoldMap [data-k="min"]{font-family:var(--body);letter-spacing:.24em;text-transform:uppercase;fill:#EFE9E1}
-.unfoldMap [data-k="min"]{fill:var(--rose)}
-.unfoldMap [data-k="word"]{font-family:var(--word);font-size:calc(var(--u)*17px);letter-spacing:.42em;fill:#FFEEDF}
-.unfoldMap [data-k="coord"]{font-family:var(--body);font-size:calc(var(--u)*8.5px);letter-spacing:.3em;fill:var(--mute-dark)}
+.unfoldMap [data-k="bbase"]{fill:#17384A;stroke:var(--gold-d);stroke-width:calc(var(--u)*96px);stroke-linejoin:round}
+.unfoldMap [data-k="bplate"]{fill:#0F2D3F;stroke:var(--gold-d);stroke-width:calc(var(--u)*72px);stroke-linejoin:round}
+.unfoldMap [data-k="bcell"]{fill:#1D4053;stroke:var(--gold);stroke-width:calc(var(--u)*36px);stroke-opacity:.8}
+.unfoldMap [data-k="bletter"]{font-family:var(--display);font-style:italic;font-size:10.5px;fill:#FFEEDF}
+/* the drives along the real roads, the far journeys' bowed lines, and the circle that rides a line's head */
+.unfoldMap [data-k="drvcase"]{stroke:var(--mpaper);stroke-width:calc(var(--u)*6px)}
+.unfoldMap [data-k="drv"]{stroke:var(--gold);stroke-width:calc(var(--u)*2.8px)}
+.unfoldMap [data-k="trip"]{stroke:var(--gold);stroke-width:calc(var(--u)*2.2px)}
+.unfoldMap [data-k="tripMask"]{stroke:#fff;stroke-width:calc(var(--u)*8px)}
+.unfoldMap [data-k="head"]{fill:#FFF4E6;stroke:var(--gold-d);stroke-width:calc(var(--u)*2.2px)}
+/* the Oystra mark: the emblem on a pearl-gold disc */
+.unfoldMap [data-k="mkpaper"]{fill:var(--mpaper)}
+.unfoldMap [data-k="mkdisc"]{fill:url(#lu-gold);stroke:var(--gold-d);stroke-width:calc(var(--u)*1.2px)}
+.unfoldMap [data-k="mkrim"]{stroke:#FFF8EE;stroke-opacity:.9}
+.unfoldMap [data-k="mkem"]{fill:#7A5638}
+.unfoldMap [data-k="ring"]{stroke:var(--gold-d);stroke-width:calc(var(--u)*1.2px)}
+.unfoldMap [data-k="word"]{font-family:var(--word);font-size:calc(var(--u)*17px);letter-spacing:.42em;fill:#FFEEDF;stroke:var(--msea);stroke-width:calc(var(--u)*5px);stroke-linejoin:round;paint-order:stroke}
+/* the places' marks and plates: HTML over the map, placed by the engine (left/top = the place on screen) */
+.unfoldPins{position:absolute;inset:0;z-index:1;pointer-events:none}
+.unfoldPins [data-p="pin"]{position:absolute;width:34px;height:34px;border-radius:50%;box-sizing:border-box;background:radial-gradient(circle at 36% 32%,#FFFDF8 0%,var(--gold-l) 42%,var(--gold) 100%);border:1.2px solid var(--gold-d);box-shadow:0 0 0 2.5px var(--mpaper)}
+.unfoldPins [data-p="pin"] svg{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px);fill:none;stroke:#6B4A2E;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.unfoldPins [data-p="plate"]{position:absolute;padding:6px 13px 8px;background:rgba(6,23,36,.86);border:1px solid rgba(205,166,135,.7);border-radius:2px;white-space:nowrap}
+.unfoldPins [data-p="plate"][data-c="tr"]{translate:-100% 0}.unfoldPins [data-p="plate"][data-c="bl"]{translate:0 -100%}.unfoldPins [data-p="plate"][data-c="br"]{translate:-100% -100%}
+.unfoldPins p{margin:0}
+.unfoldPins [data-p="name"]{font-family:var(--display);font-style:italic;font-size:clamp(17px,1.5vw,22px);line-height:1.05;color:#F3ECE3}
+.unfoldPins [data-p="min"]{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:3px}
+.unfoldPins [data-p="min"] b{font-family:var(--word);font-weight:400;font-size:15px;letter-spacing:.02em;color:#FFEEDF;margin-right:1px}
+/* the four residences on the island, in metres inside a scaled group: 60 = metres per world unit, so widths hold on screen */
+/* the place's detail: beaches, greens, pools, buildings, the islands' streets, piers, and the ring of light they arrive behind */
 .unfoldSide{position:absolute;z-index:2;left:var(--gutter);top:46%;transform:translateY(-50%);width:min(430px,34vw)}
 .unfoldSide .eyebrow{color:var(--rose)}
 .unfoldSide .title{font-size:clamp(34px,4vw,60px);margin-top:16px}
@@ -436,16 +459,8 @@
 .unfoldStory [data-s="num"] i{font-style:normal;font-size:clamp(12px,1vw,15px);letter-spacing:.34em;text-transform:uppercase;color:var(--rose)}
 .unfoldStory [data-s="name"]{font-family:var(--display);font-style:italic;font-weight:300;font-size:clamp(28px,3.2vw,50px);line-height:1.08;margin-top:14px;text-wrap:balance}
 /* marks on the map keep their size on screen at every scale */
-.unfoldMap [data-k="dot"]{r:calc(var(--u)*4px)}
-.unfoldMap [data-k="pearl"]{r:calc(var(--u)*5px);transform-box:fill-box}
-.unfoldMap [data-k="light"]{r:calc(var(--u)*2.6px)}
-.unfoldMap [data-k="lab"]{font-size:calc(var(--u)*11px)}
-.unfoldMap [data-k="min"]{font-size:calc(var(--u)*9.5px)}
 
 /* the residences in plan, and the captions on the right while the plan holds the middle */
-.unfoldMap [data-k="shell"]{stroke:var(--rose-light);stroke-width:calc(var(--u)*1.5px);fill:url(#lu-nacre)}
-.unfoldMap [data-k="arch"]{stroke:var(--rose);stroke-width:calc(var(--u)*1px);stroke-dasharray:1}
-.unfoldMap [data-k="letter"]{font-family:var(--word);font-size:calc(var(--u)*22px);fill:#FFEEDF;letter-spacing:.06em}
 .unfoldStoryR{left:auto;right:var(--gutter);width:min(380px,26vw)}
 .unfoldStory>[data-s="narrow"]{width:min(380px,26vw)}
 .unfoldStory>[data-s="narrow"] [data-s="big"]{font-size:clamp(40px,4.6vw,72px)}
@@ -592,3 +607,11 @@
 @keyframes selPop{from{opacity:0;transform:scale(.55)}}
 @keyframes selDrop{from{opacity:0;transform:translateY(-34px)}}
 @media (prefers-reduced-motion:reduce){.selDraw[data-in] *{animation:none !important}.selDraw:not([data-in])>*{opacity:1 !important}}
+
+/* ---- the location section's own colours: the film's map style on the page's night ground. Sea = the section's deep blue,
+   land a step lighter, shore and streets in thin light blue, the project in rose gold. Captions, veils and the button keep the page's night rules above. */
+.unfold{--msea:#061724;--mpaper:#0D2A3C;--mline:#7FB4C4;--mline2:#5E93A6;--mwl:#3F7387;--gold:#CDA687;--gold-d:#B88A68;--gold-l:#FFEEDF}
+/* on a phone (and with reduced motion) the map is small and finished: the places keep their marks only, their names are in the list */
+.unfold[data-still] .unfoldPins [data-p="plate"]{display:none}
+.unfold[data-still] .unfoldPins [data-p="pin"]{width:24px;height:24px}
+.unfold[data-still] .unfoldPins [data-p="pin"] svg{inset:4px;width:calc(100% - 8px);height:calc(100% - 8px)}

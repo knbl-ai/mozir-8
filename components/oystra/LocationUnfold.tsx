@@ -1,6 +1,7 @@
 'use client';
 // The project told under the hero, in one pinned section moved by scroll: Al Marjan draws itself and Oystra lands on it,
-// the project in figures, the list of what the building has, then the map draws back, journey by journey, to Dubai. Engine: locationEngine.ts. Map: line art traced from
+// the project in figures, the list of what the building has, then the map draws back, journey by journey, to Dubai. Engine: locationEngine.ts.
+// Drawn in the style of the film's map chapter (blue shore and streets, gold for the project), on the page's night ground. Map: line art traced from
 // OpenStreetMap; footprints: the developer's floor layouts (both made by pipeline/signature/locmap in the pipeline repo).
 import { useEffect, useRef } from 'react';
 import { MEDIA } from './content';
@@ -57,19 +58,19 @@ export default function LocationUnfold() {
   <div className={s.unfoldPin} data-g="stage">
    <svg className={s.unfoldMap} data-g="map" viewBox="921 210 215 134" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Plan of the four residences, then a map of Al Marjan Island and the coast from Dubai to Ras Al Khaimah with six journeys from Oystra">
     <defs>
-     <radialGradient id="lu-pearl" cx=".36" cy=".32" r=".8"><stop offset="0" stopColor="#fff" /><stop offset=".45" stopColor="#F6DDC6" /><stop offset="1" stopColor="#C79E7E" /></radialGradient>
-     <linearGradient id="lu-nacre" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#CDA687" stopOpacity=".34" /><stop offset=".55" stopColor="#FFEEDF" stopOpacity=".2" /><stop offset="1" stopColor="#7FB4C4" stopOpacity=".2" /></linearGradient>
+     <radialGradient id="lu-gold" cx=".36" cy=".32" r=".85"><stop offset="0" stopColor="#FFFDF8" /><stop offset=".42" stopColor="#F3DFC8" /><stop offset="1" stopColor="#C9A074" /></radialGradient>
      <filter id="lu-soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="55" /></filter>
      <mask id="lu-edge" maskUnits="userSpaceOnUse" x="-200" y="-200" width="2000" height="1800"><rect x="110" y="110" width="1380" height="1180" fill="#fff" filter="url(#lu-soft)" /></mask>
     </defs>
-    <g data-g="world"><g data-g="far" mask="url(#lu-edge)" /><g data-g="ct" /><g data-g="rd" /><g data-g="coast" /><g data-g="isl" /><g data-g="bld" /><g data-g="tripsG" /><g data-g="places" /><g data-g="oy" /></g>
+    <g data-g="world"><g data-g="far" mask="url(#lu-edge)" /><g data-g="wl" /><g data-g="land" /><g data-g="rd" /><g data-g="dt" /><g data-g="bld" /><g data-g="drv" /><g data-g="tripsG" /><g data-g="oy" /></g>
    </svg>
    {/* the story's captions, made by the engine: one at a time on the left, and on the right while the plan is in the middle */}
+   {/* the places' marks and plates, made and placed by the engine over the map */}
+   <div className={s.unfoldPins} data-g="pins" aria-hidden="true" />
    <div className={s.unfoldStory} data-g="story" />
    <div className={`${s.unfoldStory} ${s.unfoldStoryR}`} data-g="storyR" />
    {/* the story is long: one press runs it to its end (the whole coast and the far places), just before the next section rises */}
    <button type="button" className={s.skip} onClick={() => { const el = root.current; if (!el) return; const edge = Math.min(340, Math.max(120, innerWidth * .24)); scrollTo({ top: el.getBoundingClientRect().bottom + scrollY - innerHeight - edge, behavior: 'smooth' }); }}>Skip <span aria-hidden="true">↓</span></button>
-   <span className={s.unfoldCredit}>Map data © OpenStreetMap contributors · travel times as given by the developer</span>
   </div>
  </section>;
 }
