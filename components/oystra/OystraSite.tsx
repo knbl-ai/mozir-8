@@ -10,11 +10,12 @@ import LocationUnfold from './LocationUnfold';
 import { Edge } from './BuildScroll';
 import HomeSelector, { FULL, type Picked } from './HomeSelector';
 import ContactFooter from './ContactFooter';
-import EnquiryPanel from './EnquiryPanel';
+import FilmSection from './FilmSection';
+import EnquiryPanel, { WhyPanel } from './EnquiryPanel';
 import { MEDIA, ROOMS } from './content';
 import s from './oystra.module.css';
 
-const FONTS = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500&family=Cinzel:wght@400;500&display=swap';
+const FONTS = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500&family=Cinzel:wght@400;500&display=swap';
 const still = (id: string) => `${MEDIA}/c905/${id}.webp`;
 
 export default function OystraSite() {
@@ -70,11 +71,7 @@ export default function OystraSite() {
 
   <main>
    {/* the Oystra film (pipeline/signature/film, 79 s, 1080p), under the foot of the hero: plays with sound when the visitor starts it */}
-   <section id="film" className={s.filmSlot} aria-label="The film">
-    <Edge side="bottom" tone="night" lift />
-    <video className={`${s.filmSlotFrame} ${s.filmVideo}`} src={`${MEDIA}/film/oystra-film.mp4`} poster={`${MEDIA}/film/oystra-film.jpg`}
-     controls playsInline preload="metadata" data-reveal />
-   </section>
+   <FilmSection edge={<Edge side="bottom" tone="night" lift />} />
    <BuildScroll film={DIVE} />
    <section id="residence" className={`${s.band} ${s.pearl} ${s.resBand}`}>
     <ResidenceTour layout="beside" hold={open !== null} onOpen={id => setOpen(shots.findIndex(x => x.id === id))} home={home}
@@ -83,7 +80,7 @@ export default function OystraSite() {
     <HomeSelector chosen={home?.id ?? FULL} onChoose={choose} onShow={up} />
    </section>
    <LocationUnfold />
-   <BuildScroll film={BUILD} cut after="night" over={<EnquiryPanel />} />
+   <BuildScroll film={BUILD} cut after="night" over={<><WhyPanel /><EnquiryPanel /></>} />
   </main>
   <ContactFooter />
 

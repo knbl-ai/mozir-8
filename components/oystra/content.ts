@@ -34,7 +34,7 @@ export const ROOMS: Room[] = [
  ] },
  { id: 'kitchen', name: 'Kitchen', line: 'Ivory joinery, a stone worktop and brass, open to the dining table.', size: '3.3 × 2.4 m', zone: '778,711 958,711 958,928 722,928 722,856 778,856', at: [868, 770], shots: [
   { id: 'w-kitchen', alt: 'The kitchen seen across the dining table', kind: 'wide' },
-  { id: 'c-kitchen', alt: 'The brass kitchen tap against the stone splashback', kind: 'detail' },
+  // (no tap close-up: removed by the admin, 2026-11-26)
  ] },
  { id: 'master', name: 'Master suite', line: 'A bedroom on the glass, a walk-in closet and a bathroom of its own.', size: '4.2 × 3.7 m · closet 2.6 × 1.7 m', zone: '261,69 711,69 711,339 261,339', at: [430, 292], shots: [
   { id: 'w-master', alt: 'The master bedroom looking toward the glass wall and the sea', kind: 'wide' },
