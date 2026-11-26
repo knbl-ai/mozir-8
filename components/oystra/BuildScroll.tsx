@@ -76,6 +76,7 @@ export default function BuildScroll({ film, lead, before, after = 'pearl', over,
    target = p * (FRAMES - 1);
    if (bar.current) bar.current.style.transform = `scaleX(${p})`;
    el.toggleAttribute('data-done', p >= .97);   // the film has played: its Skip button goes
+   el.toggleAttribute('data-why', p >= .04 && p < .46);   // the first part of the film: the overlay text over it (why own here), gone before the form
    el.toggleAttribute('data-end', p >= .5);   // half of the film has played: whatever stands over it (the enquiry card) may arrive
    let n = 0;
    STAGES.forEach((st, i) => { if (p >= st.from) n = i; });

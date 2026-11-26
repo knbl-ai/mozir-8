@@ -39,7 +39,7 @@ export default function ResidenceTour({ layout, hold = false, onOpen, home, onPi
  const root = useRef<HTMLDivElement>(null);
  const elapsed = useRef(0);
  const room = ROOMS[at.r];
- const main = room.shots[at.k];
+ const main = room.shots[Math.min(at.k, room.shots.length - 1)];
  const choose = (r: number) => setAt(a => a.r === r ? a : { r, k: 0 });
 
  useEffect(() => {

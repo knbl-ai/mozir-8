@@ -7,6 +7,25 @@ import { useEffect, useId, useRef, useState } from 'react';
 import s from './oystra.module.css';
 import e from './enquire.module.css';
 
+// "Why own here": the developer's case for Ras Al Khaimah (OYSTRA_FACTSHEET.pdf, "oystra's advantage" and the payment
+// plans in the broker toolkit: 50/50, 60/40, 70/30). Written on the window: while the room is furnished (the first part
+// of the film) the glass frosts over and the lines appear on it; the glass clears before the enquiry pane arrives (admin 2026-11-26).
+const WHY: [string, string, string][] = [
+ ['M24 6a18 18 0 1 0 0 36 18 18 0 1 0 0-36zM30 17c-1-3-4-4-6-4-4 0-7 2-7 5 0 7 13 4 13 11 0 3-3 5-7 5-3 0-6-1-7-4M24 9v4M24 34v5', 'Tax-free', 'No income, capital gains or property tax'],
+ ['M17 13a9 9 0 1 0 0 18 9 9 0 1 0 0-18zM26 22h18M38 22v7M44 22v5', 'Freehold', 'Full ownership of your home'],
+ ['M8 12h32v28H8zM8 20h32M16 6v10M32 6v10M15 28h6M27 28h6M15 34h6', '50/50 · 60/40 · 70/30', 'Payment plans'],
+ ['M24 6l5 12 13 1-10 8 3 13-11-7-11 7 3-13-10-8 13-1z', 'Vision 2030', 'Part of Ras Al Khaimah’s masterplan'],
+];
+export function WhyPanel() {
+ return <div className={e.bay}><div className={e.frost} aria-label="Why Ras Al Khaimah"><div className={e.whyText}>
+  <p className={e.whyEye}>Why Ras Al Khaimah</p>
+  <ul className={e.whyList}>
+   {WHY.map(([d, k, c], i) => <li key={k} style={{ '--i': i } as React.CSSProperties}><svg viewBox="0 0 48 48" aria-hidden="true"><path d={d} pathLength={1} /></svg>
+    <span><b className={e.whyKey}>{k}</b><i className={e.whyCap}>{c}</i></span></li>)}
+  </ul>
+ </div></div></div>;
+}
+
 const HOMES = ['C-905 · two bedrooms', 'One bedroom', 'Two bedrooms', 'Three bedrooms', 'Penthouse'];
 
 // The "Interested in" choice, drawn by the page (the browser's own menu belongs to the operating system, not to this

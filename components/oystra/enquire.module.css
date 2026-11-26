@@ -59,3 +59,25 @@ section[data-end] .in{opacity:1;transition:opacity 1s ease .7s}
 /* the foot of the page keeps the facts, in one row */
 .facts{grid-template-columns:repeat(4,minmax(0,1fr)) !important;margin-top:0 !important}
 @media (max-width:900px){.facts{grid-template-columns:1fr 1fr !important}}
+/* "Why Ras Al Khaimah" (WhyPanel): only the text, on the window, nothing over the view (admin 2026-11-26). The balcony
+   glass stands at 18.6–83% across the picture and 15–71% down; the plain area is the sky in its right third (the building's
+   railings and the palms would fight the letters), so the lines sit there, above the horizon, in deep-sea ink. They arrive one by one, each icon drawing
+   itself, while the section carries data-why, and leave before the enquiry pane arrives. */
+.frost{--W:max(100cqw,177.778cqh);--H:max(100cqh,56.25cqw);position:absolute;container-type:size;
+ left:calc(50cqw - .314*var(--W));width:calc(.649*var(--W));top:calc(50cqh - .35*var(--H));height:calc(.56*var(--H))}
+.whyText{position:absolute;left:63.5cqw;top:4cqh;width:35cqw;color:var(--ink);opacity:0;transition:opacity .4s ease}
+section[data-why] .whyText{opacity:1;transition:opacity .6s ease .2s}
+.whyEye{font-size:max(11px,2.9cqh);font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#5E3A1E;margin-bottom:2cqh;text-shadow:0 0 1px rgba(255,252,246,.9)}
+.whyList{list-style:none;margin:0;padding:0;display:grid}
+.whyList li{display:flex;align-items:center;gap:2.8cqh;padding:1.5cqh 0;opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease}
+.whyList li>span{display:grid;gap:.8cqh}
+.whyKey{font-family:var(--display);font-weight:600;font-size:max(18px,5.6cqh);line-height:1;color:#0B202C;font-variant-numeric:lining-nums;text-shadow:0 0 1px rgba(255,252,246,.9)}
+.whyCap{font-family:var(--body);font-style:normal;font-weight:600;font-size:max(9px,1.95cqh);letter-spacing:.2em;text-transform:uppercase;line-height:1.35;color:#5E3A1E;text-shadow:0 0 1px rgba(255,252,246,.9)}
+section[data-why] .whyList li{opacity:1;transform:none;transition:opacity .7s ease calc(.35s + var(--i)*.16s),transform 1s cubic-bezier(.16,.8,.2,1) calc(.35s + var(--i)*.16s)}
+.whyList svg{flex:none;width:6.2cqh;height:6.2cqh;overflow:visible}
+.whyList path{fill:none;stroke:#5E3A1E;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .3s ease}
+section[data-why] .whyList path{stroke-dashoffset:0;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1) calc(.45s + var(--i)*.16s)}
+@media (prefers-reduced-motion:reduce){.whyText,.whyList li,.whyList path{transition:none !important;transform:none}}
+/* a portrait screen crops the window's sky away: the lines stand on the light marble floor at the foot of the picture */
+@media (max-aspect-ratio:1/1){.frost{left:0;width:100cqw;top:65cqh;height:auto}.whyText{position:relative;left:auto;top:auto;width:auto;padding-inline:20px}
+ .whyList li{gap:12px;padding:6px 0}.whyKey{font-size:21px;color:#FCFAF6;text-shadow:0 1px 3px rgba(10,20,26,.55)}.whyCap{font-size:9px;color:#F3E3CC;text-shadow:0 1px 3px rgba(10,20,26,.6)}.whyList path{stroke:#F3DCC8}.whyEye{color:#F3E3CC !important;text-shadow:0 1px 3px rgba(10,20,26,.55) !important}.whyList svg{width:26px;height:26px}.whyEye{font-size:10px;margin-bottom:8px}}

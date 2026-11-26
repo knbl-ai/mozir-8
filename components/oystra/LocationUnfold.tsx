@@ -20,16 +20,22 @@ const I = {
  film: 'M6 14h36v24H6zM6 20h36M12 14l4 6M22 14l4 6M32 14l4 6M20 26l10 5-10 5z',
  flag: 'M17 42V6l17 7-17 7M9 42h18',
  bell: 'M8 36h32M12 36a12 12 0 0 1 24 0M24 24v-4M20 20h8M6 42h36',
+ gem: 'M12 8h24l8 10-20 24L4 18zM4 18h40M18 8l-4 10 10 24 10-24-4-10',
+ coin: 'M24 6a18 18 0 1 0 0 36 18 18 0 1 0 0-36zM30 17c-1-3-4-4-6-4-4 0-7 2-7 5 0 7 13 4 13 11 0 3-3 5-7 5-3 0-6-1-7-4M24 9v4M24 34v5',
+ key: 'M17 13a9 9 0 1 0 0 18 9 9 0 1 0 0-18zM26 22h18M38 22v7M44 22v5',
+ star: 'M24 6l5 12 13 1-10 8 3 13-11-7-11 7 3-13-10-8 13-1z',
 };
-// What the section says, with where each fact comes from.
-// Homes per residence: our count of the home numbers on the developer's general layout (A 217, B 199, C 208, D 178).
-// Floors: the same layouts (A and D: 14 levels; B and C: 19, the top five in the arch). Handover of Residence B and every
-// line under "around" and "has": the developer's fact sheet. Handover of the other three residences is not in the material.
+// What the section says, with where each fact comes from. The homes, the lagoon and the facilities are told by the film
+// section above (FilmSection.tsx) and why own here by the furnishing film below (EnquiryPanel.tsx), so the map tells the
+// island (admin 2026-11-26). Area 2.7 million m², work begun 2007, the four islands' names, ~21 km of new coastline:
+// Wikipedia "Al Marjan Island", Zawya (2007-10-09, Rakeen begins dredging), Khaleej Times (Rakeen completes reclamation).
+// Opened 2013: RAK Media Office. Four coral-shaped islands, Wynn opening 2027: OYSTRA_FACTSHEET.pdf. 4.5 km of
+// beachfront: BROCHURE_EN.pdf.
 const STORY: Story = {
- first: { eyebrow: 'Four residences by Zaha Hadid Architects', big: '802 homes', lines: ['One to four bedrooms, duplexes, penthouses and royal penthouses, in four shells of 14 and 19 floors.'], note: 'Handover · Residence B from Q2 2029' },
- around: { eyebrow: 'Around them', lines: ['A 150-metre crystal lagoon with its own beach', 'Five minutes on foot to the sea', 'Open views of the Arabian Gulf'] },
- has: { eyebrow: 'What the building has', items: [[I.wave, 'Crystal lagoon and beach'], [I.pool, 'Rooftop 360° infinity pool'], [I.shade, 'Beach club'], [I.leaf, 'Spa and wellness centre'], [I.racket, 'Padel court'], [I.film, 'Private cinema'], [I.flag, 'Golf simulation lounge'], [I.bell, '24-hour concierge']] },
- island: { eyebrow: 'Ras Al Khaimah', big: 'Al Marjan Island', line: 'Four islands reaching into the Arabian Gulf.' },
+ first: { eyebrow: 'Al Marjan Island · man-made', big: '2.7 million m²', lines: ['Raised from the Arabian Gulf from 2007: four coral-shaped islands, joined to the coast by a peninsula.'], note: 'Opened in 2013' },
+ around: { eyebrow: 'The four islands', lines: ['Breeze · on the mainland', 'Treasure · Dream · View', '21 km of new coastline'] },
+ has: { eyebrow: 'On the island', items: [[I.wave, '4.5 km of beachfront'], [I.shade, 'Boutique resorts'], [I.gem, 'Wynn Al Marjan · 2027'], [I.star, 'Northern emirates’ first']] },
+ island: { eyebrow: 'Ras Al Khaimah', big: 'Al Marjan Island', line: 'Four coral-shaped islands reaching into the Arabian Gulf.' },
 };
 
 const script = (src: string) => new Promise<void>((ok, no) => {

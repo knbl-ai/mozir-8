@@ -399,6 +399,7 @@
 .unfoldMap [data-k="bbase"]{fill:#17384A;stroke:var(--gold-d);stroke-width:calc(var(--u)*96px);stroke-linejoin:round}
 .unfoldMap [data-k="bplate"]{fill:#0F2D3F;stroke:var(--gold-d);stroke-width:calc(var(--u)*72px);stroke-linejoin:round}
 .unfoldMap [data-k="bcell"]{fill:#1D4053;stroke:var(--gold);stroke-width:calc(var(--u)*36px);stroke-opacity:.8}
+.unfoldMap [data-k="blayer"]{stroke:var(--gold-d);stroke-width:calc(var(--u)*56px);stroke-linejoin:round}
 .unfoldMap [data-k="bletter"]{font-family:var(--display);font-style:italic;font-size:10.5px;fill:#FFEEDF}
 /* the drives along the real roads, the far journeys' bowed lines, and the circle that rides a line's head */
 .unfoldMap [data-k="drvcase"]{stroke:var(--mpaper);stroke-width:calc(var(--u)*6px)}
@@ -545,6 +546,53 @@
 .filmSlot{position:relative;background:var(--deep);padding:clamp(48px,7vw,110px) clamp(20px,5vw,72px) clamp(64px,9vw,140px);display:grid;justify-items:center}
 .filmSlotFrame{width:min(100%,calc((100vh - 120px) * 16 / 9));aspect-ratio:16/9;border:1px solid rgba(205,166,135,.28)}
 .filmVideo{display:block;height:auto;object-fit:cover;background:#0E1A22;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+/* the film section's context (FilmSection.tsx): the architects and the project on top, a strip of facts that count up,
+   chapters under the frame, then the residents' facilities and the drive times, each with a drawn icon */
+.filmSlot{gap:0;color:#EFE9E1}
+.fsHead{display:grid;justify-items:center;text-align:center;gap:16px;margin-bottom:clamp(36px,4.6vw,64px)}
+.fsBy{font-family:var(--body);font-weight:500;font-size:clamp(12px,1.05vw,15px);letter-spacing:.34em;text-transform:uppercase;color:var(--rose);padding-left:.34em}
+.fsRule{display:block;width:clamp(180px,22vw,320px);height:1px;background:var(--rose)}
+.page .fsRule[data-reveal]{transform:scaleX(0);filter:none;transition:opacity .8s ease,transform 1.4s cubic-bezier(.16,.8,.2,1) .25s}
+.page .fsRule[data-reveal][data-in]{transform:none}
+.fsLine{font-family:var(--display);font-style:italic;font-weight:300;font-size:clamp(40px,5.4vw,84px);line-height:1.02;color:#F6F1EA;text-wrap:balance}
+.fsFacts{width:min(100%,1180px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:0 0 clamp(48px,5.5vw,84px);border-block:1px solid rgba(205,166,135,.22)}
+.fsFacts>div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:clamp(18px,2vw,28px) 10px}
+.fsFacts>div+div{border-left:1px solid rgba(205,166,135,.16)}
+.fsFacts dd{font-family:var(--display);font-size:clamp(30px,3.2vw,52px);line-height:1;color:#F6F1EA;font-variant-numeric:lining-nums tabular-nums;white-space:nowrap}
+.fsFacts dt{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--mute-dark)}
+.fsFilm{width:min(100%,calc((100vh - 120px) * 16 / 9));display:grid}
+.fsFilm .filmSlotFrame{width:100%}
+.fsChapters{list-style:none;margin:0;padding:0;width:min(100%,calc((100vh - 120px) * 16 / 9));display:grid;grid-template-columns:repeat(8,minmax(0,1fr))}
+.fsChapters button{position:relative;width:100%;display:grid;gap:4px;text-align:left;padding:16px 10px 6px 0 !important;font-family:var(--display);font-size:clamp(15px,1.15vw,18px) !important;letter-spacing:.01em;color:#C9D3D9 !important;transition:color .4s ease}
+.fsChapters button::before{content:"";position:absolute;left:0;right:6px;top:0;height:1px;background:rgba(205,166,135,.25);transition:background .4s ease,box-shadow .4s ease}
+.fsChapters button[data-past]::before{background:rgba(205,166,135,.6)}
+.fsChapters button[data-on]{color:#F6F1EA !important}
+.fsChapters button[data-on]::before{height:2px;background:var(--rose);box-shadow:0 0 10px rgba(255,238,223,.55)}
+.fsChapters button:hover{color:var(--rose-light) !important}
+.fsTime{font-family:var(--body);font-size:10px;letter-spacing:.22em;color:var(--rose);font-variant-numeric:tabular-nums}
+.fsPanels{width:min(100%,1180px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,110px);margin-top:clamp(64px,8vw,120px)}
+.fsPanel{display:grid;align-content:start;gap:22px}
+.fsEye{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--rose);padding-bottom:16px;border-bottom:1px solid rgba(205,166,135,.22)}
+.fsPanel ul{list-style:none;margin:0;padding:0}
+.fsPanel svg{width:34px;height:34px;flex:none;overflow:visible}
+.fsPanel svg path{fill:none;stroke:#E9CFA8;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1);transition-delay:calc(var(--i,0)*110ms + .3s)}
+.fsPanel li[data-in] svg path{stroke-dashoffset:0}
+.fsHas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:76px;gap:0 28px}
+.fsHas li{display:flex;align-items:center;gap:16px;font-family:var(--display);font-size:clamp(19px,1.55vw,24px);line-height:1.2;color:#F6F1EA}
+.fsNear{display:grid;grid-auto-rows:76px}
+.fsNear li{align-content:center;display:grid;grid-template-columns:34px minmax(0,1fr) auto;grid-template-rows:auto 2px;column-gap:16px;row-gap:10px;align-items:center}
+.fsNear svg{grid-row:1/3}
+.fsPlace{font-family:var(--display);font-size:clamp(19px,1.55vw,24px);line-height:1.2;color:#F6F1EA}
+.fsMin{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute-dark);white-space:nowrap}
+.fsMin b{font-family:var(--display);font-weight:400;font-size:clamp(24px,2vw,32px);letter-spacing:0;color:var(--rose-light);margin-right:4px}
+.fsBar{grid-column:2/4;height:2px;background:rgba(205,166,135,.14);position:relative;overflow:hidden}
+.fsBar::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--rose),#F3DCC8);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.6s cubic-bezier(.16,.8,.2,1);transition-delay:calc(var(--i,0)*110ms + .4s)}
+.fsNear li[data-in] .fsBar::after{transform:scaleX(var(--w))}
+.page .fsFacts{margin:0 0 clamp(48px,5.5vw,84px)}
+.fsChapters button,.fsPanel{font-variant-numeric:lining-nums}
+@media (max-width:900px){.fsHas{grid-auto-rows:60px}.fsFacts{grid-template-columns:repeat(2,minmax(0,1fr))}.fsFacts>div+div{border-left:0}.fsFacts>div:last-child{grid-column:1/-1}
+ .fsChapters{grid-template-columns:repeat(4,minmax(0,1fr))}.fsPanels{grid-template-columns:1fr}.fsHas{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.fsPanel svg path{stroke-dashoffset:0;transition:none}.fsBar::after{transform:scaleX(var(--w));transition:none}}
 
 /* a film that cuts the section above it along its top curve: it slides up under that section by the height of the edge,
    and everything above the curve is masked away, so the map runs down to the rose-gold line itself */
@@ -616,3 +664,9 @@
 .unfold[data-still] .unfoldPins [data-p="plate"]{display:none}
 .unfold[data-still] .unfoldPins [data-p="pin"]{width:24px;height:24px}
 .unfold[data-still] .unfoldPins [data-p="pin"] svg{inset:4px;width:calc(100% - 8px);height:calc(100% - 8px)}
+
+/* every bullet list on the page: one short line in the small tracked capitals of the headings, the icon drawn as thin as
+   the letters; numbers and titles keep the serif (admin 2026-11-26) */
+.fsHas li,.fsPlace,.unfoldStoryR [data-s="line"],.unfoldStory [data-s="has"] li span,.unfoldStory [data-s="tname"]{
+ font-family:var(--body) !important;font-style:normal !important;font-weight:500 !important;font-size:clamp(11px,.85vw,13px) !important;letter-spacing:.2em !important;text-transform:uppercase;line-height:1.5 !important;color:#E6DED3 !important}
+.fsPanel svg path,.unfoldStory [data-s="has"] svg path,.unfoldStory [data-s="trips"] svg path{stroke-width:1.1 !important}

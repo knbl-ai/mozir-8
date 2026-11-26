@@ -71,12 +71,16 @@ export function mountLocation(root: HTMLElement, gsap: any, geo: any, story: Sto
     DT.roads.forEach((o: any) => { const l = el('dt', 'path', { 'data-k': 'droad', d: o.d, pathLength: 1 }); (l as any).r = o.r; dlines.push(l); });
     sweep = el('dt', 'circle', { 'data-k': 'sweep', cx: O[0], cy: O[1], r: 0 });
   }
-  // ---- the four residences as in the selector: the common outline, floor 9 as the plate, its homes, the four letters (in metres, placed on the island)
-  const B = plan && geo.building, bg = q('bld'), world = q('world'); let bbase: any = null, bplate: any = null, bsmall: any[] = [];
+  // ---- the four residences as built form (admin 2026-11-26, as in the film's map): the common outline, then every floor's
+  // outline from the ground to the roof laid one on the next, each a shade lighter than the one below, so the towers read as
+  // stepped, layered volumes; then the four letters (in metres, placed on the island)
+  const B = plan && geo.building, bg = q('bld'), world = q('world'); let bbase: any = null, bsmall: any[] = [];
   if (B) {
     bg.setAttribute('transform', `translate(${B.at[0]} ${B.at[1]}) rotate(${B.turn}) scale(${1 / B.k}) translate(${-B.c[0]} ${-B.c[1]})`);
-    bbase = el(bg, 'path', { 'data-k': 'bbase', d: plan.base, pathLength: 1 }); bplate = el(bg, 'path', { 'data-k': 'bplate', d: plan.plates['9'] });
-    bsmall = [...(plan.homes['9'] || []).map((h: any) => el(bg, 'path', { 'data-k': 'bcell', d: h.d })), ...plan.residences.map((r: any) => el(bg, 'text', { 'data-k': 'bletter', x: r.at, y: plan.h + 16, 'text-anchor': 'middle' }, r.id))];
+    bbase = el(bg, 'path', { 'data-k': 'bbase', d: plan.base, pathLength: 1 });
+    const top = Math.max(...Object.keys(plan.plates).map(Number)), mix = (t: number) => '#' + [[0x13, 0x33], [0x30, 0x5E], [0x42, 0x74]].map(([a, b]) => Math.round(a + (b - a) * t).toString(16).padStart(2, '0')).join('');
+    bsmall = [...Array.from({ length: top }, (_, i) => i + 1).filter(n => plan.plates[String(n)]).map(n => el(bg, 'path', { 'data-k': 'blayer', d: plan.plates[String(n)] + 'Z',
+      style: `fill:${mix(((n - 1) / Math.max(1, top - 1)) ** 1.4)};stroke-opacity:${(.35 + .65 * (n / top) ** 2).toFixed(2)}` })), ...plan.residences.map((r: any) => el(bg, 'text', { 'data-k': 'bletter', x: r.at, y: plan.h + 16, 'text-anchor': 'middle' }, r.id))];
   }
   const TURN = B ? -B.turn : 0;      // how far the map is turned at the start, so the plan stands as it does in the selector
   // ---- the drives to the near places along the real roads (geo.drives): a tree of pieces, each with a paper casing, the gold line and the circle on its head
@@ -165,9 +169,9 @@ export function mountLocation(root: HTMLElement, gsap: any, geo: any, story: Sto
 
     // 0 · close on the four residences on their island; they come down from the top of the stage and settle
     if (B) {
-      gsap.set([bbase, bplate, ...bsmall], { opacity: 0 });
+      gsap.set([bbase, ...bsmall], { opacity: 0 });
       tl.to(bbase, { opacity: 1, duration: .3 }, 0); draw(bbase, 0, 1.1);
-      tl.to([bplate, ...bsmall], { opacity: 1, duration: .5, stagger: .004 }, .35);
+      tl.to(bsmall, { opacity: 1, duration: .3, stagger: { amount: .7 } }, .35);      // ground first, floor on floor
       tl.to(P, { fy: .5, duration: 1.3, ease: 'power2.out' }, 0);
     }
     say(L1, 1.5, 3.1); say(R1, 1.8, 3.1);   // the figures arrive once the view has begun to draw back and there is room beside the plan
