@@ -69,10 +69,11 @@ export default function OystraSite() {
   <OystraOpening onGo={go} />
 
   <main>
-   {/* the place kept for the film: empty for now, under the foot of the hero */}
+   {/* the Oystra film (pipeline/signature/film, 79 s, 1080p), under the foot of the hero: plays with sound when the visitor starts it */}
    <section id="film" className={s.filmSlot} aria-label="The film">
     <Edge side="bottom" tone="night" lift />
-    <div className={s.filmSlotFrame} />
+    <video className={`${s.filmSlotFrame} ${s.filmVideo}`} src={`${MEDIA}/film/oystra-film.mp4`} poster={`${MEDIA}/film/oystra-film.jpg`}
+     controls playsInline preload="metadata" data-reveal />
    </section>
    <BuildScroll film={DIVE} />
    <section id="residence" className={`${s.band} ${s.pearl} ${s.resBand}`}>

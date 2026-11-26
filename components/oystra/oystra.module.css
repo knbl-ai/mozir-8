@@ -541,9 +541,10 @@
 @media (prefers-reduced-motion:reduce){.selMark,.selPlate,.selUnder,.selHomes,.selRoof{transition:none}}
 .unfoldStoryR [data-s="in"]::before,.unfoldStory>[data-s="narrow"]>[data-s="in"]::before{content:"";position:absolute;inset:-70px -60px;z-index:-1;background:radial-gradient(closest-side,rgba(4,18,28,.9),rgba(4,18,28,.6) 62%,transparent)}
 
-/* the place kept for the film, under the hero: an empty 16:9 frame until the film exists */
+/* the film, under the hero: one 16:9 frame with the brand's fine bronze edge */
 .filmSlot{position:relative;background:var(--deep);padding:clamp(48px,7vw,110px) clamp(20px,5vw,72px) clamp(64px,9vw,140px);display:grid;justify-items:center}
 .filmSlotFrame{width:min(100%,calc((100vh - 120px) * 16 / 9));aspect-ratio:16/9;border:1px solid rgba(205,166,135,.28)}
+.filmVideo{display:block;height:auto;object-fit:cover;background:#0E1A22;box-shadow:0 30px 80px rgba(0,0,0,.35)}
 
 /* a film that cuts the section above it along its top curve: it slides up under that section by the height of the edge,
    and everything above the curve is masked away, so the map runs down to the rose-gold line itself */
