@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MEDIA } from './content';
 import s from './oystra.module.css';
+import fs from './filmswitch.module.css';
 
 const HEAD = { by: 'Zaha Hadid Architects', line: 'Four residences · 846 homes' };
 const FACTS: { n: number; pre?: string; post?: string; label: string }[] = [
@@ -21,6 +22,15 @@ const CHAPTERS: [number, string][] = [
  [6.2, 'The site'], [13.1, 'Arrival'], [20.4, 'Floor nine'], [31.2, 'Residence C-905'],
  [46.9, 'The beach club'], [62.2, 'Four residences'], [66.2, 'The coast'], [73.8, 'Dusk'],
 ];
+// the highlights (pipeline/signature/film/highlights, 40 s): the opening, then one run of the film's shots with no plans or map
+const SHORT: [number, string][] = [
+ [0, 'The shore'], [5.9, 'Arrival'], [9.5, 'Floor nine'], [17.8, 'Residence C-905'],
+ [23.1, 'The beach club'], [33.3, 'Four residences'], [35.1, 'Dusk'],
+];
+const CUTS = {
+ full: { src: 'film/oystra-film.mp4', poster: 'film/oystra-film.jpg', chapters: CHAPTERS, label: 'The film' },
+ short: { src: 'film/oystra-highlights.mp4', poster: 'film/oystra-highlights.jpg', chapters: SHORT, label: 'The highlights' },
+} as const;
 // icons on a 48 grid, drawn with one stroke
 const I = {
  wave: 'M4 20c5-6 9-6 14 0s9 6 14 0 9-6 12 0M4 32c5-6 9-6 14 0s9 6 14 0 9-6 12 0',
@@ -72,15 +82,20 @@ function useSeen<T extends Element>() {
 export default function FilmSection({ edge }: { edge?: React.ReactNode }) {
  const video = useRef<HTMLVideoElement>(null);
  const [now, setNow] = useState(-1);
+ const [cut, setCut] = useState<'full' | 'short'>('full');
+ const [swapped, setSwapped] = useState(false);      // after a switch the new chapter row is shown at once (the page's reveal ran already)
+ const film = CUTS[cut];
  const [factsRef, factsOn] = useSeen<HTMLDListElement>();
  useEffect(() => {
   const v = video.current; if (!v) return;
   const tick = () => setNow(v.currentTime > 0 ? v.currentTime : -1);
   v.addEventListener('timeupdate', tick); v.addEventListener('seeked', tick);
   return () => { v.removeEventListener('timeupdate', tick); v.removeEventListener('seeked', tick); };
- }, []);
- const at = CHAPTERS.reduce((k, [t], i) => (now >= t ? i : k), -1);
+ }, [cut]);
+ const at = film.chapters.reduce((k, [t], i) => (now >= t ? i : k), -1);
  const play = (t: number) => { const v = video.current; if (!v) return; v.currentTime = t; v.play().catch(() => {}); };
+ // switching films: the other film loads in the same frame, from its start, paused
+ const swap = (to: 'full' | 'short') => { video.current?.pause(); setNow(-1); setCut(to); setSwapped(true); };
 
  return <section id="film" className={s.filmSlot} aria-label="The film">
   {edge}
@@ -96,12 +111,20 @@ export default function FilmSection({ edge }: { edge?: React.ReactNode }) {
    </div>)}
   </dl>
 
+  {/* the arrows sit outside the film's frame, which the page's photo reveal clips to its own box */}
+  <div className={fs.wrap}>
   <div className={s.fsFilm} data-reveal="photo">
-   <video ref={video} className={`${s.filmSlotFrame} ${s.filmVideo}`} src={`${MEDIA}/film/oystra-film.mp4`} poster={`${MEDIA}/film/oystra-film.jpg`}
-    controls playsInline preload="metadata" />
+   <video key={cut} ref={video} className={`${s.filmSlotFrame} ${s.filmVideo}`} src={`${MEDIA}/${film.src}`} poster={`${MEDIA}/${film.poster}`}
+    controls playsInline preload="metadata" aria-label={film.label} />
   </div>
-  <ol className={s.fsChapters} aria-label="Chapters of the film">
-   {CHAPTERS.map(([t, name], i) => <li key={name} data-reveal style={{ '--i': i } as React.CSSProperties}>
+   {cut === 'full'
+    ? <button type="button" className={`${fs.arrow} ${fs.next}`} onClick={() => swap('short')} aria-label="Watch the highlights" title="The highlights">
+     <svg viewBox="0 0 18 46" aria-hidden="true"><path d="M2 2 16 23 2 44" /></svg></button>
+    : <button type="button" className={`${fs.arrow} ${fs.prev}`} onClick={() => swap('full')} aria-label="Back to the full film" title="The full film">
+     <svg viewBox="0 0 18 46" aria-hidden="true"><path d="M16 2 2 23 16 44" /></svg></button>}
+  </div>
+  <ol className={s.fsChapters} aria-label={`Chapters of ${film.label.toLowerCase()}`} style={{ gridTemplateColumns: `repeat(${film.chapters.length},minmax(0,1fr))` }}>
+   {film.chapters.map(([t, name], i) => <li key={cut + name} data-reveal data-in={swapped ? '' : undefined} style={{ '--i': i } as React.CSSProperties}>
     <button type="button" data-on={i === at || undefined} data-past={i < at || undefined} onClick={() => play(t)}>
      <span className={s.fsTime}>{mmss(t)}</span><span>{name}</span>
     </button>
