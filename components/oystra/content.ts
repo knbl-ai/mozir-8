@@ -20,7 +20,8 @@ export const RESIDENCE_FACTS = [
  ['Residence', 'C'],
 ] as const;
 
-export type Shot = { id: string; alt: string; kind: 'wide' | 'detail' | 'mood' };
+// video: the photograph also exists as its film take (c905/<id>.mp4, a 4 s loop whose first frame is the photograph)
+export type Shot = { id: string; alt: string; kind: 'wide' | 'detail' | 'mood'; video?: true };
 // zone: the room's outline on the top-down picture, in thousandths of its width and height; at: where its label sits; size: as printed on the developer's plan
 export type Room = { id: string; name: string; line: string; size: string; zone: string; at: [number, number]; shots: Shot[] };
 
@@ -28,18 +29,18 @@ export type Room = { id: string; name: string; line: string; size: string; zone:
 export const ROOMS: Room[] = [
  { id: 'living', name: 'Living and dining', line: 'One long room that runs to a wall of glass, the balcony and the sea beyond it.', size: '6.0 × 4.2 m', zone: '261,589 958,589 958,711 778,711 778,856 722,856 722,928 261,928', at: [500, 640], shots: [
   { id: 'w-living', alt: 'The lounge looking toward the glass wall and the balcony', kind: 'wide' },
-  { id: 'c-table', alt: 'The edge of the stone coffee table on its brass base', kind: 'detail' },
+  { id: 'c-table', alt: 'The edge of the stone coffee table on its brass base', kind: 'detail', video: true },
   { id: 'w-dining', alt: 'The dining table seen from the lounge, the kitchen behind it', kind: 'wide' },
   { id: 'a-curtain', alt: 'A sheer curtain lifting in the sea breeze at the open glass', kind: 'mood' },
  ] },
  { id: 'kitchen', name: 'Kitchen', line: 'Ivory joinery, a stone worktop and brass, open to the dining table.', size: '3.3 × 2.4 m', zone: '778,711 958,711 958,928 722,928 722,856 778,856', at: [868, 770], shots: [
-  { id: 'w-kitchen', alt: 'The kitchen seen across the dining table', kind: 'wide' },
+  { id: 'w-kitchen', alt: 'The kitchen seen across the dining table', kind: 'wide', video: true },
   // (no tap close-up: removed by the admin, 2026-11-26)
  ] },
  { id: 'master', name: 'Master suite', line: 'A bedroom on the glass, a walk-in closet and a bathroom of its own.', size: '4.2 × 3.7 m · closet 2.6 × 1.7 m', zone: '261,69 711,69 711,339 261,339', at: [430, 292], shots: [
-  { id: 'w-master', alt: 'The master bedroom looking toward the glass wall and the sea', kind: 'wide' },
+  { id: 'w-master', alt: 'The master bedroom looking toward the glass wall and the sea', kind: 'wide', video: true },
   { id: 'a-lastlight', alt: 'Evening light through the sheer curtain across the bed', kind: 'mood' },
-  { id: 'c-bedside', alt: 'The travertine bedside table and brass reading lamp', kind: 'detail' },
+  { id: 'c-bedside', alt: 'The travertine bedside table and brass reading lamp', kind: 'detail', video: true },
   { id: 'c-closet', alt: 'A lit oak shelf in the walk-in closet', kind: 'detail' },
  ] },
  { id: 'bath', name: 'Master bathroom', line: 'A freestanding bath, a floating vanity and warm light from the stone itself.', size: '3.3 × 3.2 m', zone: '720,69 958,69 958,314 720,314', at: [840, 180], shots: [
