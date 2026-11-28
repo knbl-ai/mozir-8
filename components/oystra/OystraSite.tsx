@@ -93,7 +93,10 @@ export default function OystraSite() {
   </AnimatePresence>
 
   {open !== null && <div className={s.lightbox} role="dialog" aria-modal="true" aria-label={shots[open].alt} onClick={() => setOpen(null)}>
-   <img src={still(shots[open].id)} alt={shots[open].alt} />
+   {shots[open].video
+    ? <video key={shots[open].id} src={`${MEDIA}/c905/${shots[open].id}.mp4`} poster={still(shots[open].id)} aria-label={shots[open].alt} muted autoPlay loop playsInline
+       style={{ width: 'auto', maxWidth: '100%', maxHeight: '100%', minHeight: 0, objectFit: 'contain' }} onClick={e => e.stopPropagation()} />
+    : <img src={still(shots[open].id)} alt={shots[open].alt} />}
    <p>{shots[open].alt}</p>
    <button type="button" className={s.close} onClick={() => setOpen(null)}>Close</button>
    <button type="button" className={s.prev} aria-label="Previous picture" onClick={e => { e.stopPropagation(); setOpen((open - 1 + shots.length) % shots.length); }}>‹</button>

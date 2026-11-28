@@ -38,6 +38,9 @@ export default function ResidenceTour({ layout, hold = false, onOpen, home, onPi
  const [seen, setSeen] = useState(false);
  const root = useRef<HTMLDivElement>(null);
  const elapsed = useRef(0);
+ // how long the picture on show stays: HOLD for a photograph; for a film take, its own length less the cross-fade, so the
+ // next picture fades in over the take's last moments and the take never starts over
+ const holdMs = useRef(HOLD);
  const room = ROOMS[at.r];
  const main = room.shots[Math.min(at.k, room.shots.length - 1)];
  const choose = (r: number) => setAt(a => a.r === r ? a : { r, k: 0 });
@@ -53,6 +56,7 @@ export default function ResidenceTour({ layout, hold = false, onOpen, home, onPi
  // a new photograph starts its time from zero, and the one after it is fetched ahead
  useEffect(() => {
   elapsed.current = 0;
+  holdMs.current = ROOMS[at.r].shots[Math.min(at.k, ROOMS[at.r].shots.length - 1)].video ? 3100 : HOLD;
   root.current?.style.setProperty('--p', '0');
   const next = at.k + 1 < ROOMS[at.r].shots.length ? ROOMS[at.r].shots[at.k + 1] : ROOMS[(at.r + 1) % ROOMS.length].shots[0];
   new Image().src = still(next.id);
@@ -64,11 +68,11 @@ export default function ResidenceTour({ layout, hold = false, onOpen, home, onPi
   const tick = (now: number) => {
    elapsed.current += Math.min(now - last, 100); // a hidden tab does not use up the photograph's time
    last = now;
-   if (elapsed.current >= HOLD) {
+   if (elapsed.current >= holdMs.current) {
     elapsed.current = 0;
     setAt(a => a.k + 1 < ROOMS[a.r].shots.length ? { r: a.r, k: a.k + 1 } : { r: (a.r + 1) % ROOMS.length, k: 0 });
    }
-   root.current?.style.setProperty('--p', (elapsed.current / HOLD).toFixed(3));
+   root.current?.style.setProperty('--p', Math.min(1, elapsed.current / holdMs.current).toFixed(3));
    raf = requestAnimationFrame(tick);
   };
   raf = requestAnimationFrame(tick);
@@ -140,7 +144,11 @@ export default function ResidenceTour({ layout, hold = false, onOpen, home, onPi
    <div className={t.photoCol}>
     <button type="button" className={t.photo} data-reveal="photo" onPointerEnter={e => { if (e.pointerType === 'mouse') setHeld(true); }} onPointerLeave={() => setHeld(false)} onClick={() => onOpen?.(main.id)} aria-label={`Enlarge: ${main.alt}`}>
      <AnimatePresence initial={false}>
-      <motion.img key={main.id} src={still(main.id)} alt={main.alt} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .9, ease: 'easeInOut' }} />
+      {main.video
+       ? <motion.video key={main.id} src={`${MEDIA}/c905/${main.id}.mp4`} poster={still(main.id)} aria-label={main.alt} muted autoPlay playsInline preload="auto"
+          onLoadedMetadata={e => { const d = e.currentTarget.duration; if (isFinite(d) && d > 1.6) holdMs.current = d * 1000 - 900; }}
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .9, ease: 'easeInOut' }} />
+       : <motion.img key={main.id} src={still(main.id)} alt={main.alt} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .9, ease: 'easeInOut' }} />}
      </AnimatePresence>
     </button>
     {layout === 'over' && <div className={t.card}>{plan}{caption}{ticks}</div>}
