@@ -19,7 +19,7 @@ const cardsFor = (lang: string, sig: { name: string; tagline: string }): Card[] 
  ...FILM_STYLES.map(s => ({ slug: s.slug, no: s.no, name: s.name, tagline: s.tagline, href: `/alma-bay/films/${s.slug}?lang=${lang}`,
   img: heMedia(`${M}/card-${s.slug}.jpg`, s.slug, lang), video: heMedia(s.cuts[2].src, s.slug, lang), start: 4 })),
  { slug: 'signature', no: '04', name: sig.name, tagline: sig.tagline, href: '/oystra', img: '/projects/oystra/landing/card-signature.jpg',
-   video: '/projects/oystra/landing/oystra-phone.mp4', start: 4.4, sig: true },
+   video: '/projects/oystra/landing/oystra-phone-card.mp4', start: 4.4, sig: true },
 ];
 const N = FILM_STYLES.length + 1;
 
