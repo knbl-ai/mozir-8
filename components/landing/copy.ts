@@ -31,7 +31,9 @@ export type LandingCopy = {
   privacy: string; newsletter: string;
  };
  films: { title: [string, string]; sub: string; getTitle: string; get: { name: string; spec: string; use: string; ratio: '16:9' | '9:16' }[]; whyTitle: string; why: Item[];
-  share: string; copied: string; open: (name: string) => string; show: (name: string) => string; newTab: string; region: string; prev: string; next: string; all: string; note: string };
+  share: string; copied: string; open: (name: string) => string; show: (name: string) => string; newTab: string; region: string; prev: string; next: string; all: string; note: string;
+  /** the Signature card (4th, the luxury package for a whole project): its own side texts while it is in front */
+  sig: { name: string; tagline: string; open: string; get: { name: string; spec: string; use: string; ratio: '16:9' | '9:16' }[]; why: Item[]; note: string; all: string } };
  styles: {
   title: string; lede: string; region: string; prev: string; next: string; goTo: (name: string) => string; chips: string; all: string; cta: string;
   pageTitle: string; pageLede: string; back: string; count: (n: number) => string; tone: string; temperature: string; any: string;
@@ -131,6 +133,22 @@ const en: LandingCopy = {
   share: 'Copy link', copied: 'Link copied', open: name => `Open the page in ${name}`, show: name => `Show ${name}`, newTab: 'opens in a new tab',
   region: 'Film styles', prev: 'Previous style', next: 'Next style', all: 'See the full apartment page',
   note: 'Shown with Alma Bay · Residence 01.',
+  sig: {
+   name: 'Signature', tagline: 'A whole project, told in luxury', open: 'Open the Signature page',
+   get: [
+    { name: 'The project page', spec: 'Scroll opening · film · tour', use: 'Your private project site, ready to share', ratio: '16:9' },
+    { name: 'The project film', spec: '79 s · 16:9', use: 'Launch, sales office, YouTube', ratio: '16:9' },
+    { name: 'Highlights', spec: '40 s · 16:9', use: 'Ads, portals, WhatsApp', ratio: '16:9' },
+   ],
+   why: [
+    { title: 'The building, true to the drawings', body: 'Residences, floors and homes from the developer’s layouts.' },
+    { title: 'Every home selectable', body: 'Choose a floor in the lift, then a home on the plan.' },
+    { title: 'Scroll-driven films', body: 'The page moves through the project as the buyer scrolls.' },
+    { title: 'The place on the map', body: 'Real roads to every landmark, in minutes.' },
+    { title: 'Made by hand', body: 'Directed and approved step by step with you.' },
+   ],
+   note: 'Shown with Oystra by Richmind.', all: 'See the full project page',
+  },
  },
  styles: {
   title: 'Every home in its own design style', lede: 'Each apartment gets one curated interior style; every room is a variation of it.',
@@ -254,6 +272,22 @@ const he: LandingCopy = {
   share: 'העתקת קישור', copied: 'הקישור הועתק', open: name => `לעמוד בסגנון ${name}`, show: name => `הצגת ${name}`, newTab: 'נפתח בכרטיסייה חדשה',
   region: 'סגנונות הסרט', prev: 'הסגנון הקודם', next: 'הסגנון הבא', all: 'לעמוד הדירה המלא',
   note: 'מוצג עם Alma Bay · דירה 01.',
+  sig: {
+   name: 'Signature', tagline: 'פרויקט שלם, מסופר ביוקרה', open: 'לעמוד Signature',
+   get: [
+    { name: 'אתר הפרויקט', spec: 'פתיחה בגלילה · סרט · סיור', use: 'אתר פרטי לפרויקט, מוכן לשיתוף', ratio: '16:9' },
+    { name: 'סרט הפרויקט', spec: '79 שנ׳ · 16:9', use: 'השקה, משרד מכירות, YouTube', ratio: '16:9' },
+    { name: 'היילייטס', spec: '40 שנ׳ · 16:9', use: 'מודעות, פורטלים, WhatsApp', ratio: '16:9' },
+   ],
+   why: [
+    { title: 'הבניין לפי השרטוטים', body: 'בניינים, קומות ודירות מתוכניות היזם.' },
+    { title: 'כל דירה ניתנת לבחירה', body: 'בוחרים קומה במעלית, ואז דירה בתוכנית.' },
+    { title: 'סרטים שזזים בגלילה', body: 'העמוד עובר דרך הפרויקט בזמן שהקונה גולל.' },
+    { title: 'המקום על המפה', body: 'דרכים אמיתיות לכל נקודת ציון, בדקות.' },
+    { title: 'עבודת יד', body: 'בבימוי ובאישור שלכם, שלב אחר שלב.' },
+   ],
+   note: 'מוצג עם Oystra של Richmind.', all: 'לעמוד הפרויקט המלא',
+  },
  },
  styles: {
   title: 'לכל בית סגנון עיצוב משלו', lede: 'כל דירה מקבלת סגנון פנים אחד נבחר, וכל חדר הוא וריאציה שלו.',

@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { bricolage as sunday, hanken as mono, instrument as riviera } from '@/components/films/fonts';
+import { bricolage as sunday, cormorant as signature, hanken as mono, instrument as riviera } from '@/components/films/fonts';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Link2 } from 'lucide-react';
 import { useLang } from '@/lib/i18n';
 import { FILM_STYLES, heMedia } from '@/content/projects/alma-bay-films';
@@ -10,15 +10,25 @@ import f from './films.module.css';
 
 // Each style's name is set in its own film's display face (the same self-hosted fonts as the style pages).
 
-const N = FILM_STYLES.length;
 const AUTO_MS = 6000;
 const M = '/projects/shirat-hayam/highlights';
+// The ring's cards: the three Apt Highlights styles (each opens its Alma Bay style page) and Signature, the luxury package
+// for a whole project (opens the Oystra page; its card plays the Oystra phone cut, 9:16, made for this card's shape).
+type Card = { slug: string; no: string; name: string; tagline: string; href: string; img: string; video: string; start: number; sig?: boolean };
+const cardsFor = (lang: string, sig: { name: string; tagline: string }): Card[] => [
+ ...FILM_STYLES.map(s => ({ slug: s.slug, no: s.no, name: s.name, tagline: s.tagline, href: `/alma-bay/films/${s.slug}?lang=${lang}`,
+  img: heMedia(`${M}/card-${s.slug}.jpg`, s.slug, lang), video: heMedia(s.cuts[2].src, s.slug, lang), start: 4 })),
+ { slug: 'signature', no: '04', name: sig.name, tagline: sig.tagline, href: '/oystra', img: '/projects/oystra/landing/card-signature.jpg',
+   video: '/projects/oystra/landing/oystra-phone.mp4', start: 4.4, sig: true },
+];
+const N = FILM_STYLES.length + 1;
 
 // Landing section (#films, shareable): one home's directed films in three styles on a 3D carousel. The band takes the
 // colour of the style in front; the front card plays its phone cut; clicking it (or "Open") opens the style page in a new tab.
 export default function FilmsSection() {
  const lang = useLang();
  const t = copy[lang].films;
+ const CARDS = cardsFor(lang, t.sig);
  const rtl = lang === 'he';
  const [i, setI] = useState(0);
  const [copied, setCopied] = useState(false);
@@ -71,12 +81,14 @@ export default function FilmsSection() {
   const url = `${location.origin}${location.pathname}${location.search}#films`;
   try { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 1800); } catch { location.hash = 'films'; }
  };
- const st = FILM_STYLES[i];
+ const st = CARDS[i];
+ // the side texts and the note follow the card in front: Signature has its own
+ const get = st.sig ? t.sig.get : t.get, why = st.sig ? t.sig.why : t.why, note = st.sig ? t.sig.note : t.note, all = st.sig ? t.sig.all : t.all;
  const dir = rtl ? -1 : 1;
 
- return <div id="films" ref={band} className={`${f.band} ${riviera.variable} ${mono.variable} ${sunday.variable}`} data-style={st.slug}>
+ return <div id="films" ref={band} className={`${f.band} ${riviera.variable} ${mono.variable} ${sunday.variable} ${signature.variable}`} data-style={st.slug}>
   <div className={f.backdrops} aria-hidden>
-   {FILM_STYLES.map((s, k) => <img key={s.slug} src={heMedia(`${M}/card-${s.slug}.jpg`, s.slug, lang)} alt="" data-on={k === i || undefined} loading="lazy" />)}
+   {CARDS.map((s, k) => <img key={s.slug} src={s.img} alt="" data-on={k === i || undefined} loading="lazy" />)}
   </div>
   <section className={f.inner} aria-labelledby="films-title">
    <h2 id="films-title" className={f.title}>{t.title[0]} <em>{t.title[1]}</em></h2>
@@ -85,7 +97,7 @@ export default function FilmsSection() {
    <div className={f.stage}>
    <aside className={f.side} data-side="get">
     <h3 className={f.sideTitle}>{t.getTitle}</h3>
-    <ul className={f.get}>{t.get.map(g => <li key={g.name}>
+    <ul className={f.get}>{get.map(g => <li key={g.name}>
      <span className={f.ratio} data-r={g.ratio} aria-hidden />
      <span><b>{g.name}</b><span className={f.spec}>{g.spec}</span><span className={f.use}>{g.use}</span></span>
     </li>)}</ul>
@@ -100,7 +112,7 @@ export default function FilmsSection() {
     onPointerMove={e => { const d = drag.current; if (d && Math.abs(e.clientX - d.x) > 12) d.moved = true; }}
     onPointerUp={e => { const d = drag.current; drag.current = null; if (!d || !d.moved) return; const dx = e.clientX - d.x; if (Math.abs(dx) > 40) go(i + (dx < 0 ? dir : -dir)); }}
     onClickCapture={e => { if (drag.current?.moved) e.preventDefault(); }}>
-    {FILM_STYLES.map((s, k) => {
+    {CARDS.map((s, k) => {
      let d = k - i; if (d > N / 2) d -= N; if (d < -N / 2) d += N;  // a ring: one card on each side
      const off = d * dir, a = Math.abs(off);
      const style = {
@@ -110,9 +122,9 @@ export default function FilmsSection() {
      } as React.CSSProperties;
      const front = k === i;
      const body = <>
-      <img src={heMedia(`${M}/card-${s.slug}.jpg`, s.slug, lang)} alt="" className={f.media} draggable={false} />
-      <video ref={el => { vids.current[k] = el; }} className={f.media} src={loaded.has(k) ? heMedia(s.cuts[2].src, s.slug, lang) : undefined} muted loop playsInline preload="none" aria-hidden
-       onLoadedMetadata={e => { e.currentTarget.currentTime = 4; }}  // start inside the home, past the map and towers
+      <img src={s.img} alt="" className={f.media} draggable={false} />
+      <video ref={el => { vids.current[k] = el; }} className={f.media} src={loaded.has(k) ? s.video : undefined} muted loop playsInline preload="none" aria-hidden
+       onLoadedMetadata={e => { e.currentTarget.currentTime = s.start; }}  // start inside the home (Signature: on the aerial), past the openings
        onPlaying={e => e.currentTarget.setAttribute('data-playing', '')} onPause={e => e.currentTarget.removeAttribute('data-playing')} />
       <span className={f.shade} aria-hidden />
       <span className={f.no} aria-hidden>{s.no}</span>
@@ -122,7 +134,7 @@ export default function FilmsSection() {
      </>;
      // the same element for every position, so a change glides instead of swapping elements: the front card opens the
      // apartment page in that style (in the visitor's language) in a new tab, a side card turns the ring to itself
-     return <Link key={s.slug} href={`/alma-bay/films/${s.slug}?lang=${lang}`} target="_blank" rel="noopener" className={f.card} data-style={s.slug}
+     return <Link key={s.slug} href={s.href} target="_blank" rel="noopener" className={f.card} data-style={s.slug}
       data-front={front || undefined} data-side={!front ? (off < 0 ? 'start' : 'end') : undefined} style={style} draggable={false}
       aria-label={front ? `${t.open(s.name)} (${t.newTab})` : t.show(s.name)}
       onClick={e => { if (!front) { e.preventDefault(); go(k); } }}>{body}</Link>;
@@ -133,19 +145,19 @@ export default function FilmsSection() {
     <p className={f.tagline} aria-live="polite"><b>{st.name}</b> — {st.tagline}</p>
     <div className={f.ctrls}>
      <button type="button" onClick={() => go(i - 1)} aria-label={t.prev}>{rtl ? <ArrowRight size={18} aria-hidden /> : <ArrowLeft size={18} aria-hidden />}</button>
-     <Link href={`/alma-bay/films/${st.slug}?lang=${lang}`} target="_blank" rel="noopener" className={f.open}>{t.open(st.name)}<ArrowUpRight size={16} aria-hidden /></Link>
+     <Link href={st.href} target="_blank" rel="noopener" className={f.open}>{st.sig ? t.sig.open : t.open(st.name)}<ArrowUpRight size={16} aria-hidden /></Link>
      <button type="button" onClick={() => go(i + 1)} aria-label={t.next}>{rtl ? <ArrowLeft size={18} aria-hidden /> : <ArrowRight size={18} aria-hidden />}</button>
     </div>
-    <ul className={f.dots}>{FILM_STYLES.map((s, k) => <li key={s.slug}>
+    <ul className={f.dots}>{CARDS.map((s, k) => <li key={s.slug}>
      <button type="button" onClick={() => go(k)} aria-current={k === i || undefined}><i />{s.name}</button></li>)}</ul>
-    <p className={f.note}>{t.note} <Link href={`/alma-bay/films/${st.slug}?lang=${lang}`} target="_blank" rel="noopener">{t.all}</Link>
+    <p className={f.note}>{note} <Link href={st.href} target="_blank" rel="noopener">{all}</Link>
      <button type="button" className={f.share} onClick={share} aria-live="polite">{copied ? <Check size={14} aria-hidden /> : <Link2 size={14} aria-hidden />}{copied ? t.copied : t.share}</button></p>
    </div>
    </div>
 
    <aside className={f.side} data-side="why">
     <h3 className={f.sideTitle}>{t.whyTitle}</h3>
-    <ol className={f.why}>{t.why.map((w, k) => <li key={w.title}><span className={f.n} aria-hidden>{String(k + 1).padStart(2, '0')}</span><span><b>{w.title}</b><span className={f.use}>{w.body}</span></span></li>)}</ol>
+    <ol className={f.why}>{why.map((w, k) => <li key={w.title}><span className={f.n} aria-hidden>{String(k + 1).padStart(2, '0')}</span><span><b>{w.title}</b><span className={f.use}>{w.body}</span></span></li>)}</ol>
    </aside>
    </div>
 
