@@ -12,6 +12,8 @@ export const dmMono = localFont({ variable: '--f-riviera-t', display: 'swap', sr
 export const hanken = localFont({ variable: '--f-mono-d', display: 'swap', src: [{ path: './fonts/hanken-grotesk.woff2', weight: '300 800', style: 'normal' }] });
 export const geistMono = localFont({ variable: '--f-mono-t', display: 'swap', src: [{ path: './fonts/geist-mono.woff2', weight: '400 500', style: 'normal' }] });
 export const bricolage = localFont({ variable: '--f-sunday-d', display: 'swap', src: [{ path: './fonts/bricolage-grotesque.woff2', weight: '400 800', style: 'normal' }] });
+// Signature (the luxury package, the landing's 4th card): the Oystra film's italic serif
+export const cormorant = localFont({ variable: '--f-signature-d', display: 'swap', src: [{ path: './fonts/cormorant-italic.woff2', weight: '300 400', style: 'italic' }] });
 export const spaceMono = localFont({ variable: '--f-sunday-t', display: 'swap', src: [
  { path: './fonts/space-mono-400.woff2', weight: '400', style: 'normal' },
  { path: './fonts/space-mono-700.woff2', weight: '700', style: 'normal' }] });
