@@ -38,8 +38,9 @@ export default function OystraSite() {
   addEventListener('scroll', seen, { passive: true });
   return () => { clearTimeout(done); removeEventListener('scroll', seen); };
  }, [sign]);
- // both actions on the opening's final screen lead to the one section below it
- const go = useCallback(() => document.getElementById('film')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), []);
+ // the opening's final screen: 'Explore the residences' goes to the residences (the plan with the interiors), Enquire to the
+ // section below the opening
+ const go = useCallback((id?: string) => document.getElementById(id === 'residence' ? 'residence' : 'film')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), []);
  useEffect(() => {
   if (open === null) return;
   const key = (e: KeyboardEvent) => {
